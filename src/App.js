@@ -1,26 +1,48 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Suspense } from 'react'
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import './App.css'
+import './Navbar.css'
+import { Layout } from 'antd'
+import Home from './Home.js'
+import Login from './Login.js'
+import Register from './Register.js'
+import DUHeader from './Header.js'
+import Emergency from './Emergency.js'
+
+// const Login = lazy(() => import('./Login.js'))
+
+const { Header, Content, Footer } = Layout
+
+const AppRouter = () => (
+	<Suspense fallback={<div>Loading...</div>}>
+		<Switch>
+			<Route path="/" exact component={Home} />
+			<Route path="/blimedlem" component={Register} />
+			<Route path="/loggain" component={Login} />
+			<Route path="/state" component={Emergency} />
+		</Switch>
+	</Suspense>
+)
+
+const AppDOM = () => (
+	<Router>
+		<Layout style={{minHeight: '100vh'}}>
+			<Header>
+				<DUHeader />
+			</Header>
+			<Content>
+				<AppRouter />
+			</Content>
+			<Footer />
+		</Layout>
+	</Router>
+)
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <AppDOM
+      />
     );
   }
 }

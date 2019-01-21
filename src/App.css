@@ -1,4 +1,6 @@
-.App {
+@import '~antd/dist/antd.css';
+
+/*.App {
   text-align: center;
 }
 
@@ -29,4 +31,47 @@
   to {
     transform: rotate(360deg);
   }
+}*/
+
+:root {
+  --layout-header: #fff;
+  --border-light: #e8e8e8;;
+  --register-bg: #fff;
+}
+
+.logo {
+  background: #eee;
+  height: 100%;
+}
+
+.ant-layout-header {
+  background: var(--layout-header);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.ant-menu-item, .ant-menu-submenu {
+  /*float: center;*/
+}
+
+.register {
+  background: var(--register-bg);
+  border: 1px solid var(--border-light);
+  padding-top: 40px;
+  margin-top: 20px;
+}
+/* For demo */
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 500px;
+  line-height: 500px  ;
+  background: #364d79;
+  overflow: hidden;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
+}
+
+.slick-dots button {
+  height: 5px !important;
 }
