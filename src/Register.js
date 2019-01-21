@@ -1,9 +1,10 @@
 import React from 'react'
 import {
-  Form, Input, InputNumber, Row, Col, Checkbox, Button
+  Form, Input, InputNumber, InputGroup, Row, Col, Checkbox, Button
 } from 'antd';
 import { connect } from 'react-redux'
 import { Auth } from './actions'
+import Address from './Address.js'
 
 class RegistrationForm extends React.Component {
   state = {
@@ -31,12 +32,20 @@ class RegistrationForm extends React.Component {
   }
 
   validatePersonnummer = (rule, value, callback) => {
-    callback()
-    // let sum = 0
-    // for(var i = 0; i < (value + '').length - 1; i++) {
-    //   sum += (index % 2)*2*value[c]
-    // }
-    // let c = (sum + '').length
+    if(value > Math.pow(10,11)) {
+      let sum = ''
+      for(let i = 2; i < (value + '').length - 1; i++) {
+        let b = (i % 2) ? 1 : 2
+        sum += b*((value + '')[i]) + ''
+      }
+      let a = 0
+      for(var i = 0; i < sum.length; i++) a += parseInt(sum[i])
+      let p = (10 - (a % 10)) % 10
+      if(value % 10 !== p) {
+        callback('Ogiltigt personnummer')
+      } else callback()
+    }
+    callback('Ogiltigt personnummer')
   }
 
   handleConfirmBlur = (e) => {
@@ -93,7 +102,7 @@ class RegistrationForm extends React.Component {
             span: 15
           }}
           lg={{
-            span: 12
+            span: 11
           }}
         >
           <Form
@@ -153,12 +162,25 @@ class RegistrationForm extends React.Component {
                   validator: this.validatePersonnummer,
                 }],
               })(
-                <InputNumber type="personnummer" onBlur={this.handleConfirmBlur} />
+                <InputNumber placeholder="YYYYMMDDXXXX" style={{width: '100%'}} type="personnummer" onBlur={this.handleConfirmBlur} />
               )}
+            </Form.Item>
+            <Form.Item
+              {...formItemLayout}
+              style={{width: '100%'}}
+              label="Address"
+            >
+              {getFieldDecorator('address', {
+                rules: [{
+                  required: true, message: 'Please input address!'
+                }]
+              })(<Address />)}
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
               {getFieldDecorator('agreement', {
-              		required: true, message: 'Please accept the TOS'
+                rules: [{
+                  required: true, message: 'Please accept the TOS'
+                }]
               	}, {
                 	valuePropName: 'checked',
               })(
