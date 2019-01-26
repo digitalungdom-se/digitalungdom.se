@@ -45,28 +45,38 @@ class Address extends React.Component {
     const { size } = this.props;
     const state = this.state;
     return (
-      <Input.Group compact style={{width: '100%'}}>
-        <Input
-          type="text"
-          placeholder="Gatuaddress"
-          // value={state.address}
-          onChange={(e) => this.handleChange(e, 'address') }
-          style={{ width: '38%' }}
-        />
-        <Input
-          type="text"
-          placeholder="Postort"
-          // value={state.postnummer}
-          onChange={(e) => this.handleChange(e, 'postort') }
-          style={{ width: '30%' }}
-        />
-        <InputNumber
-          // value={state.postort}
-          placeholder="Postnummer"
-          onChange={(e) => this.handleChange(e, 'postnummer') }
-          style={{ width: '32%' }}
-        />
-      </Input.Group>
+      <div>
+        <Input.Group compact style={{width: '100%'}}>
+          <Input
+            type="text"
+            placeholder="Gatuaddress"
+            // value={state.address}
+            onChange={(e) => this.handleChange(e, 'address') }
+            style={{ width: '50%' }}
+          />
+          <Input
+            type="text"
+            placeholder="c/o"
+            onChange={(e) => this.handleChange(e, 'address') }
+            style={{ width: '50%' }}
+          />
+        </Input.Group>
+        <Input.Group compact>
+          <Input
+            type="text"
+            placeholder="Postort"
+            // value={state.postnummer}
+            onChange={(e) => this.handleChange(e, 'postort') }
+            style={{ width: '50%' }}
+          />
+          <InputNumber
+            // value={state.postort}
+            placeholder="Postnummer"
+            onChange={(e) => this.handleChange(e, 'postnummer') }
+            style={{ width: '50%' }}
+          />
+        </Input.Group>
+      </div>
     );
   }
 }

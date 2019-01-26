@@ -1,15 +1,17 @@
 import React from 'react'
 import {
-  Form, Input, InputNumber, InputGroup, Row, Col, Checkbox, Button
+  Form, Input, InputNumber, Row, Col, Checkbox, Button, DatePicker
 } from 'antd';
 import { connect } from 'react-redux'
 import { Auth } from './actions'
 import Address from './Address.js'
+import GDPR from './GDPR.js'
 
 class RegistrationForm extends React.Component {
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
+    acceptedTOS: false
   };
 
   handleSubmit = (e) => {
@@ -31,36 +33,25 @@ class RegistrationForm extends React.Component {
     callback();
   }
 
-  validatePersonnummer = (rule, value, callback) => {
-    if(value > Math.pow(10,11)) {
-      let sum = ''
-      for(let i = 2; i < (value + '').length - 1; i++) {
-        let b = (i % 2) ? 1 : 2
-        sum += b*((value + '')[i]) + ''
-      }
-      let a = 0
-      for(var i = 0; i < sum.length; i++) a += parseInt(sum[i])
-      let p = (10 - (a % 10)) % 10
-      if(value % 10 !== p) {
-        callback('Ogiltigt personnummer')
-      } else callback()
-    }
-    callback('Ogiltigt personnummer')
-  }
-
   handleConfirmBlur = (e) => {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   }
 
   compareToFirstPassword = (rule, value, callback) => {
-      const form = this.props.form;
-      if (value && value !== form.getFieldValue('password')) {
-        callback('Two passwords that you enter is inconsistent!');
-      } else {
-        callback();
-      }
+    const form = this.props.form;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Lösenorden stämmer inte överrens!');
+    } else {
+      callback();
     }
+  }
+
+  TOS = (e) => {
+    this.setState({
+      acceptedTOS: e.target.checked
+    })
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -82,7 +73,7 @@ class RegistrationForm extends React.Component {
           offset: 0,
         },
         sm: {
-          span: 17,
+          span: 15,
           offset: 7,
         },
       },
@@ -106,18 +97,23 @@ class RegistrationForm extends React.Component {
           }}
         >
           <Form
-            className="register"
+            className="window"
             style={{ padding: 30 }} onSubmit={this.handleSubmit}
           >
+            <Row>
+              <Col
+                {...tailFormItemLayout.wrapperCol}
+              >
+                <h1>Bli medlem</h1>
+              </Col>
+            </Row>
             <Form.Item
               {...formItemLayout}
-              label="E-mail"
+              label="Namn"
             >
-              {getFieldDecorator('email', {
+              {getFieldDecorator('Namn', {
                 rules: [{
-                  type: 'email', message: 'The input is not valid E-mail!',
-                }, {
-                  required: true, message: 'Please input your E-mail!',
+                  required: true, message: 'Fyll i ditt namn', whitespace: true,
                 }],
               })(
                 <Input />
@@ -125,11 +121,49 @@ class RegistrationForm extends React.Component {
             </Form.Item>
             <Form.Item
               {...formItemLayout}
-              label="Password"
+              label="Användarnamn"
+            >
+              {getFieldDecorator('Username', {
+                rules: [{
+                  required: true, message: 'Fyll i ditt användarnamn', whitespace: true,
+                }],
+              })(
+                <Input />
+              )}
+            </Form.Item>
+            <Form.Item
+              {...formItemLayout}
+              label="Födelsedatum"
+            >
+              {getFieldDecorator('Birthdate', {
+                rules: [{
+                  required: true, message: 'Välj ditt födelsedatum'
+                }],
+              })(
+                <DatePicker placeholder="ÅÅÅÅ-MM-DD" style={{width: '100%'}} />
+              )}
+            </Form.Item>
+            <Form.Item
+              {...formItemLayout}
+              label="E-mail"
+            >
+              {getFieldDecorator('email', {
+                rules: [{
+                  type: 'email', message: 'Ogiltig e-mail!',
+                }, {
+                  required: true, message: 'Fyll i din e-mail!',
+                }],
+              })(
+                <Input />
+              )}
+            </Form.Item>
+            <Form.Item
+              {...formItemLayout}
+              label="Lösenord"
             >
               {getFieldDecorator('password', {
                 rules: [{
-                  required: true, message: 'Please input your password!',
+                  required: true, message: 'Välj ett lösenord!',
                 }, {
                   validator: this.validateToNextPassword,
                 }],
@@ -139,11 +173,11 @@ class RegistrationForm extends React.Component {
             </Form.Item>
             <Form.Item
               {...formItemLayout}
-              label="Confirm Password"
+              label="Bekräfta lösenord"
             >
               {getFieldDecorator('confirm', {
                 rules: [{
-                  required: true, message: 'Please confirm your password!',
+                  required: true, message: 'Bekräfta ditt lösenord',
                 }, {
                   validator: this.compareToFirstPassword,
                 }],
@@ -151,44 +185,21 @@ class RegistrationForm extends React.Component {
                 <Input type="password" onBlur={this.handleConfirmBlur} />
               )}
             </Form.Item>
-            <Form.Item
-              {...formItemLayout}
-              label="Personnummer"
-            >
-              {getFieldDecorator('personnummer', {
-                rules: [{
-                  required: true, message: 'Please input your personnummer!',
-                }, {
-                  validator: this.validatePersonnummer,
-                }],
-              })(
-                <InputNumber placeholder="YYYYMMDDXXXX" style={{width: '100%'}} type="personnummer" onBlur={this.handleConfirmBlur} />
-              )}
-            </Form.Item>
-            <Form.Item
-              {...formItemLayout}
-              style={{width: '100%'}}
-              label="Address"
-            >
-              {getFieldDecorator('address', {
-                rules: [{
-                  required: true, message: 'Please input address!'
-                }]
-              })(<Address />)}
-            </Form.Item>
             <Form.Item {...tailFormItemLayout}>
               {getFieldDecorator('agreement', {
                 rules: [{
-                  required: true, message: 'Please accept the TOS'
+                  required: true, message: 'För att bli medlem behöver du acceptera Digital Ungdoms användarvillkor'
                 }]
               	}, {
                 	valuePropName: 'checked',
               })(
-                <Checkbox>I have read the <a href="/">agreement</a></Checkbox>
+                <GDPR
+                  onChange={this.TOS}
+                />
               )}
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" htmlType="submit">Register</Button>
+              <Button style={{width: '100%'}} type="primary" htmlType="submit" disabled={!this.state.acceptedTOS} >Bli medlem</Button>
             </Form.Item>
           </Form>
         </Col>

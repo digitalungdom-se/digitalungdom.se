@@ -1,39 +1,30 @@
 import React, { Component, Suspense } from 'react'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import './App.css'
-import './Navbar.css'
-import { Layout } from 'antd'
-import Home from './Home.js'
-import Login from './Login.js'
-import Register from './Register.js'
+import { Layout, LocaleProvider } from 'antd'
 import DUHeader from './Header.js'
-import Emergency from './Emergency.js'
+import DUFooter from './Footer.js'
+import sv_SE from 'antd/lib/locale-provider/sv_SE';
+import AppRouter from './AppRouter.js'
 
 // const Login = lazy(() => import('./Login.js'))
 
 const { Header, Content, Footer } = Layout
 
-const AppRouter = () => (
-	<Suspense fallback={<div>Loading...</div>}>
-		<Switch>
-			<Route path="/" exact component={Home} />
-			<Route path="/blimedlem" component={Register} />
-			<Route path="/loggain" component={Login} />
-			<Route path="/state" component={Emergency} />
-		</Switch>
-	</Suspense>
-)
-
 const AppDOM = () => (
 	<Router>
 		<Layout style={{minHeight: '100vh'}}>
-			<Header>
+			<Header
+				style={{padding: 0}}
+			>
 				<DUHeader />
 			</Header>
-			<Content>
+			<Content style={{marginBottom: '20px'}}>
 				<AppRouter />
 			</Content>
-			<Footer />
+			<Footer style={{padding: 0}}>
+				<DUFooter />
+			</Footer>
 		</Layout>
 	</Router>
 )
@@ -41,8 +32,9 @@ const AppDOM = () => (
 class App extends Component {
   render() {
     return (
-      <AppDOM
-      />
+    	<LocaleProvider locale={sv_SE}>
+      	<AppDOM />
+      </LocaleProvider>
     );
   }
 }

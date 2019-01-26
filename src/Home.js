@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
+import { Row } from 'antd'
+import Carousel from './Carousel.js'
 
 class Home extends Component {
 	render() {
 		return (
 			<div>
-				Home
+				<Row>
+					<Carousel />
+				</Row>
 			</div>
 		)
 	}
