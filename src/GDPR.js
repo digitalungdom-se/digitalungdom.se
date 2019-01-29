@@ -26,7 +26,7 @@ class GDPR extends Component {
           visible={visible}
           title="Digital Ungdoms användarvillkor"
           onOk={this.handleOk}
-          onCancel={this.handleCancel}
+          onCancel={this.handleOk}
           footer={[
             <Button key="submit" type="primary" loading={loading} onClick={this.handleOk}>
               Stäng

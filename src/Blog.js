@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { Row, Col } from 'antd'
 import ReactMarkdown from 'react-markdown'
 
-const input = `
+let input = `
+
+Hej
+
 \`\`\`js
 var React = require('react');
 var Markdown = require('react-markdown');
@@ -35,12 +38,6 @@ Pretty neat, eh?
 
 ## Tables?
 
-| Feature   | Support |
-| --------- | ------- |
-| tables    | ✔ |
-| alignment | ✔ |
-| wewt      | ✔ |
-
 ## More info?
 
 Read usage information and more on [GitHub](//github.com/rexxars/react-markdown)
@@ -52,45 +49,82 @@ A component by [Espen Hovlandsdal](https://espen.codes/)
 
 `
 
+input = `
+Hej
+
+\`\`\`js
+var React = require('react');
+var Markdown = require('react-markdown');
+
+React.render(
+  <Markdown source="# Your markdown here" />,
+  document.getElementById('content')
+);
+\`\`\`
+`
+
 const posts = [
 	{
 		user: 'Douglas Bengtsson',
-		date: Date.now(),
+		date: new Date(),
 		text: input,
 		title: 'Hello, world!'
 	}
 ]
 
 class Blog extends Component {
+	formatDate(date) {
+	  var monthNames = [
+	    "januari", "februari", "mars",
+	    "april", "maj", "juni", "juli",
+	    "augusti", "september", "oktober",
+	    "november", "december"
+	  ];
+
+	  let day = date.getDate();
+	  let monthIndex = date.getMonth();
+	  let year = date.getFullYear();
+
+	  return day + ' ' + monthNames[monthIndex] + ' ' + year;
+	}
+
 	render() {
 		const sizes = {
-			lg: {span: 12},
-			style: {padding: 40}
+			style: { padding: 40 },
+			lg: { span: 12 },
+			md: { span: 18 },
+			sm: { span: 24 },
+			xs: { span: 24 },
 		}
-		return (
+		return posts.map(post => (
 			<Row
 				type="flex"
 				justify="center"
+				key={post.date}
 			>
-			{
-				posts.map(post => (
-					<Col
-						{...sizes}
-						className="window"
-					>
-						<h1>{post.title}</h1>
-						<ReactMarkdown source={post.text} />
-					</Col>
-				))
-			}
 				<Col
 					{...sizes}
-					className="window"
+					className="window blog-post"
 				>
-					<ReactMarkdown source={input} />
+					<code
+						className="date"
+					>
+						{this.formatDate(post.date)}
+					</code>
+					<h1
+						className="title"
+					>
+						{post.title}
+					</h1>
+					<h4
+						className="user"
+					>
+						{post.user}
+					</h4>
+					<ReactMarkdown source={post.text} />
 				</Col>
 			</Row>
-		)
+			))
 	}
 }
 

@@ -1,38 +1,5 @@
 @import '~antd/dist/antd.css';
 
-/*.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}*/
-
 :root {
   --layout-header: #fff;
   --border-light: #e8e8e8;;
@@ -57,10 +24,6 @@
 
 .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
   border: 0;
-}
-
-.ant-menu-item, .ant-menu-submenu {
-  /*float: center;*/
 }
 
 .window {
@@ -104,8 +67,6 @@
   text-align: center;
 }
 
-
-
 .ant-carousel .slick-prev {
   left: 0;
   text-align: left;
@@ -114,152 +75,45 @@
 .ant-carousel:hover .slick-arrow {
   transition: 0.5s;
   color: white;
-  /*background: rgba(255,255,255,0.05);*/
-  /*font-size: inherit;*/
-  /*color: white;*/
-}
-
-.slick-slide {
-  /*display: table;*/
-  /*width: 100%;*/
-  /*height: 100%;*/
-  /*position: absolute;*/
-    /*position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;*/ 
 }
 
 .slick-slide > div {
-  /*height: 100%;*/
   line-height: normal;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
-  /*vertical-align: middle;*/
-  /*position: relative;*/
 }
 
-.slick-slide > div > div {
-  /*position: relative;*/
-  /*background: red;*/
-  /*height: 100%;*/
-  /*width: 100%;*/
-  /*text-align: center;*/
-  /*margin: 0;*/
-  /*padding: 0;*/
-  /*top: 0;*/
-  /*height: 100%;*/
-  /*background: red;*/
-  /*all: initial;*/
-  /*-webkit-animation-trigger: none 0s ease 0s 1 normal none running;*/
-  /*animation: none 0s ease 0s 1 normal none running;*/
-  /*-webkit-backface-visibility: visible;*/
-  /*backface-visibility: visible;*/
-  /*background: transparent none repeat 0 0 / auto auto padding-box border-box scroll;*/
-  /*border: medium none currentColor;*/
-  /*border-collapse: separate;*/
-  /*border-image: none;*/
-  /*border-radius: 0;*/
-  /*border-spacing: 0;*/
-  /*bottom: auto;*/
-  /*box-shadow: none;*/
-  /*box-sizing: content-box;*/
-  /*caption-side: top;*/
-  /*clear: none;*/
-  /*clip: auto;*/
-  /*color: #000;*/
-  /*-webkit-columns: auto;*/
-  /*columns: auto;*/
-  /*-webkit-column-count: auto;*/
-  /*column-count: auto;*/
-  /*-webkit-column-fill: balance;*/
-  /*column-fill: balance;*/
-  /*grid-column-gap: normal;*/
-  /*-webkit-column-gap: normal;*/
-  /*column-gap: normal;
-  -webkit-column-rule: medium none currentColor;
-  column-rule: medium none currentColor;
-  -webkit-column-span: 1;
-  column-span: 1;
-  -webkit-column-width: auto;
-  column-width: auto;
-  content: normal;*/
-  /*counter-increment: none;*/
-  /*counter-reset: none;*/
-  /*cursor: auto;*/
-  /*direction: ltr;*/
-  /*display: inline;*/
-  /*empty-cells: show;*/
-  /*float: none;*/
-  /*font-family: serif;*/
-  /*font-size: medium;*/
-  /*font-style: normal;*/
-  /*-webkit-font-feature-settings: normal;
-  font-feature-settings: normal;
-  font-variant: normal;
-  font-weight: normal;
-  font-stretch: normal;*/
-  /*height: auto;*/
-  /*-webkit-hyphens: none;*/
-  /*-ms-hyphens: none;*/
-  /*hyphens: none;*/
-  /*left: auto;*/
-  /*letter-spacing: normal;*/
-  /*list-style: disc outside none;*/
-  /*margin: 0;*/
-  /*max-height: none;*/
-  /*max-width: none;*/
-  /*min-height: 0;*/
-  /*min-width: 0;*/
-  /*opacity: 1;*/
-  /*orphans: 2;*/
-  /*outline: medium none invert;*/
-  /*overflow: visible;*/
-  /*overflow-x: visible;*/
-  /*overflow-y: visible;*/
-  /*padding: 0;*/
-  /*page-break-after: auto;*/
-  /*page-break-before: auto;*/
-  /*page-break-inside: auto;*/
-  /*-webkit-perspective: none;*/
-  /*perspective: none;*/
-  /*-webkit-perspective-origin: 50% 50%;*/
-  /*perspective-origin: 50% 50%;*/
-  /*position: static;*/
-  /*right: auto;*/
-  /*-moz-tab-size: 8;*/
-  /*tab-size: 8;*/
-  /*table-layout: auto;*/
-  /*text-align: left;
-  text-align-last: auto;
-  text-decoration: none;
-  text-indent: 0;
-  text-shadow: none;
-  text-transform: none;
-  top: auto;*/
-  /*-webkit-transform: none;
-  transform: none;
-  -webkit-transform-origin: 50% 50% 0;
-  transform-origin: 50% 50% 0;
-  -webkit-transform-style: flat;
-  transform-style: flat;
-  transition: none 0s ease 0s;
-  unicode-bidi: normal;
-  vertical-align: baseline;*/
-  /*visibility: visible;
-  white-space: normal;
-  widows: 2;
-  width: auto;
-  word-spacing: normal;
-  z-index: auto;*/
-  /* position: static; */
-  /* height: 32px; */
-  /*position: static;*/
-  /*height: 32px;*/
+h1.background-rgba {
+  display: inline-block;
 }
 
-/*.slick-slide p {
-  height: 50px;
-}*/
+.background-rgba {
+  padding: 5px;
+  color: white;
+  /*text-shadow: 5px 0px 10px rgba(0,0,0,1);;*/
+  /*background: rgba(0,0,0,0.5);*/
+}
+
+.test {
+  background: red;
+}
+
+.blog-post .date {
+  color: rgba(0, 0, 0, 0.35);
+}
+
+.blog-post .title {
+  font-size: 3em;
+  margin-bottom: 0;
+}
+
+.blog-post .user {
+  margin-bottom: 40px;
+}
+
+.slick-slide {
+  background: rgb(24,144,255) !important;
+  background: url('slide-1.jpg');
+  background-size: cover;
+}

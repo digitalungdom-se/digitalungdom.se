@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import ResponsiveNav from './ResponsiveNav.js'
 
 const MenuMarkup = ({ mobileVersion, activeLinkKey, onLinkClick, className }) => (
-	<div style={{width: 225}}>
+	<div>
 	  <Menu
 	    // theme={mobileVersion ? 'light' : 'dark'}
 	    mode={mobileVersion ? 'vertical' : 'horizontal'}
@@ -17,13 +17,13 @@ const MenuMarkup = ({ mobileVersion, activeLinkKey, onLinkClick, className }) =>
 	    style={{lineHeight: '62px'}}
 	  >	
 	    <Menu.Item key='/'>
-	      <Link onClick={onLinkClick} to='/'>Home</Link>
+	      <Link onClick={onLinkClick} to='/'>Startsida</Link>
 	    </Menu.Item>
-	    <Menu.Item key='/state'>
-	      <Link onClick={onLinkClick} to='/state'>State</Link>
+	    <Menu.Item key='/om-oss'>
+	      <Link onClick={onLinkClick} to='/om-oss'>Om oss</Link>
 	    </Menu.Item>
-	    <Menu.Item key='/blog'>
-	      <Link onClick={onLinkClick} to='/blog'>Blog</Link>
+	    <Menu.Item key='/verksamhet'>
+	      <Link onClick={onLinkClick} to='/verksamhet'>Verksamhet</Link>
 	    </Menu.Item>
 	  </Menu>
   </div>
@@ -64,6 +64,12 @@ class DUHeaderDOM extends Component {
 				</Row>
 			</Col>
 		)
+		const NotReadyYet = (
+			<Col
+				xs={{span: 0}}
+				sm={{span: 1}}
+			/>
+		)
 
 		return (
 			<Row
@@ -73,28 +79,34 @@ class DUHeaderDOM extends Component {
 			>
 				<Col
 					xs={{span: 0}}
-					sm={{span: 6, offset: 1}}
-					md={{span: 5, offset: 1}}
+					sm={{span: 7, offset: 1}}
+					md={{span: 6, offset: 1}}
 					lg={{span: 4}}
-					style={{height: '100%', padding: '10px 0'}}
 				>
 					<Link to="/">
-				  	<div className="logo" />
+				  	<h1
+				  		style={{lineHeight: '63px', marginTop: 0,  color: 'rgb(24,144,255)', height: '100%', fontSize: 23}}
+				  	>
+				  		Digital Ungdom
+				  	</h1>
 			  	</Link>
 		  	</Col>
   			<Col
-  				xs={{span: 7}}
+  				xs={{span: 10, offset: 1}}
   				sm={{span: 0}}
-  				style={{height: '100%', padding: '10px 0'}}
   			>
-  				<Link to="/">
-  			  	<div className="logo-xs"/>
-  		  	</Link>
+					<Link to="/">
+				  	<h1
+				  		style={{lineHeight: '63px', marginTop: 0,  color: 'rgb(24,144,255)', height: '100%'}}
+				  	>
+				  		Digital Ungdom
+				  	</h1>
+			  	</Link>
   	  	</Col>
 			  <Col
 			  	xs={{span: 2}}
-			  	sm={{span: 15}}
-			  	md={{span: 11}}
+			  	sm={{span: 16}}
+			  	md={{span: 9}}
 			  >
 			  	<ResponsiveNav 
 				    menuMarkup={MenuMarkup}
@@ -103,7 +115,7 @@ class DUHeaderDOM extends Component {
 				    placement='bottom'
 					/>
 			  </Col>
-			  {LoginAndRegister}
+			  {NotReadyYet}
 		  </Row>
 		)
 	}
