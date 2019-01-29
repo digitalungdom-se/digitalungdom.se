@@ -34,13 +34,13 @@ class DUFooter extends Component {
 						Kontakt
 					</h3>
 					<p>
-						E-post: <a href="mailto:styrelse@digitalungdom.se">styrelse@digitalungdom.se</a>
+						E-post: <a href="mailto:styrelse@digitalungdom.se">digitalungdom@gmail.com</a>
 					</p>
 					<p>
 						Telefonnummer: <a href="tel:***REMOVED***">***REMOVED***</a>
 					</p>
 					<p>
-						Discord-server: <a href="https://discordapp.com">discord.gg/digitalungdom</a>
+						Discord-server: <a href="https://discord.gg/2Cankhw">https://discord.gg/2Cankhw</a>
 					</p>
 				</Col>
 			</Row>
