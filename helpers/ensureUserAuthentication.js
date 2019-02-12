@@ -1,24 +1,25 @@
-const getUserById = require( './../models/users' ).getUserById;
+const getUserById = require( './../models/get' ).getUserById;
 
 module.exports.ensureUserAuthenticated = async function( req, res, next ) {
   const id = req.user;
+  let user;
   if ( id ) user = await getUserById( db, id );
 
   if ( req.isAuthenticated() && user && user.verified ) {
     return next();
   } else {
-    req.flash( 'error', 'Du är inte inloggad' );
-    return res.redirect( '/login' );
+    return res.status( 401 ).send( "unauthorized" );
   }
 }
 
 module.exports.ensureNotUserAuthenticated = async function( req, res, next ) {
   const id = req.user;
+  let user;
   if ( id ) user = await getUserById( db, id );
 
   if ( !req.isAuthenticated() || !user || !user.verified ) {
     return next();
   } else {
-    return res.redirect( '/' );
+    return res.status( 403 ).send( "forbidden" );
   }
 }
