@@ -10,7 +10,7 @@ router.post( '/register_check_username', async function( req, res ) {
     const username = req.body.username;
     if ( typeof username != 'string' ) return false;
 
-    return res.send( await checkUsername( db, username ) );
+    return res.send( { username: await checkUsername( db, username ) } );
   } catch ( e ) {
     handleError( req, res, e )
   }
