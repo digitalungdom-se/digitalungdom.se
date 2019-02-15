@@ -6,7 +6,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
 import websiteApp from './reducers'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
 
 // class AppProvider extends Component {
 // 	static propTypes = {
@@ -48,7 +49,7 @@ import { createStore } from 'redux'
 // }
 
 
-const store = createStore(websiteApp)
+const store = createStore(websiteApp, applyMiddleware(thunkMiddleware))
 
 ReactDOM.render(
 	(

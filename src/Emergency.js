@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Auth } from './actions'
+import { Login, Register } from './actions'
+import { Row, Col } from 'antd'
 import EmergencyActions from './EmergencyActions'
 import './EmergencyActions.css'
 
@@ -34,7 +35,7 @@ class Emergency extends Component {
 		return (
 			<div>
 				<select style={{display: 'block'}} onChange={e => this.select(e)}>
-					<option value="nothing"></option>
+					<option value="nothing" ></option>
 					{Object.keys(EmergencyActions).map((action, id) => (
 						<option
 							key={id}
@@ -45,23 +46,25 @@ class Emergency extends Component {
 					))
 				}
 				</select>
-				<div className="inline">
-					<textarea style={{width: 350, height: 400}} value={this.state.value} onChange={this.handleTextAreaChange}/>
-					<button
-						onClick={() => this.props[this.state.selected](JSON.parse(this.state.value))}
-					>
-						Do action
-					</button>
-				</div>
-				<div className="inline">
-					<textarea style={{width: 350, height: 400}} onChange={() => ''} value={'PAYLOAD\n\n' + this.props.log.route + '\n' + JSON.stringify(this.props.log.payload, null, 2)}/>
-				</div>
-				<div className="inline">
-					<textarea style={{width: 350, height: 400}} onChange={() => ''} value={'RESULT\n\n' + this.props.log.route + '\n' + JSON.stringify(this.props.log.result, null, 2)}/>
-				</div>
-				<div className="inline">
-					<textarea style={{width: 350, height: 400}} onChange={() => ''} value={JSON.stringify(this.props.state, null, 2)}/>
-				</div>
+				<Row>
+					<Col span={6}>
+						<textarea style={{width: '100%', height: 400}} value={this.state.value} onChange={this.handleTextAreaChange}/>
+						<button
+							onClick={() => this.props[this.state.selected](JSON.parse(this.state.value))}
+						>
+							Do action
+						</button>
+					</Col>
+					<Col span={6}>
+						<textarea style={{width: '100%', height: 400}} onChange={() => ''} value={'PAYLOAD\n\n' + this.props.log.route + '\n' + JSON.stringify(this.props.log.payload, null, 2)}/>
+					</Col>
+					<Col span={6}>
+						<textarea style={{width: '100%', height: 400}} onChange={() => ''} value={'RESULT\n\n' + this.props.log.route + '\n' + JSON.stringify(this.props.log.result, null, 2)}/>
+					</Col>
+					<Col span={6}>
+						<textarea style={{width: '100%', height: 400}} onChange={() => ''} value={JSON.stringify(this.props.state, null, 2)}/>
+					</Col>
+				</Row>
 			</div>
 		)
 	}
@@ -77,8 +80,16 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
+	// let reducers = {}
+	// Object.keys(EmergencyActions).map((category, i) => {
+	// 	reducers[category] = {}
+	// 	Object.keys(category).forEach(reducer => reducers[category][reducer] = dispatch())
+	// })
 	return {
-		login: (credentials) => dispatch(Auth.login(credentials))
+		login: (credentials) => dispatch(Login.login(credentials)),
+		register: (credentials) => dispatch(Register.register(credentials)),
+		checkUsername: username => dispatch(Register.checkUsername(username)),
+		checkEmail: email => dispatch(Register.checkEmail(email)),
 		// createInstance: instance => dispatch(Instances.createInstance(instance))
 	}
 }

@@ -1,9 +1,9 @@
 const Auth = (state = {}, action) => {
 	switch(action.type) {
-		case 'LOGIN':
+		case 'RECEIVE_AUTH':
 			return {
 				...state,
-				...action.credentials
+				...action.response
 			}
 		default:
 			return state

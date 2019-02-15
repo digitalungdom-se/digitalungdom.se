@@ -1,26 +1,38 @@
 import React from 'react'
 import {
-  Form, Input, InputNumber, Row, Col, Checkbox, Button, DatePicker
+  Form, Input, InputNumber, Row, Col, Checkbox, Button, DatePicker, message
 } from 'antd';
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Auth } from './actions'
+import { Register } from './actions'
 import Address from './Address.js'
 import GDPR from './GDPR.js'
+import debounce from 'lodash/debounce'
+import delay from 'lodash/delay'
 
 class RegistrationForm extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.checkUsername = debounce(this.checkUsername, 300)
+    this.checkEmail = debounce(this.checkEmail, 300)
+  }
+
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
     acceptedTOS: false
-  };
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        console.log({username: values.email, password: values.password})
-        this.props.login({username: values.email, password: values.password})
+        this.props.register({
+          ...values,
+          birthdate: values.birthdate.format('YYYY-MM-DD')
+        })
       }
     });
   }
@@ -47,6 +59,35 @@ class RegistrationForm extends React.Component {
     }
   }
 
+  checkUsername = async (rule, value, callback) => {
+    if(value.length > 2 && value.length < 25) {
+      const username = await this.props.checkUsername(value)
+      if(username) {
+        callback()
+      } else {
+        this.props.form.setFields({
+          username: {
+            value,
+            errors: [new Error('Användarnamnet är taget')],
+          },
+        });
+        callback('Användarnamnet är taget')
+      }
+    }
+    else callback()
+  }
+
+  checkEmail = async (rule, value, callback) => {
+    const email = await this.props.checkEmail(value)
+    if(value.length > 3 && value.length < 25) {
+      if(email) {
+        callback()
+      } else {
+        callback('En användare finns redan med den emailen')
+      }
+    }
+  }
+
   TOS = (e) => {
     this.setState({
       acceptedTOS: e.target.checked
@@ -54,6 +95,7 @@ class RegistrationForm extends React.Component {
   }
 
   render() {
+
     const { getFieldDecorator } = this.props.form;
 
     const formItemLayout = {
@@ -78,6 +120,16 @@ class RegistrationForm extends React.Component {
         },
       },
     };
+
+    const validateStatusEmail = this.props.Register.checkingEmail ? {
+      validateStatus: 'validating'
+    } : {}
+    let validateStatusUsername
+    if(this.props.Register.username === false) validateStatusUsername = 'error'
+    if(this.props.Register.checkingUsername) validateStatusUsername = 'validating'
+    // const validateStatusUsername = this.props.Register.checkingUsername ? {
+    //   validateStatus: 'validating'
+    // } : this.props.Register.username ? this.props.Register.username && this.props.Register.username !== undefined ? {} : {validateStatus: 'error'}
 
     return (
       <Row type="flex" justify="center"
@@ -111,7 +163,7 @@ class RegistrationForm extends React.Component {
               {...formItemLayout}
               label="Namn"
             >
-              {getFieldDecorator('Namn', {
+              {getFieldDecorator('name', {
                 rules: [{
                   required: true, message: 'Fyll i ditt namn', whitespace: true,
                 }],
@@ -122,20 +174,31 @@ class RegistrationForm extends React.Component {
             <Form.Item
               {...formItemLayout}
               label="Användarnamn"
+              validateStatus={validateStatusUsername}
+              // validateStatus={this.props.Register.checkingUsername !== undefined ? (this.props.Register.checkingUsername ? 'validating' : (this.props.Register.username && this.props.Register.checkingUsername !== undefined ? 'success' : 'error')) : undefined}
+              // {...validateStatusUsername}
+              required
+              hasFeedback
             >
-              {getFieldDecorator('Username', {
-                rules: [{
-                  required: true, message: 'Fyll i ditt användarnamn', whitespace: true,
-                }],
+              {getFieldDecorator('username', {
+                rules: [
+                {
+                  validator: this.checkUsername
+                },
+                {
+                  min: 3, max: 24, message: 'Användarnamnet måste vara mellan 3 och 24 karaktärer'
+                }
+                ]
               })(
-                <Input />
+                <Input
+                />
               )}
             </Form.Item>
             <Form.Item
               {...formItemLayout}
               label="Födelsedatum"
             >
-              {getFieldDecorator('Birthdate', {
+              {getFieldDecorator('birthdate', {
                 rules: [{
                   required: true, message: 'Välj ditt födelsedatum'
                 }],
@@ -146,12 +209,16 @@ class RegistrationForm extends React.Component {
             <Form.Item
               {...formItemLayout}
               label="E-mail"
+              {...validateStatusEmail}
+              hasFeedback={true}
             >
               {getFieldDecorator('email', {
                 rules: [{
                   type: 'email', message: 'Ogiltig e-mail!',
                 }, {
                   required: true, message: 'Fyll i din e-mail!',
+                }, {
+                  validator: this.checkEmail
                 }],
               })(
                 <Input />
@@ -199,7 +266,13 @@ class RegistrationForm extends React.Component {
               )}
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-              <Button style={{width: '100%'}} type="primary" htmlType="submit" disabled={!this.state.acceptedTOS} >Bli medlem</Button>
+              <Button
+              style={{width: '100%'}} type="primary" htmlType="submit"
+              disabled={!this.state.acceptedTOS}
+              loading={this.props.Register.registering}
+            >
+              Bli medlem
+            </Button>
             </Form.Item>
           </Form>
         </Col>
@@ -212,11 +285,19 @@ const WrappedRegistrationForm = Form.create()(RegistrationForm);
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (credentials) => dispatch(Auth.login(credentials))
-    // createInstance: instance => dispatch(Instances.createInstance(instance))
+    register: credentials => dispatch(Register.register(credentials)),
+    checkUsername: username => dispatch(Register.checkUsername(username)),
+    checkEmail: email => dispatch(Register.checkEmail(email)),
   }
 }
 
-export default connect(null, mapDispatchToProps)(WrappedRegistrationForm)
+const mapStateToProps = (state) => {
+  return {
+    Register: {...state.Register},
+    Auth: {...state.Auth}
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WrappedRegistrationForm)
 
 // export default WrappedRegistrationForm
