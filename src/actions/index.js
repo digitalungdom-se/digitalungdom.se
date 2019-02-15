@@ -96,15 +96,15 @@ export const Register = {
 
 			return fetch('/api/register_check_username', {
 					method: 'POST',
-					body: JSON.stringify(username),
+					body: JSON.stringify({username}),
 					headers: {"Content-Type": "application/json"},
 				})
 				.then(response => response.json())
 				.then(response => {
 					// let fakeResponse = username === 'Nautman' || username === 'Zigolox' || username.length < 3 || username.length > 24 ? false : true
 					dispatch(Log.saveResult(response))
-					dispatch(Register.responseCheckUsername(response))
-					return response
+					dispatch(Register.responseCheckUsername(response.username))
+					return response.username
 				})
 				.catch(error => {
 					dispatch(Log.saveResult(error))
@@ -128,15 +128,15 @@ export const Register = {
 
 			return fetch('/api/register_check_email', {
 					method: 'POST',
-					body: JSON.stringify(email),
+					body: JSON.stringify({email}),
 					headers: {"Content-Type": "application/json"},
 				})
 				.then(response => response.json())
 				.then(response => {
 					// let fakeResponse = true
 					dispatch(Log.saveResult(response))
-					dispatch(Register.responseCheckEmail(response))
-					return response
+					dispatch(Register.responseCheckEmail(response.email))
+					return response.email
 				})
 				.catch(error => {
 					dispatch(Log.saveResult(error))
