@@ -17,11 +17,13 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
     const name = req.body.name;
     const username = req.body.username;
     const birthday = req.body.birthday;
-    const email = validator.normalizeEmail( req.body.email );
+    let email = req.body.email;
     const password = req.body.password;
     const gender = req.body.gender;
 
     if ( typeof name != 'string' || typeof username != 'string' || typeof birthday != 'string' || typeof email != 'string' || typeof password != 'string' || typeof gender != 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted', 'email': email } );
+
+    email = validator.normalizeEmail( email );
 
     if ( !validator.isLength( name, { min: 3, max: 64 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Name length is either too long or too short', 'name': name } );
     if ( !/^(([A-Za-zÀ-ÖØ-öø-ÿ]+)\s*){2,}$/.test( name ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid characters in name', 'name': name } );
