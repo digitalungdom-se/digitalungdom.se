@@ -10,12 +10,182 @@ export const Log = {
 	})
 }
 
-export const Auth = {
-	login: (credentials) => ({
-		type: 'LOGIN',
-		credentials,
+export const Login = {
+	login (credentials) {
+		return dispatch => {
+			dispatch(Log.savePayload(credentials, 'POST /api/login'))
+
+			dispatch(Login.requestLogin(Date.now()))
+
+			// return fetch('https://reddit.com/r/frontend.json', {
+			// 	method: 'GET',
+			// 	// body: JSON.stringify(credentials),
+			// 	// headers: {
+			// 	// 	'Content-Type': 'application/json'
+			// 	// }
+			// })
+			return fetch('https://randomuser.me/api/?results=5')
+				.then(response => response.json())
+				.then(response => {
+					let fakeResponse = {
+						"type": "fail",
+						"name": "Douglas Bengtsson",
+					  "username": "Nautman"
+					}
+					const { type, ...jsonResponse } = fakeResponse
+					if(type === "success") dispatch(Auth.receiveAuth({...jsonResponse, authTime: Date.now()}))
+					dispatch(Login.responseLogin(type))
+				})
+				.catch(error => {
+					dispatch(Login.responseLogin('error'))
+				})
+		}
+	},
+	requestLogin: time => ({
+		type: 'REQUEST_LOGIN',
+		requestedAt: time
+	}),
+	responseLogin: response => ({
+		type: 'RESPONSE_LOGIN',
+		response
 	})
 }
+
+export const Register = {
+	register (credentials) {
+		return dispatch => {
+			dispatch(Log.savePayload(credentials, 'POST /api/register'))
+
+			dispatch(Register.requestRegister(Date.now()))
+
+			// return fetch('https://reddit.com/r/frontend.json', {
+			// 	method: 'GET',
+			// 	// body: JSON.stringify(credentials),
+			// 	// headers: {
+			// 	// 	'Content-Type': 'application/json'
+			// 	// }
+			// })
+			return fetch('https://randomuser.me/api/?results=5')
+				.then(response => response.json())
+				.then(response => {
+					let fakeResponse = {
+						"type": "success",
+						"name": "Douglas Bengtsson",
+					  "username": "Nautman"
+					}
+					const { type, ...jsonResponse } = fakeResponse
+					if(type === "success") dispatch(Auth.receiveAuth({...jsonResponse, authTime: Date.now()}))
+					dispatch(Register.responseRegister(type))
+				})
+				.catch(error => {
+					dispatch(Login.responseLogin('error'))
+				})
+		}
+	},
+	requestRegister: time => ({
+		type: 'REQUEST_REGISTER',
+		requestedAt: time
+	}),
+	responseRegister: response => ({
+		type: 'RESPONSE_REGISTER',
+		response
+	}),
+	checkUsername (username) {
+		return dispatch => {
+			dispatch(Log.savePayload(username, 'POST /api/register_check_username'))
+
+			dispatch(Register.requestCheckUsername(Date.now()))
+
+			// return fetch('https://reddit.com/r/frontend.json', {
+			// 	method: 'GET',
+			// 	// body: JSON.stringify(credentials),
+			// 	// headers: {
+			// 	// 	'Content-Type': 'application/json'
+			// 	// }
+			// })
+			return fetch('https://randomuser.me/api/?results=5')
+				.then(response => response.json())
+				.then(response => {
+					let fakeResponse = username === 'Nautman' || username === 'Zigolox' || username.length < 3 || username.length > 24 ? false : true
+					dispatch(Register.responseCheckUsername(fakeResponse))
+					return fakeResponse
+				})
+				.catch(error => {
+					dispatch(Login.responseCheckUsername('error'))
+				})
+		}
+	},
+	requestCheckUsername: time => ({
+		type: 'REQUEST_CHECK_USERNAME',
+		requestAt: time
+	}),
+	responseCheckUsername: response => ({
+		type: 'RESPONSE_CHECK_USERNAME',
+		response
+	}),
+	checkEmail (username) {
+		return dispatch => {
+			dispatch(Log.savePayload(username, 'POST /api/register_check_email'))
+
+			dispatch(Register.requestCheckEmail(Date.now()))
+
+			// return fetch('https://reddit.com/r/frontend.json', {
+			// 	method: 'GET',
+			// 	// body: JSON.stringify(credentials),
+			// 	// headers: {
+			// 	// 	'Content-Type': 'application/json'
+			// 	// }
+			// })
+			return fetch('https://randomuser.me/api/?results=5')
+				.then(response => response.json())
+				.then(response => {
+					let fakeResponse = true
+					dispatch(Register.responseCheckEmail(fakeResponse))
+					return fakeResponse
+				})
+				.catch(error => {
+					dispatch(Login.responseCheckEmail('error'))
+				})
+		}
+	},
+	requestCheckEmail: time => ({
+		type: 'REQUEST_CHECK_EMAIL',
+		requestAt: time
+	}),
+	responseCheckEmail: response => ({
+		type: 'RESPONSE_CHECK_EMAIL',
+		response
+	})
+}
+
+export const Auth = {
+	receiveAuth: (response) => ({
+		type: 'RECEIVE_AUTH',
+		response,
+		receivedAt: Date.now()
+	})
+}
+
+// REGISTER
+// 	REGISTER_ACCOUNT
+// 	REGISTER_CHECK_USERNAME
+// 	REGISTER_CHECK_EMAIL
+// LOGIN
+// 	LOGIN
+// PROFILE
+// 	GET_USER
+// 	EDIT_USER_DETAILS
+// 	GET_USER_POSTS
+// 	GET_USER_COMMENTS
+// BLOG
+// 	GET_POSTS
+// 	POST_BLOG
+// 	REMOVE_POST
+// 	COMMENT
+// 	LIKE
+// AUTH
+// 	I_AM_AUTH
+
 
 export const Instances = {
 
