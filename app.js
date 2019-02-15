@@ -1,7 +1,6 @@
 require( 'dotenv' ).config();
 
 const express = require( 'express' );
-const validator = require( 'validator' );
 const path = require( 'path' );
 const bodyParser = require( 'body-parser' );
 const cookieParser = require( 'cookie-parser' );
@@ -11,28 +10,31 @@ const passport = require( 'passport' );
 const LocalStrategy = require( 'passport-local' ).Strategy;
 const MongoClient = require( 'mongodb' ).MongoClient;
 const helmet = require( 'helmet' );
-const rateLimit = require( 'express-rate-limit' );
+const compression = require( 'compression' );
+const csrf = require( 'csurf' );
 
-MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, function( err, client ) {
+const register_check_email = require( './routes/user/register/register_check_email' );
+const register_check_username = require( './routes/user/register/register_check_username' );
+const register = require( './routes/user/register/register' );
+
+MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async function( err, client ) {
   if ( err ) return console.log( err );
-  const db = client.db( 'digitalungdom' );
+  db = client.db( 'digitalungdom' );
 
   const app = express();
 
+  app.use( compression() );
+
+  app.enable( 'trust proxy' );
+
   app.use( helmet() );
-
-  const limiter = rateLimit( {
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 1000, // limit each IP to 100 requests per windowMs
-    handler: function( req, res ) {
-      res.status( 429 ).render( 'error.ejs', {
-        errorcode: '429',
-        message: 'Du har skickat för mångar request, försök igen senare >:('
-      } );
-    }
-  } );
-
-  app.use( limiter );
+  app.use( helmet.permittedCrossDomainPolicies() );
+  app.use( helmet.referrerPolicy( { policy: 'same-origin' } ) );
+  app.use( helmet.hsts( {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true,
+  } ) );
 
   app.use( express.static( 'build' ) );
 
@@ -46,7 +48,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, function( er
 
   app.use( cookieParser() );
 
-  app.set( 'trust proxy', 1 )
+  //app.use( csrf( { cookie: true } ) );
 
   app.use( session( {
     secret: 'i love javascript',
@@ -61,14 +63,15 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, function( er
   app.use( passport.initialize() );
   app.use( passport.session() );
 
-  // const routeVariable = require( './routes/route' );
-  // app.use( '/', routeVariable );
+  app.use( '/api/', register_check_email );
+  app.use( '/api/', register_check_username );
+  app.use( '/api/', register );
 
   app.get( '*', function( req, res ) {
     res.sendFile( path.join( __dirname, '/build/index.html' ) );
   } )
 
-  app.set( 'port', ( 3000 ) );
+  app.set( 'port', ( 8080 ) );
 
   app.listen( app.get( 'port' ), () => {
     console.log( 'listening on ', app.get( 'port' ) )
