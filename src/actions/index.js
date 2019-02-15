@@ -17,26 +17,25 @@ export const Login = {
 
 			dispatch(Login.requestLogin(Date.now()))
 
-			// return fetch('https://reddit.com/r/frontend.json', {
-			// 	method: 'GET',
-			// 	// body: JSON.stringify(credentials),
-			// 	// headers: {
-			// 	// 	'Content-Type': 'application/json'
-			// 	// }
-			// })
-			return fetch('https://randomuser.me/api/?results=5')
+			return fetch('/api/login', {
+					method: 'POST',
+					body: JSON.stringify(credentials),
+					headers: {"Content-Type": "application/json"},
+				})
 				.then(response => response.json())
 				.then(response => {
-					let fakeResponse = {
-						"type": "fail",
-						"name": "Douglas Bengtsson",
-					  "username": "Nautman"
-					}
-					const { type, ...jsonResponse } = fakeResponse
-					if(type === "success") dispatch(Auth.receiveAuth({...jsonResponse, authTime: Date.now()}))
+					// let fakeResponse = {
+					// 	"type": "fail",
+					// 	"name": "Douglas Bengtsson",
+					//   "username": "Nautman"
+					// }
+					const { type, ...jsonResponse } = response
+					dispatch(Log.saveResult(response))
+					dispatch(Auth.receiveAuth({...jsonResponse, authTime: Date.now()}))
 					dispatch(Login.responseLogin(type))
 				})
 				.catch(error => {
+					dispatch(Log.saveResult(error))
 					dispatch(Login.responseLogin('error'))
 				})
 		}
@@ -58,27 +57,26 @@ export const Register = {
 
 			dispatch(Register.requestRegister(Date.now()))
 
-			// return fetch('https://reddit.com/r/frontend.json', {
-			// 	method: 'GET',
-			// 	// body: JSON.stringify(credentials),
-			// 	// headers: {
-			// 	// 	'Content-Type': 'application/json'
-			// 	// }
-			// })
-			return fetch('https://randomuser.me/api/?results=5')
+			return fetch('/api/register', {
+					method: 'POST',
+					body: JSON.stringify(credentials),
+					headers: {"Content-Type": "application/json"},
+				})
 				.then(response => response.json())
 				.then(response => {
-					let fakeResponse = {
-						"type": "success",
-						"name": "Douglas Bengtsson",
-					  "username": "Nautman"
-					}
-					const { type, ...jsonResponse } = fakeResponse
-					if(type === "success") dispatch(Auth.receiveAuth({...jsonResponse, authTime: Date.now()}))
+					// let fakeResponse = {
+					// 	"type": "success",
+					// 	"name": "Douglas Bengtsson",
+					//   "username": "Nautman"
+					// }
+					const { type, ...jsonResponse } = response
+					dispatch(Log.saveResult(response))
+					dispatch(Auth.receiveAuth({...jsonResponse, authTime: Date.now()}))
 					dispatch(Register.responseRegister(type))
 				})
 				.catch(error => {
-					dispatch(Login.responseLogin('error'))
+					dispatch(Log.saveResult(error))
+					dispatch(Login.responseRegister('error'))
 				})
 		}
 	},
@@ -96,21 +94,20 @@ export const Register = {
 
 			dispatch(Register.requestCheckUsername(Date.now()))
 
-			// return fetch('https://reddit.com/r/frontend.json', {
-			// 	method: 'GET',
-			// 	// body: JSON.stringify(credentials),
-			// 	// headers: {
-			// 	// 	'Content-Type': 'application/json'
-			// 	// }
-			// })
-			return fetch('https://randomuser.me/api/?results=5')
+			return fetch('/api/register_check_username', {
+					method: 'POST',
+					body: JSON.stringify(username),
+					headers: {"Content-Type": "application/json"},
+				})
 				.then(response => response.json())
 				.then(response => {
-					let fakeResponse = username === 'Nautman' || username === 'Zigolox' || username.length < 3 || username.length > 24 ? false : true
-					dispatch(Register.responseCheckUsername(fakeResponse))
-					return fakeResponse
+					// let fakeResponse = username === 'Nautman' || username === 'Zigolox' || username.length < 3 || username.length > 24 ? false : true
+					dispatch(Log.saveResult(response))
+					dispatch(Register.responseCheckUsername(response))
+					return response
 				})
 				.catch(error => {
+					dispatch(Log.saveResult(error))
 					dispatch(Login.responseCheckUsername('error'))
 				})
 		}
@@ -123,27 +120,26 @@ export const Register = {
 		type: 'RESPONSE_CHECK_USERNAME',
 		response
 	}),
-	checkEmail (username) {
+	checkEmail (email) {
 		return dispatch => {
-			dispatch(Log.savePayload(username, 'POST /api/register_check_email'))
+			dispatch(Log.savePayload(email, 'POST /api/register_check_email'))
 
 			dispatch(Register.requestCheckEmail(Date.now()))
 
-			// return fetch('https://reddit.com/r/frontend.json', {
-			// 	method: 'GET',
-			// 	// body: JSON.stringify(credentials),
-			// 	// headers: {
-			// 	// 	'Content-Type': 'application/json'
-			// 	// }
-			// })
-			return fetch('https://randomuser.me/api/?results=5')
+			return fetch('/api/register_check_email', {
+					method: 'POST',
+					body: JSON.stringify(email),
+					headers: {"Content-Type": "application/json"},
+				})
 				.then(response => response.json())
 				.then(response => {
-					let fakeResponse = true
-					dispatch(Register.responseCheckEmail(fakeResponse))
-					return fakeResponse
+					// let fakeResponse = true
+					dispatch(Log.saveResult(response))
+					dispatch(Register.responseCheckEmail(response))
+					return response
 				})
 				.catch(error => {
+					dispatch(Log.saveResult(error))
 					dispatch(Login.responseCheckEmail('error'))
 				})
 		}

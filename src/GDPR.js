@@ -21,7 +21,7 @@ class GDPR extends Component {
     const { visible, loading } = this.state;
     return (
       <div>
-        <Checkbox style={{fontSize: '0.9em'}} onChange={this.props.onChange}>Jag accepterar Digital Ungdoms användarvillkor. <a onClick={this.showModal}>Läs mer.</a></Checkbox>
+        <Checkbox style={{fontSize: '0.9em'}} onChange={this.props.onChange}>Genom att skapa konto accepterar jag Digital Ungdoms användarvillkor. <a onClick={this.showModal}>Läs mer.</a></Checkbox>
         <Modal
           visible={visible}
           title="Digital Ungdoms användarvillkor"
