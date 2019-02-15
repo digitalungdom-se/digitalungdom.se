@@ -16,12 +16,12 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
   try {
     const name = req.body.name;
     const username = req.body.username;
-    const birthday = req.body.birthday;
+    const birthdate = req.body.birthdate;
     let email = req.body.email;
     const password = req.body.password;
     const gender = req.body.gender;
 
-    if ( typeof name != 'string' || typeof username != 'string' || typeof birthday != 'string' || typeof email != 'string' || typeof password != 'string' || typeof gender != 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );
+    if ( typeof name != 'string' || typeof username != 'string' || typeof birthdate != 'string' || typeof email != 'string' || typeof password != 'string' || typeof gender != 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );
 
     email = validator.normalizeEmail( email );
 
@@ -31,7 +31,7 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
     if ( !validator.isLength( username, { min: 3, max: 24 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Username length is either too long or too short', 'username': username } );
     if ( !/^(\w+)$/.test( username ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid characters in username', 'username': username } );
 
-    if ( !validator.isISO8601( birthday, { strict: true } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Malformed date for birthday', 'birthday': birthday } );
+    if ( !validator.isISO8601( birthdate, { strict: true } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Malformed date for birthdate', 'birthdate': birthdate } );
 
     if ( !validator.isEmail( email ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Malformed email address', 'email': email } );
 
@@ -49,14 +49,14 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
     if ( !emailExists ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Email address already exists', 'email': email } );
     if ( !usernameExists ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Username already exists', 'username': username } );
 
-    const date = birthday.split( '-' );
+    const date = birthdate.split( '-' );
     const user = {
       "email": email,
       "password": password,
       "name": name.toLowerCase().split( ' ' ).map( ( s ) => s.charAt( 0 ).toUpperCase() + s.substring( 1 ) ).join( ' ' ),
       "username": username,
       "usernameLower": username.toLowerCase(),
-      "birthday": new Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),
+      "birthdate": new Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),
       "gender": parseInt( gender ),
       "created": new Date(),
       "resetPasswordToken": null,
