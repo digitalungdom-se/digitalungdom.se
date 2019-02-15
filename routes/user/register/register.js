@@ -21,7 +21,7 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
     const password = req.body.password;
     const gender = req.body.gender;
 
-    if ( typeof name != 'string' || typeof username != 'string' || typeof birthday != 'string' || typeof email != 'string' || typeof password != 'string' || typeof gender != 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted', 'email': email } );
+    if ( typeof name != 'string' || typeof username != 'string' || typeof birthday != 'string' || typeof email != 'string' || typeof password != 'string' || typeof gender != 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );
 
     email = validator.normalizeEmail( email );
 
