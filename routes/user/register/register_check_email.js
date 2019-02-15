@@ -12,7 +12,7 @@ router.post( '/register_check_email', async function( req, res ) {
     if ( typeof email != 'string' ) return false;
     if ( !validator.isEmail( email ) ) return false;
 
-    return res.send( await checkEmail( db, email ) );
+    return res.send( { email: await checkEmail( db, email ) } );
   } catch ( e ) {
     handleError( e );
   }
