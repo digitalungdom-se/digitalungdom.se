@@ -17,6 +17,10 @@ const EmergencyActions = {
 	},
 	checkEmail: {
 		"email": "doug.beng-2019@vrg.se"
+	},
+	postBlog: {
+		"title": "Hello world!",
+		"content": `This is a blog post paragraph.`
 	}
 }
 

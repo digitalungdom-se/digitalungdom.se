@@ -15,7 +15,7 @@ class RegistrationForm extends React.Component {
   constructor(props) {
     super(props)
     this.checkUsername = debounce(this.checkUsername, 300)
-    this.checkEmail = debounce(this.checkEmail, 300)
+    this.checkEmail = debounce(this.checkEmail, 1500)
   }
 
   state = {
@@ -166,6 +166,9 @@ class RegistrationForm extends React.Component {
               {getFieldDecorator('name', {
                 rules: [{
                   required: true, message: 'Fyll i ditt namn', whitespace: true,
+                },
+                {
+                  pattern: /^(([A-Za-zÀ-ÖØ-öø-ÿ\-\'\,\.]+)\s*){2,}$/, message: 'Otillåtna karaktärer.'
                 }],
               })(
                 <Input />
@@ -187,6 +190,9 @@ class RegistrationForm extends React.Component {
                 },
                 {
                   min: 3, max: 24, message: 'Användarnamnet måste vara mellan 3 och 24 karaktärer'
+                },
+                {
+                  pattern: /^(\w+)$/, message: 'Otillåtna karaktärer.'
                 }
                 ]
               })(
@@ -233,6 +239,10 @@ class RegistrationForm extends React.Component {
                   required: true, message: 'Välj ett lösenord!',
                 }, {
                   validator: this.validateToNextPassword,
+                }, {
+                  pattern: /((.*[a-öA-Ö])(.*[0-9]))|((.*[0-9])(.*[a-öA-Ö]))/, message: 'Lösenordet måste innehålla både bokstäver och siffror.'
+                }, {
+                  min: 8, max: 72, message: 'Lösenordet måste vara mellan 8 och 72 karaktärer.'
                 }],
               })(
                 <Input type="password" />

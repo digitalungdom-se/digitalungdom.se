@@ -90,6 +90,7 @@ const mapDispatchToProps = (dispatch) => {
 		register: (credentials) => dispatch(Register.register(credentials)),
 		checkUsername: username => dispatch(Register.checkUsername(username)),
 		checkEmail: email => dispatch(Register.checkEmail(email)),
+		postBlog: t => console.log(t),
 		// createInstance: instance => dispatch(Instances.createInstance(instance))
 	}
 }
