@@ -22,7 +22,7 @@ class LoginForm extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        values = {username: '1', password: '1'}
+        // values = {username: '1', password: '1'}
         let credentials = {password: values.password}
         if(values.username.indexOf('@') !== -1) credentials.email = values.username
         else credentials.username = values.username
@@ -79,7 +79,7 @@ class LoginForm extends React.Component {
               {getFieldDecorator('username', {
                 rules: [{
                   required: true, message: 'Fyll i din e-mail eller ditt användarnamn',
-                }],
+                }]
               })(
                 <Input
                   prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -96,7 +96,7 @@ class LoginForm extends React.Component {
                   required: true, message: 'Fyll i ditt lösenord',
                 }, {
                   validator: this.validateToNextPassword,
-                }],
+                }]
               })(
                 <Input
                 type="password"
@@ -119,7 +119,9 @@ class LoginForm extends React.Component {
   }
 }
 
-const WrappedLoginForm = Form.create()(LoginForm);
+const WrappedLoginForm = Form.create({onValuesChange: (props, changedValues, allValues) => {
+  console.log(props)
+}})(LoginForm);
 
 const mapStateToProps = state => {
   return {
