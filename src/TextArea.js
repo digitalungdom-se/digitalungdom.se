@@ -2,9 +2,12 @@ import React, { Component } from 'react'
 import { Input, Tabs, Button } from 'antd'
 import ReactMarkdown from 'react-markdown'
 import emoji from 'emoji-dictionary'
-const emojiRegex = require('emoji-regex')()
 
-const emojiSupport = text => text.value.replace(/:\w+:/gi, name => emoji.getUnicode(name))
+const emojiSupport = text => text.value.replace(/:\w+:/gi, name => emoji.getUnicode(name) ? emoji.getUnicode(name) : name)
+
+function textToEmoji(text) {
+	return text.replace(/:\w+:/gi, name => emoji.getUnicode(name) ? emoji.getUnicode(name) : name)
+}
 
 const { TabPane } = Tabs
 
@@ -27,19 +30,6 @@ class TextArea extends Component {
 		this.setState({
 			textAreaValue: textInput.value
 		})
-	}
-
-	handleChange(e, textInput) {
-
-		const value = textInput.value
-
-		const matches = value.match(emojiRegex)
-
-		if(matches) {
-			matches.forEach(match => {
-				value = value.replace(match, `:${emoji.getName(match)}:`)
-			})
-		}
 	}
 
 	render() {
@@ -73,10 +63,11 @@ class TextArea extends Component {
 					<Input.TextArea
 						autosize={{minRows: 10, maxRows: 24}}
 						ref={element => this.textInput = element}
-						// onChange={this.handleChange}
-						// onChange={() => {console.log(this.TextAreaValue); console.log(1)}}
-						onChange={(e) => this.handleChange(e, this.textInput.textAreaRef)}
+						onChange={(e) => this.setState({textAreaValue: textToEmoji(this.textInput.textAreaRef.value)})}
 					/>
+					<span style={{float: 'right'}}>
+						{this.state.textAreaValue.length} / 10000
+					</span>
 				</TabPane>
 				<TabPane
 					tab="Förhandsvisa"
