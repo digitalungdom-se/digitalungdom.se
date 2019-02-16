@@ -26,17 +26,18 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
     email = validator.normalizeEmail( email );
 
     if ( !validator.isLength( name, { min: 3, max: 64 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Name length is either too long or too short', 'name': name } );
-    if ( !/^(([A-Za-zÀ-ÖØ-öø-ÿ]+)\s*){2,}$/.test( name ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid characters in name', 'name': name } );
+    if ( !/^(([A-Za-zÀ-ÖØ-öø-ÿ\-\'\,\.]+)\s*){2,}$/.test( name ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid characters in name', 'name': name } );
 
     if ( !validator.isLength( username, { min: 3, max: 24 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Username length is either too long or too short', 'username': username } );
     if ( !/^(\w+)$/.test( username ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid characters in username', 'username': username } );
 
     if ( !validator.isISO8601( birthdate, { strict: true } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Malformed date for birthdate', 'birthdate': birthdate } );
+    if ( !validator.isBefore( birthdate ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Back to the future?', 'birthdate': birthdate } );
 
     if ( !validator.isEmail( email ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Malformed email address', 'email': email } );
 
     if ( !validator.isLength( password, { min: 8, max: 72 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Password length is either too long or too short', 'password': password } );
-    if ( !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/.test( password ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Password is not strong enough', 'password': password } );
+    if ( !/((.*[a-öA-Ö])(.*[0-9]))|((.*[0-9])(.*[a-öA-Ö]))/.test( password ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Password is not strong enough', 'password': password } );
 
     if ( !validator.isInt( gender, { min: 0, max: 4 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Gender is malformed', 'gender': gender } );
 
@@ -53,7 +54,7 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
     const user = {
       "email": email,
       "password": password,
-      "name": name.toLowerCase().split( ' ' ).map( ( s ) => s.charAt( 0 ).toUpperCase() + s.substring( 1 ) ).join( ' ' ),
+      "name": name.toLowerCase().split( ' ' ).filter( n => n ).map( ( s ) => s.charAt( 0 ).toUpperCase() + s.substring( 1 ) ).join( ' ' ),
       "username": username,
       "usernameLower": username.toLowerCase(),
       "birthdate": new Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),
@@ -71,7 +72,7 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
     return res.status( 201 ).send( { 'type': 'success', 'email': email } );
 
   } catch ( e ) {
-    handleError( req, res, e )
+    return handleError( req, res, e )
   }
 } );
 
