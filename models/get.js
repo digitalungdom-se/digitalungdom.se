@@ -12,3 +12,15 @@ module.exports.getUserById = async function( database, id ) {
 
   return user;
 }
+
+module.exports.getUserByEmail = async function( database, email ) {
+  const user = await database.collection( 'users' ).findOne( { 'email': email }, { 'projection': { 'verificationToken': 0, 'resetPasswordToken': 0, 'resetPasswordExpires': 0 } } );
+
+  return user;
+}
+
+module.exports.getUserByUsername = async function( database, username ) {
+  const user = await database.collection( 'users' ).findOne( { 'usernameLower': username.toLowerCase() }, { 'projection': { 'verificationToken': 0, 'resetPasswordToken': 0, 'resetPasswordExpires': 0 } } );
+
+  return user;
+}
