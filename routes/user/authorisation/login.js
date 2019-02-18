@@ -25,10 +25,11 @@ router.post( '/login', async function( req, res ) {
 passport.use( 'local', new LocalStrategy(
   async function( username, password, done ) {
     if ( typeof username != 'string' || typeof password != 'string' ) {
-      return done( null, false );
+      return done( null, false, { field: 'username', message: 'Kolla inmatning.' } );
     }
 
-    const user = validator.isEmail( username ) ? user = await getUserByEmail( db, username ) : await getUserByUsername( db, username );
+    let user;
+    user = validator.isEmail( username ) ? user = await getUserByEmail( db, username ) : await getUserByUsername( db, username );
 
     if ( !user ) {
       return done( null, false, { field: 'username', message: 'Det finns inget konto kopplat till det användarnamn/epost adress.' } );
