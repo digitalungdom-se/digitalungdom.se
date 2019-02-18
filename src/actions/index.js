@@ -1,11 +1,16 @@
 import createAsyncFunction from './createAsyncFunction.js'
 
-export const Auth = {
+export let Auth = {
 	receiveAuth: (response) => ({
 		type: 'RECEIVE_AUTH',
 		response,
 		receivedAt: Date.now()
 	})
+}
+
+Auth = {
+	...Auth,
+	...createAsyncFunction('auth', {method: 'POST', route: '/api/auth'}, [Auth.receiveAuth])
 }
 
 const fakeResponse = 0 ? {

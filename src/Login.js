@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
 
   render() {
 
-    if(this.props.Auth.username) return <Redirect to={`/u/${this.props.Auth.username}`} />
+    if(this.props.Auth.username) return <Redirect to='min-profil' />
 
     const { getFieldDecorator } = this.props.form;
 
