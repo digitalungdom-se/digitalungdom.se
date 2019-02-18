@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  Menu, Row, Col, Button, Dropdown, Icon
+  Menu, Row, Col, Button
 } from 'antd';
 import { Link } from 'react-router-dom'
 import { withRouter } from "react-router";
@@ -25,8 +25,8 @@ const MenuMarkup = ({ mobileVersion, activeLinkKey, onLinkClick, className }) =>
 	    <Menu.Item key='/verksamhet'>
 	      <Link onClick={onLinkClick} to='/verksamhet'>Verksamhet</Link>
 	    </Menu.Item>
-	    <Menu.Item key='/state'>
-	      <Link onClick={onLinkClick} to='/state'>State</Link>
+	    <Menu.Item key='/blog'>
+	      <Link onClick={onLinkClick} to='/blog'>Blog</Link>
 	    </Menu.Item>
 	  </Menu>
   </div>
@@ -66,12 +66,6 @@ class DUHeaderDOM extends Component {
 					</Col>
 				</Row>
 			</Col>
-		)
-		const NotReadyYet = (
-			<Col
-				xs={{span: 0}}
-				sm={{span: 1}}
-			/>
 		)
 
 		return (
@@ -120,25 +114,6 @@ class DUHeaderDOM extends Component {
 			  </Col>
 			  {LoginAndRegister}
 		  </Row>
-		)
-	}
-}
-
-class DUMenu extends Component {
-	render() {
-		return (
-			<Menu
-		mode="horizontal"
-	  selectedKeys={[this.props.location.pathname]}
-	  style={{ lineHeight: '62px', borderBottom: 'none', background: 'none' }}
-	>
-		<Menu.Item key="/">
-			<Link to="/">Startsida</Link>
-		</Menu.Item>
-	  <Menu.Item key="/state">
-	  	<Link to="/state">State</Link>
-		</Menu.Item>
-	</Menu>
 		)
 	}
 }

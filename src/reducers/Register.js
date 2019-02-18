@@ -3,7 +3,7 @@ const Register = (state = {}, action) => {
 		case 'REQUEST_REGISTER':
 			return {
 				...state,
-				...action.requestedAt,
+				...action._requestTime,
 				registering: true
 			}
 		case 'RESPONSE_REGISTER':
@@ -15,7 +15,7 @@ const Register = (state = {}, action) => {
 		case 'REQUEST_CHECK_USERNAME':
 			return {
 				...state,
-				usernameRequestAt: action.requestAt,
+				usernameRequestAt: action._requestTime,
 				checkingUsername: true
 			}
 		case 'RESPONSE_CHECK_USERNAME':

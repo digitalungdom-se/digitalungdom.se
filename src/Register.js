@@ -1,14 +1,13 @@
 import React from 'react'
 import {
-  Form, Input, InputNumber, Row, Col, Checkbox, Button, DatePicker, message
+  Form, Input, Row, Col, Button, DatePicker
 } from 'antd';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Register } from './actions'
-import Address from './Address.js'
 import GDPR from './GDPR.js'
 import debounce from 'lodash/debounce'
-import delay from 'lodash/delay'
+// import { PasswordInput } from './PasswordStrength.js'
 
 class RegistrationForm extends React.Component {
 
@@ -61,8 +60,8 @@ class RegistrationForm extends React.Component {
 
   checkUsername = async (rule, value, callback) => {
     if(value.length > 2 && value.length < 25) {
-      const username = await this.props.checkUsername(value)
-      if(username) {
+      const response = await this.props.check_username(value)
+      if(response.username) {
         callback()
       } else {
         this.props.form.setFields({
@@ -78,14 +77,21 @@ class RegistrationForm extends React.Component {
   }
 
   checkEmail = async (rule, value, callback) => {
-    const email = await this.props.checkEmail(value)
-    if(value.length > 3 && value.length < 25) {
-      if(email) {
+    if(value.indexOf('@') !== -1) {
+      const response = await this.props.check_email(value)
+      if(response.email) {
         callback()
       } else {
+        this.props.form.setFields({
+          email: {
+            value,
+            errors: [new Error('En användare finns redan med den emailen')],
+          },
+        })
         callback('En användare finns redan med den emailen')
       }
     }
+    callback()
   }
 
   TOS = (e) => {
@@ -95,6 +101,8 @@ class RegistrationForm extends React.Component {
   }
 
   render() {
+
+    if(this.props.Auth.username) return <Redirect to={`/u/${this.props.Auth.username}`} />
 
     const { getFieldDecorator } = this.props.form;
 
@@ -129,7 +137,7 @@ class RegistrationForm extends React.Component {
     if(this.props.Register.checkingUsername) validateStatusUsername = 'validating'
     // const validateStatusUsername = this.props.Register.checkingUsername ? {
     //   validateStatus: 'validating'
-    // } : this.props.Register.username ? this.props.Register.username && this.props.Register.username !== undefined ? {} : {validateStatus: 'error'}
+    // } : (this.props.Register.username ? (this.props.Register.username && this.props.Register.username !== undefined ? {} : {validateStatus: 'error'}) : {validateStatus}
 
     return (
       <Row type="flex" justify="center"
@@ -168,7 +176,7 @@ class RegistrationForm extends React.Component {
                   required: true, message: 'Fyll i ditt namn', whitespace: true,
                 },
                 {
-                  pattern: /^(([A-Za-zÀ-ÖØ-öø-ÿ\-\'\,\.]+)\s*){2,}$/, message: 'Otillåtna karaktärer.'
+                  pattern: /^(([A-Za-zÀ-ÖØ-öø-ÿ\-',.]+)\s*){2,}$/, message: 'Otillåtna karaktärer.'
                 }],
               })(
                 <Input />
@@ -294,10 +302,11 @@ class RegistrationForm extends React.Component {
 const WrappedRegistrationForm = Form.create()(RegistrationForm);
 
 const mapDispatchToProps = (dispatch) => {
+  console.log(Register)
   return {
     register: credentials => dispatch(Register.register(credentials)),
-    checkUsername: username => dispatch(Register.checkUsername(username)),
-    checkEmail: email => dispatch(Register.checkEmail(email)),
+    check_username: username => dispatch(Register.check_username(username)),
+    check_email: email => dispatch(Register.check_email(email)),
   }
 }
 

@@ -1,15 +1,10 @@
 import React from 'react'
 import {
-  Form, Input, InputNumber, Row, Col, Checkbox, Button, Icon, message, Alert
+  Form, Input, Row, Col, Button, Icon, Alert
 } from 'antd';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Login } from './actions'
-import Address from './Address.js'
-
-const success = () => {
-  message.success('Du är nu inloggad')
-}
 
 class LoginForm extends React.Component {
   state = {
@@ -21,8 +16,6 @@ class LoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-        // values = {username: '1', password: '1'}
         let credentials = {password: values.password}
         if(values.username.indexOf('@') !== -1) credentials.email = values.username
         else credentials.username = values.username
@@ -38,7 +31,7 @@ class LoginForm extends React.Component {
 
   render() {
 
-    if(this.props.Auth.username) return <Redirect to="/" />
+    if(this.props.Auth.username) return <Redirect to={`/u/${this.props.Auth.username}`} />
 
     const { getFieldDecorator } = this.props.form;
 
@@ -119,9 +112,7 @@ class LoginForm extends React.Component {
   }
 }
 
-const WrappedLoginForm = Form.create({onValuesChange: (props, changedValues, allValues) => {
-  console.log(props)
-}})(LoginForm);
+const WrappedLoginForm = Form.create()(LoginForm);
 
 const mapStateToProps = state => {
   return {
