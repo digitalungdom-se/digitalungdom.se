@@ -21,6 +21,8 @@ const register = require( './routes/user/register/register' );
 const login = require( './routes/user/authorisation/login' );
 const auth = require( './routes/user/authorisation/auth' );
 
+const state = process.env.NODE_ENV;
+
 MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async function( err, client ) {
   if ( err ) return console.log( err );
   db = client.db( 'digitalungdom' );
@@ -29,7 +31,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
 
   app.use( compression() );
 
-  app.enable( 'trust proxy' );
+  if ( state === 'PRODUCTION' ) app.enable( 'trust proxy' );
 
   app.use( helmet() );
   app.use( helmet.permittedCrossDomainPolicies() );
@@ -62,7 +64,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
     store: new MongoStore( {
       db: db,
     } ),
-    //cookie: { secure: true }
+    cookie: { secure: ( state === 'PRODUCTION' ) }
   } ) );
 
   app.use( passport.initialize() );
@@ -91,6 +93,6 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
   app.set( 'port', ( 8080 ) );
 
   app.listen( app.get( 'port' ), () => {
-    console.log( 'listening on ', app.get( 'port' ) )
+    console.log( state, ': listening on ', app.get( 'port' ) );
   } )
 } )
