@@ -22,7 +22,7 @@ const AppRouter = () => (
 			<Route path="/blog" component={Blog} />
 			<Route path="/om-oss" component={About} />
 			<Route path="/verksamhet" component={Activities} />
-			<Route path="/u/:username" component={User} />
+			<Route path="/min-profil" component={User} />
 		</Switch>
 	</Suspense>
 )

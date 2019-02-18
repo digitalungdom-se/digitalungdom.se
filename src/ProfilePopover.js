@@ -19,7 +19,7 @@ class ProfilePopover extends Component {
 				xl={{span: 5}}
 				style={{textAlign: 'right', paddingRight: 20}}
 			>
-				<Link to={`/u/${this.props.Auth.username}`}>
+				<Link to="min-profil">
 					<Avatar shape="square" icon="user"/>
 				</Link>
 			</Col>
