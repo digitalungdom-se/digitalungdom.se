@@ -69,7 +69,7 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
   await createUser( db, user );
   //await sendVerification( db, user.email );
 
-  return res.status( 201 ).send( { 'type': 'success', 'email': email } );
+  return res.status( 201 ).send( { type: 'success', username: user.username, name: user.name, email: user.email } );
 } );
 
 module.exports = router;
