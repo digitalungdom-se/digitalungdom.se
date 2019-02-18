@@ -26,14 +26,17 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
     email = validator.normalizeEmail( email );
 
     if ( !validator.isLength( name, { min: 3, max: 64 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Name length is either too long or too short', 'name': name } );
-    if ( !/^(([A-Za-zÀ-ÖØ-öø-ÿ\-\'\,\.]+)\s*){2,}$/.test( name ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid characters in name', 'name': name } );
+    if ( !/^(([A-Za-zÀ-ÖØ-öø-ÿ\-\'\,\.]+)\s)(([A-Za-zÀ-ÖØ-öø-ÿ\-\'\,\.]+)\s*){1,}$/.test( name ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid characters in name', 'name': name } );
 
     if ( !validator.isLength( username, { min: 3, max: 24 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Username length is either too long or too short', 'username': username } );
     if ( !/^(\w+)$/.test( username ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid characters in username', 'username': username } );
 
+
+    if ( !validator.isLength( birthdate, { min: 10, max: 12 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'birthdate length is either too long or too short', 'birthdate': birthdate } );
     if ( !validator.isISO8601( birthdate, { strict: true } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Malformed date for birthdate', 'birthdate': birthdate } );
     if ( !validator.isBefore( birthdate ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Back to the future?', 'birthdate': birthdate } );
 
+    if ( !validator.isLength( email, { min: 6, max: 255 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'email length is either too long or too short', 'email': email } );
     if ( !validator.isEmail( email ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Malformed email address', 'email': email } );
 
     if ( !validator.isLength( password, { min: 8, max: 72 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Password length is either too long or too short', 'password': password } );
@@ -44,7 +47,7 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
     const [ usernameExists, emailExists, agreementVersion ] = await Promise.all( [
       checkUsername( db, username ),
       checkEmail( db, email ),
-      getAgreementVersion( db )
+      getAgreementVersion( db ),
     ] );
 
     if ( !emailExists ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Email address already exists', 'email': email } );
@@ -59,10 +62,9 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
       "usernameLower": username.toLowerCase(),
       "birthdate": new Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),
       "gender": parseInt( gender ),
-      "created": new Date(),
       "resetPasswordToken": null,
       "resetPasswordExpires": null,
-      "verified": false,
+      "verified": true,
       "verificationToken": null,
     }
 
