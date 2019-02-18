@@ -8,11 +8,11 @@ const Log = (state = {}, action) => {
 				},
 				route: action.route
 			}
-		case 'SAVE_RESULT':
+		case 'SAVE_RESPONSE':
 			return {
 				...state,
-				result: {
-					...action.result
+				response: {
+					...action.response
 				}
 			}
 		default:

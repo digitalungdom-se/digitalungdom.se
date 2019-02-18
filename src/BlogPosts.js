@@ -3,86 +3,17 @@ import { Row, Col, Affix, Card, Button } from 'antd'
 import ReactMarkdown from 'react-markdown'
 import { Link } from 'react-router-dom'
 
-let input = `
 
-Hej
-
-\`\`\`js
-var React = require('react');
-var Markdown = require('react-markdown');
-
-React.render(
-  <Markdown source="# Your markdown here" />,
-  document.getElementById('content')
-);
-\`\`\`
-
-kelvoifsdifs
-
-# Live demo
-
-Changes are automatically rendered as you type.
-
-* Implements [GitHub Flavored Markdown](https://github.github.com/gfm/)
-* Renders actual, "native" React DOM elements
-* Allows you to escape or skip HTML (try toggling the checkboxes above)
-* If you escape or skip the HTML, no \`dangerouslySetInnerHTML\` is used! Yay!
-
-## HTML block below
-
-<blockquote>
-  This blockquote will change based on the HTML settings above.
-</blockquote>
-# Kelvin
-## How about some code?
-Pretty neat, eh?
-
-## Tables?
-
-## More info?
-
-Read usage information and more on [GitHub](//github.com/rexxars/react-markdown)
-
----------------
-
-A component by [Espen Hovlandsdal](https://espen.codes/)
-
-
-`
-
-input = `
-Hej
-
-\`\`\`js
-var React = require('react');
-var Markdown = require('react-markdown');
-
-React.render(
-  <Markdown source="# Your markdown here" />,
-  document.getElementById('content')
-);
-\`\`\`
+let input = `Digital Ungdom har i veckan
 `
 
 const posts = [
 	{
 		user: 'Douglas Bengtsson',
-		date: new Date(),
+		date: new Date('2019-02-18'),
 		text: input,
-		title: 'Hello, world!'
-	},
-		{
-		user: 'Douglas Bengtsson',
-		date: new Date(),
-		text: input,
-		title: 'Hello, world!'
-	},
-		{
-		user: 'Douglas Bengtsson',
-		date: new Date(),
-		text: input,
-		title: 'Hello, world!'
-	},
+		title: 'Digitalt rådslag!'
+	}
 ]
 
 class BlogPosts extends Component {
@@ -103,39 +34,31 @@ class BlogPosts extends Component {
 	}
 
 	render() {
-		const sizes = {
-			style: { padding: 40 },
-			lg: { span: 12 },
-			md: { span: 18 },
-			sm: { span: 24 },
-			xs: { span: 24 },
-		}
 		const changedPosts = posts.map(post => (
 			<Row
 				// type="flex"
 				// justify="center"
 				key={post.date}
 			>
-				<Col
-					style={{padding: 40}}
-					className="window blog-post"
-				>
-					<code
-						className="date"
-					>
-						{this.formatDate(post.date)}
-					</code>
-					<h1
-						className="title"
-					>
-						{post.title}
-					</h1>
-					<h4
-						className="user"
-					>
-						{post.user}
-					</h4>
-					<ReactMarkdown source={post.text} />
+				<Col style={{marginTop: 40}}>
+					<Card style={{padding: 20}}>
+						<code
+							className="date"
+						>
+							{this.formatDate(post.date)}
+						</code>
+						<h1
+							className="title"
+						>
+							{post.title}
+						</h1>
+						<h4
+							className="user"
+						>
+							{post.user}
+						</h4>
+						<ReactMarkdown source={post.text} />
+					</Card>
 				</Col>
 			</Row>
 		))
@@ -150,29 +73,32 @@ class BlogPosts extends Component {
 						changedPosts
 					}
 				</Col>
-				<Col
-					sm={{span: 0}}
-					md={{span: 6}}
-					lg={{span: 6}}
-					style={{padding: 20}}
-				>
-					<Affix offsetTop={40}>
-						<Card>
-							<h1>Hem</h1>
-							<Link to="skapa-inlagg">
-								<Button
-									style={{width: '100%'}}
-									type="primary"
-								>
-									Skapa inlägg
-								</Button>
-							</Link>
-						</Card>
-					</Affix>
-				</Col>
 			</Row>
 		)
 	}
 }
+
+const later = (
+	<Col
+		sm={{span: 0}}
+		md={{span: 6}}
+		lg={{span: 6}}
+		style={{padding: 20}}
+	>
+		<Affix offsetTop={40}>
+			<Card>
+				<h1>Hem</h1>
+				<Link to="/blog/skapa-inlagg">
+					<Button
+						style={{width: '100%'}}
+						type="primary"
+					>
+						Skapa inlägg
+					</Button>
+				</Link>
+			</Card>
+		</Affix>
+	</Col>
+)
 
 export default BlogPosts

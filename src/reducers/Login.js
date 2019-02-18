@@ -3,14 +3,14 @@ const Login = (state = {}, action) => {
 		case 'REQUEST_LOGIN':
 			return {
 				...state,
-				...action.requestedAt,
+				...action._requestTime,
 				loggingIn: true
 			}
 		case 'RESPONSE_LOGIN':
 			return {
 				...state,
 				loggingIn: false,
-				loggedIn: action.response
+				loggedIn: action.response.type
 			}
 		default:
 			return state

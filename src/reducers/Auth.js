@@ -3,7 +3,8 @@ const Auth = (state = {}, action) => {
 		case 'RECEIVE_AUTH':
 			return {
 				...state,
-				...action.response
+				...action.response,
+				authTime: action.response._responseTime
 			}
 		default:
 			return state

@@ -1,55 +1,19 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import React from 'react';
 import ReactDOM from 'react-dom';
 // import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
-import websiteApp from './reducers'
+import reducer from './reducers'
 import { createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
+import { createLogger } from 'redux-logger'
 
-// class AppProvider extends Component {
-// 	static propTypes = {
-// 		store: PropTypes.object.isRequired,
-// 		children: PropTypes.node
-// 	}
+const logger = createLogger({
+  // ...options
+});
 
-// 	constructor(props) {
-// 		super(props);
-
-// 		this.state = { rehydrated: false };
-// 	}
-
-// 	componentWillMount() {
-// 		const opts = {
-// 		 whitelist: ['user'] // <-- Your auth/user reducer storing the cookie
-// 		}
-
-// 	  persistStore(this.props.store, opts, () => {
-// 	  	this.setState({ rehydrated: true });
-// 	  });
-// 	}
-//   render() {
-//   	if (!this.state.rehydrated) {
-//   		return null;
-//   	}
-
-//   	return (
-//   		<Provider store={this.props.store}>
-//   			{this.props.children}
-//   		</Provider>
-//   		);
-//   }
-// }
-
-// AppProvider.propTypes = {
-//     store: PropTypes.object.isRequired,
-//     children: PropTypes.node
-// }
-
-
-const store = createStore(websiteApp, applyMiddleware(thunkMiddleware))
+const store = createStore(reducer, applyMiddleware(thunkMiddleware, logger))
 
 ReactDOM.render(
 	(

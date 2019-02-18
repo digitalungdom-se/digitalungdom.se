@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Carousel, Button, Icon } from 'antd'
+import { Carousel, Button } from 'antd'
 import { Link } from 'react-router-dom'
 
 const Arrow = props => {

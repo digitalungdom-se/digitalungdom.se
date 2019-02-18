@@ -1,5 +1,5 @@
-import React, { Component, Suspense } from 'react'
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import React, { Component } from 'react'
+import { BrowserRouter as Router } from "react-router-dom"
 import './App.css'
 import { Layout, LocaleProvider } from 'antd'
 import DUHeader from './Header.js'

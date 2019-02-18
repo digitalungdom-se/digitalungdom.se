@@ -1,14 +1,28 @@
 import React, { Component } from 'react'
-import { Popover, Button, message } from 'antd'
+import { Avatar, Button, message, Col } from 'antd'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 class ProfilePopover extends Component {
+
+	componentDidMount() {
+		const push = Date.now() - this.props.Auth.authTime < 1000 ? message.success('Du är nu inloggad') : null
+	}
+
 	render() {
+
 		return (
-				<Popover content={<div>Sup</div>} trigger="click" placement="bottom">
-				{Date.now() - this.props.Auth.authTime < 1000 && message.success('Du är nu inloggad') }
-				  <Button>Hello</Button>
-				</Popover>
+			<Col
+				xs={{span: 0}}
+				sm={{span: 4}}
+				md={{span: 7}}
+				xl={{span: 5}}
+				style={{textAlign: 'right', paddingRight: 20}}
+			>
+				<Link to={`/u/${this.props.Auth.username}`}>
+					<Avatar shape="square" icon="user"/>
+				</Link>
+			</Col>
 		)
 	}
 }
