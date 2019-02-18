@@ -8,44 +8,24 @@ export const Auth = {
 	})
 }
 
-export const Login = {
-	...createAsyncFunction('login', {method: 'POST', route: '/api/login'}, [Auth.receiveAuth],
-		{
+const fakeResponse = 0 ? {
 	  "type": "success",
 	  "name": "Douglas Bengtsson",
 	  "username": "Nautman"
-		}
-	),
+		} : null
+
+export const Login = {
+	...createAsyncFunction('login', {method: 'POST', route: '/api/login'}, [Auth.receiveAuth], fakeResponse),
 }
 
 export const Register = {
-	...createAsyncFunction('register', {method: 'POST', route: '/api/login'}, [Auth.receiveAuth],
-		{
-		  "type": "success",
-		  "name": "Douglas Bengtsson",
-		  "username": "Nautman"
-		}
-	),
-	...createAsyncFunction('check_email', {method: 'POST', route: '/api/login'}, [],
-		{
-		  "email": true
-		}
-	),
-	...createAsyncFunction('check_username', {method: 'POST', route: '/api/login'}, [],
-		{
-		  "username": true
-		}
-	),
+	...createAsyncFunction('register', {method: 'POST', route: '/api/register'}, [Auth.receiveAuth], fakeResponse),
+	...createAsyncFunction('check_email', {method: 'POST', route: '/api/register_check_email'}, []),
+	...createAsyncFunction('check_username', {method: 'POST', route: '/api/register_check_username'}, []),
 }
 
 export const Users = {
-	...createAsyncFunction('get_user', {method: 'POST', route: '/api/get_user'}, [],
-		{
-	  "type": "success",
-	  "name": "Douglas Bengtsson",
-	  "username": "Nautman"
-		}
-	),
+	...createAsyncFunction('get_user', {method: 'POST', route: '/api/get_user'}, []),
 }
 
 // REGISTER
