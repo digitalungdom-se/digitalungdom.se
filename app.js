@@ -18,7 +18,8 @@ const register_check_email = require( './routes/user/register/register_check_ema
 const register_check_username = require( './routes/user/register/register_check_username' );
 const register = require( './routes/user/register/register' );
 
-const login = require( './routes/user/login' );
+const login = require( './routes/user/authorisation/login' );
+const auth = require( './routes/user/authorisation/auth' );
 
 MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async function( err, client ) {
   if ( err ) return console.log( err );
@@ -72,10 +73,16 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
     return next()
   } );
 
+  app.use( function( err, req, res, next ) {
+    res.status( 500 ).send( "Oj uhmmm, något gick fel?" );
+    console.error( error );
+  } );
+
   app.use( '/api/', register_check_email );
   app.use( '/api/', register_check_username );
   app.use( '/api/', register );
   app.use( '/api/', login );
+  app.use( '/api/', auth );
 
   app.get( '*', function( req, res ) {
     res.sendFile( path.join( __dirname, '/build/index.html' ) );

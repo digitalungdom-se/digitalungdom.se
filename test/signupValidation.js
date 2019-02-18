@@ -1,6 +1,6 @@
 const validator = require( 'validator' );
 
-const name = 'Kelvin   John    Szolnoky';
+const name = 'Kelvin   Szolnoky';
 const username = 'ippyson';
 const birthdate = '2001-06-28';
 let email = 'kelvin@szolnoky.com';
@@ -13,7 +13,8 @@ if ( typeof name != 'string' || typeof username != 'string' || typeof birthdate 
 email = validator.normalizeEmail( email );
 
 if ( !validator.isLength( name, { min: 3, max: 64 } ) ) return console.log( 'Name length', name );
-if ( !/^(([A-Za-zÀ-ÖØ-öø-ÿ\-\'\,\.]+)\s*){2,}$/.test( name ) ) return console.log( 'Name format', name );
+if ( name.split( ' ' ).filter( n => n ).length < 2 ) return console.log( 'Name amount', name );
+if ( !/^(([A-Za-zÀ-ÖØ-öø-ÿ\-\'\,\.\ ]+))$/.test( name ) ) return console.log( 'Name format', name );
 
 if ( !validator.isLength( username, { min: 3, max: 24 } ) ) return console.log( 'Username length', username );
 if ( !/^(\w+)$/.test( username ) ) return console.log( 'Username format', username );

@@ -49,5 +49,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "safe-regex": "^2.0.1"
+  }
 }
