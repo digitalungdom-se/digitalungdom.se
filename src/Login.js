@@ -16,10 +16,7 @@ class LoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        let credentials = {password: values.password}
-        if(values.username.indexOf('@') !== -1) credentials.email = values.username
-        else credentials.username = values.username
-        this.props.login(credentials)
+        this.props.login({username: values.username, password: values.password})
       }
     });
   }
