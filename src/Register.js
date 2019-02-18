@@ -60,7 +60,7 @@ class RegistrationForm extends React.Component {
 
   checkUsername = async (rule, value, callback) => {
     if(value.length > 2 && value.length < 25) {
-      const response = await this.props.check_username(value)
+      const response = await this.props.check_username({username: value})
       if(response.username) {
         callback()
       } else {
@@ -78,7 +78,7 @@ class RegistrationForm extends React.Component {
 
   checkEmail = async (rule, value, callback) => {
     if(value.indexOf('@') !== -1) {
-      const response = await this.props.check_email(value)
+      const response = await this.props.check_email({email: value})
       if(response.email) {
         callback()
       } else {
@@ -176,7 +176,10 @@ class RegistrationForm extends React.Component {
                   required: true, message: 'Fyll i ditt namn', whitespace: true,
                 },
                 {
-                  pattern: /^(([A-Za-zÀ-ÖØ-öø-ÿ\-',.]+)\s*){2,}$/, message: 'Otillåtna karaktärer.'
+                  pattern:/^((.+)\s)((.+)\s*){1,}$/, message: 'Du måste uppge för- och efternamn.'
+                },
+                {
+                  pattern: /^(([A-Za-zÀ-ÖØ-öø-ÿ\-\'\,\.\ ]+))$/, message: 'Otillåtna karaktärer.'
                 }],
               })(
                 <Input />

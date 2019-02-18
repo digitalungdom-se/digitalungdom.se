@@ -59,7 +59,7 @@ class Emergency extends Component {
 						<textarea style={{width: '100%', height: 400}} onChange={() => ''} value={'PAYLOAD\n\n' + this.props.log.route + '\n' + JSON.stringify(this.props.log.payload, null, 2)}/>
 					</Col>
 					<Col span={6}>
-						<textarea style={{width: '100%', height: 400}} onChange={() => ''} value={'RESULT\n\n' + this.props.log.route + '\n' + JSON.stringify(this.props.log.result, null, 2)}/>
+						<textarea style={{width: '100%', height: 400}} onChange={() => ''} value={'RESPONSE\n\n' + this.props.log.route + '\n' + JSON.stringify(this.props.log.response, null, 2)}/>
 					</Col>
 					<Col span={6}>
 						<textarea style={{width: '100%', height: 400}} onChange={() => ''} value={JSON.stringify(this.props.state, null, 2)}/>
@@ -88,8 +88,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		login: (credentials) => dispatch(Login.login(credentials)),
 		register: (credentials) => dispatch(Register.register(credentials)),
-		checkUsername: username => dispatch(Register.checkUsername(username)),
-		checkEmail: email => dispatch(Register.checkEmail(email)),
+		check_username: username => dispatch(Register.check_username(username)),
+		check_email: email => dispatch(Register.check_email(email)),
 		postBlog: t => console.log(t),
 		// createInstance: instance => dispatch(Instances.createInstance(instance))
 	}

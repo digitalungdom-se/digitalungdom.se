@@ -12,10 +12,10 @@ const EmergencyActions = {
 	  "password": "kelvin123",
 	  "agreementVersion": "0"
 	},
-	checkUsername: {
+	check_username: {
 	  "username": "Nautman"
 	},
-	checkEmail: {
+	check_email: {
 		"email": "doug.beng-2019@vrg.se"
 	},
 	postBlog: {
