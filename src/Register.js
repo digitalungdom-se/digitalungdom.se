@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Form, Input, Row, Col, Button, DatePicker
+  Form, Input, Row, Col, Button, DatePicker, Select
 } from 'antd';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -239,6 +239,23 @@ class RegistrationForm extends React.Component {
                 }],
               })(
                 <Input />
+              )}
+            </Form.Item>
+            <Form.Item
+              {...formItemLayout}
+              label="Kön"
+            >
+              {getFieldDecorator('gender', {
+                rules: [{
+                  required: true, message: 'Välj ett alternativ.',
+                }],
+              })(
+                <Select>
+                  <Select.Option value="0">Man</Select.Option>
+                  <Select.Option value="1">Kvinna</Select.Option>
+                  <Select.Option value="2">Annat</Select.Option>
+                  <Select.Option value="3">Vill ej uppge</Select.Option>
+                </Select>
               )}
             </Form.Item>
             <Form.Item
