@@ -1,30 +1,27 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router } from "react-router-dom"
-import './App.css'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { Layout, LocaleProvider } from 'antd'
-import DUHeader from './Header.js'
-import DUFooter from './Footer.js'
-import sv_SE from 'antd/lib/locale-provider/sv_SE';
-import AppRouter from './AppRouter.js'
+import { Header, Footer } from 'components'
+import sv_SE from 'antd/lib/locale-provider/sv_SE'
+import AppRouter from './AppRouter'
+import 'resources/App.css'
 
-// const Login = lazy(() => import('./Login.js'))
-
-const { Header, Content, Footer } = Layout
+const { Content } = Layout
 
 const AppDOM = () => (
 	<Router>
 		<Layout style={{minHeight: '100vh'}}>
-			<Header
+			<Layout.Header
 				style={{padding: 0}}
 			>
-				<DUHeader />
-			</Header>
-			<Content style={{marginBottom: '20px'}}>
+				<Header />
+			</Layout.Header>
+			<Content style={{marginBottom: 20}}>
 				<AppRouter />
 			</Content>
-			<Footer style={{padding: 0}}>
-				<DUFooter />
-			</Footer>
+			<Layout.Footer style={{padding: 0}}>
+				<Footer />
+			</Layout.Footer>
 		</Layout>
 	</Router>
 )

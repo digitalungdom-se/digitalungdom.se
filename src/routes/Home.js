@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Row } from 'antd'
-import Carousel from './Carousel.js'
+import { Carousel } from 'components'
 
 class Home extends Component {
 	render() {

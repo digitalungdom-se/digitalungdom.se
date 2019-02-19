@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Modal, Button, Checkbox } from 'antd'
 
+import 'resources/stadgar.pdf'
+
 class GDPR extends Component {
   state = {
     loading: false,
@@ -39,11 +41,8 @@ class GDPR extends Component {
             </Button>,
           ]}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          <p>Genom att godkänna Digital Ungdoms användarvillkor accepterar du att Digital Ungdom lagrar den information du anger på hemsidan.</p>
+          <p>Du godkänner även att du kommer att följa förenings stadgar, som du kan läsa <a href="stadgar.pdf">här</a>.</p>
         </Modal>
       </div>
     );

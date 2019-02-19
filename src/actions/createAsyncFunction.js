@@ -42,10 +42,10 @@ function createAsyncFunction(name, request, responseCallbacks, fakeResponse) {
 					return response
 				})
 				.catch(error => {
-					// if(fakeResponse) error = fakeResponse
+					if(fakeResponse) error = fakeResponse
 					dispatch(Log.saveResponse(error))
 					dispatch(Category['response_' + name](error, Date.now()))
-					// if(fakeResponse) responseCallbacks.forEach(callback => dispatch(callback({ ...error , _responseTime: Date.now()})));
+					if(fakeResponse) responseCallbacks.forEach(callback => dispatch(callback({ ...error , _responseTime: Date.now()})));
 					return error
 				})
 		}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Login, Register } from './actions'
+import { Login, Register } from '../../actions'
 import { Row, Col } from 'antd'
 import EmergencyActions from './EmergencyActions'
 import './EmergencyActions.css'

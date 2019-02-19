@@ -4,17 +4,13 @@
   --layout-header: #fff;
   --border-light: #e8e8e8;;
   --register-bg: #fff;
+  --du-blue: rgb(24,144,255);
 }
 
-.logo, .logo-xs {
-  background: rgb(24,144,255);
-  height: 100%;
-  width: 150px;
-}
-
-.logo-xs {
-  margin: 0 auto;
-  width: 80px;
+.logo {
+  line-height: 63px;
+  font-size: 25px;
+  color: var(--du-blue);
 }
 
 .ant-layout-header {
@@ -116,4 +112,9 @@ h1.background-rgba {
   background: rgb(24,144,255) !important;
   background: url('slide-1.jpg');
   background-size: cover;
+}
+
+.menu-drawer .ant-drawer-body {
+  padding: 0px;
+  margin-top: 50px;
 }

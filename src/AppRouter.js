@@ -1,15 +1,15 @@
 import React, { lazy, Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import Loading from './Loading.js'
-// import User from './User.js'
-const About = lazy(() => import('./About.js'))
-const Activities = lazy(() => import('./Activities.js'))
-const Blog = lazy(() => import('./Blog.js'))
-const Emergency = lazy(() => import('./Emergency.js'))
-const Home = lazy(() => import('./Home.js'))
-const Login = lazy(() => import('./Login.js'))
-const Register = lazy(() => import('./Register.js'))
-const User = lazy(() => import('./User.js'))
+import { Loading } from 'components'
+
+const About				= lazy(() => import('routes/About'))
+const Activities	= lazy(() => import('routes/Activities'))
+const Blog				= lazy(() => import('routes/Blog'))
+const Emergency		= lazy(() => import('components/Emergency'))
+const Home				= lazy(() => import('routes/Home'))
+const Login				= lazy(() => import('components/Login'))
+const Register		= lazy(() => import('components/Register'))
+const User				= lazy(() => import('routes/User'))
 
 const AppRouter = () => (
 	<Suspense fallback={<Loading />}>
