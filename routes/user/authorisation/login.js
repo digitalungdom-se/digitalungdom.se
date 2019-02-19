@@ -22,29 +22,37 @@ router.post( '/login', async function( req, res ) {
   } )( req, res )
 } );
 
+// Simple passportjs local strategy
 passport.use( 'local', new LocalStrategy(
+  // Remember the username and password fields have to be named "username" and "password". See passportjs documentation to change default names.
   async function( username, password, done ) {
+    // Checks that both inputs are string, so no errors occur.
     if ( typeof username != 'string' || typeof password != 'string' ) {
-      return done( null, false, { field: 'username', message: 'Kolla inmatning.' } );
+      return done( null, false, { field: 'username', message: 'incorrect input' } );
     }
 
+    // Finds the user by username/email. If the username looks like a valid email it will find user by email, else it will find by username.
     let user;
     user = validator.isEmail( username ) ? user = await getUserByEmail( db, username ) : await getUserByUsername( db, username );
 
     if ( !user ) {
-      return done( null, false, { field: 'username', message: 'Det finns inget konto kopplat till det användarnamn/epost adress.' } );
+      // If it does not find a user will return false and say that it could not find a user
+      return done( null, false, { field: 'username', message: 'no account' } );
     } else if ( !user.verified ) {
-      return done( null, false, { field: 'username', message: 'Kontot är inte verifierad.' } );
+      // If the user is not verified will return false and say that the user is not verified.
+      return done( null, false, { field: 'username', message: 'not verified' } );
     }
 
+    // Compares the candidate password to the users password, if they are "equal" the strategy will return true and the users id, name, username, and email. Else false and an incorrect password message.
     if ( await bcrypt.compare( password, user.password ) ) {
       return done( null, { '_id': user[ '_id' ], name: user.name, username: user.username, email: user.email }, { message: 'Klart.' } );
     } else {
-      return done( null, false, { field: 'password', message: 'Felaktigt lösenord.' } );
+      return done( null, false, { field: 'password', message: 'incorrect password' } );
     }
   }
 ) );
 
+// yeah, i do not really know what this does, but it is needed for passportjs to work.
 passport.serializeUser( function( user, done ) {
   done( null, user );
 } );
