@@ -42,7 +42,7 @@ class GDPR extends Component {
           ]}
         >
           <p>Genom att godkänna Digital Ungdoms användarvillkor accepterar du att Digital Ungdom lagrar den information du anger på hemsidan.</p>
-          <p>Du godkänner även att du kommer att följa förenings stadgar, som du kan läsa <a href="stadgar.pdf">här</a>.</p>
+          <p>Du godkänner även att du kommer att följa förenings stadgar, som du kan läsa <a target="_blank" rel="noopener noreferrer" href="stadgar.pdf">här</a>.</p>
         </Modal>
       </div>
     );
