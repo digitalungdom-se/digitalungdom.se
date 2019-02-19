@@ -25,9 +25,6 @@ const MenuMarkup = ({ mobileVersion, activeLinkKey, onLinkClick, className }) =>
 	    <Menu.Item key='/verksamhet'>
 	      <Link onClick={onLinkClick} to='/verksamhet'>Verksamhet</Link>
 	    </Menu.Item>
-	    <Menu.Item key='/blog'>
-	      <Link onClick={onLinkClick} to='/blog'>Blog</Link>
-	    </Menu.Item>
 	  </Menu>
   </div>
 )
@@ -89,7 +86,7 @@ class DUHeaderDOM extends Component {
 			  	</Link>
 		  	</Col>
   			<Col
-  				xs={{span: 10, offset: 1}}
+  				xs={{span: 20, offset: 1}}
   				sm={{span: 0}}
   			>
 					<Link to="/">
