@@ -4,7 +4,7 @@ import {
 } from 'antd';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Login } from './actions'
+import { Login } from '../actions'
 
 class LoginForm extends React.Component {
   state = {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col, Card, Form, Input } from 'antd'
-import TextArea from './TextArea.js'
+import { TextArea } from 'components'
 
 class CreateBlogPost extends Component {
 	render() {

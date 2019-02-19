@@ -4,7 +4,7 @@ import {
 } from 'antd';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Register } from './actions'
+import { Register } from '../actions'
 import GDPR from './GDPR.js'
 import debounce from 'lodash/debounce'
 // import { PasswordInput } from './PasswordStrength.js'

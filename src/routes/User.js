@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { Row, Col, Card, Avatar, Skeleton } from 'antd'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Users, Auth } from './actions'
+import { Users, Auth } from 'actions'
 
 class User extends Component {
 
 	componentDidMount() {
 
-		this.props.auth()
+		if(!this.props.Auth.username) this.props.auth()
 	}
 
 	render() {
