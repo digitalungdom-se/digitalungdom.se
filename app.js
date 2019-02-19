@@ -21,8 +21,10 @@ const register = require( './routes/user/register/register' );
 const login = require( './routes/user/authorisation/login' );
 const auth = require( './routes/user/authorisation/auth' );
 
+// Gets current development state of the node environment (PRODUCTION/DEVELOPMENT). Is set in .env file
 const state = process.env.NODE_ENV;
 
+// Connects to database using connecting URI provided in .env file
 MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async function( err, client ) {
   if ( err ) return console.log( err );
   db = client.db( 'digitalungdom' );
@@ -57,6 +59,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
   app.use( cors() );
   //app.use( csrf( { cookie: true } ) );
 
+  // Please change secret in production (should be a random string, just slam ones head on the keyboard)
   app.use( session( {
     secret: 'i love javascript',
     resave: false,
