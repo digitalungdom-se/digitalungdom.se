@@ -27,9 +27,16 @@ class TextArea extends Component {
 	constructor(props) {
 		super(props)
 		this.textInput = React.createRef()
+		this.linkURL = React.createRef()
+		this.linkText = React.createRef()
+		this.imgURL = React.createRef()
+		this.imgAlt = React.createRef()
 		this.state = {
-			textAreaValue: '',
-			selection: 0
+			text: '',
+			selection: 0,
+			length: 0,
+			linkModal: false,
+			imgModal: false
 		}
 	}
 
@@ -76,20 +83,76 @@ class TextArea extends Component {
 		textInput.value = text[0] + addText + text[1]
 		textInput.selectionStart += addOffset
 
-		this.setState({
-			textAreaValue: text[0] + addText + text[1]
-		})
-
 		textInput.focus()
 	}
 
 	render() {
 		return (
-			<Tabs>
+			<Tabs
+				onTabClick={() => {
+					this.setState({
+						text: textToEmoji(this.textInput.textAreaRef.value)
+					})
+				}}
+			>
 				<TabPane
 					tab="Skriv"
 					key="1"
 				>
+					<Modal
+						title="Infoga länk"
+						visible={this.state.linkModal}
+						onOk={() => {
+							this.insert(null, this.textInput.textAreaRef, 'link', this.linkText.current.input.value, this.linkURL.current.input.value)
+							this.setState({linkModal: false})
+							this.linkText.current.input.value = ''
+							this.linkURL.current.input.value = ''
+						}}
+						style={{textAlign: 'center'}}
+						onCancel={() => {
+							this.setState({linkModal: false})
+							this.linkText.current.input.value = ''
+							this.linkURL.current.input.value = ''
+						}}
+					>
+						<Input
+							placeholder="Länktext"
+							style={{width: '80%', marginBottom: 20}}
+							ref={this.linkText}
+						/>
+						<Input
+							placeholder="URL"
+							style={{width: '80%'}}
+							ref={this.linkURL}
+						/>
+					</Modal>
+					<Modal
+						title="Infoga bild"
+						visible={this.state.imgModal}
+						onOk={() => {
+							this.insert(null, this.textInput.textAreaRef, 'img', this.imgAlt.current.input.value, this.imgURL.current.input.value)
+							this.setState({imgModal: false})
+							this.imgAlt.current.input.value = ''
+							this.imgURL.current.input.value = ''
+						}}
+						style={{textAlign: 'center'}}
+						onCancel={() => {
+							this.setState({imgModal: false})
+							this.imgAlt.current.input.value = ''
+							this.imgURL.current.input.value = ''
+						}}
+					>
+						<Input
+							placeholder="URL"
+							style={{width: '80%', marginBottom: 20}}
+							ref={this.imgURL}
+						/>
+						<Input
+							placeholder="Bildtext"
+							style={{width: '80%'}}
+							ref={this.imgAlt}
+						/>
+					</Modal>
 					<Row
 						style={{paddingBottom: 20}}
 						type="flex"
@@ -117,12 +180,12 @@ class TextArea extends Component {
 						<Col>
 							<Button.Group>
 								<Button
-									onClick={(e) => this.insert(e, this.textInput.textAreaRef, 'link' )}
+									onClick={() => this.setState({linkModal: true})}
 								>
 									<Icon type="link" />
 								</Button>
 								<Button
-									onClick={(e) => this.insert(e, this.textInput.textAreaRef, 'img' )}
+									onClick={() => this.setState({imgModal: true})}
 								>
 									<Icon type="picture" />
 								</Button>
@@ -175,17 +238,17 @@ class TextArea extends Component {
 					<Input.TextArea
 						autosize={{minRows: 10, maxRows: 24}}
 						ref={element => this.textInput = element}
-						onChange={(e) => this.setState({textAreaValue: textToEmoji(this.textInput.textAreaRef.value)})}
+						onChange={() => this.setState({length: this.textInput.textAreaRef.value.length})}
 					/>
 					<span style={{float: 'right'}}>
-						{this.state.textAreaValue.length} / 10000
+						{this.state.length} / 10000
 					</span>
 				</TabPane>
 				<TabPane
 					tab="Förhandsvisa"
 					key="2"
 				>
-					<ReactMarkdown source={this.state.textAreaValue} renderers={{ text: emojiSupport }} />
+					<ReactMarkdown source={this.state.text} renderers={{ text: emojiSupport }} />
 				</TabPane>
 			</Tabs>
 		)

@@ -12,7 +12,6 @@ class AuthButtons extends React.Component {
 	render() {
 
 		if(!this.props.Auth.username) {
-			console.log('1')
 			return (
 				<Row
 					type="flex"
