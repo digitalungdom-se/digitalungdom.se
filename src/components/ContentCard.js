@@ -14,6 +14,7 @@ class ContentCard extends React.Component {
 			<Row
 				justify="center"
 				type="flex"
+				style={{width: '100%'}}
 			>
 				<Col
 					{...sizes}
