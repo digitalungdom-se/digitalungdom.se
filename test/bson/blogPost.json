@@ -27,7 +27,7 @@
           "downvotes": "<Integer>",
         },
       }],
-      "<reply to comment 1 ObjectId(id)>": {
+      "<reply to comment 1 ObjectId(id)>": [{
         "_id": "<ObjectId(id)>",
         "creator": "<ObjectId(id)>",
         "modified": "<Date>",
@@ -36,8 +36,8 @@
           "upvotes": "<Integer>",
           "downvotes": "<Integer>",
         }
-      },
-      "<reply to comment 1.1 ObjectId(id)>": {
+      }],
+      "<reply to comment 1.1 ObjectId(id)>": [{
         "_id": "<ObjectId(id)>",
         "creator": "<ObjectId(id)>",
         "modified": "<Date>",
@@ -46,8 +46,8 @@
           "upvotes": "<Integer>",
           "downvotes": "<Integer>",
         }
-      },
-      "<reply to comment 1 ObjectId(id)>": {
+      }],
+      "<reply to comment 1 ObjectId(id)>": [{
         "_id": "<ObjectId(id)>",
         "creator": "<ObjectId(id)>",
         "modified": "<Date>",
@@ -56,8 +56,8 @@
           "upvotes": "<Integer>",
           "downvotes": "<Integer>",
         }
-      },
-      "<reply to comment 2 ObjectId(id)>": {
+      }],
+      "<reply to comment 2 ObjectId(id)>": [{
         "_id": "<ObjectId(id)>",
         "creator": "<ObjectId(id)>",
         "modified": "<Date>",
@@ -66,7 +66,7 @@
           "upvotes": "<Integer>",
           "downvotes": "<Integer>",
         }
-      },
+      }],
     }
   },
 
