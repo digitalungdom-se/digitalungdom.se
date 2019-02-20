@@ -5,9 +5,75 @@ import { Link } from 'react-router-dom'
 
 
 let input = `Digital Ungdom har i veckan
+{
+	user: 'Douglas Bengtsson',
+	date: new Date('2019-02-18'),
+	text: input,
+	title: 'Digitalt rådslag!'
+},
+{
+	user: 'Douglas Bengtsson',
+	date: new Date('2019-02-18'),
+	text: input,
+	title: 'Digitalt rådslag!'
+},
+{
+	user: 'Douglas Bengtsson',
+	date: new Date('2019-02-18'),
+	text: input,
+	title: 'Digitalt rådslag!'
+},
+{
+	user: 'Douglas Bengtsson',
+	date: new Date('2019-02-18'),
+	text: input,
+	title: 'Digitalt rådslag!'
+}
+{
+	user: 'Douglas Bengtsson',
+	date: new Date('2019-02-18'),
+	text: input,
+	title: 'Digitalt rådslag!'
+},
+{
+	user: 'Douglas Bengtsson',
+	date: new Date('2019-02-18'),
+	text: input,
+	title: 'Digitalt rådslag!'
+},
+{
+	user: 'Douglas Bengtsson',
+	date: new Date('2019-02-18'),
+	text: input,
+	title: 'Digitalt rådslag!'
+},
+{
+	user: 'Douglas Bengtsson',
+	date: new Date('2019-02-18'),
+	text: input,
+	title: 'Digitalt rådslag!'
+}
 `
 
 const posts = [
+	{
+		user: 'Douglas Bengtsson',
+		date: new Date('2019-02-18'),
+		text: input,
+		title: 'Digitalt rådslag!'
+	},
+	{
+		user: 'Douglas Bengtsson',
+		date: new Date('2019-02-18'),
+		text: input,
+		title: 'Digitalt rådslag!'
+	},
+	{
+		user: 'Douglas Bengtsson',
+		date: new Date('2019-02-18'),
+		text: input,
+		title: 'Digitalt rådslag!'
+	},
 	{
 		user: 'Douglas Bengtsson',
 		date: new Date('2019-02-18'),
@@ -41,7 +107,7 @@ class BlogPosts extends Component {
 				key={post.date}
 			>
 				<Col style={{marginTop: 40}}>
-					<Card style={{padding: 20}}>
+					<Card style={{padding: 20}} >
 						<code
 							className="date"
 						>
@@ -66,39 +132,39 @@ class BlogPosts extends Component {
 			<Row>
 				<Col
 					// {...sizes}
-					lg={{span: 12, offset: 6}}
-					md={{span: 16, offset: 2}}
+					lg={{ span: 12, offset: 6 }}
+					md={{ span: 18, offset: 0 }}
+					sm={{ span: 24 }}
+					xs={{ span: 24 }}
+					style={{overflowY: 'scroll', height: '73vh'}}
+					// pull={8}
 				>
 					{
 						changedPosts
 					}
+				</Col>
+				<Col
+					sm={{span: 0}}
+					md={{span: 6}}
+					lg={{span: 6}}
+					style={{padding: 10}}
+				>
+						<Card>
+							<h1>Hem</h1>
+							<Link to="/blog/skapa-inlagg">
+								<Button
+									style={{width: '100%'}}
+									type="primary"
+								>
+									Skapa inlägg
+								</Button>
+							</Link>
+						</Card>
 				</Col>
 			</Row>
 		)
 	}
 }
 
-const later = (
-	<Col
-		sm={{span: 0}}
-		md={{span: 6}}
-		lg={{span: 6}}
-		style={{padding: 20}}
-	>
-		<Affix offsetTop={40}>
-			<Card>
-				<h1>Hem</h1>
-				<Link to="/blog/skapa-inlagg">
-					<Button
-						style={{width: '100%'}}
-						type="primary"
-					>
-						Skapa inlägg
-					</Button>
-				</Link>
-			</Card>
-		</Affix>
-	</Col>
-)
 
 export default BlogPosts

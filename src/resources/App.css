@@ -15,7 +15,11 @@
 
 .ant-layout-header {
   background: var(--layout-header);
-  border-bottom: 1px solid var(--border-light);
+}
+
+.ant-menu {
+  background: none;
+  border: 0;
 }
 
 .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
@@ -117,4 +121,9 @@ h1.background-rgba {
 .menu-drawer .ant-drawer-body {
   padding: 0px;
   margin-top: 50px;
+}
+
+.main-header {
+  background: var(--layout-header);
+  border-bottom: 1px solid var(--border-light);
 }
