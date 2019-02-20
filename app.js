@@ -24,7 +24,7 @@ const auth = require( './routes/user/authorisation/auth' );
 // Gets current development state of the node environment (PRODUCTION/DEVELOPMENT). Is set in .env file
 const state = process.env.NODE_ENV;
 
-// Connects to database using connecting URI provided in .env file
+// Connects to database using connection URI provided in .env file
 MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async function( err, client ) {
   if ( err ) return console.log( err );
   db = client.db( 'digitalungdom' );

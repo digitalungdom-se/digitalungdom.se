@@ -1,0 +1,148 @@
+{
+  "type1": {
+    "_id": "<ObjectId(id)>",
+    "creator": "<ObjectId(id)>",
+    "modified": "<Date>",
+    "post": "<String>",
+    "votes": {
+      "upvotes": "<Integer>",
+      "downvotes": "<Integer>",
+    },
+    "comments": {
+      "origin": [{
+        "_id (1 comment)": "<ObjectId(id)>",
+        "creator": "<ObjectId(id)>",
+        "modified": "<Date>",
+        "post": "<String>",
+        "votes": {
+          "upvotes": "<Integer>",
+          "downvotes": "<Integer>",
+        },
+        "_id (2 comment)": "<ObjectId(id)>",
+        "creator": "<ObjectId(id)>",
+        "modified": "<Date>",
+        "post": "<String>",
+        "votes": {
+          "upvotes": "<Integer>",
+          "downvotes": "<Integer>",
+        },
+      }],
+      "<reply to comment 1 ObjectId(id)>": {
+        "_id": "<ObjectId(id)>",
+        "creator": "<ObjectId(id)>",
+        "modified": "<Date>",
+        "post": "<String>",
+        "votes": {
+          "upvotes": "<Integer>",
+          "downvotes": "<Integer>",
+        }
+      },
+      "<reply to comment 1.1 ObjectId(id)>": {
+        "_id": "<ObjectId(id)>",
+        "creator": "<ObjectId(id)>",
+        "modified": "<Date>",
+        "post": "<String>",
+        "votes": {
+          "upvotes": "<Integer>",
+          "downvotes": "<Integer>",
+        }
+      },
+      "<reply to comment 1 ObjectId(id)>": {
+        "_id": "<ObjectId(id)>",
+        "creator": "<ObjectId(id)>",
+        "modified": "<Date>",
+        "post": "<String>",
+        "votes": {
+          "upvotes": "<Integer>",
+          "downvotes": "<Integer>",
+        }
+      },
+      "<reply to comment 2 ObjectId(id)>": {
+        "_id": "<ObjectId(id)>",
+        "creator": "<ObjectId(id)>",
+        "modified": "<Date>",
+        "post": "<String>",
+        "votes": {
+          "upvotes": "<Integer>",
+          "downvotes": "<Integer>",
+        }
+      },
+    }
+  },
+
+  "type2": {
+    "_id": "<ObjectId(id)>",
+    "creator": "<ObjectId(id)>",
+    "modified": "<Date>",
+    "post": "<String>",
+    "votes": {
+      "upvotes": "<Integer>",
+      "downvotes": "<Integer>",
+    },
+    "comments": [{
+        "_id (1 comment)": "<ObjectId(id)>",
+        "creator": "<ObjectId(id)>",
+        "modified": "<Date>",
+        "post": "<String>",
+        "votes": {
+          "upvotes": "<Integer>",
+          "downvotes": "<Integer>",
+        },
+        "comments": [{
+            "_id (reply to 1 comment)": "<ObjectId(id)>",
+            "creator": "<ObjectId(id)>",
+            "modified": "<Date>",
+            "post": "<String>",
+            "votes": {
+              "upvotes": "<Integer>",
+              "downvotes": "<Integer>",
+            },
+            "comments (reply to 1.1 comment)": [{
+              "_id": "<ObjectId(id)>",
+              "creator": "<ObjectId(id)>",
+              "modified": "<Date>",
+              "post": "<String>",
+              "votes": {
+                "upvotes": "<Integer>",
+                "downvotes": "<Integer>",
+              },
+              "comments": []
+            }]
+          },
+          {
+            "_id (reply to 1 comment)": "<ObjectId(id)>",
+            "creator": "<ObjectId(id)>",
+            "modified": "<Date>",
+            "post": "<String>",
+            "votes": {
+              "upvotes": "<Integer>",
+              "downvotes": "<Integer>",
+            },
+            "comments": []
+          }
+        ]
+      },
+      {
+        "_id (2 comment)": "<ObjectId(id)>",
+        "creator": "<ObjectId(id)>",
+        "modified": "<Date>",
+        "post": "<String>",
+        "votes": {
+          "upvotes": "<Integer>",
+          "downvotes": "<Integer>",
+        },
+        "comments": [{
+          "_id (reply to 2 comment)": "<ObjectId(id)>",
+          "creator": "<ObjectId(id)>",
+          "modified": "<Date>",
+          "post": "<String>",
+          "votes": {
+            "upvotes": "<Integer>",
+            "downvotes": "<Integer>",
+          },
+          "comments": []
+        }]
+      }
+    ]
+  }
+}
