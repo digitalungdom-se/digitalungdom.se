@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Row, Col, Input, Tabs, Button, Icon } from 'antd'
+import { Modal, Row, Col, Input, Tabs, Button, Icon, Mention } from 'antd'
 import ReactMarkdown from 'react-markdown'
 import emoji from 'emoji-dictionary'
 
@@ -40,7 +40,7 @@ class TextArea extends Component {
 		}
 	}
 
-	insert = (e, textInput, type, one, two ) => {
+	insert = (textInput, type, one, two ) => {
 		const text = [
 			textInput.value.slice(0, textInput.selectionStart),
 			textInput.value.slice(textInput.selectionStart, textInput.value.length)
@@ -87,6 +87,50 @@ class TextArea extends Component {
 	}
 
 	render() {
+
+		const buttons = [
+			[
+				['h1'],
+				['h2'],
+				['h3']
+			],
+			[
+				['openLink', 'link'],
+				['openImg', 'picture']
+			],
+			[
+				['b', 'bold'],
+				['i', 'italic'],
+				['code', null, code],
+			],
+			[
+				['1. ', 'ordered-list'],
+				['* ', 'bars'],
+				['h_rule', null, h_rule],
+				['> ', null, quote]
+			]
+		]
+
+		const ButtonIcon = (button) => {
+			if(button[1]) return <Icon type={button[1]}/>;
+			else if(button[2]) return <Icon component={button[2]} />;
+			else return <span>{button[0]}</span>
+		}
+
+		const renderedButtons = buttons.map(col => (
+			<Col>
+				<Button.Group>
+					{
+						col.map(button => (
+							<Button onClick={() => this.insert(this.textInput.textAreaRef, button[0])}>
+								<ButtonIcon button={button} />
+							</Button>
+						))
+					}
+				</Button.Group>
+			</Col>
+		))
+
 		return (
 			<Tabs
 				onTabClick={() => {
@@ -94,6 +138,25 @@ class TextArea extends Component {
 						text: textToEmoji(this.textInput.textAreaRef.value)
 					})
 				}}
+				tabBarExtraContent={true ? (
+					<Button.Group>
+						<Button
+							onClick={(e) => this.insert(e, this.textInput.textAreaRef, 'b' )}
+						>
+							<Icon type="bold" />
+						</Button>
+						<Button
+							onClick={(e) => this.insert(e, this.textInput.textAreaRef, 'i' )}
+						>
+							<Icon type="italic" />
+						</Button>
+						<Button
+							onClick={(e) => this.insert(e, this.textInput.textAreaRef, 'code' )}
+						>
+							<Icon component={code}/>
+						</Button>
+					</Button.Group>
+				) : null}
 			>
 				<TabPane
 					tab="Skriv"
@@ -148,7 +211,7 @@ class TextArea extends Component {
 							ref={this.imgURL}
 						/>
 						<Input
-							placeholder="Bildtext"
+							placeholder="Alt text"
 							style={{width: '80%'}}
 							ref={this.imgAlt}
 						/>
@@ -248,7 +311,19 @@ class TextArea extends Component {
 					tab="Förhandsvisa"
 					key="2"
 				>
-					<ReactMarkdown source={this.state.text} renderers={{ text: emojiSupport }} />
+					<ReactMarkdown
+					source={this.state.text}
+					renderers={{
+						text: emojiSupport,
+						image: (props) => {
+							console.log(props);
+							return <img {...props} style={{maxWidth: '100%'}} />
+						},
+						quote: (props) => {
+							console.log(props)
+						}}
+					}
+					/>
 				</TabPane>
 			</Tabs>
 		)
