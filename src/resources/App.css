@@ -4,7 +4,8 @@
   --layout-header: #fff;
   --border-light: #e8e8e8;;
   --register-bg: #fff;
-  --du-blue: rgb(24,144,255);
+  --du-blue: rgb(26,115,232);
+  --slide-bg: #1e3f5a;
 }
 
 .logo {
@@ -37,7 +38,7 @@
   text-align: center;
   height: 500px;
   line-height: 500px  ;
-  background: #364d79;
+  /*background: var(--du-blue);*/
   overflow: hidden;
 }
 
@@ -113,8 +114,9 @@ h1.background-rgba {
 }
 
 .slick-slide {
-  background: rgb(24,144,255) !important;
-  background: url('slide-1.jpg');
+  /*background: rgb(24,144,255) !important;*/
+  background: var(--slide-bg);
+  /*background: url('slide-1.jpg');*/
   background-size: cover;
 }
 
