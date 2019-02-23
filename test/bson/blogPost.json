@@ -1,7 +1,7 @@
 {
   "type1": {
     "_id": "<ObjectId(id)>",
-    "creator": "<ObjectId(id)>",
+    "author": "<ObjectId(id)>",
     "modified": "<Date>",
     "post": "<String>",
     "votes": {
@@ -11,7 +11,7 @@
     "comments": {
       "origin": [{
         "_id (1 comment)": "<ObjectId(id)>",
-        "creator": "<ObjectId(id)>",
+        "author": "<ObjectId(id)>",
         "modified": "<Date>",
         "post": "<String>",
         "votes": {
@@ -19,7 +19,7 @@
           "downvotes": "<Integer>",
         },
         "_id (2 comment)": "<ObjectId(id)>",
-        "creator": "<ObjectId(id)>",
+        "author": "<ObjectId(id)>",
         "modified": "<Date>",
         "post": "<String>",
         "votes": {
@@ -29,7 +29,7 @@
       }],
       "<reply to comment 1 ObjectId(id)>": [{
         "_id": "<ObjectId(id)>",
-        "creator": "<ObjectId(id)>",
+        "author": "<ObjectId(id)>",
         "modified": "<Date>",
         "post": "<String>",
         "votes": {
@@ -39,7 +39,7 @@
       }],
       "<reply to comment 1.1 ObjectId(id)>": [{
         "_id": "<ObjectId(id)>",
-        "creator": "<ObjectId(id)>",
+        "author": "<ObjectId(id)>",
         "modified": "<Date>",
         "post": "<String>",
         "votes": {
@@ -49,7 +49,7 @@
       }],
       "<reply to comment 1 ObjectId(id)>": [{
         "_id": "<ObjectId(id)>",
-        "creator": "<ObjectId(id)>",
+        "author": "<ObjectId(id)>",
         "modified": "<Date>",
         "post": "<String>",
         "votes": {
@@ -59,7 +59,7 @@
       }],
       "<reply to comment 2 ObjectId(id)>": [{
         "_id": "<ObjectId(id)>",
-        "creator": "<ObjectId(id)>",
+        "author": "<ObjectId(id)>",
         "modified": "<Date>",
         "post": "<String>",
         "votes": {
@@ -72,7 +72,7 @@
 
   "type2": {
     "_id": "<ObjectId(id)>",
-    "creator": "<ObjectId(id)>",
+    "author": "<ObjectId(id)>",
     "modified": "<Date>",
     "post": "<String>",
     "votes": {
@@ -81,7 +81,7 @@
     },
     "comments": [{
         "_id (1 comment)": "<ObjectId(id)>",
-        "creator": "<ObjectId(id)>",
+        "author": "<ObjectId(id)>",
         "modified": "<Date>",
         "post": "<String>",
         "votes": {
@@ -90,7 +90,7 @@
         },
         "comments": [{
             "_id (reply to 1 comment)": "<ObjectId(id)>",
-            "creator": "<ObjectId(id)>",
+            "author": "<ObjectId(id)>",
             "modified": "<Date>",
             "post": "<String>",
             "votes": {
@@ -99,7 +99,7 @@
             },
             "comments (reply to 1.1 comment)": [{
               "_id": "<ObjectId(id)>",
-              "creator": "<ObjectId(id)>",
+              "author": "<ObjectId(id)>",
               "modified": "<Date>",
               "post": "<String>",
               "votes": {
@@ -111,7 +111,7 @@
           },
           {
             "_id (reply to 1 comment)": "<ObjectId(id)>",
-            "creator": "<ObjectId(id)>",
+            "author": "<ObjectId(id)>",
             "modified": "<Date>",
             "post": "<String>",
             "votes": {
@@ -124,7 +124,7 @@
       },
       {
         "_id (2 comment)": "<ObjectId(id)>",
-        "creator": "<ObjectId(id)>",
+        "author": "<ObjectId(id)>",
         "modified": "<Date>",
         "post": "<String>",
         "votes": {
@@ -133,7 +133,7 @@
         },
         "comments": [{
           "_id (reply to 2 comment)": "<ObjectId(id)>",
-          "creator": "<ObjectId(id)>",
+          "author": "<ObjectId(id)>",
           "modified": "<Date>",
           "post": "<String>",
           "votes": {
@@ -144,5 +144,24 @@
         }]
       }
     ]
+  },
+
+  "type3": {
+    "agoragramCollection": {
+      "_id": "<ObjectId(id)>",
+      "author": "<ObjectId(id)>",
+      "modified": "<Date>",
+      "title": "<String>",
+      "post": "<String>",
+      "rating": "<Integer>"
+    },
+    "commentCollection": {
+      "_id": "<ObjectId(id)>",
+      "post": "<ObjectId(id)>",
+      "author": "<ObjectId(id)>",
+      "modified": "<Date>",
+      "comment": "<String>",
+      "rating": "<Integer>"
+    }
   }
 }
