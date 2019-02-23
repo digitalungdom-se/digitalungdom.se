@@ -153,7 +153,8 @@
       "modified": "<Date>",
       "title": "<String>",
       "post": "<String>",
-      "rating": "<Integer>"
+      "rating": "<Integer>",
+      "commentMap": {},
     },
     "commentCollection": {
       "_id": "<ObjectId(id)>",
