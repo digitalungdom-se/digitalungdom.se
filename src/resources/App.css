@@ -92,8 +92,6 @@ h1.background-rgba {
 .background-rgba {
   padding: 5px;
   color: white;
-  /*text-shadow: 5px 0px 10px rgba(0,0,0,1);;*/
-  /*background: rgba(0,0,0,0.5);*/
 }
 
 .test {
@@ -128,4 +126,8 @@ h1.background-rgba {
 .main-header {
   background: var(--layout-header);
   border-bottom: 1px solid var(--border-light);
+}
+
+ .slick-prev:before, .slick-next:before  {
+  content: '' !important;
 }

@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 class AuthButtons extends React.Component {
 
 	componentDidUpdate() {
-		if(Date.now() - this.props.Auth.authTime < 1000) message.success('Du är nu inloggad')
+		if(this.props.Auth.username && Date.now() - this.props.Auth.authTime < 1000) message.success('Du är nu inloggad')
 	}
 
 	render() {
