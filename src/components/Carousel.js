@@ -1,21 +1,15 @@
 import React, { Component } from 'react'
-import { Carousel, Button } from 'antd'
+import { Carousel, Button, Icon } from 'antd'
 import { Link } from 'react-router-dom'
-
-const Arrow = props => {
-	const {currentSlide, slideCount, type, ...arrowProps} = props
-	return (
-		<button {...arrowProps}></button>
-	)
-}
 
 class DUCarousel extends Component {
 	render() {
 		return (
 			<Carousel
 				arrows="true"
-				nextArrow={<Arrow type="arrow-right" />}
-				prevArrow={<Arrow type="arrow-left" />}
+				nextArrow={<button><Icon type="right" /></button>}
+				prevArrow={<button><Icon type="left" /></button>}
+				autoscroll
 			>
 				<div>
 					<h1
