@@ -5,13 +5,28 @@ const LocalStrategy = require( 'passport-local' ).Strategy;
 const bcrypt = require( 'bcryptjs' );
 const validator = require( 'validator' );
 
-const ensureUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureUserAuthenticated;
-const ensureNotUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureNotUserAuthenticated;
+const ensureUserAuthenticated = require( './../../helpers/ensureUserAuthentication' ).ensureUserAuthenticated;
+const ensureNotUserAuthenticated = require( './../../helpers/ensureUserAuthentication' ).ensureNotUserAuthenticated;
 
-const getUserByEmail = require( './../../../models/get' ).getUserByEmail;
-const getUserByUsername = require( './../../../models/get' ).getUserByUsername;
+const getUserByEmail = require( './../../models/get' ).getUserByEmail;
+const getUserByUsername = require( './../../models/get' ).getUserByUsername;
+const getUserById = require( './../../models/get' ).getUserById;
+
+router.post( '/auth', async function( req, res ) {
+  const id = req.user;
+  if ( !id ) return res.status( 401 ).send( { "type": "failed", "reason": "Not authorised" } );
+  const user = await getUserById( id );
+
+  return res.send( {
+    "type": "success",
+    "name": user.name,
+    "username": user.username,
+    "email": user.email,
+  } )
+} );
 
 router.post( '/login', async function( req, res ) {
+  // Use local strategy with custom callbacks
   passport.authenticate( 'local', function( err, user, info ) {
     if ( err ) throw err;
     if ( !user ) return res.send( { type: 'fail', reason: info } )
@@ -33,7 +48,7 @@ passport.use( 'local', new LocalStrategy(
 
     // Finds the user by username/email. If the username looks like a valid email it will find user by email, else it will find by username.
     let user;
-    user = validator.isEmail( username ) ? user = await getUserByEmail( db, username ) : await getUserByUsername( db, username );
+    user = validator.isEmail( username ) ? user = await getUserByEmail( username ) : await getUserByUsername( username );
 
     if ( !user ) {
       // If it does not find a user will return false and say that it could not find a user
@@ -60,5 +75,6 @@ passport.serializeUser( function( user, done ) {
 passport.deserializeUser( function( user, done ) {
   done( null, user );
 } );
+
 
 module.exports = router;

@@ -14,12 +14,8 @@ const compression = require( 'compression' );
 const csrf = require( 'csurf' );
 const cors = require( 'cors' );
 
-const register_check_email = require( './routes/user/register/register_check_email' );
-const register_check_username = require( './routes/user/register/register_check_username' );
-const register = require( './routes/user/register/register' );
-
-const login = require( './routes/user/authorisation/login' );
-const auth = require( './routes/user/authorisation/auth' );
+const register = require( './routes/user/register' );
+const authorisation = require( './routes/user/authorisation' );
 
 // Gets current development state of the node environment (PRODUCTION/DEVELOPMENT). Is set in .env file
 const state = process.env.NODE_ENV;
@@ -83,11 +79,8 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
     console.error( error );
   } );
 
-  app.use( '/api/', register_check_email );
-  app.use( '/api/', register_check_username );
   app.use( '/api/', register );
-  app.use( '/api/', login );
-  app.use( '/api/', auth );
+  app.use( '/api/', authorisation );
 
   app.get( '*', function( req, res ) {
     res.sendFile( path.join( __dirname, '/build/index.html' ) );
