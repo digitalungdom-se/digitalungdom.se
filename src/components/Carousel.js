@@ -1,21 +1,15 @@
 import React, { Component } from 'react'
-import { Carousel, Button } from 'antd'
+import { Carousel, Button, Icon } from 'antd'
 import { Link } from 'react-router-dom'
-
-const Arrow = props => {
-	const {currentSlide, slideCount, type, ...arrowProps} = props
-	return (
-		<button {...arrowProps}></button>
-	)
-}
 
 class DUCarousel extends Component {
 	render() {
 		return (
 			<Carousel
 				arrows="true"
-				nextArrow={<Arrow type="arrow-right" />}
-				prevArrow={<Arrow type="arrow-left" />}
+				nextArrow={<button><Icon type="right" /></button>}
+				prevArrow={<button><Icon type="left" /></button>}
+				autoscroll
 			>
 				<div>
 					<h1
@@ -28,7 +22,7 @@ class DUCarousel extends Component {
 						className="background-rgba"
 						style={{width: '75%', margin: '0 auto', marginBottom: 50}}
 					>
-						Vi älskar också programmering och digital teknik. Läs mer om vilka vi genom att trycka på knappen.
+						Vi älskar också programmering och digital teknik. Läs mer om vilka vi är genom att trycka på knappen.
 					</p>
 					<Link to="/om-oss">
 						<Button style={{marginBottom: 20}}>Läs mer om oss</Button>

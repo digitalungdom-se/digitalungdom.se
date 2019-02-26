@@ -34,7 +34,7 @@ class DUFooter extends Component {
 						Kontakt
 					</h3>
 					<p>
-						E-post: <a href="mailto:styrelse@digitalungdom.se">digitalungdom@gmail.com</a>
+						E-post: <a href="mailto:styrelse@digitalungdom.se">styrelse@digitalungdom.se</a>
 					</p>
 					<p>
 						Telefonnummer: <a href="tel:+45709447003">+46709447003</a>
