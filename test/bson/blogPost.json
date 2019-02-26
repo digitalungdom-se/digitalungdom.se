@@ -150,10 +150,12 @@
     "agoragramCollection": {
       "_id": "<ObjectId(id)>",
       "author": "<ObjectId(id)>",
+      "displayAuthor": "<ObjectId(id)>",
       "modified": "<Date>",
       "title": "<String>",
-      "post": "<String>",
+      "body": "<String>",
       "rating": "<Integer>",
+      "tags": "<List>",
       "commentMap": {},
     },
     "commentCollection": {
@@ -161,7 +163,7 @@
       "post": "<ObjectId(id)>",
       "author": "<ObjectId(id)>",
       "modified": "<Date>",
-      "comment": "<String>",
+      "body": "<String>",
       "rating": "<Integer>"
     }
   }

@@ -2,14 +2,29 @@ const express = require( 'express' );
 const router = express.Router();
 const validator = require( 'validator' );
 
-const ensureUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureUserAuthenticated;
-const ensureNotUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureNotUserAuthenticated;
+const ensureUserAuthenticated = require( './../../helpers/ensureUserAuthentication' ).ensureUserAuthenticated;
+const ensureNotUserAuthenticated = require( './../../helpers/ensureUserAuthentication' ).ensureNotUserAuthenticated;
 
-const checkUsername = require( './../../../models/check' ).checkUsername;
-const checkEmail = require( './../../../models/check' ).checkEmail;
-const getAgreementVersion = require( './../../../models/get' ).getAgreementVersion;
-const createUser = require( './../../../models/user/register' ).createUser;
-const sendVerification = require( './../../../models/user/register' ).sendVerification;
+const checkUsername = require( './../../models/check' ).checkUsername;
+const checkEmail = require( './../../models/check' ).checkEmail;
+const getAgreementVersion = require( './../../models/get' ).getAgreementVersion;
+const createUser = require( './../../models/user/register' ).createUser;
+const sendVerification = require( './../../models/user/register' ).sendVerification;
+
+router.post( '/register_check_username', async function( req, res ) {
+  const username = req.body.username;
+  if ( typeof username != 'string' ) return res.send( { username: false } );
+
+  return res.send( { username: await checkUsername( username ) } );
+} );
+
+router.post( '/register_check_email', async function( req, res ) {
+  const email = req.body.email;
+  if ( typeof email != 'string' ) return res.send( { email: false } );
+  if ( !validator.isEmail( email ) ) return res.send( { email: false } );
+
+  return res.send( { email: await checkEmail( email ) } );
+} );
 
 router.post( '/register', ensureNotUserAuthenticated, async function( req, res ) {
   // Fetches all the fields and their values
@@ -53,9 +68,9 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
 
   // Validates that the username and email does not already exist and retrieves the current agreement version
   const [ usernameExists, emailExists, agreementVersion ] = await Promise.all( [
-    checkUsername( db, username ),
-    checkEmail( db, email ),
-    getAgreementVersion( db ),
+    checkUsername( username ),
+    checkEmail( email ),
+    getAgreementVersion(),
   ] );
 
   // Returns errors if the email/username already exists.
@@ -80,8 +95,8 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
   }
 
   //creates user
-  await createUser( db, user );
-  //await sendVerification( db, user.email );
+  await createUser( user );
+  //await sendVerification(  user.email );
 
   return res.status( 201 ).send( { type: 'success', username: user.username, name: user.name, email: user.email } );
 } );
