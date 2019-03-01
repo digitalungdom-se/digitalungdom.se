@@ -14,8 +14,8 @@ const getAgoragrams = require( './user/agora/getAgoragrams' );
 const metaAgorize = require( './user/agora/metaAgorize' );
 
 // registration
-router.post( '/register_check_username', register.register_check_username );
-router.post( '/register_check_email', register.register_check_email );
+router.get( '/register_check_username', register.register_check_username );
+router.get( '/register_check_email', register.register_check_email );
 router.post( '/register', ensureNotUserAuthenticated, register.register );
 
 // authorisation
