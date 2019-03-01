@@ -23,10 +23,10 @@ router.post( '/auth', authorisation.auth );
 router.post( '/login', ensureNotUserAuthenticated, authorisation.login );
 
 // agora
-router.post( '/agorize', agorize.agorize );
-router.post( '/antiagorize', antiAgorize.antiAgorize );
-router.post( '/asteri', asteri.asteri );
+router.post( '/agorize', ensureUserAuthenticated, agorize.agorize );
+router.post( '/antiagorize', ensureUserAuthenticated, antiAgorize.antiAgorize );
+router.post( '/asteri', ensureUserAuthenticated, asteri.asteri );
 router.get( '/getagoragrams', getAgoragrams.getAgoragrams );
-router.post( '/metaagorize', metaAgorize.metaAgorize );
+router.post( '/metaagorize', ensureUserAuthenticated, metaAgorize.metaAgorize );
 
 module.exports = router;
