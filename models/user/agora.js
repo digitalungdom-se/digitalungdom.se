@@ -4,13 +4,8 @@ const ObjectID = require( 'mongodb' ).ObjectID;
 // Post includes posts|link posts|questions
 
 // Used to validate if the agoragram was posted by the requesting user
-module.exports.validateAuthorById = async function( id, postId, type ) {
-  if ( postType === 'post' || postType === 'link' || postType === 'question' ) {
-    collection = 'agoragrams';
-  } else {
-    collection = 'comments';
-  }
-  const validation = await db.collection( collection ).findOne( { '_id': ObjectId( postId ), 'author': ObjectId( id ) } );
+module.exports.validateAuthorById = async function( id, postId ) {
+  const validation = await db.collection( 'agoragrams' ).findOne( { '_id': ObjectId( postId ), 'author': ObjectId( id ) } );
 
   if ( validation ) return true;
   else return false;
@@ -18,104 +13,125 @@ module.exports.validateAuthorById = async function( id, postId, type ) {
 
 // Post post/comment
 module.exports.agorize = async function( id, agoragramData ) {
+  // Unpacks the agoragram data
   agoragram[ 'author' ] = ObjectID( id );
-  agoragram[ 'body' ] = agoragramData.body;
-  agoragram[ 'modified' ] = false;
-  agoragram[ 'rating' ] = 0;
-  if ( postAs ) agoragram[ 'authorRole' ] = agoragramData.author;
+  agoragram[ 'type' ] = agoragramData.type;
+  if ( postAs ) agoragram[ 'group' ] = agoragramData.group;
   if ( badges ) agoragram[ 'badges' ] = agoragramData.badges;
-  let collection;
+  agoragram[ 'modified' ] = false;
+  agoragram[ 'body' ] = agoragramData.body;
+  agoragram[ 'stars' ] = 0;
+  agoragram[ 'children' ] = [];
 
-  if ( agoragramData.type === 'post' || agoragramData.type === 'link' ) {
-    agoragram[ 'type' ] = agoragram.type;
+  // Adds agoragram type specific fields, e.g. title for normal posts and replyTo for comments
+  if ( [ 'post', 'link', 'question' ].includes( agoragramData.type ) ) {
     agoragram[ 'title' ] = agoragramData.title;
-    agoragram[ 'commentMap' ] = {};
     agoragram[ 'tags' ] = agoragramData.tags;
-    collection = 'agoragrams';
   } else {
     agoragram[ 'post' ] = agoragramData.post;
-    collection = 'comments';
+    agoragram[ 'replyTo' ] = agoragramData.replyTo;
   }
 
-  await db.collection( collection ).insertOne( agoragram );
+  await db.collection( 'agoragrams' ).insertOne( agoragram );
 }
 
 // Remove post/comment
-module.exports.antiAgorize = async function( postId, postType ) {
-  agoragram[ 'author' ] = '';
-  agoragram[ 'body' ] = '';
-  agoragram[ 'modified' ] = new Date();
-  agoragram[ 'authorRole' ] = '';
-  agoragram[ 'badges' ] = '';
-  let collection;
+module.exports.antiAgorize = async function( postId ) {
+  // Unsets (deletes) all identifying fields apart from title and updates the modified field
+  unsetAgoragram[ 'author' ] = true;
+  unsetAgoragram[ 'group' ] = true;
+  unsetAgoragram[ 'badges' ] = true;
+  unsetAgoragram[ 'body' ] = true;
 
-  if ( postType === 'post' || postType === 'link' ) {
-    collection = 'agoragrams';
-  } else {
-    collection = 'comments';
-  }
+  setAgoragram[ 'modified' ] = new Date();
 
-  await db.collection( collection ).updateOne( { '_id': ObjectId( postId ) }, agoragram );
+  return await db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectId( postId ) }, { '$set': setAgoragram, '$unset': unsetAgoragram }, { 'projection': { '_id': 1 } } )._id;
 }
 
 // Edit post/comment
 module.exports.metaAgorize = async function( postId, agoragramData ) {
-  agoragram[ 'body' ] = agoragramData.body;
-  agoragram[ 'modified' ] = new Date();
-  let collection;
+  // Sets the new comments body and add that it has been modified
+  setAgoragram[ 'body' ] = agoragramData.body;
+  setAgoragram[ 'modified' ] = new Date();
 
-  if ( postType === 'post' || postType === 'link' || postType === 'question' ) {
-    collection = 'agoragrams';
-  } else {
-    collection = 'comments';
-  }
-
-  await db.collection( collection ).updateOne( { '_id': ObjectId( postId ) }, agoragram );
+  return await db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectId( postId ), 'type': { '$in': [ 'post', 'question', 'comment' ] } }, { '$set': setAgoragram }, { 'projection': { '_id': 1 } } )._id;
 }
 
 // Like post/comment
-module.exports.asteri = async function( id, postId, postType, commentId ) {
-  // Due to the db structure, when starring the actual post it will add
-  if ( !commentId ) commentId = 'post';
-
+module.exports.asteri = async function( id, starId ) {
   // Checks if the user has already rated this post, if it hasn't the query will result in undefined.
-  let userQuery = {};
-  userQuery[ '_id' ] = ObjectId( id );
-  userQuery[ `rating.${postId}.${commentId}` ] { '$exists': true };
-  const userRating = await db.collection( 'users' ).findOne( userQuery );
+  // Also retrieves if the post even exists
 
-  let updateId;
-  let collection;
-  let userUpdate;
-  let rating;
+  const starredComment = await db.collection( 'agoragrams' ).findOne( { '_id': ObjectId( starId ), 'starredBy': ObjectId( id ) }, { 'projection': { '_id': 1, 'starredBy.$': 1 } } );
 
-  if ( userRating ) {
+  // Checks if exists
+  if ( !starredComment._id ) return false;
+
+  // Checks if the user has rated the post or not
+  if ( starredComment.starredBy ) {
     // If the user hasn't starred the post/comment
-    userUpdate[ `$set.rating.${postId}.${commentId}$` ] = true;
-    rating = 1;
-
-    if ( postType === 'post' || postType === 'link' || postType === 'question' ) {
-      updateId = postId;
-      collection = 'agoragrams';
-    } else {
-      updateId = commentId;
-      collection = 'comments';
-    }
+    agoragramStar[ `$push.starredBy` ] = ObjectId( id );
+    agoragramStar[ `$inc.stars` ] = 1;
+    star = 1;
   } else {
     // If the user has starred the post/comment, i.e. unstar it.
-    userUpdate[ `$unset.rating.${postId}.${commentId}$` ] = false;
-    rating = -1;
+    agoragramStar[ `$pull.starredBy` ] = ObjectId( id );
+    agoragramStar[ `$inc.stars` ] = -1;
+    star = -1;
+  }
 
-    if ( postType === 'post' || postType === 'link' || postType === 'question' ) {
-      updateId = postId;
-      collection = 'agoragrams';
-    } else {
-      updateId = commentId;
-      collection = 'comments';
+  // Gets the replyToId (only comments have this field) and increments it's stars at the same time. Database god.
+  const replyToId = await db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectId( starId ) }, agoragramStar, { 'projection': { '_id': 0, 'replyTo': 1 } } ).replyTo;
+
+  // Checks if it is a comment. Then updates that comments parents children array then sorts it (only if the starred comment's stars is larger than the next one).
+  // This process is done to accelerate front-end sorted tree building.
+  if ( replyToId ) {
+    // Gets all the starred comments siblings and increments the starred comments stars in the parents child array. database god.
+    let children = db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectId( postId ), "children._id": ObjectId( replyToId ) }, { '$inc': { "children.$.stars": star } }, { 'projection': { '_id': 0, 'children': 1 }, 'returnNewDocument': true } ).children;
+
+    // Fetches the index of starred comment in sibling array
+    const startPostIndex = children.findIndex( function( child ) {
+      return child[ '_id' ] === ObjectId( replyToId );
+    } );
+
+    // Change if statement to a try/catch statement? The following code will only throw an error if index is out of range. If it catches the error just ignore it. Faster? More elegant?
+    // ( startPostIndex !== 0 && star !== 1 ) makes sure that the index will not < 0
+    // ( startPostIndex !== ( children.length - 1 ) && star !== -1 ) makes sure that the index will not be out of range.
+    // If it is the most starred comment, and gets starred, we do not need to check if it is the most starred comment again
+    // Same but opposite if it is the least starred comment and gets unstarred
+    if ( ( startPostIndex !== 0 && star !== 1 ) || ( startPostIndex !== ( children.length - 1 ) && star !== -1 ) ) {
+      // Fetches the rival comments index, i.e. the next sibling comment with more starss
+      const startPostRivalIndex = startPostIndex - star;
+
+      // Switches place with the two rival comments if the starred comment has more star
+      if ( children[ startPostIndex ].stars > children[ startPostRivalIndex ].stars > ) {
+        let tmp = children[ startPostIndex ];
+        children[ startPostIndex ] = children[ startPostRivalIndex ];
+        children[ startPostRivalIndex ] = tmp;
+
+        await db.collection( 'agoragrams' ).updateOne( { '_id': ObjectId( postId ) }, { '$set': { "children": children } } )
+      }
     }
   }
-  await Promise.all( [
-    db.collection( collection ).updateOne( { '_id': ObjectId( updateId ) }, { '$inc' { 'rating': rating } } ),
-    db.collection( 'users' ).updateOne( { '_id': ObjectId( id ) }, userUpdate )
-  ] );
+}
+
+// Get all new posts
+module.exports.getAgoragramsNew = async function( dateAfter, dateBefore ) {
+  const hexSecondsAfter = Math.floor( dateAfter / 1000 ).toString( 16 );
+  const objectIdAfter = ObjectId( hexSecondsAfter + "0000000000000000" );
+
+  const hexSecondsBefore = Math.floor( dateBefore / 1000 ).toString( 16 );
+  const objectIdBefore = ObjectId( hexSecondsBefore + "0000000000000000" );
+
+  return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIdAfter, '$lte': objectIdBefore } } ).limit( 10 ).sort( '_id': -1 ).toArray();
+}
+
+module.exports.getAgoragramsTop = async function( dateAfter, dateBefore ) {
+  const hexSecondsAfter = Math.floor( dateAfter / 1000 ).toString( 16 );
+  const objectIdAfter = ObjectId( hexSecondsAfter + "0000000000000000" );
+
+  const hexSecondsBefore = Math.floor( dateBefore / 1000 ).toString( 16 );
+  const objectIdBefore = ObjectId( hexSecondsBefore + "0000000000000000" );
+
+  return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIdAfter, '$lte': objectIdBefore } } ).sort( 'rating': -1 ).limit( 10 ).toArray();
 }

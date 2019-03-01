@@ -18,8 +18,8 @@ router.post( '/agorize', ensureUserAuthenticated, async function( req, res ) {
   const type = req.body.type;
 
   if ( !validator.isIn( type, [ 'post', 'comment', 'link', 'question' ] ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You can only post a (post|comment|link|question)', type } );
-  if ( awaitvalidateAuthorById( id, postId, type ) ) {
-    await antiAgorize( postId, type );
+  if ( await validateAuthorById( id, postId ) ) {
+    await antiAgorize( postId );
   } else {
     // Failed
   }
