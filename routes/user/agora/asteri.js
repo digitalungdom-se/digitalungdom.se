@@ -10,10 +10,12 @@ const getRoleIdByName = require( './../../../models/get' ).getRoleIdByName;
 
 const asteri = require( './../../../models/user/agora' ).asteri;
 
-router.post( '/agorize', ensureUserAuthenticated, async function( req, res ) {
+router.post( '/asteri', ensureUserAuthenticated, async function( req, res ) {
   // Fetches all the fields and their values
   const id = req.user;
   const postId = req.body.postId;
+
+  if ( !validateObjectID( postId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'postId is not an objectID', postId } );
 
   await asteri( id, postId );
 } );

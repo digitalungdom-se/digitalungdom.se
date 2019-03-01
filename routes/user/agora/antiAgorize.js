@@ -1,6 +1,7 @@
 const express = require( 'express' );
 const router = express.Router();
 const validator = require( 'validator' );
+const validateObjectID = require( 'mongodb' ).ObjectID.IsValid;
 
 const ensureUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureUserAuthenticated;
 const ensureNotUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureNotUserAuthenticated;
@@ -11,13 +12,13 @@ const getRoleIdByName = require( './../../../models/get' ).getRoleIdByName;
 const antiAgorize = require( './../../../models/user/agora' ).antiAgorize;
 const validateAuthorById = require( './../../../models/user/agora' ).validateAuthorById;
 
-router.post( '/agorize', ensureUserAuthenticated, async function( req, res ) {
+router.post( '/antiagorize', ensureUserAuthenticated, async function( req, res ) {
   // Fetches all the fields and their values
   const id = req.user;
   const postId = req.body.postId;
-  const type = req.body.type;
 
-  if ( !validator.isIn( type, [ 'post', 'comment', 'link', 'question' ] ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You can only post a (post|comment|link|question)', type } );
+  if ( !validateObjectID( postId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'postId is not an objectID', postId } );
+
   if ( await validateAuthorById( id, postId ) ) {
     await antiAgorize( postId );
   } else {
