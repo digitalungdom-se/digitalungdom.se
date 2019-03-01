@@ -26,7 +26,7 @@ router.post( '/login', ensureNotUserAuthenticated, authorisation.login );
 router.post( '/agorize', agorize.agorize );
 router.post( '/antiagorize', antiAgorize.antiAgorize );
 router.post( '/asteri', asteri.asteri );
-router.post( '/getagoragrams', getAgoragrams.getAgoragrams );
+router.get( '/getagoragrams', getAgoragrams.getAgoragrams );
 router.post( '/metaagorize', metaAgorize.metaAgorize );
 
 module.exports = router;
