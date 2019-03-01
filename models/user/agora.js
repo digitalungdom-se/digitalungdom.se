@@ -30,9 +30,15 @@ module.exports.agorize = async function( id, agoragramData ) {
   } else {
     agoragram[ 'post' ] = agoragramData.post;
     agoragram[ 'replyTo' ] = agoragramData.replyTo;
+
+    [ replyExists ] = Promise.all( [
+      db.collection( 'agoragrams' ).findOne( { '_id': ObjectID( replyTo ) }, { 'projection': { '_id': 1 } } )._id,
+      db.collection( 'agoragrams' ).updateOne( { '_id': ObjectID( post ) }, { '$inc': { 'commentAmount': 1 } }, { 'projection': { '_id': 1 } } )._id
+    ] )
+    if ( !replyExists ) return { 'type': 'failed', '' }
   }
 
-  await db.collection( 'agoragrams' ).insertOne( agoragram );
+  await queryArray.push( db.collection( 'agoragrams' ).insertOne( agoragram ) );
 }
 
 // Remove post/comment
