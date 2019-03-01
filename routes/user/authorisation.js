@@ -1,5 +1,3 @@
-const express = require( 'express' );
-const router = express.Router();
 const passport = require( 'passport' );
 const LocalStrategy = require( 'passport-local' ).Strategy;
 const bcrypt = require( 'bcryptjs' );
@@ -12,7 +10,8 @@ const getUserByEmail = require( './../../models/get' ).getUserByEmail;
 const getUserByUsername = require( './../../models/get' ).getUserByUsername;
 const getUserById = require( './../../models/get' ).getUserById;
 
-router.post( '/auth', async function( req, res ) {
+//router.post( '/auth',
+module.exports.auth = async function( req, res ) {
   const id = req.user;
   if ( !id ) return res.status( 401 ).send( { "type": "failed", "reason": "Not authorised" } );
   const user = await getUserById( id );
@@ -23,9 +22,10 @@ router.post( '/auth', async function( req, res ) {
     "username": user.username,
     "email": user.email,
   } )
-} );
+}
 
-router.post( '/login', async function( req, res ) {
+//router.post( '/login',
+module.exports.login = async function( req, res ) {
   // Use local strategy with custom callbacks
   passport.authenticate( 'local', function( err, user, info ) {
     if ( err ) throw err;
@@ -35,7 +35,7 @@ router.post( '/login', async function( req, res ) {
       return res.send( { type: 'success', username: user.username, name: user.name, email: user.email } );
     } );
   } )( req, res )
-} );
+}
 
 // Simple passportjs local strategy
 passport.use( 'local', new LocalStrategy(
@@ -75,6 +75,3 @@ passport.serializeUser( function( user, done ) {
 passport.deserializeUser( function( user, done ) {
   done( null, user );
 } );
-
-
-module.exports = router;

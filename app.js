@@ -1,3 +1,4 @@
+"use strict";
 require( 'dotenv' ).config();
 
 const express = require( 'express' );
@@ -14,18 +15,16 @@ const compression = require( 'compression' );
 const csrf = require( 'csurf' );
 const cors = require( 'cors' );
 
-const register = require( './routes/user/register' );
-const authorisation = require( './routes/user/authorisation' );
+const routes = require( './routes/routes' );
 
 // Gets current development state of the node environment (PRODUCTION/DEVELOPMENT). Is set in .env file
 const state = process.env.NODE_ENV;
 
-// Connects to database using connection URI provided in .env file
+const app = express();
+
 MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async function( err, client ) {
   if ( err ) return console.log( err );
-  db = client.db( 'digitalungdom' );
-
-  const app = express();
+  global.db = client.db( 'digitalungdom' );
 
   app.use( compression() );
 
@@ -44,7 +43,8 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
 
   app.use( bodyParser.json( {
     limit: '100kb'
-  } ) )
+  } ) );
+
   app.use( bodyParser.urlencoded( {
     limit: '100kb',
     extended: false
@@ -79,8 +79,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
     console.error( error );
   } );
 
-  app.use( '/api/', register );
-  app.use( '/api/', authorisation );
+  app.use( '/api/', routes );
 
   app.get( '*', function( req, res ) {
     res.sendFile( path.join( __dirname, '/build/index.html' ) );
