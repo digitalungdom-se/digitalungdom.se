@@ -86,7 +86,7 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
     "name": name.toLowerCase().split( ' ' ).filter( n => n ).map( ( s ) => ( [ 'von', 'van', 'de', 'der', 'los', 'ibn', 'd´' ].indexOf( s ) == -1 ) ? s.charAt( 0 ).toUpperCase() + s.substring( 1 ) : s ).join( ' ' ),
     "username": username,
     "usernameLower": username.toLowerCase(),
-    "birthdate": new Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),
+    "birthdate": Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),
     "gender": parseInt( gender ),
     "resetPasswordToken": null,
     "resetPasswordExpires": null,

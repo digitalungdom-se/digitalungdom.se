@@ -157,6 +157,7 @@
       "stars": "<Integer>",
       "starredBy": "[<ObjectId(id)>, ...]",
       "children": "[<ObjectId(id)>, ...]",
+      "commentAmount": "<Integer>",
 
       "title": "<String>",
       "tags": "<List>",
