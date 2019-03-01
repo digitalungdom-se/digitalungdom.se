@@ -1,6 +1,7 @@
 const express = require( 'express' );
 const router = express.Router();
 const validator = require( 'validator' );
+const validateObjectID = require( 'mongodb' ).ObjectID.IsValid;
 
 const ensureUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureUserAuthenticated;
 const ensureNotUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureNotUserAuthenticated;
@@ -8,8 +9,8 @@ const ensureNotUserAuthenticated = require( './../../../helpers/ensureUserAuthen
 const getUserByEmail = require( './../../../models/get' ).getUserByEmail;
 const getUserByUsername = require( './../../../models/get' ).getUserByUsername;
 const getUserById = require( './../../../models/get' ).getUserById;
-const getUserRolesById = require( './../../../models/get' ).getUserRolesById;
-const getRoleIdByName = require( './../../../models/get' ).getRoleIdByName;
+const checkGroup = require( './../../../models/get' ).checkGroup;
+const checkBadges = require( './../../../models/get' ).checkBadges;
 
 const agorize = require( './../../../models/user/agora' ).agorize;
 
@@ -32,25 +33,23 @@ router.post( '/agorize', ensureUserAuthenticated, async function( req, res ) {
       // Checks that they all are strings, validatorjs only allows string (prevent errors)
       if ( typeof body !== 'string' || typeof type !== 'string' || typeof author !== 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );
       if ( !validator.isIn( type, [ 'post', 'comment', 'link', 'question' ] ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You can only post a (post|comment|link|question)', type } );
-
+      if ( !validator.isLength( body, { min: 0, max: 10000 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Body is too long', body } );
       let postAs;
       let postBadges;
 
-      if ( author !== 'user' ) {
-        [ postAs, roles ] = await Promise.all( [ getRoleIdByName( author ), getUserRolesById( id ) ] );
-        if ( !postAs ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Could not find specified role', 'author': author } );
-        if ( !validator.isIn( postAs, roles ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You are not authorised to use that role', author } );
+      if ( group !== 'user' ) {
+        if ( !validateObjectID( replyTo ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'group is not an objectID', group } );
+        if ( !( await checkGroup( id, group ) ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You are not authorised to use that role', group } );
       } else {
-        [ postBadges, badges ] = await Promise.all( [ getBadgesIdByName( author ), getUserBadgesById( id ) ] );
-        if ( postBadges.length !== badges.length ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Could not find all badges', badges } );
-        if ( !validator.isIn( postBadges, badges ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You are not authorised to use that/those badge(s)', badges } );
-        postAs = 'user';
+        for ( let badge of badges ) {
+          if ( !validateObjectID( badge ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'badge is not an objectID', badge } );
+        }
+        if ( !( await checkBadges( id, badges ) ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You are not authorised to use those badges', badges } );
       }
 
       // Specific validation
       if ( type === 'post' ) {
         // Validates the length of the post
-        if ( !validator.isLength( body, { min: 0, max: 10000 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Body is too long', body } );
         if ( typeof title != 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted', title } );
         if ( !validator.isLength( title, { min: 10, max: 100 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'Title is too long', title } );
         if ( !Array.isArray( tags ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Tags has to be an array', tags } );
@@ -62,13 +61,12 @@ router.post( '/agorize', ensureUserAuthenticated, async function( req, res ) {
 
         } else if ( type === 'comment' ) {
           // Validates the length of the post
-          if ( !validator.isLength( body, { min: 0, max: 10000 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Body is too long', body } );
-          if ( typeof reply != 'string' || reply.length !== 24 ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid reply', reply } );
+          if ( !validateObjectID( replyTo ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'replyTo is not an objectID', replyTo } );
         } else {
           if ( !validator.isURL( body, { protocols: [ 'http', 'https' ] } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Link posts may only be links', body } );
         }
 
-        await agorize( id, { title, body, type, postAs, tags, reply } );
+        await agorize( id, { title, body, type, group, badges, tags, replyTo } );
       } );
 
     module.exports = router;

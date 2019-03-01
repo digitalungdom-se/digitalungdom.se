@@ -25,3 +25,19 @@ module.exports.checkEmail = async function( email ) {
   if ( userExists ) return false
   else return true;
 }
+
+module.exports.checkGroup = async function( id, groupId ) {
+  // Validates that the user is authorised to use the candidate group
+  const allowed = await db.collection( 'users' ).findOne( { '_id': ObjectId( id ), 'groups': groupId }, { 'projection': { '_id': 1 } } );
+
+  if ( allowed ) return false
+  else return true;
+}
+
+module.exports.checkBadges = async function( id, badges ) {
+  // Validates that the user is authorised to use the candidate badges
+  const allowed = await db.collection( 'users' ).findOne( { '_id': ObjectId( id ), 'badges': { '$all': badges } }, { 'projection': { '_id': 1 } } );
+
+  if ( allowed ) return false
+  else return true;
+}
