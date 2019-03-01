@@ -157,10 +157,11 @@
       "stars": "<Integer>",
       "starredBy": "[<ObjectId(id)>, ...]",
       "children": "[<ObjectId(id)>, ...]",
-      "commentAmount": "<Integer>",
+      "pinned": "<bolean>",
 
       "title": "<String>",
       "tags": "<List>",
+      "commentAmount": "<Integer>",
     },
     "comment": {
       "_id": "<ObjectId(id)>",
@@ -171,6 +172,7 @@
       "stars": "<Integer>",
       "starredBy": "[<ObjectId(id)>, ...]",
       "children": "[<ObjectId(id)>, ...]",
+      "pinned": "<bolean>",
 
       "post": "<ObjectId(id)>",
       "replyTo": "<ObjectId(id)>",

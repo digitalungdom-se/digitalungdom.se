@@ -11,22 +11,22 @@ const getAgreementVersion = require( './../../models/get' ).getAgreementVersion;
 const createUser = require( './../../models/user/register' ).createUser;
 const sendVerification = require( './../../models/user/register' ).sendVerification;
 
-router.post( '/register_check_username', async function( req, res ) {
+module.exports.register_check_username = async function( req, res ) {
   const username = req.body.username;
   if ( typeof username != 'string' ) return res.send( { username: false } );
 
   return res.send( { username: await checkUsername( username ) } );
-} );
+}
 
-router.post( '/register_check_email', async function( req, res ) {
+module.exports.register_check_email = async function( req, res ) {
   const email = req.body.email;
   if ( typeof email != 'string' ) return res.send( { email: false } );
   if ( !validator.isEmail( email ) ) return res.send( { email: false } );
 
   return res.send( { email: await checkEmail( email ) } );
-} );
+}
 
-router.post( '/register', ensureNotUserAuthenticated, async function( req, res ) {
+module.exports.register = async function( req, res ) {
   // Fetches all the fields and their values
   const name = req.body.name;
   const username = req.body.username;
@@ -86,7 +86,7 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
     "name": name.toLowerCase().split( ' ' ).filter( n => n ).map( ( s ) => ( [ 'von', 'van', 'de', 'der', 'los', 'ibn', 'd´' ].indexOf( s ) == -1 ) ? s.charAt( 0 ).toUpperCase() + s.substring( 1 ) : s ).join( ' ' ),
     "username": username,
     "usernameLower": username.toLowerCase(),
-    "birthdate": Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),
+    "birthdate": new Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),
     "gender": parseInt( gender ),
     "resetPasswordToken": null,
     "resetPasswordExpires": null,
@@ -99,6 +99,4 @@ router.post( '/register', ensureNotUserAuthenticated, async function( req, res )
   //await sendVerification(  user.email );
 
   return res.status( 201 ).send( { type: 'success', username: user.username, name: user.name, email: user.email } );
-} );
-
-module.exports = router;
+}
