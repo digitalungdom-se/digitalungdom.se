@@ -11,7 +11,7 @@ class Header extends Component {
 
 		return (
 			<Row
-				style={{ position: 'fixed', zIndex: 2, width: '100%', height: 64 }}
+				style={{ position: 'fixed', zIndex: 3, width: '100%', height: 64 }}
 				type="flex"
 				justify="space-between"
 				className="main-header"

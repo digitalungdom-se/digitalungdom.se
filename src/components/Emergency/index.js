@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Login, Register } from '../../actions'
+import { Login, Register, Agora } from '../../actions'
 import { Row, Col } from 'antd'
 import EmergencyActions from './EmergencyActions'
 import './EmergencyActions.css'
@@ -90,7 +90,13 @@ const mapDispatchToProps = (dispatch) => {
 		register: (credentials) => dispatch(Register.register(credentials)),
 		check_username: username => dispatch(Register.check_username(username)),
 		check_email: email => dispatch(Register.check_email(email)),
-		postBlog: t => console.log(t),
+		agora_publish_post: details => dispatch(Agora.agora_publish_post(details)),
+		agora_publish_link: details => dispatch(Agora.agora_publish_link(details)),
+		agora_publish_question: details => dispatch(Agora.agora_publish_question(details)),
+		agora_publish_comment: details => dispatch(Agora.agora_publish_comment(details)),
+		anti_agorize: details => dispatch(Agora.anti_agorize(details)),
+		meta_agorize: details => dispatch(Agora.meta_agorize(details)),
+		get_agoragrams: details => dispatch(Agora.get_agoragrams(details)),
 		// createInstance: instance => dispatch(Instances.createInstance(instance))
 	}
 }

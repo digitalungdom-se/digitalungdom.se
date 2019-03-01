@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Row, Col, Card, Form, Input } from 'antd'
 import { TextArea } from 'components'
 
-class CreateBlogPost extends Component {
+class CreateAgoriaPost extends Component {
 	render() {
 		const sizes = {
 			style: { padding: 40 },
@@ -23,7 +23,7 @@ class CreateBlogPost extends Component {
 					<h1>
 					Skapa inlägg
 					</h1>
-					<WrappedBlogPostForm />
+					<WrappedAgoriaPostForm />
 				</Card>
 			</Col>
 			</Row>
@@ -31,7 +31,7 @@ class CreateBlogPost extends Component {
 	}
 }
 
-class BlogPostForm extends Component {
+class AgoriaPostForm extends Component {
 
 	handleSubmit(e) {
 		console.log(e)
@@ -70,6 +70,6 @@ class BlogPostForm extends Component {
 	}
 }
 
-const WrappedBlogPostForm = Form.create()(BlogPostForm)
+const WrappedAgoriaPostForm = Form.create()(AgoriaPostForm)
 
-export default CreateBlogPost
+export default CreateAgoriaPost
