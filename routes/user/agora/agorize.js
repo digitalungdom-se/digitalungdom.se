@@ -18,17 +18,16 @@ router.post( '/agorize', ensureUserAuthenticated, async function( req, res ) {
       const id = req.user;
       const body = req.body.body;
       const type = req.body.type;
-      const author = req.body.author;
+      const group = req.body.group;
       // Is not required
       const badges = req.body.badges;
 
       // Post specific
       const title = req.body.title;
-      // Is not required
       const tags = req.body.tags;
 
       // Comment specific
-      const reply = req.body.reply;
+      const replyTo = req.body.replyTo;
 
       // Checks that they all are strings, validatorjs only allows string (prevent errors)
       if ( typeof body !== 'string' || typeof type !== 'string' || typeof author !== 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );

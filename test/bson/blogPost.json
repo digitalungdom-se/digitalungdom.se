@@ -147,24 +147,32 @@
   },
 
   "type3": {
-    "agoragramCollection": {
+    "agoragram": {
       "_id": "<ObjectId(id)>",
+      "type": "post|link|question|comment",
       "author": "<ObjectId(id)>",
-      "displayAuthor": "<ObjectId(id)>",
+      "group|badges": " < ObjectId(id) > ",
       "modified": "<Date>",
+      "body": "<String>",
+      "stars": "<Integer>",
+      "starredBy": "[<ObjectId(id)>, ...]",
+      "children": "[<ObjectId(id)>, ...]",
+
       "title": "<String>",
-      "body": "<String>",
-      "rating": "<Integer>",
       "tags": "<List>",
-      "commentMap": {},
     },
-    "commentCollection": {
+    "comment": {
       "_id": "<ObjectId(id)>",
-      "post": "<ObjectId(id)>",
       "author": "<ObjectId(id)>",
+      "group|badges": "<ObjectId(id)>",
       "modified": "<Date>",
       "body": "<String>",
-      "rating": "<Integer>"
+      "stars": "<Integer>",
+      "starredBy": "[<ObjectId(id)>, ...]",
+      "children": "[<ObjectId(id)>, ...]",
+
+      "post": "<ObjectId(id)>",
+      "replyTo": "<ObjectId(id)>",
     }
   }
 }
