@@ -15,10 +15,10 @@ const query = params => Object.keys(params)
     .map(k => esc(k) + '=' + esc(params[k]))
     .join('&')
 
-function createAsyncFunction(name, request, responseCallbacks, fakeResponse) {
+function createAsyncFunction(name, request, responseCallbacks) {
 	const Category = {}
 
-	Category[name] = (input) => {
+	Category[name] = (input, fakeResponse) => {
 		return dispatch => {
 			dispatch(Log.savePayload(input, request.method + ' ' + request.route))
 
