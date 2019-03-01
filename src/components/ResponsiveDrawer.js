@@ -23,6 +23,9 @@ const MenuMarkup = ({ mobileVersion, activeLinkKey, onLinkClick, className }) =>
     <Menu.Item key='/verksamhet'>
       <Link onClick={onLinkClick} to='/verksamhet'>Verksamhet</Link>
     </Menu.Item>
+    <Menu.Item key='/state'>
+      <Link onClick={onLinkClick} to='/state'>State</Link>
+    </Menu.Item>
   </Menu>
 )
 
@@ -131,6 +134,9 @@ class ResponsiveDrawer extends Component {
 				    </Menu.Item>
 				    <Menu.Item key='/verksamhet'>
 				      <Link onClick={this.onClose} to='/verksamhet'>Verksamhet</Link>
+				    </Menu.Item>
+				    <Menu.Item key='/state'>
+				      <Link onClick={this.onClose} to='/state'>State</Link>
 				    </Menu.Item>
 				  </Menu>
 				</Drawer>

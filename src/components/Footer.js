@@ -11,6 +11,9 @@ class DUFooter extends Component {
 			// style:{background: 'red'}
 		}
 		return (
+			<div />
+		)
+		return (
 			<Row
 				type="flex"
 				justify="center"

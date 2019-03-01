@@ -131,3 +131,60 @@ h1.background-rgba {
  .slick-prev:before, .slick-next:before  {
   content: '' !important;
 }
+
+.starCol {
+  text-align: center;
+  /*margin-top: 22px;*/
+}
+
+.starCol .ant-rate {
+  width: 100%;
+  font-size: 30px;
+}
+
+.starCol .ant-rate-star {
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}
+
+.agoria-post {
+  margin-top: 20px
+}
+
+.agoria-post .info span {
+}
+
+.agoria-post .info span:after {
+  margin-left: 5px;
+  margin-right: 5px;
+  content: '•';
+}
+
+.agoria-post .info span:last-of-type:after {
+  content: '';
+}
+
+.agoria-post .ant-card-actions {
+  height: 30px;
+  /*padding: 0px;*/
+}
+
+.agoria-post .ant-card-actions li {
+  margin: 4px 0px;
+  /*height: 30px;*/
+  /*padding: 0px;*/
+  /*height: 10px;*/
+}
+
+/*.star {
+  cursor: pointer;
+  color: gold;
+  font-size: 25px;
+  transition: 0.2s;
+}
+
+.star:hover {
+  transition: 0.2s;
+  font-size: 30px;
+}*/

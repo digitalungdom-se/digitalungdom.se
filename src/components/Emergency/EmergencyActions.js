@@ -18,10 +18,48 @@ const EmergencyActions = {
 	check_email: {
 		"email": "doug.beng-2019@vrg.se"
 	},
-	postBlog: {
-		"title": "Hello world!",
-		"content": `This is a blog post paragraph.`
-	}
+	agora_publish_post: {
+		"body": "Hello\n😗😘",
+		"type": "post",
+		"group": "user",
+		"badges": [],
+		"title": "Hello, world!",
+		"tags": ["programming_humor", "hacking", "stockholm"]
+	},
+	agora_publish_link: {
+		"body": "https://digitalungdom.se",
+		"type": "link",
+		"group": "user",
+		"badges": [],
+		"title": "Hello, digitalungdom!",
+		"tags": ["programming_humor", "hacking", "stockholm"]
+	},
+	agora_publish_question: {
+		"body": "Hello?\n😗😘",
+		"type": "question",
+		"group": "user",
+		"badges": [],
+		"title": "Hello, world???",
+		"tags": ["help", "hacking", "stockholm"]
+	},
+	agora_publish_comment: {
+		"body": "#Don't think that's true\n",
+		"type": "comment",
+		"badges": [],
+		"replyTo": "<objectid>",
+	},
+	anti_agorize: {
+		"postId": "<objectid>"
+	},
+	meta_agorize: {
+		"postId": "<objectid>",
+		"body": "EDIT: Obligatory didn't expect this to be so popular.\nEDIT 2: Wow guys, 3 upvotes, really? You guys rock!",
+	},
+	get_agoragrams: {
+		"dateAfter": "5c79ac0e",
+		"dateBefore": "5e5adfc6",
+		"sort": "new"
+	},
 }
 
 export default EmergencyActions
