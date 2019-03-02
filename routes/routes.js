@@ -30,6 +30,7 @@ router.post( '/agorize', ensureUserAuthenticated, agorize.agorize );
 router.post( '/anti_agorize', ensureUserAuthenticated, antiAgorize.antiAgorize );
 router.post( '/asteri', ensureUserAuthenticated, asteri.asteri );
 router.get( '/get_agoragrams', getAgoragrams.getAgoragrams );
+router.get( '/get_agoragram', getAgoragrams.getAgoragram );
 router.post( '/meta_agorize', ensureUserAuthenticated, metaAgorize.metaAgorize );
 
 module.exports = router;

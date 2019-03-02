@@ -2,6 +2,7 @@ const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 const validator = require( 'validator' );
 
 const getAgoragrams = require( './../../../models/user/agora' ).getAgoragrams;
+const getAgoragram = require( './../../../models/user/agora' ).getAgoragram;
 
 module.exports.getAgoragrams = async function( req, res ) {
   let dateAfter = req.query.dateAfter;
@@ -17,12 +18,23 @@ module.exports.getAgoragrams = async function( req, res ) {
   if ( !validator.isHexadecimal( dateBefore ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Time must be hexadecimal seconds since unix epoch)', dateBefore } );
   if ( dateBefore.length > 8 ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Time must be hexadecimal seconds since unix epoch', dateBefore } );
 
-  if ( !validator.isIn( sort, [ 'new', 'top', 'question' ] ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You can only post a (post|comment|link|question)', sort } );
+  if ( !validator.isIn( sort, [ 'new', 'top' ] ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You can sort by new|top', sort } );
 
   dateAfter = dateAfter.length < 8 ? '0'.repeat( 8 - dateAfter.length ) + dateAfter : dateAfter;
   dateBefore = dateBefore.length < 8 ? '0'.repeat( 8 - dateBefore.length ) + dateBefore : dateBefore;
 
   const posts = await getAgoragrams( dateAfter, dateBefore, sort );
   if ( Array.isArray( posts ) ) return res.send( { 'type': 'success', posts } );
+  else return res.status( 500 ).send( { 'type': 'fail', 'reason': 'internal server error' } );
+}
+
+module.exports.getAgoragram = async function( req, res ) {
+  const postId = req.query.postId;
+
+  // Checks that postId is an ObjectID
+  if ( !validateObjectID( postId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid postId', postId } );
+
+  const post = await getAgoragram( postId );
+  if ( Array.isArray( post ) ) return res.send( { 'type': 'success', post } );
   else return res.status( 500 ).send( { 'type': 'fail', 'reason': 'internal server error' } );
 }
