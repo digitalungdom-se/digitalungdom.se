@@ -22,11 +22,14 @@ router.post( '/register', ensureNotUserAuthenticated, register.register );
 router.post( '/auth', authorisation.auth );
 router.post( '/login', ensureNotUserAuthenticated, authorisation.login );
 
+// Upload profile picture
+router.post( '/set_profile_picture', ensureNotUserAuthenticated, authorisation.login );
+
 // agora
 router.post( '/agorize', ensureUserAuthenticated, agorize.agorize );
-router.post( '/antiagorize', ensureUserAuthenticated, antiAgorize.antiAgorize );
+router.post( '/anti_agorize', ensureUserAuthenticated, antiAgorize.antiAgorize );
 router.post( '/asteri', ensureUserAuthenticated, asteri.asteri );
-router.get( '/getagoragrams', getAgoragrams.getAgoragrams );
-router.post( '/metaagorize', ensureUserAuthenticated, metaAgorize.metaAgorize );
+router.get( '/get_agoragrams', getAgoragrams.getAgoragrams );
+router.post( '/meta_agorize', ensureUserAuthenticated, metaAgorize.metaAgorize );
 
 module.exports = router;

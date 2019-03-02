@@ -15,6 +15,8 @@ module.exports.validateAuthorById = async function( id, postId ) {
 module.exports.agorize = async function( id, agoragramData ) {
   // Unpacks the agoragram data
   const agoragram = {};
+  const agoragramId = ObjectID();
+  agoragram[ '_id' ] = agoragramId;
   agoragram[ 'author' ] = ObjectID( id );
   agoragram[ 'type' ] = agoragramData.type;
   if ( agoragramData.group ) agoragram[ 'group' ] = agoragramData.group;
@@ -27,23 +29,25 @@ module.exports.agorize = async function( id, agoragramData ) {
   agoragram[ 'pinned' ] = false;
   agoragram[ 'deleted' ] = false;
 
+  // Initiate query array, array that withholds queries that will be called async later.
+  const queryArray = [];
+
   // Adds agoragram type specific fields, e.g. title for normal posts and replyTo for comments
-  if ( [ 'post', 'link', 'question' ].includes( agoragramData.type ) ) {
+  if ( [ 'text', 'link', 'question' ].includes( agoragramData.type ) ) {
     agoragram[ 'title' ] = agoragramData.title;
     agoragram[ 'tags' ] = agoragramData.tags;
     agoragram[ 'commentAmount' ] = 0;
   } else {
-    agoragram[ 'post' ] = agoragramData.post;
-    agoragram[ 'replyTo' ] = agoragramData.replyTo;
+    const replyExists = await db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectID( agoragramData.replyTo ) }, { '$push': { 'children': agoragramId } }, { 'projection': { '_id': 1, 'type': 1, 'post': 1 } } );
+    if ( !replyExists.value ) return { 'error': true, 'reason': `replyTo does not exist`, 'replyTo': agoragramData.replyTo };
+    else if ( replyExists.value.type === 'comment' ) agoragram[ 'post' ] = replyExists.value.post;
+    else agoragram[ 'post' ] = replyExists.value._id;
 
-    [ replyExists, postExists ] = Promise.all( [
-      ( db.collection( 'agoragrams' ).findOne( { '_id': ObjectID( replyTo ) }, { 'projection': { '_id': 1 } } ) ).value._id,
-      ( db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectID( post ) }, { '$inc': { 'commentAmount': 1 } }, { 'projection': { '_id': 1 } } ) ).value._id
-    ] )
-    if ( !replyExists || !postExists ) return { 'type': 'failed', 'reason': `replyTo or post does not exist.`, replyTo, post }
+    queryArray.push( db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectID( agoragram.post ) }, { '$inc': { 'commentAmount': 1 } }, { 'projection': { '_id': 1 } } ) );
   }
 
-  return await db.collection( 'agoragrams' ).insertOne( agoragram );
+  queryArray.push( db.collection( 'agoragrams' ).insertOne( agoragram ) );
+  return await Promise.all( queryArray )
 }
 
 // Remove post/comment
@@ -141,7 +145,7 @@ module.exports.getAgoragrams = async function( hexSecondsAfter, hexSecondsBefore
   const objectIDAfter = ObjectID( hexSecondsAfter + "0000000000000000" );
   const objectIDBefore = ObjectID( hexSecondsBefore + "0000000000000000" );
 
-  if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore } } ).limit( 10 ).sort( { '_id': -1 } ).toArray();
-  else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore } } ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
+  if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } } ).limit( 10 ).sort( { '_id': -1 } ).toArray();
+  else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } } ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
   else return null;
 }

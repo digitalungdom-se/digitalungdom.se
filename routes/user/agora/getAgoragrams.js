@@ -1,15 +1,12 @@
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 const validator = require( 'validator' );
 
-const ensureUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureUserAuthenticated;
-const ensureNotUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureNotUserAuthenticated;
-
 const getAgoragrams = require( './../../../models/user/agora' ).getAgoragrams;
 
 module.exports.getAgoragrams = async function( req, res ) {
-  let dateAfter = req.body.dateAfter;
-  let dateBefore = req.body.dateBefore;
-  const sort = req.body.sort;
+  let dateAfter = req.query.dateAfter;
+  let dateBefore = req.query.dateBefore;
+  const sort = req.query.sort;
 
   // Checks that they all are strings, validatorjs only allows string (prevent errors)
   if ( typeof sort !== 'string' || typeof dateAfter !== 'string' || typeof dateBefore !== 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );

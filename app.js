@@ -14,6 +14,7 @@ const helmet = require( 'helmet' );
 const compression = require( 'compression' );
 const csrf = require( 'csurf' );
 const cors = require( 'cors' );
+const fileUpload = require( 'express-fileupload' );
 
 const routes = require( './routes/routes' );
 
@@ -68,6 +69,8 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
 
   app.use( passport.initialize() );
   app.use( passport.session() );
+
+  app.use( fileUpload( { limits: { fileSize: 1 * 1024 * 1024 } } ) );
 
   app.use( function( req, res, next ) {
     //res.send( { 'csrfToken': req.csrfToken() } )

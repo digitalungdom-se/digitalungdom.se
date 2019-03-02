@@ -1,14 +1,6 @@
 const validator = require( 'validator' );
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
-
-const ensureUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureUserAuthenticated;
-const ensureNotUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureNotUserAuthenticated;
-
-const getUserByEmail = require( './../../../models/get' ).getUserByEmail;
-const getUserByUsername = require( './../../../models/get' ).getUserByUsername;
-const getUserById = require( './../../../models/get' ).getUserById;
-const getUserRolesById = require( './../../../models/get' ).getUserRolesById;
-const getRoleIdByName = require( './../../../models/get' ).getRoleIdByName;
+const validateAuthorById = require( './../../../models/user/agora' ).validateAuthorById;
 
 const metaAgorize = require( './../../../models/user/agora' ).metaAgorize;
 
@@ -25,7 +17,6 @@ module.exports.metaAgorize = async function( req, res ) {
 
   if ( await validateAuthorById( id, postId ) ) {
     const exists = await metaAgorize( postId, { body } );
-    console.log( exists );
     if ( new Date() - exists < 10000 ) return res.status( 201 ).send( { 'type': 'success' } );
     else if ( exists ) return res.status( 500 ).send( { 'type': 'failed', 'reason': 'internal server error' } );
     else return res.status( 404 ).send( { 'type': 'failed', 'reason': 'no post with that id', postId } );
