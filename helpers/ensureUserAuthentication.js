@@ -19,7 +19,6 @@ module.exports.ensureUserAuthenticated = async function( req, res, next ) {
 
 module.exports.ensureNotUserAuthenticated = async function( req, res, next ) {
   /** Ensures that the user is not authenticated by checking if they are authenticated using express **/
-  console.log( req.user );
   if ( !req.isAuthenticated() ) {
     return next();
   } else {

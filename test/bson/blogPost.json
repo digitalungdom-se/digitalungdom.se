@@ -175,7 +175,6 @@
       "pinned": "<bolean>",
 
       "post": "<ObjectId(id)>",
-      "replyTo": "<ObjectId(id)>",
     }
   }
 }
