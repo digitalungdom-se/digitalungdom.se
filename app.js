@@ -1,4 +1,3 @@
-"use strict";
 require( 'dotenv' ).config();
 
 const express = require( 'express' );
@@ -8,11 +7,10 @@ const cookieParser = require( 'cookie-parser' );
 const session = require( 'express-session' );
 const MongoStore = require( 'connect-mongo' )( session );
 const passport = require( 'passport' );
-const LocalStrategy = require( 'passport-local' ).Strategy;
 const MongoClient = require( 'mongodb' ).MongoClient;
 const helmet = require( 'helmet' );
 const compression = require( 'compression' );
-const csrf = require( 'csurf' );
+//const csrf = require( 'csurf' );
 const cors = require( 'cors' );
 const fileUpload = require( 'express-fileupload' );
 
@@ -26,6 +24,7 @@ const app = express();
 MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async function( err, client ) {
   if ( err ) return console.log( err );
   global.db = client.db( 'digitalungdom' );
+  const db = client.db( 'digitalungdom' );
 
   app.use( compression() );
 
@@ -79,7 +78,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
 
   app.use( function( err, req, res, next ) {
     res.status( 500 ).send( "Oj uhmmm, något gick fel?" );
-    console.error( error );
+    console.error( err );
   } );
 
   app.use( '/api/', routes );

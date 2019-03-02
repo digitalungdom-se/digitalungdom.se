@@ -1,3 +1,5 @@
+/* global db */
+
 const ObjectID = require( 'mongodb' ).ObjectID;
 
 module.exports.setProfilePicture = async function( id, buffer ) {

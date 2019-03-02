@@ -24,7 +24,7 @@ module.exports.agorize = async function( req, res ) {
 
   // Checks that they all are strings, validatorjs only allows string (prevent errors)
   if ( typeof body !== 'string' || typeof type !== 'string' || typeof group !== 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );
-  if ( !validator.isIn( type, [ 'text', 'comment', 'link', 'question' ] ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You can only post a (text|comment|link|question)', type } );
+  if ( !validator.isIn( type, [ 'text', 'comment', 'link', 'question' ] ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You can only post a (text|comment|link|question)', 'typeVariable': type } );
   if ( !validator.isLength( body, { min: 0, max: 10000 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Body is too long', body } );
 
   if ( group !== 'user' ) {

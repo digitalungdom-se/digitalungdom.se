@@ -1,4 +1,3 @@
-const validator = require( 'validator' );
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 
 const antiAgorize = require( './../../../models/user/agora' ).antiAgorize;

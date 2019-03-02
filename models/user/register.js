@@ -1,7 +1,6 @@
+/* global db */
+
 const bcrypt = require( 'bcryptjs' );
-const MongoClient = require( 'mongodb' ).MongoClient;
-const express = require( 'express' );
-const ObjectID = require( 'mongodb' ).ObjectID;
 const crypto = require( 'crypto' );
 const path = require( 'path' );
 const fs = require( 'fs-extra' )
