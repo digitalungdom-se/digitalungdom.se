@@ -28,7 +28,7 @@ module.exports.agorize = async function( req, res ) {
   if ( !validator.isLength( body, { min: 0, max: 10000 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Body is too long', body } );
 
   if ( group !== 'user' ) {
-    if ( !validateObjectID( replyTo ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'group is not an objectID', group } );
+    if ( !validateObjectID( group ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'group is not an objectID', group } );
     if ( !( await checkGroup( id, group ) ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You are not authorised to use that role', group } );
   } else {
     for ( let badge of badges ) {
@@ -42,6 +42,7 @@ module.exports.agorize = async function( req, res ) {
     // Validates the length of the post
     if ( typeof title != 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted', title } );
     if ( !validator.isLength( title, { min: 3, max: 100 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Title is too long/short', title } );
+
     if ( !Array.isArray( tags ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Tags has to be an array', tags } );
     if ( tags.length > 10 ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Too many tags, max 10', tags } );
     for ( let tag of tags ) {
@@ -58,7 +59,6 @@ module.exports.agorize = async function( req, res ) {
   const status = await agorize( id, { title, body, type, group, badges, tags, replyTo } );
   if ( status.error ) {
     return res.status( 500 ).send( { 'type': 'fail', 'reason': status.reason } );
-
   } else {
     return res.status( 201 ).send( { 'type': 'success' } );
   }

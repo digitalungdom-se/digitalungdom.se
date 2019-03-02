@@ -149,3 +149,7 @@ module.exports.getAgoragrams = async function( hexSecondsAfter, hexSecondsBefore
   else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } } ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
   else return null;
 }
+
+module.exports.getAgoragram = async function( postId ) {
+  return await db.collection( 'agoragrams' ).find( '$or': [ { '_id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] ).toArray();
+}
