@@ -1,4 +1,5 @@
-const MongoClient = require( 'mongodb' ).MongoClient;
+/* global db */
+
 const ObjectID = require( 'mongodb' ).ObjectID;
 
 const getAgoragramProjection = {
@@ -57,10 +58,12 @@ module.exports.agorize = async function( id, agoragramData ) {
     agoragram[ 'tags' ] = agoragramData.tags;
     agoragram[ 'commentAmount' ] = 0;
   } else {
-    const replyExists = await db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectID( agoragramData.replyTo ) }, { '$push': { 'children': agoragramId } }, { 'projection': { '_id': 1, 'type': 1, 'post': 1 } } );
-    if ( !replyExists.value ) return { 'error': true, 'reason': `replyTo does not exist`, 'replyTo': agoragramData.replyTo };
+    const replyToId = agoragramData.replyTo;
+    const replyExists = await db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectID( replyToId ) }, { '$push': { 'children': agoragramId } }, { 'projection': { '_id': 1, 'type': 1, 'post': 1 } } );
+    if ( !replyExists.value ) return { 'error': true, 'reason': `replyTo does not exist`, 'replyTo': replyToId };
     else if ( replyExists.value.type === 'comment' ) agoragram[ 'post' ] = replyExists.value.post;
     else agoragram[ 'post' ] = replyExists.value._id;
+    agoragram[ 'replyTo' ] = replyToId;
 
     queryArray.push( db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectID( agoragram.post ) }, { '$inc': { 'commentAmount': 1 } }, { 'projection': { '_id': 1 } } ) );
   }
@@ -111,6 +114,9 @@ module.exports.asteri = async function( id, starId ) {
   // Checks if exists
   if ( !starredComment._id ) return false;
 
+  const agoragramStar = {};
+  let star = 0;
+
   // Checks if the user has rated the post or not
   if ( starredComment.starredBy ) {
     // If the user hasn't starred the post/comment
@@ -125,13 +131,13 @@ module.exports.asteri = async function( id, starId ) {
   }
 
   // Gets the replyToId (only comments have this field) and increments it's stars at the same time. Database god.
-  const replyToId = await db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectID( starId ) }, agoragramStar, { 'projection': { '_id': 0, 'replyTo': 1 } } ).replyTo;
-
+  const starredPost = await db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectID( starId ) }, agoragramStar, { 'projection': { '_id': 0, 'replyTo': 1 } } );
+  const replyToId = starredPost.value.replyTo;
   // Checks if it is a comment. Then updates that comments parents children array then sorts it (only if the starred comment's stars is larger than the next one).
   // This process is done to accelerate front-end sorted tree building.
   if ( replyToId ) {
     // Gets all the starred comments siblings and increments the starred comments stars in the parents child array. database god.
-    let children = db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectID( postId ), 'children._id': ObjectID( replyToId ) }, { '$inc': { 'children.$.stars': star } }, { 'projection': { '_id': 0, 'children': 1 }, 'returnOriginal': false } ).children;
+    let children = ( db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectID( replyToId ), 'children._id': ObjectID( starId ) }, { '$inc': { 'children.$.stars': star } }, { 'projection': { '_id': 0, 'children': 1 }, 'returnOriginal': false } ) ).value.children;
 
     // Fetches the index of starred comment in sibling array
     const startPostIndex = children.findIndex( function( child ) {
@@ -153,7 +159,7 @@ module.exports.asteri = async function( id, starId ) {
         children[ startPostIndex ] = children[ startPostRivalIndex ];
         children[ startPostRivalIndex ] = tmp;
 
-        await db.collection( 'agoragrams' ).updateOne( { '_id': ObjectID( postId ) }, { '$set': { 'children': children } } )
+        await db.collection( 'agoragrams' ).updateOne( { '_id': ObjectID( replyToId ) }, { '$set': { 'children': children } } )
       }
     }
   }
@@ -164,7 +170,7 @@ module.exports.getAgoragrams = async function( hexSecondsAfter, hexSecondsBefore
   const objectIDAfter = ObjectID( hexSecondsAfter + '0000000000000000' );
   const objectIDBefore = ObjectID( hexSecondsBefore + '0000000000000000' );
 
-  if ( id ) getAgoragramProjection[ 'starredby\.$' ] = ObjectID( id );
+  if ( id ) getAgoragramProjection[ 'starredby.$' ] = ObjectID( id );
 
   if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } }, { 'projection': {} } ).limit( 10 ).sort( { '_id': -1 } ).toArray();
   else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } }, { 'projection': {} } ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
@@ -172,7 +178,7 @@ module.exports.getAgoragrams = async function( hexSecondsAfter, hexSecondsBefore
 }
 
 module.exports.getAgoragram = async function( postId, id ) {
-  if ( id ) getAgoragramProjection[ 'starredby\.$' ] = ObjectID( id );
+  if ( id ) getAgoragramProjection[ 'starredby.$' ] = ObjectID( id );
 
   return await db.collection( 'agoragrams' ).find( { '$or': [ { '_id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] }, { 'projection': {} } ).toArray();
 }

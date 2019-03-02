@@ -1,4 +1,5 @@
-const MongoClient = require( 'mongodb' ).MongoClient;
+/* global db */
+
 const ObjectID = require( 'mongodb' ).ObjectID;
 
 module.exports.getAgreementVersion = async function() {

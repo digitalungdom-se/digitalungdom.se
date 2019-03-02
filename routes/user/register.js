@@ -1,5 +1,3 @@
-const express = require( 'express' );
-const router = express.Router();
 const validator = require( 'validator' );
 
 const checkUsername = require( './../../models/check' ).checkUsername;
@@ -44,7 +42,7 @@ module.exports.register = async function( req, res ) {
   // Validates name according to following rules: min 3 max 64 characters, min 2 names (e.g. Firstname Surname), only includes allowed characters (A-Z, a-z (including all diatrics), and - ' , . ')
   if ( !validator.isLength( name, { min: 3, max: 64 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Name length is either too long or too short', 'name': name } );
   if ( name.split( ' ' ).filter( n => n ).length < 2 ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Not enough names, at least first name and surname', 'name': name } );
-  if ( !/^(([A-Za-zÀ-ÖØ-öø-ÿ\-\'\,\.\ ]+))$/.test( name ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid characters in name', 'name': name } );
+  if ( !/^(([A-Za-zÀ-ÖØ-öø-ÿ\-',.\s ]+))$/.test( name ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid characters in name', 'name': name } );
 
   // Validates username according to following rules: min 3 max 24 characters and only includes valid characters (A-Z, a-z, 0-9, and _)
   if ( !validator.isLength( username, { min: 3, max: 24 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Username length is either too long or too short', 'username': username } );
@@ -93,7 +91,7 @@ module.exports.register = async function( req, res ) {
   const user = {
     'email': email,
     'password': password,
-    'name': name.toLowerCase().split( ' ' ).filter( n => n ).map( ( s ) => ( [ 'von', 'van', 'de', 'der', 'los', 'ibn', 'd´' ].indexOf( s ) == -1 ) ? s.charAt( 0 ).toUpperCase() + s.substring( 1 ) : s ).join( ' ' ),
+    'name': name.toLowerCase().split( ' ' ).filter( n => n ).map( ( s ) => ( [ 'von', 'van', 'de', 'der', 'los', 'ibn', 'd´' ].indexOf( s ) === -1 ) ? s.charAt( 0 ).toUpperCase() + s.substring( 1 ) : s ).join( ' ' ),
     'username': username,
     'usernameLower': username.toLowerCase(),
     'birthdate': new Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),

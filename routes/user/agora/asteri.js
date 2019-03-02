@@ -1,4 +1,3 @@
-const validator = require( 'validator' );
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 
 const asteri = require( './../../../models/user/agora' ).asteri;
