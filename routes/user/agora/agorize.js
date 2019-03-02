@@ -1,12 +1,6 @@
 const validator = require( 'validator' );
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 
-const ensureUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureUserAuthenticated;
-const ensureNotUserAuthenticated = require( './../../../helpers/ensureUserAuthentication' ).ensureNotUserAuthenticated;
-
-const getUserByEmail = require( './../../../models/get' ).getUserByEmail;
-const getUserByUsername = require( './../../../models/get' ).getUserByUsername;
-const getUserById = require( './../../../models/get' ).getUserById;
 const checkGroup = require( './../../../models/check' ).checkGroup;
 const checkBadges = require( './../../../models/check' ).checkBadges;
 
@@ -19,22 +13,19 @@ module.exports.agorize = async function( req, res ) {
   const type = req.body.type;
   const group = req.body.group;
   // Is not required
-  const badges = [] //req.body.badges;
+  const badges = req.body.badges;
 
   // Post specific
   const title = req.body.title;
-  const tags = [] //req.body.tags;
+  const tags = req.body.tags;
 
   // Comment specific
   const replyTo = req.body.replyTo;
 
-
   // Checks that they all are strings, validatorjs only allows string (prevent errors)
   if ( typeof body !== 'string' || typeof type !== 'string' || typeof group !== 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );
-  if ( !validator.isIn( type, [ 'post', 'comment', 'link', 'question' ] ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You can only post a (post|comment|link|question)', type } );
+  if ( !validator.isIn( type, [ 'text', 'comment', 'link', 'question' ] ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You can only post a (text|comment|link|question)', type } );
   if ( !validator.isLength( body, { min: 0, max: 10000 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Body is too long', body } );
-  let postAs;
-  let postBadges;
 
   if ( group !== 'user' ) {
     if ( !validateObjectID( replyTo ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'group is not an objectID', group } );
@@ -47,14 +38,14 @@ module.exports.agorize = async function( req, res ) {
   }
 
   // Specific validation
-  if ( type === 'post' ) {
+  if ( type === 'text' || type === 'question' ) {
     // Validates the length of the post
     if ( typeof title != 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted', title } );
     if ( !validator.isLength( title, { min: 3, max: 100 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Title is too long/short', title } );
     if ( !Array.isArray( tags ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Tags has to be an array', tags } );
     if ( tags.length > 10 ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Too many tags, max 10', tags } );
     for ( let tag of tags ) {
-      if ( !typeof tag !== 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings allowed for tags', tag } );
+      if ( typeof tag !== 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings allowed for tags', tag } );
       if ( !validator.isLength( tag, { min: 3, max: 32 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Tag is too long/short', tag } );
     }
 
@@ -64,12 +55,12 @@ module.exports.agorize = async function( req, res ) {
   } else {
     if ( !validator.isURL( body, { protocols: [ 'http', 'https' ] } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Link posts may only be links', body } );
   }
-
   const status = await agorize( id, { title, body, type, group, badges, tags, replyTo } );
-  if ( status.result.ok ) {
-    return res.status( 201 ).send( { 'type': 'success' } );
+  if ( status.error ) {
+    return res.status( 500 ).send( { 'type': 'fail', 'reason': status.reason } );
+
   } else {
-    return res.status( 500 ).send( { 'type': 'fail', 'reason': 'internal server error' } );
+    return res.status( 201 ).send( { 'type': 'success' } );
   }
 
 }

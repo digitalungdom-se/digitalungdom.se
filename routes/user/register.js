@@ -2,24 +2,24 @@ const express = require( 'express' );
 const router = express.Router();
 const validator = require( 'validator' );
 
-const ensureUserAuthenticated = require( './../../helpers/ensureUserAuthentication' ).ensureUserAuthenticated;
-const ensureNotUserAuthenticated = require( './../../helpers/ensureUserAuthentication' ).ensureNotUserAuthenticated;
-
 const checkUsername = require( './../../models/check' ).checkUsername;
 const checkEmail = require( './../../models/check' ).checkEmail;
 const getAgreementVersion = require( './../../models/get' ).getAgreementVersion;
 const createUser = require( './../../models/user/register' ).createUser;
 const sendVerification = require( './../../models/user/register' ).sendVerification;
+const validateProfilePicuture = require( './profilePicture' ).validateProfilePicuture;
 
 module.exports.register_check_username = async function( req, res ) {
-  const username = req.body.username;
+  const username = req.query.username;
+
   if ( typeof username != 'string' ) return res.send( { username: false } );
 
   return res.send( { username: await checkUsername( username ) } );
 }
 
 module.exports.register_check_email = async function( req, res ) {
-  const email = req.body.email;
+  const email = req.query.email;
+
   if ( typeof email != 'string' ) return res.send( { email: false } );
   if ( !validator.isEmail( email ) ) return res.send( { email: false } );
 
@@ -66,6 +66,16 @@ module.exports.register = async function( req, res ) {
   // Validates gender according to following rules: is an integer between 0 and 3.
   if ( !validator.isInt( gender, { min: 0, max: 3 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Gender is malformed', 'gender': gender } );
 
+  const amountOfFiles = Object.keys( req.files ).length;
+  let profilePicture = null;
+  if ( amountOfFiles > 1 ) return res.status( 400 ).send( { "type": "fail", "reason": "too many files uploaded" } );
+  if ( amountOfFiles ) {
+    const profilePictureBuffer = req.files.profilePicture.data;
+    const pictureValidation = await validateProfilePicuture( profilePictureBuffer, req.files.profilePicture.truncated );
+    if ( pictureValidation.error ) return res.status( 400 ).send( { "type": "fail", "reason": pictureValidation.reason } );
+    profilePicture = profilePictureBuffer;
+  }
+
   // Validates that the username and email does not already exist and retrieves the current agreement version
   const [ usernameExists, emailExists, agreementVersion ] = await Promise.all( [
     checkUsername( username ),
@@ -81,17 +91,18 @@ module.exports.register = async function( req, res ) {
   // The long name function parses the users name so that each initial letter is capatalised (exclues von, van, and etc). E.g. fiRsTNAme SuRNAme => Firstname Surname. May be removed later.
   const date = birthdate.split( '-' );
   const user = {
-    "email": email,
-    "password": password,
-    "name": name.toLowerCase().split( ' ' ).filter( n => n ).map( ( s ) => ( [ 'von', 'van', 'de', 'der', 'los', 'ibn', 'd´' ].indexOf( s ) == -1 ) ? s.charAt( 0 ).toUpperCase() + s.substring( 1 ) : s ).join( ' ' ),
-    "username": username,
-    "usernameLower": username.toLowerCase(),
-    "birthdate": new Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),
-    "gender": parseInt( gender ),
-    "resetPasswordToken": null,
-    "resetPasswordExpires": null,
-    "verified": true,
-    "verificationToken": null,
+    'email': email,
+    'password': password,
+    'name': name.toLowerCase().split( ' ' ).filter( n => n ).map( ( s ) => ( [ 'von', 'van', 'de', 'der', 'los', 'ibn', 'd´' ].indexOf( s ) == -1 ) ? s.charAt( 0 ).toUpperCase() + s.substring( 1 ) : s ).join( ' ' ),
+    'username': username,
+    'usernameLower': username.toLowerCase(),
+    'birthdate': new Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),
+    'gender': parseInt( gender ),
+    'profilePicture': profilePicture,
+    'resetPasswordToken': null,
+    'resetPasswordExpires': null,
+    'verified': true,
+    'verificationToken': null,
   }
 
   //creates user

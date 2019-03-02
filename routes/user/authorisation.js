@@ -3,28 +3,23 @@ const LocalStrategy = require( 'passport-local' ).Strategy;
 const bcrypt = require( 'bcryptjs' );
 const validator = require( 'validator' );
 
-const ensureUserAuthenticated = require( './../../helpers/ensureUserAuthentication' ).ensureUserAuthenticated;
-const ensureNotUserAuthenticated = require( './../../helpers/ensureUserAuthentication' ).ensureNotUserAuthenticated;
-
 const getUserByEmail = require( './../../models/get' ).getUserByEmail;
 const getUserByUsername = require( './../../models/get' ).getUserByUsername;
 const getUserById = require( './../../models/get' ).getUserById;
 
-//router.post( '/auth',
 module.exports.auth = async function( req, res ) {
   const id = req.user;
-  if ( !id ) return res.status( 401 ).send( { "type": "failed", "reason": "Not authorised" } );
+  if ( !id ) return res.status( 401 ).send( { 'type': 'failed', 'reason': 'Not authorised' } );
   const user = await getUserById( id );
 
   return res.send( {
-    "type": "success",
-    "name": user.name,
-    "username": user.username,
-    "email": user.email,
+    'type': 'success',
+    'name': user.name,
+    'username': user.username,
+    'email': user.email,
   } )
 }
 
-//router.post( '/login',
 module.exports.login = async function( req, res ) {
   // Use local strategy with custom callbacks
   passport.authenticate( 'local', function( err, user, info ) {
@@ -39,7 +34,7 @@ module.exports.login = async function( req, res ) {
 
 // Simple passportjs local strategy
 passport.use( 'local', new LocalStrategy(
-  // Remember the username and password fields have to be named "username" and "password". See passportjs documentation to change default names.
+  // Remember the username and password fields have to be named 'username' and 'password'. See passportjs documentation to change default names.
   async function( username, password, done ) {
     // Checks that both inputs are string, so no errors occur.
     if ( typeof username != 'string' || typeof password != 'string' ) {
@@ -58,7 +53,7 @@ passport.use( 'local', new LocalStrategy(
       return done( null, false, { field: 'username', message: 'not verified' } );
     }
 
-    // Compares the candidate password to the users password, if they are "equal" the strategy will return true and the users id, name, username, and email. Else false and an incorrect password message.
+    // Compares the candidate password to the users password, if they are 'equal' the strategy will return true and the users id, name, username, and email. Else false and an incorrect password message.
     if ( await bcrypt.compare( password, user.password ) ) {
       return done( null, { '_id': user[ '_id' ], name: user.name, username: user.username, email: user.email }, { message: 'Klart.' } );
     } else {
