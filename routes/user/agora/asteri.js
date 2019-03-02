@@ -15,4 +15,4 @@ module.exports.asteri = async function( req, res ) {
   if ( exists === false ) return res.status( 201 ).send( { 'type': 'success' } );
   else if ( exists === true ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Agoragram already deleted', postId } );
   else return res.status( 404 ).send( { 'type': 'fail', 'reason': 'No such post', postId } );
-}
+};

@@ -13,7 +13,7 @@ module.exports.register_check_username = async function( req, res ) {
   if ( typeof username != 'string' ) return res.send( { username: false } );
 
   return res.send( { username: await checkUsername( username ) } );
-}
+};
 
 module.exports.register_check_email = async function( req, res ) {
   const email = req.query.email;
@@ -22,7 +22,7 @@ module.exports.register_check_email = async function( req, res ) {
   if ( !validator.isEmail( email ) ) return res.send( { email: false } );
 
   return res.send( { email: await checkEmail( email ) } );
-}
+};
 
 module.exports.register = async function( req, res ) {
   // Fetches all the fields and their values
@@ -66,11 +66,11 @@ module.exports.register = async function( req, res ) {
 
   const amountOfFiles = Object.keys( req.files ).length;
   let profilePicture = null;
-  if ( amountOfFiles > 1 ) return res.status( 400 ).send( { "type": "fail", "reason": "too many files uploaded" } );
+  if ( amountOfFiles > 1 ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'too many files uploaded' } );
   if ( amountOfFiles ) {
     const profilePictureBuffer = req.files.profilePicture.data;
     const pictureValidation = await validateProfilePicuture( profilePictureBuffer, req.files.profilePicture.truncated );
-    if ( pictureValidation.error ) return res.status( 400 ).send( { "type": "fail", "reason": pictureValidation.reason } );
+    if ( pictureValidation.error ) return res.status( 400 ).send( { 'type': 'fail', 'reason': pictureValidation.reason } );
     profilePicture = profilePictureBuffer;
   }
 
@@ -101,11 +101,11 @@ module.exports.register = async function( req, res ) {
     'resetPasswordExpires': null,
     'verified': true,
     'verificationToken': null,
-  }
+  };
 
   //creates user
   await createUser( user );
   //await sendVerification(  user.email );
 
   return res.status( 201 ).send( { type: 'success', username: user.username, name: user.name, email: user.email } );
-}
+};

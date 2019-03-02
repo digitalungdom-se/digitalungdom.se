@@ -16,7 +16,7 @@ const fileUpload = require( 'express-fileupload' );
 
 const routes = require( './routes/routes' );
 
-// Gets current development state of the node environment (PRODUCTION/DEVELOPMENT). Is set in .env file
+// Gets current development state of the node environment (PRODUCTION|DEVELOPMENT). Is set in .env file
 const state = process.env.NODE_ENV;
 
 const app = express();
@@ -73,11 +73,11 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
 
   app.use( function( req, res, next ) {
     //res.send( { 'csrfToken': req.csrfToken() } )
-    return next()
+    return next();
   } );
 
-  app.use( function( err, req, res, next ) {
-    res.status( 500 ).send( "Oj uhmmm, något gick fel?" );
+  app.use( function( err, req, res ) {
+    res.status( 500 ).send( 'Oj uhmmm, något gick fel?' );
     console.error( err );
   } );
 
@@ -91,5 +91,5 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
 
   app.listen( app.get( 'port' ), () => {
     console.log( state, ': listening on ', app.get( 'port' ) );
-  } )
-} )
+  } );
+} );

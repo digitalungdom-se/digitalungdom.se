@@ -19,7 +19,7 @@ const getAgoragramProjection = {
   'commentAmount': 1,
 
   'post': 1,
-}
+};
 
 // Post includes text|link posts|questions
 
@@ -29,7 +29,7 @@ module.exports.validateAuthorById = async function( id, postId ) {
 
   if ( validation ) return true;
   else return false;
-}
+};
 
 // Post post/comment
 module.exports.agorize = async function( id, agoragramData ) {
@@ -60,7 +60,7 @@ module.exports.agorize = async function( id, agoragramData ) {
   } else {
     const replyToId = agoragramData.replyTo;
     const replyExists = await db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectID( replyToId ) }, { '$push': { 'children': agoragramId } }, { 'projection': { '_id': 1, 'type': 1, 'post': 1 } } );
-    if ( !replyExists.value ) return { 'error': true, 'reason': `replyTo does not exist`, 'replyTo': replyToId };
+    if ( !replyExists.value ) return { 'error': true, 'reason': 'replyTo does not exist', 'replyTo': replyToId };
     else if ( replyExists.value.type === 'comment' ) agoragram[ 'post' ] = replyExists.value.post;
     else agoragram[ 'post' ] = replyExists.value._id;
     agoragram[ 'replyTo' ] = replyToId;
@@ -69,8 +69,8 @@ module.exports.agorize = async function( id, agoragramData ) {
   }
 
   queryArray.push( db.collection( 'agoragrams' ).insertOne( agoragram ) );
-  return await Promise.all( queryArray )
-}
+  return await Promise.all( queryArray );
+};
 
 // Remove post/comment
 module.exports.antiAgorize = async function( postId ) {
@@ -89,7 +89,7 @@ module.exports.antiAgorize = async function( postId ) {
 
   if ( exists.value ) return exists.value.deleted;
   else return null;
-}
+};
 
 // Edit post/comment
 module.exports.metaAgorize = async function( postId, agoragramData ) {
@@ -102,7 +102,7 @@ module.exports.metaAgorize = async function( postId, agoragramData ) {
 
   if ( exists.value ) return exists.value.modified;
   else return null;
-}
+};
 
 // Like post/comment
 module.exports.asteri = async function( id, starId ) {
@@ -120,13 +120,13 @@ module.exports.asteri = async function( id, starId ) {
   // Checks if the user has rated the post or not
   if ( starredComment.starredBy ) {
     // If the user hasn't starred the post/comment
-    agoragramStar[ `$push.starredBy` ] = ObjectID( id );
-    agoragramStar[ `$inc.stars` ] = 1;
+    agoragramStar[ '$push.starredBy' ] = ObjectID( id );
+    agoragramStar[ '$inc.stars' ] = 1;
     star = 1;
   } else {
     // If the user has starred the post/comment, i.e. unstar it.
-    agoragramStar[ `$pull.starredBy` ] = ObjectID( id );
-    agoragramStar[ `$inc.stars` ] = -1;
+    agoragramStar[ '$pull.starredBy' ] = ObjectID( id );
+    agoragramStar[ '$inc.stars' ] = -1;
     star = -1;
   }
 
@@ -159,11 +159,11 @@ module.exports.asteri = async function( id, starId ) {
         children[ startPostIndex ] = children[ startPostRivalIndex ];
         children[ startPostRivalIndex ] = tmp;
 
-        await db.collection( 'agoragrams' ).updateOne( { '_id': ObjectID( replyToId ) }, { '$set': { 'children': children } } )
+        await db.collection( 'agoragrams' ).updateOne( { '_id': ObjectID( replyToId ) }, { '$set': { 'children': children } } );
       }
     }
   }
-}
+};
 
 // Get all new posts
 module.exports.getAgoragrams = async function( hexSecondsAfter, hexSecondsBefore, sort, id ) {
@@ -175,10 +175,10 @@ module.exports.getAgoragrams = async function( hexSecondsAfter, hexSecondsBefore
   if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } }, { 'projection': {} } ).limit( 10 ).sort( { '_id': -1 } ).toArray();
   else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } }, { 'projection': {} } ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
   else return null;
-}
+};
 
 module.exports.getAgoragram = async function( postId, id ) {
   if ( id ) getAgoragramProjection[ 'starredby.$' ] = ObjectID( id );
 
   return await db.collection( 'agoragrams' ).find( { '$or': [ { '_id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] }, { 'projection': {} } ).toArray();
-}
+};

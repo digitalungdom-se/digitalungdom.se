@@ -10,34 +10,34 @@ module.exports.getAgreementVersion = async function() {
   const agreementVersion = await db.collection( 'agreements' ).findOne( { '$query': {}, '$orderby': { 'agreementVersion': -1 } }, { 'project': { '_id': 0, 'agreementVersion': 1 } } );
 
   return agreementVersion;
-}
+};
 
 module.exports.getUserById = async function( id ) {
   const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { '_id': 0, 'verificationToken': 0, 'resetPasswordToken': 0, 'resetPasswordExpires': 0 } } );
 
   return user;
-}
+};
 
 module.exports.getUserByEmail = async function( email ) {
   const user = await db.collection( 'users' ).findOne( { 'email': email }, { 'projection': { 'verificationToken': 0, 'resetPasswordToken': 0, 'resetPasswordExpires': 0 } } );
 
   return user;
-}
+};
 
 module.exports.getUserByUsername = async function( username ) {
   const user = await db.collection( 'users' ).findOne( { 'usernameLower': username.toLowerCase() }, { 'projection': { 'verificationToken': 0, 'resetPasswordToken': 0, 'resetPasswordExpires': 0 } } );
 
   return user;
-}
+};
 
 module.exports.getUserRolesById = async function( id ) {
   const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { '_id': 0, 'roles': 1 } } );
 
   return user.roles;
-}
+};
 
 module.exports.getRoleIdByName = async function( name ) {
   const user = await db.collection( 'roles' ).findOne( { 'name': name }, { 'projection': { '_id': 1 } } );
 
   return user.roles;
-}
+};

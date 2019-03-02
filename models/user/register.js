@@ -3,8 +3,7 @@
 const bcrypt = require( 'bcryptjs' );
 const crypto = require( 'crypto' );
 const path = require( 'path' );
-const fs = require( 'fs-extra' )
-const Hogan = require( "hogan.js" );
+const Hogan = require( 'hogan.js' );
 
 const sendMail = require( './../../helpers/sendMail' ).sendMail;
 
@@ -12,7 +11,7 @@ module.exports.createUser = async function( user ) {
   // Hahes the users password with 12 salt rounds (standard)
   user.password = bcrypt.hashSync( user.password, 12 );
   await db.collection( 'users' ).insertOne( user );
-}
+};
 
 module.exports.sendVerification = async function( email ) {
   // Generates 32 character (byte) long token to use for as a verification token. Inserts it into the users mongodb document and send them an email.
@@ -34,7 +33,7 @@ module.exports.sendVerification = async function( email ) {
     path: path.join( __dirname, '..', 'emails', 'images', 'rayslogo.png' ),
     cid: 'logo'
   } ] );
-}
+};
 
 module.exports.verify = async function( token ) {
   // Verifies the user by finding the sent token in the db and verifying them.
@@ -42,4 +41,4 @@ module.exports.verify = async function( token ) {
     $unset: { 'verificationToken': 1 },
     $set: { 'verified': true }
   } );
-}
+};

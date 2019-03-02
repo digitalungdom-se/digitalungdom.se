@@ -13,9 +13,9 @@ module.exports.checkUsername = async function( user ) {
 
   const userExists = await db.collection( 'users' ).findOne( { 'usernameLower': user }, { 'projection': { '_id': 1 } } );
 
-  if ( userExists ) return false
+  if ( userExists ) return false;
   else return true;
-}
+};
 
 module.exports.checkEmail = async function( email ) {
   // Normalises the email using validatorjs. See documentation for exact normalisation rules
@@ -23,22 +23,22 @@ module.exports.checkEmail = async function( email ) {
 
   const userExists = await db.collection( 'users' ).findOne( { 'email': email }, { 'projection': { '_id': 1 } } );
 
-  if ( userExists ) return false
+  if ( userExists ) return false;
   else return true;
-}
+};
 
 module.exports.checkGroup = async function( id, groupId ) {
   // Validates that the user is authorised to use the candidate group
   const allowed = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ), 'groups': groupId }, { 'projection': { '_id': 1 } } );
 
-  if ( allowed ) return false
+  if ( allowed ) return false;
   else return true;
-}
+};
 
 module.exports.checkBadges = async function( id, badges ) {
   // Validates that the user is authorised to use the candidate badges
   const allowed = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ), 'badges': { '$all': badges } }, { 'projection': { '_id': 1 } } );
 
-  if ( allowed ) return false
+  if ( allowed ) return false;
   else return true;
-}
+};
