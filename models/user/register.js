@@ -3,6 +3,7 @@
 const bcrypt = require( 'bcryptjs' );
 const crypto = require( 'crypto' );
 const path = require( 'path' );
+const fs = require( 'fs-extra' );
 const Hogan = require( 'hogan.js' );
 
 const sendMail = require( './../../helpers/sendMail' ).sendMail;

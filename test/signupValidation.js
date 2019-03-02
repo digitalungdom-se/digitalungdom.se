@@ -4,7 +4,7 @@ const name = 'Kelvin   Szolnoky';
 const username = 'ippyson';
 const birthdate = '2001-06-28';
 let email = 'kelvin@szolnoky.com';
-const password = 'Testpassword1'
+const password = 'Testpassword1';
 const gender = '0';
 
 
@@ -31,18 +31,18 @@ if ( !validator.isInt( gender, { min: 0, max: 4 } ) ) return console.log( 'Gende
 
 const date = birthdate.split( '-' );
 const user = {
-  "email": email,
-  "password": password,
-  "name": name.toLowerCase().split( ' ' ).filter( n => n ).map( ( s ) => s.charAt( 0 ).toUpperCase() + s.substring( 1 ) ).join( ' ' ),
-  "username": username,
-  "usernameLower": username.toLowerCase(),
-  "birthdate": new Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),
-  "gender": parseInt( gender ),
-  "created": new Date(),
-  "resetPasswordToken": null,
-  "resetPasswordExpires": null,
-  "verified": false,
-  "verificationToken": null,
-}
+  'email': email,
+  'password': password,
+  'name': name.toLowerCase().split( ' ' ).filter( n => n ).map( ( s ) => s.charAt( 0 ).toUpperCase() + s.substring( 1 ) ).join( ' ' ),
+  'username': username,
+  'usernameLower': username.toLowerCase(),
+  'birthdate': new Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),
+  'gender': parseInt( gender ),
+  'created': new Date(),
+  'resetPasswordToken': null,
+  'resetPasswordExpires': null,
+  'verified': false,
+  'verificationToken': null,
+};
 
 console.log( user );
