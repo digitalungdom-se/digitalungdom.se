@@ -13,10 +13,12 @@ const compression = require( 'compression' );
 //const csrf = require( 'csurf' );
 const cors = require( 'cors' );
 const fileUpload = require( 'express-fileupload' );
+const errorhandler = require( 'errorhandler' );
+const protect = require( '@risingstack/protect' );
 
 const routes = require( './routes/routes' );
 
-// Gets current development state of the node environment (PRODUCTION|DEVELOPMENT). Is set in .env file
+// Gets current development state of the node environment (production|development). Is set in .env file
 const state = process.env.NODE_ENV;
 
 const app = express();
@@ -26,10 +28,14 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
   global.db = client.db( 'digitalungdom' );
   const db = client.db( 'digitalungdom' );
 
+  if ( state === 'production' ) app.enable( 'trust proxy' );
+
+  // Middleware
+  // Compression
   app.use( compression() );
 
-  if ( state === 'PRODUCTION' ) app.enable( 'trust proxy' );
-
+  // Security
+  // Helmet
   app.use( helmet() );
   app.use( helmet.permittedCrossDomainPolicies() );
   app.use( helmet.referrerPolicy( { policy: 'same-origin' } ) );
@@ -39,22 +45,23 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
     preload: true,
   } ) );
 
+  // Protect against xss
+  app.use( protect.express.xss( { body: true, loggerFunction: console.error } ) );
+
   app.use( express.static( 'build' ) );
 
-  app.use( bodyParser.json( {
-    limit: '100kb'
-  } ) );
-
-  app.use( bodyParser.urlencoded( {
-    limit: '100kb',
-    extended: false
-  } ) );
+  app.use( bodyParser.json( { limit: '100kb' } ) );
+  app.use( bodyParser.urlencoded( { limit: '100kb', extended: false } ) );
+  app.use( bodyParser.raw( { limit: '100kb' } ) );
+  app.use( bodyParser.text( { limit: '100kb' } ) );
 
   app.use( cookieParser() );
 
+  // Cross site request and cross site request forgery
   app.use( cors() );
   //app.use( csrf( { cookie: true } ) );
 
+  // Sessions
   // Please change secret in production (should be a random string, just slam ones head on the keyboard)
   app.use( session( {
     secret: 'i love javascript',
@@ -63,33 +70,34 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
     store: new MongoStore( {
       db: db,
     } ),
-    cookie: { secure: ( state === 'PRODUCTION' ) }
+    cookie: { secure: ( state === 'production' ) }
   } ) );
 
   app.use( passport.initialize() );
   app.use( passport.session() );
 
+  // File upload, max 1MiB
   app.use( fileUpload( { limits: { fileSize: 1 * 1024 * 1024 } } ) );
 
-  app.use( function( req, res, next ) {
-    //res.send( { 'csrfToken': req.csrfToken() } )
-    return next();
-  } );
-
+  // Error handling
+  // Error route, if errors bubble up
   app.use( function( err, req, res ) {
     res.status( 500 ).send( 'Oj uhmmm, något gick fel?' );
     console.error( err );
   } );
 
+  // Development error handling
+  if ( process.env.NODE_ENV === 'development' ) app.use( errorhandler() );
+
+  // Use routes defined in routes/routes.js
   app.use( '/api/', routes );
 
-  app.get( '*', function( req, res ) {
-    res.sendFile( path.join( __dirname, '/build/index.html' ) );
-  } );
+  // Use react front-end
+  app.get( '*', function( req, res ) { res.sendFile( path.join( __dirname, '/build/index.html' ) ); } );
 
+  // set port to 8080
   app.set( 'port', ( 8080 ) );
 
-  app.listen( app.get( 'port' ), () => {
-    console.log( state, ': listening on ', app.get( 'port' ) );
-  } );
+  // Start server
+  app.listen( app.get( 'port' ), () => { console.log( state, ': listening on ', app.get( 'port' ) ); } );
 } );
