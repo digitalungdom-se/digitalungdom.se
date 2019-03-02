@@ -15,7 +15,7 @@ module.exports.ensureUserAuthenticated = async function( req, res, next ) {
   } else {
     return res.status( 401 ).send( { 'type': 'fail', 'reason': 'unauthorized' } );
   }
-}
+};
 
 module.exports.ensureNotUserAuthenticated = async function( req, res, next ) {
   /** Ensures that the user is not authenticated by checking if they are authenticated using express **/
@@ -24,4 +24,4 @@ module.exports.ensureNotUserAuthenticated = async function( req, res, next ) {
   } else {
     return res.status( 403 ).send( { 'type': 'fail', 'reason': 'forbidden' } );
   }
-}
+};

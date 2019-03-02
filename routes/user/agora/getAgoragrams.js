@@ -29,7 +29,7 @@ module.exports.getAgoragrams = async function( req, res ) {
   const posts = await getAgoragrams( dateAfter, dateBefore, sort, id );
   if ( Array.isArray( posts ) ) return res.send( { 'type': 'success', posts } );
   else return res.status( 500 ).send( { 'type': 'fail', 'reason': 'internal server error' } );
-}
+};
 
 module.exports.getAgoragram = async function( req, res ) {
   const id = req.user;
@@ -42,4 +42,4 @@ module.exports.getAgoragram = async function( req, res ) {
   const post = await getAgoragram( postId, id );
   if ( Array.isArray( post ) ) return res.send( { 'type': 'success', post } );
   else return res.status( 500 ).send( { 'type': 'fail', 'reason': 'internal server error' } );
-}
+};

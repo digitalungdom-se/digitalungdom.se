@@ -17,20 +17,20 @@ module.exports.auth = async function( req, res ) {
     'name': user.name,
     'username': user.username,
     'email': user.email,
-  } )
-}
+  } );
+};
 
 module.exports.login = async function( req, res ) {
   // Use local strategy with custom callbacks
   passport.authenticate( 'local', function( err, user, info ) {
     if ( err ) throw err;
-    if ( !user ) return res.send( { type: 'fail', reason: info } )
+    if ( !user ) return res.send( { type: 'fail', reason: info } );
     req.login( user[ '_id' ], function( err ) {
       if ( err ) throw err;
       return res.send( { type: 'success', username: user.username, name: user.name, email: user.email } );
     } );
-  } )( req, res )
-}
+  } )( req, res );
+};
 
 // Simple passportjs local strategy
 passport.use( 'local', new LocalStrategy(

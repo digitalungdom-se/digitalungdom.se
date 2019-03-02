@@ -56,6 +56,11 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "eslint": "^5.15.0",
+    "eslint-plugin-node": "^8.0.1",
     "safe-regex": "^2.0.1"
+  },
+  "engines": {
+    "node": ">=11.10.1"
   }
 }

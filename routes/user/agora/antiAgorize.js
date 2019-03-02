@@ -18,4 +18,4 @@ module.exports.antiAgorize = async function( req, res ) {
   } else {
     return res.status( 403 ).send( { 'type': 'fail', 'reason': 'not authorised to edit this post', postId } );
   }
-}
+};

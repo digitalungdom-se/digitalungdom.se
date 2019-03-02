@@ -63,4 +63,4 @@ module.exports.agorize = async function( req, res ) {
     return res.status( 201 ).send( { 'type': 'success' } );
   }
 
-}
+};
