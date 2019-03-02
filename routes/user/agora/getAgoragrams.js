@@ -5,6 +5,7 @@ const getAgoragrams = require( './../../../models/user/agora' ).getAgoragrams;
 const getAgoragram = require( './../../../models/user/agora' ).getAgoragram;
 
 module.exports.getAgoragrams = async function( req, res ) {
+  const id = req.user;
   let dateAfter = req.query.dateAfter;
   let dateBefore = req.query.dateBefore;
   const sort = req.query.sort;
@@ -23,18 +24,22 @@ module.exports.getAgoragrams = async function( req, res ) {
   dateAfter = dateAfter.length < 8 ? '0'.repeat( 8 - dateAfter.length ) + dateAfter : dateAfter;
   dateBefore = dateBefore.length < 8 ? '0'.repeat( 8 - dateBefore.length ) + dateBefore : dateBefore;
 
-  const posts = await getAgoragrams( dateAfter, dateBefore, sort );
+  if ( id && !validateObjectID( id ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'invalid user id', id } );
+
+  const posts = await getAgoragrams( dateAfter, dateBefore, sort, id );
   if ( Array.isArray( posts ) ) return res.send( { 'type': 'success', posts } );
   else return res.status( 500 ).send( { 'type': 'fail', 'reason': 'internal server error' } );
 }
 
 module.exports.getAgoragram = async function( req, res ) {
+  const id = req.user;
   const postId = req.query.postId;
 
   // Checks that postId is an ObjectID
   if ( !validateObjectID( postId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid postId', postId } );
+  if ( id && !validateObjectID( id ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'invalid user id', id } );
 
-  const post = await getAgoragram( postId );
+  const post = await getAgoragram( postId, id );
   if ( Array.isArray( post ) ) return res.send( { 'type': 'success', post } );
   else return res.status( 500 ).send( { 'type': 'fail', 'reason': 'internal server error' } );
 }

@@ -1,7 +1,26 @@
 const MongoClient = require( 'mongodb' ).MongoClient;
 const ObjectID = require( 'mongodb' ).ObjectID;
 
-// Post includes posts|link posts|questions
+const getAgoragramProjection = {
+  '_id': 1,
+  'type': 1,
+  'author': 1,
+  'group': 1,
+  'badges': 1,
+  'modified': 1,
+  'body': 1,
+  'stars': 1,
+  'children': 1,
+  'pinned': 1,
+
+  'title': 1,
+  'tags': 1,
+  'commentAmount': 1,
+
+  'post': 1,
+}
+
+// Post includes text|link posts|questions
 
 // Used to validate if the agoragram was posted by the requesting user
 module.exports.validateAuthorById = async function( id, postId ) {
@@ -112,7 +131,7 @@ module.exports.asteri = async function( id, starId ) {
   // This process is done to accelerate front-end sorted tree building.
   if ( replyToId ) {
     // Gets all the starred comments siblings and increments the starred comments stars in the parents child array. database god.
-    let children = db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectID( postId ), "children._id": ObjectID( replyToId ) }, { '$inc': { "children.$.stars": star } }, { 'projection': { '_id': 0, 'children': 1 }, 'returnOriginal': false } ).children;
+    let children = db.collection( 'agoragrams' ).findOneAndUpdate( { '_id': ObjectID( postId ), 'children._id': ObjectID( replyToId ) }, { '$inc': { 'children.$.stars': star } }, { 'projection': { '_id': 0, 'children': 1 }, 'returnOriginal': false } ).children;
 
     // Fetches the index of starred comment in sibling array
     const startPostIndex = children.findIndex( function( child ) {
@@ -134,22 +153,26 @@ module.exports.asteri = async function( id, starId ) {
         children[ startPostIndex ] = children[ startPostRivalIndex ];
         children[ startPostRivalIndex ] = tmp;
 
-        await db.collection( 'agoragrams' ).updateOne( { '_id': ObjectID( postId ) }, { '$set': { "children": children } } )
+        await db.collection( 'agoragrams' ).updateOne( { '_id': ObjectID( postId ) }, { '$set': { 'children': children } } )
       }
     }
   }
 }
 
 // Get all new posts
-module.exports.getAgoragrams = async function( hexSecondsAfter, hexSecondsBefore, sort ) {
-  const objectIDAfter = ObjectID( hexSecondsAfter + "0000000000000000" );
-  const objectIDBefore = ObjectID( hexSecondsBefore + "0000000000000000" );
+module.exports.getAgoragrams = async function( hexSecondsAfter, hexSecondsBefore, sort, id ) {
+  const objectIDAfter = ObjectID( hexSecondsAfter + '0000000000000000' );
+  const objectIDBefore = ObjectID( hexSecondsBefore + '0000000000000000' );
 
-  if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } } ).limit( 10 ).sort( { '_id': -1 } ).toArray();
-  else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } } ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
+  if ( id ) getAgoragramProjection[ 'starredby\.$' ] = ObjectID( id );
+
+  if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } }, { 'projection': {} } ).limit( 10 ).sort( { '_id': -1 } ).toArray();
+  else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } }, { 'projection': {} } ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
   else return null;
 }
 
-module.exports.getAgoragram = async function( postId ) {
-  return await db.collection( 'agoragrams' ).find( { '$or': [ { '_id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] } ).toArray();
+module.exports.getAgoragram = async function( postId, id ) {
+  if ( id ) getAgoragramProjection[ 'starredby\.$' ] = ObjectID( id );
+
+  return await db.collection( 'agoragrams' ).find( { '$or': [ { '_id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] }, { 'projection': {} } ).toArray();
 }
