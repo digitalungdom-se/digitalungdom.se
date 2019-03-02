@@ -151,5 +151,5 @@ module.exports.getAgoragrams = async function( hexSecondsAfter, hexSecondsBefore
 }
 
 module.exports.getAgoragram = async function( postId ) {
-  return await db.collection( 'agoragrams' ).find( '$or': [ { '_id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] ).toArray();
+  return await db.collection( 'agoragrams' ).find( { '$or': [ { '_id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] } ).toArray();
 }
