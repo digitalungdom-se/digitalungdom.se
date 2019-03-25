@@ -1,10 +1,13 @@
+/* global include */
+
 const validator = require( 'validator' );
 
-const checkUsername = require( 'models/check' ).checkUsername;
-const checkEmail = require( 'models/check' ).checkEmail;
-const getAgreementVersion = require( 'models/get' ).getAgreementVersion;
-const createUser = require( 'models/user/register' ).createUser;
-const sendVerification = require( 'models/user/register' ).sendVerification;
+const checkUsername = include( 'models/check' ).checkUsername;
+const checkEmail = include( 'models/check' ).checkEmail;
+const getAgreementVersion = include( 'models/get' ).getAgreementVersion;
+const createUser = include( 'models/user/register' ).createUser;
+const sendVerification = include( 'models/user/register' ).sendVerification;
+
 const validateProfilePicuture = require( './profilePicture' ).validateProfilePicuture;
 
 module.exports.register_check_username = async function( req, res ) {
