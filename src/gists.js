@@ -79,7 +79,7 @@ const AuthButtons = this.props.Auth.username ? <ProfilePopover /> : (
 >
 	<Card>
 		<h1>Hem</h1>
-		<Link to="/agoria/skapa-inlagg">
+		<Link to="/Agora/skapa-inlagg">
 			<Button
 				style={{width: '100%'}}
 				type="primary"

@@ -6,6 +6,7 @@
   --register-bg: #fff;
   --du-blue: rgb(30,110,232);
   --slide-bg: #1e3f5a;
+  --contrast-text-color: black;
 }
 
 .logo {
@@ -148,33 +149,47 @@ h1.background-rgba {
   text-align: center;
 }
 
-.agoria-post {
+.agora-post {
   margin-top: 20px
 }
 
-.agoria-post .info span {
+.agora-post .info span {
 }
 
-.agoria-post .info span:after {
+.agora-post .info span:after {
   margin-left: 5px;
   margin-right: 5px;
   content: '•';
 }
 
-.agoria-post .info span:last-of-type:after {
+.agora-post .info span:last-of-type:after {
   content: '';
 }
 
-.agoria-post .ant-card-actions {
+.agora-post .ant-card-actions {
   height: 30px;
   /*padding: 0px;*/
 }
 
-.agoria-post .ant-card-actions li {
+.agora-post .ant-card-actions li {
   margin: 4px 0px;
   /*height: 30px;*/
   /*padding: 0px;*/
   /*height: 10px;*/
+}
+
+.user-link:hover {
+  text-decoration: underline;
+}
+
+.group-link {
+  color: var(--contrast-text-color);
+  font-weight: 600;
+}
+
+.group-link:hover {
+  color: var(--contrast-text-color);
+  text-decoration: underline;
 }
 
 /*.star {

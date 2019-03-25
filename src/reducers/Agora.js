@@ -1,4 +1,20 @@
-const Agora = (state = {}, action) => {
+const initialState = {
+	posts: [
+	{
+		user: {
+			username: 'Nautman',
+			name: 'Douglas Bengtsson'
+		},
+		date: new Date('2019-02-18'),
+		text: 'Hello',
+		title: 'Digitalt rådslag!',
+		stars: 10,
+		comments: 121
+	}
+	]
+}
+
+const Agora = (state = initialState, action) => {
 	switch(action.type) {
 		
 		case 'REQUEST_AGORA_PUBLISH_POST':
@@ -83,6 +99,18 @@ const Agora = (state = {}, action) => {
 			return {
 				...state,
 				agoragrams: action.posts
+			}
+			break
+		case 'REQUEST_GET_AGORAGRAM':
+			return {
+				...state,
+				getting_agoragram: true
+			}
+			break
+		case 'RESPONSE_GET_AGORAGRAM':
+			return {
+				...state,
+				agoragram: action.posts
 			}
 			break
 		default:
