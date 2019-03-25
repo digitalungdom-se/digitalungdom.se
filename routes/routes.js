@@ -1,8 +1,8 @@
 const express = require( 'express' );
 const router = express.Router();
 
-const ensureUserAuthenticated = require( './../helpers/ensureUserAuthentication' ).ensureUserAuthenticated;
-const ensureNotUserAuthenticated = require( './../helpers/ensureUserAuthentication' ).ensureNotUserAuthenticated;
+const ensureUserAuthenticated = require( 'middlewares/ensureUserAuthentication' ).ensureUserAuthenticated;
+const ensureNotUserAuthenticated = require( 'middlewares/ensureUserAuthentication' ).ensureNotUserAuthenticated;
 
 const register = require( './user/register' );
 const authorisation = require( './user/authorisation' );

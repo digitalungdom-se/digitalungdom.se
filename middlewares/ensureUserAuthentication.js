@@ -1,4 +1,4 @@
-const getUserById = require( './../models/get' ).getUserById;
+const getUserById = require( 'models/get' ).getUserById;
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 
 

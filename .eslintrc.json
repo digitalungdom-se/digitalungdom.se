@@ -27,6 +27,10 @@
     "node/prefer-global/process": ["error", "always"],
     "node/prefer-global/url-search-params": ["error", "always"],
     "node/prefer-global/url": ["error", "always"],
+    "node/no-missing-require": ["error", {
+      "resolvePaths": ["./"],
+      "tryExtensions": [".js", ".json", ".node"]
+    }],
     "indent": [
       "error",
       2

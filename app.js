@@ -1,3 +1,5 @@
+/* global db base_dir abs_path */
+
 require( 'dotenv' ).config();
 
 const express = require( 'express' );
@@ -21,13 +23,21 @@ const routes = require( './routes/routes' );
 // Gets current development state of the node environment (production|development). Is set in .env file
 const state = process.env.NODE_ENV;
 
+global.base_dir = __dirname;
+global.abs_path = function( path ) {
+  return base_dir + path;
+};
+global.include = function( file ) {
+  return require( abs_path( '/' + file ) );
+};
+
 const app = express();
 
 MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async function( err, client ) {
   if ( err ) return console.log( err );
   global.db = client.db( 'digitalungdom' );
-  const db = client.db( 'digitalungdom' );
 
+  // Enable trust proxy if in production (needed for nginx?)
   if ( state === 'production' ) app.enable( 'trust proxy' );
 
   // Middleware
@@ -48,8 +58,10 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
   // Protect against xss
   app.use( protect.express.xss( { body: true, loggerFunction: console.error } ) );
 
+  // React build folder
   app.use( express.static( 'build' ) );
 
+  // Body parser
   app.use( bodyParser.json( { limit: '100kb' } ) );
   app.use( bodyParser.urlencoded( { limit: '100kb', extended: false } ) );
   app.use( bodyParser.raw( { limit: '100kb' } ) );
@@ -73,6 +85,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
     cookie: { secure: ( state === 'production' ) }
   } ) );
 
+  // Passportjs for local strategy authentication
   app.use( passport.initialize() );
   app.use( passport.session() );
 
