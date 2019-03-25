@@ -1,18 +1,17 @@
 // A
-export { default as AgoriaHome } from './AgoriaHome'
-export { default as AgoriaPost } from './AgoriaPost'
+export { default as Agora } from './Agora/'
 export { default as AuthButtons } from './AuthButtons'
 // B
 // C
 export { default as Carousel } from './Carousel'
 export { default as ContentCard } from './ContentCard'
-export { default as CreateAgoriaPost } from './CreateAgoriaPost'
 // D
 // E
 export { default as Emergency } from './Emergency/'
 // F
 export { default as Footer } from './Footer'
 // G
+export { default as GroupLink } from './GroupLink'
 // H
 export { default as Header } from './Header'
 // I
