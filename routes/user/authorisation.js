@@ -1,11 +1,13 @@
+/* global include */
+
 const passport = require( 'passport' );
 const LocalStrategy = require( 'passport-local' ).Strategy;
 const bcrypt = require( 'bcryptjs' );
 const validator = require( 'validator' );
 
-const getUserByEmail = require( 'models/get' ).getUserByEmail;
-const getUserByUsername = require( 'models/get' ).getUserByUsername;
-const getUserById = require( 'models/get' ).getUserById;
+const getUserByEmail = include( 'models/get' ).getUserByEmail;
+const getUserByUsername = include( 'models/get' ).getUserByUsername;
+const getUserById = include( 'models/get' ).getUserById;
 
 module.exports.auth = async function( req, res ) {
   const id = req.user;

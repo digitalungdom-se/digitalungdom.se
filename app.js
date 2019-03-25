@@ -1,5 +1,13 @@
 /* global db base_dir abs_path */
 
+global.base_dir = __dirname;
+global.abs_path = function( path ) {
+  return base_dir + path;
+};
+global.include = function( file ) {
+  return require( abs_path( '/' + file ) );
+};
+
 require( 'dotenv' ).config();
 
 const express = require( 'express' );
@@ -22,14 +30,6 @@ const routes = require( './routes/routes' );
 
 // Gets current development state of the node environment (production|development). Is set in .env file
 const state = process.env.NODE_ENV;
-
-global.base_dir = __dirname;
-global.abs_path = function( path ) {
-  return base_dir + path;
-};
-global.include = function( file ) {
-  return require( abs_path( '/' + file ) );
-};
 
 const app = express();
 
