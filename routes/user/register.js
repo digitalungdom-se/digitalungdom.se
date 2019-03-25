@@ -1,10 +1,10 @@
 const validator = require( 'validator' );
 
-const checkUsername = require( './../../models/check' ).checkUsername;
-const checkEmail = require( './../../models/check' ).checkEmail;
-const getAgreementVersion = require( './../../models/get' ).getAgreementVersion;
-const createUser = require( './../../models/user/register' ).createUser;
-const sendVerification = require( './../../models/user/register' ).sendVerification;
+const checkUsername = require( 'models/check' ).checkUsername;
+const checkEmail = require( 'models/check' ).checkEmail;
+const getAgreementVersion = require( 'models/get' ).getAgreementVersion;
+const createUser = require( 'models/user/register' ).createUser;
+const sendVerification = require( 'models/user/register' ).sendVerification;
 const validateProfilePicuture = require( './profilePicture' ).validateProfilePicuture;
 
 module.exports.register_check_username = async function( req, res ) {
@@ -32,6 +32,7 @@ module.exports.register = async function( req, res ) {
   let email = req.body.email;
   const password = req.body.password;
   const gender = req.body.gender;
+  let profilePicture = null;
 
   // Checks that they all are strings, validatorjs only allows string (prevent errors)
   if ( typeof name != 'string' || typeof username != 'string' || typeof birthdate != 'string' || typeof email != 'string' || typeof password != 'string' || typeof gender != 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );
@@ -64,14 +65,10 @@ module.exports.register = async function( req, res ) {
   // Validates gender according to following rules: is an integer between 0 and 3.
   if ( !validator.isInt( gender, { min: 0, max: 3 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Gender is malformed', 'gender': gender } );
 
-  const amountOfFiles = Object.keys( req.files ).length;
-  let profilePicture = null;
-  if ( amountOfFiles > 1 ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'too many files uploaded' } );
-  if ( amountOfFiles ) {
-    const profilePictureBuffer = req.files.profilePicture.data;
-    const pictureValidation = await validateProfilePicuture( profilePictureBuffer, req.files.profilePicture.truncated );
+  if ( req.files.profilePicture ) {
+    const profilePicture = req.files.profilePicture.data;
+    const pictureValidation = await validateProfilePicuture( profilePicture, req.files.profilePicture.truncated );
     if ( pictureValidation.error ) return res.status( 400 ).send( { 'type': 'fail', 'reason': pictureValidation.reason } );
-    profilePicture = profilePictureBuffer;
   }
 
   // Validates that the username and email does not already exist and retrieves the current agreement version
@@ -105,7 +102,6 @@ module.exports.register = async function( req, res ) {
 
   //creates user
   await createUser( user );
-  //await sendVerification(  user.email );
 
   return res.status( 201 ).send( { type: 'success', username: user.username, name: user.name, email: user.email } );
 };
