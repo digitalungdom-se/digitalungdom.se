@@ -1,7 +1,7 @@
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 
-const antiAgorize = require( './../../../models/user/agora' ).antiAgorize;
-const validateAuthorById = require( './../../../models/user/agora' ).validateAuthorById;
+const antiAgorize = require( 'models/user/agora' ).antiAgorize;
+const validateAuthorById = require( 'models/user/agora' ).validateAuthorById;
 
 module.exports.antiAgorize = async function( req, res ) {
   // Fetches all the fields and their values

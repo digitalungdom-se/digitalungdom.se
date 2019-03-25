@@ -2,6 +2,15 @@
   "name": "digital-ungdom",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nautman/digitalungdom.se.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nautman/digitalungdom.se/issues"
+  },
+  "homepage": "https://github.com/Nautman/digitalungdom.se/blob/master/README.md",
+  "description": "",
   "dependencies": {
     "@risingstack/protect": "^1.2.0",
     "antd": "^3.11.6",
@@ -23,9 +32,9 @@
     "helmet": "^3.15.0",
     "hogan.js": "^3.0.2",
     "image-size": "^0.7.2",
+    "js-sha256": "^0.9.0",
     "mongodb": "^3.1.13",
     "nodemailer": "^5.1.1",
-    "nodemon": "^1.18.10",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",

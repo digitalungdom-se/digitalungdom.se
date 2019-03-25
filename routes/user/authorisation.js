@@ -3,9 +3,9 @@ const LocalStrategy = require( 'passport-local' ).Strategy;
 const bcrypt = require( 'bcryptjs' );
 const validator = require( 'validator' );
 
-const getUserByEmail = require( './../../models/get' ).getUserByEmail;
-const getUserByUsername = require( './../../models/get' ).getUserByUsername;
-const getUserById = require( './../../models/get' ).getUserById;
+const getUserByEmail = require( 'models/get' ).getUserByEmail;
+const getUserByUsername = require( 'models/get' ).getUserByUsername;
+const getUserById = require( 'models/get' ).getUserById;
 
 module.exports.auth = async function( req, res ) {
   const id = req.user;
@@ -27,7 +27,12 @@ module.exports.login = async function( req, res ) {
     if ( !user ) return res.send( { type: 'fail', reason: info } );
     req.login( user[ '_id' ], function( err ) {
       if ( err ) throw err;
-      return res.send( { type: 'success', username: user.username, name: user.name, email: user.email } );
+      return res.send( {
+        'type': 'success',
+        'username': user.username,
+        'name': user.name,
+        'email': user.email
+      } );
     } );
   } )( req, res );
 };
