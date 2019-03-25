@@ -1,8 +1,8 @@
+/* global include */
+
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 
-const asteri = require( 'models/user/agora' ).asteri;
-
-//router.post( '/asteri', ensureUserAuthenticated,
+const asteri = include( 'models/user/agora' ).asteri;
 
 module.exports.asteri = async function( req, res ) {
   // Fetches all the fields and their values

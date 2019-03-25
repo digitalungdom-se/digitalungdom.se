@@ -1,8 +1,10 @@
+/* global include */
+
 const validator = require( 'validator' );
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
-const validateAuthorById = require( 'models/user/agora' ).validateAuthorById;
 
-const metaAgorize = require( 'models/user/agora' ).metaAgorize;
+const validateAuthorById = include( 'models/user/agora' ).validateAuthorById;
+const metaAgorize = include( 'models/user/agora' ).metaAgorize;
 
 module.exports.metaAgorize = async function( req, res ) {
   // Fetches all the fields and their values

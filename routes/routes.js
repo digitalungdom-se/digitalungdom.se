@@ -1,8 +1,10 @@
+/* global include */
+
 const express = require( 'express' );
 const router = express.Router();
 
-const ensureUserAuthenticated = require( 'middlewares/ensureUserAuthentication' ).ensureUserAuthenticated;
-const ensureNotUserAuthenticated = require( 'middlewares/ensureUserAuthentication' ).ensureNotUserAuthenticated;
+const ensureUserAuthenticated = include( 'middlewares/ensureUserAuthentication' ).ensureUserAuthenticated;
+const ensureNotUserAuthenticated = include( 'middlewares/ensureUserAuthentication' ).ensureNotUserAuthenticated;
 
 const register = require( './user/register' );
 const authorisation = require( './user/authorisation' );

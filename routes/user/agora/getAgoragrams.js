@@ -1,8 +1,10 @@
+/* global include */
+
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 const validator = require( 'validator' );
 
-const getAgoragrams = require( 'models/user/agora' ).getAgoragrams;
-const getAgoragram = require( 'models/user/agora' ).getAgoragram;
+const getAgoragrams = include( 'models/user/agora' ).getAgoragrams;
+const getAgoragram = include( 'models/user/agora' ).getAgoragram;
 
 module.exports.getAgoragrams = async function( req, res ) {
   const id = req.user;

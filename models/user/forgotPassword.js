@@ -1,3 +1,5 @@
+/* global db include */
+
 const bcrypt = require( 'bcryptjs' );
 const crypto = require( 'crypto' );
 const sha256 = require( 'js-sha256' );
@@ -5,9 +7,9 @@ const path = require( 'path' );
 const fs = require( 'fs-extra' );
 const Hogan = require( 'hogan.js' );
 
-const sendMail = require( 'helpers/sendMail' ).sendMail;
+const sendMail = include( 'helpers/sendMail' ).sendMail;
 
-module.exports.forgotPassword = async function( database, email ) {
+module.exports.forgotPassword = async function( email ) {
   const token = crypto.randomBytes( 36 ).toString( 'hex' );
   const tokenHash = sha256( token );
 
@@ -17,7 +19,7 @@ module.exports.forgotPassword = async function( database, email ) {
   update[ 'resetPasswordToken' ] = tokenHash;
   update[ 'resetPasswordExpires' ] = tokenExpires;
 
-  await database.collection( 'applications' ).updateOne( {
+  await db.collection( 'applications' ).updateOne( {
     'email': email
   }, {
     $set: update
@@ -30,15 +32,15 @@ module.exports.forgotPassword = async function( database, email ) {
   await sendMail( email, 'Glömt lösenord', body );
 };
 
-module.exports.resetPassword = async function( database, token, password ) {
+module.exports.resetPassword = async function( token, password ) {
   password = bcrypt.hashSync( password, 13 );
   token = sha256( token );
 
-  const user = await database.collection( 'users' ).findOne( { 'resetPasswordToken': token }, {
+  const user = await db.collection( 'users' ).findOne( { 'resetPasswordToken': token }, {
     projection: { '_id': 0, 'email': 1 }
   } );
 
-  await database.collection( 'users' ).updateOne( { 'resetPasswordToken': token }, {
+  await db.collection( 'users' ).updateOne( { 'resetPasswordToken': token }, {
     '$set': { 'password': password },
     '$unset': { 'resetPasswordToken': 1, 'resetPasswordExpires': 1 }
   } );

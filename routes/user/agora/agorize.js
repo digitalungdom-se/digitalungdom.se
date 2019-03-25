@@ -1,10 +1,12 @@
+/* global include */
+
 const validator = require( 'validator' );
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 
-const checkGroup = require( 'models/check' ).checkGroup;
-const checkBadges = require( 'models/check' ).checkBadges;
+const checkGroup = include( 'models/check' ).checkGroup;
+const checkBadges = include( 'models/check' ).checkBadges;
 
-const agorize = require( 'models/user/agora' ).agorize;
+const agorize = include( 'models/user/agora' ).agorize;
 
 module.exports.agorize = async function( req, res ) {
   // Fetches all the fields and their values
