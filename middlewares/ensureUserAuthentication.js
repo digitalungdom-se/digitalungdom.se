@@ -1,6 +1,8 @@
-const getUserById = require( 'models/get' ).getUserById;
+/* global include */
+
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 
+const getUserById = include( 'models/get' ).getUserById;
 
 module.exports.ensureUserAuthenticated = async function( req, res, next ) {
   /** Ensures that the user is authenticated by checking first if they are authenticated using express and authenticated to the user database.

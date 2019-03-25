@@ -1,5 +1,7 @@
-const validateProfilePicuture = require( '../../helpers/validateProfilePicture' ).validateProfilePicture;
-const setProfilePicture = require( 'models/user/set' ).setProfilePicture;
+/* global include */
+
+const validateProfilePicuture = include( 'helpers/validateProfilePicture' ).validateProfilePicture;
+const setProfilePicture = include( 'models/user/set' ).setProfilePicture;
 
 module.exports.uploadProfilePicture = async function( req, res ) {
   const id = req.user;
