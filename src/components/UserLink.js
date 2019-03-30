@@ -14,7 +14,7 @@ class UserLink extends Component {
 			// 		</div>
 			// 	}
 			// >
-				<Link to={'/u/' + user.username}>
+				<Link className="user-link" to={'/u/' + user.username}>
 					{
 						this.props.showName ?
 							user.name

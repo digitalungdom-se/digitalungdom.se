@@ -11,9 +11,6 @@ class DUFooter extends Component {
 			// style:{background: 'red'}
 		}
 		return (
-			<div />
-		)
-		return (
 			<Row
 				type="flex"
 				justify="center"
@@ -43,7 +40,7 @@ class DUFooter extends Component {
 						Telefonnummer: <a href="tel:+45709447003">+46709447003</a>
 					</p>
 					<p>
-						Discord-server: <a href="https://discord.gg/2Cankhw">https://discord.gg/2Cankhw</a>
+						Discord-server: <a href="https://discord.gg/J4JhCWH">https://discord.gg/J4JhCWH</a>
 					</p>
 				</Col>
 			</Row>

@@ -34,7 +34,7 @@ export const Users = {
 }
 
 export const Agora = {
-  ...createAsyncFunction( 'agora_publish_post', { method: 'POST', route: '/api/agorize' }, [] ),
+  ...createAsyncFunction( 'agora_publish_text', { method: 'POST', route: '/api/agorize' }, [] ),
   ...createAsyncFunction( 'agora_publish_link', { method: 'POST', route: '/api/agorize' }, [] ),
   ...createAsyncFunction( 'agora_publish_question', { method: 'POST', route: '/api/agorize' }, [] ),
   ...createAsyncFunction( 'agora_publish_comment', { method: 'POST', route: '/api/agorize' }, [] ),
@@ -43,4 +43,8 @@ export const Agora = {
   ...createAsyncFunction( 'meta_agorize', { method: 'POST', route: '/api/meta_agorize' }, [] ),
 
   ...createAsyncFunction( 'get_agoragrams', { method: 'GET', route: '/api/get_agoragrams' }, [] ),
+
+  ...createAsyncFunction( 'get_agoragram', { method: 'GET', route: '/api/get_agoragram' }, [] ),
+  ...createAsyncFunction( 'get_comments', { method: 'GET', route: '/api/get_comments' }, [] ),
+
 }
