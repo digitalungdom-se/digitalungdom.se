@@ -25,7 +25,7 @@ module.exports.forgotPassword = async function( email ) {
     $set: update
   } );
 
-  const templateData = fs.readFileSync( path.join( __dirname, '..', 'emails', 'forgotPassword.mustache' ), 'utf8' )
+  const templateData = fs.readFileSync( path.join( __dirname, '..', 'emails', 'forgotPassword.mustache' ), 'utf8' );
   const template = Hogan.compile( templateData );
   const body = template.render( { token: token } );
 

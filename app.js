@@ -92,18 +92,18 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
   // File upload, max 1MiB
   app.use( fileUpload( { limits: { fileSize: 1 * 1024 * 1024 } } ) );
 
-  // Error handling
-  // Error route, if errors bubble up
-  app.use( function( err, req, res ) {
-    res.status( 500 ).send( 'Oj uhmmm, något gick fel?' );
-    console.error( err );
-  } );
-
-  // Development error handling
-  if ( process.env.NODE_ENV === 'development' ) app.use( errorhandler() );
-
   // Use routes defined in routes/routes.js
   app.use( '/api/', routes );
+
+  // Development error handling
+  if ( state === 'development' ) app.use( errorhandler() );
+
+  app.use( function( err, req, res, next ) {
+    if ( !err.statusCode ) err.statusCode = 500;
+    if ( !err.customMessage ) err.customMessage = 'Internal Server Error';
+
+    return res.status( err.statusCode ).send( `${err.statusCode} : ${err.customMessage}` );
+  } );
 
   // Use react front-end
   app.get( '*', function( req, res ) { res.sendFile( path.join( __dirname, '/build/index.html' ) ); } );
