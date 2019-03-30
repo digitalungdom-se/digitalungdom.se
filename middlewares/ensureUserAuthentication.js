@@ -15,7 +15,10 @@ module.exports.ensureUserAuthenticated = async function( req, res, next ) {
   if ( req.isAuthenticated() && user && user.verified ) {
     return next();
   } else {
-    return res.status( 401 ).send( { 'type': 'fail', 'reason': 'unauthorized' } );
+    let err = new Error( 'Unauthorized' );
+    err.statusCode = 401;
+    err.customMessage = 'Unauthorized';
+    next( err );
   }
 };
 
@@ -24,6 +27,9 @@ module.exports.ensureNotUserAuthenticated = async function( req, res, next ) {
   if ( !req.isAuthenticated() ) {
     return next();
   } else {
-    return res.status( 403 ).send( { 'type': 'fail', 'reason': 'forbidden' } );
+    let err = new Error( 'Forbidden' );
+    err.statusCode = 403;
+    err.customMessage = 'Forbidden';
+    next( err );
   }
 };
