@@ -43,7 +43,8 @@ class AgoraPostForm extends Component {
 		super(props)
 		this.state = {
 			tab: 'text',
-			tags: []
+			tags: [],
+			badges: []
 		}
 	}
 
