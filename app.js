@@ -94,7 +94,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
 
   // Error handling
   // Error route, if errors bubble up
-  app.use( function( err, req, res ) {
+  app.use( function( err, req, res, next ) {
     res.status( 500 ).send( 'Oj uhmmm, något gick fel?' );
     console.error( err );
   } );
