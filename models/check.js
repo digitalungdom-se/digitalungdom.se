@@ -12,7 +12,6 @@ module.exports.checkUsername = async function( user ) {
   user = user.toLowerCase();
 
   const userExists = await db.collection( 'users' ).findOne( { 'usernameLower': user }, { 'projection': { '_id': 1 } } );
-  console.log( userExists );
 
   if ( userExists ) return false;
   else return true;
