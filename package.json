@@ -9,7 +9,6 @@
   "bugs": {
     "url": "https://github.com/Nautman/digitalungdom.se/issues"
   },
-  "homepage": "https://github.com/Nautman/digitalungdom.se/blob/master/README.md",
   "description": "",
   "dependencies": {
     "@risingstack/protect": "^1.2.0",

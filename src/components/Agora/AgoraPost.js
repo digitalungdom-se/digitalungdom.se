@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Card, Col, Icon, Row, Rate } from 'antd'
-import { UserLink } from 'components'
+import { Card, Col, Icon, Row, Rate, Skeleton } from 'antd'
+import { UserLink, GroupLink } from 'components'
 import ReactMarkdown from 'react-markdown'
-var Dialog = require('rc-dialog')
+import { Link } from 'react-router-dom'
 
 const date = Math.floor(Date.now()/1000)
 
-class AgoriaPost extends Component {
+class AgoraPost extends Component {
 
 	formatNumber(number) {
 		if(number > 1000) return Math.floor(number/100)/10 + 'k';
@@ -61,13 +61,20 @@ class AgoriaPost extends Component {
 
 		const { post } = this.props
 
+		const Comments = <div>Hello</div>
+
 		return (
+			<div>
 			<Card
 				bodyStyle={{padding: '10px 20px 10px 0'}}
-				actions={[<span><Icon type="message"/> {this.formatNumber(post.comments)}</span>, <Icon type="share-alt" />, <Icon type="flag" />]}
-				className="agoria-post"
+				actions={[
+					<span>
+						<Link to={"/agora/inlagg/" + post.id} target="_blank">
+							<Icon type="message"/> {this.formatNumber(post.comments)} kommentarer
+						</Link>
+					</span>]}
+				className="agora-post"
 			>
-				{console.log(Dialog)}
 				<Row
 				>
 					<Col
@@ -82,19 +89,43 @@ class AgoriaPost extends Component {
 					<Col
 						span={21}
 					>
+					<Skeleton active loading={this.props.loading}>
 						<Row className="info">
 							<span>Postat av <UserLink user={post.user} /></span>
 							<span>{this.formatDate('5c40ecdc0000')}</span>
 						</Row>
 						<Row>
-							<h1>{post.title}</h1>
-							<ReactMarkdown source={post.text} />
+								<h1>{post.title}</h1>
+								<ReactMarkdown source={post.text} />
 						</Row>
+					</Skeleton>
 					</Col>
 				</Row>
 			</Card>
+			{
+				this.props.comments ? (
+					<Card>
+						{ Comments }
+					</Card>
+				) : null
+			}
+			</div>
 		)
 	}
 }
 
-export default AgoriaPost
+AgoraPost.defaultProps = {
+	post: {
+		user: {
+			username: '',
+			name: ''
+		},
+		date: new Date(Date.now()),
+		text: '',
+		title: '',
+		stars: 0,
+		comments: 0
+	},
+}
+
+export default AgoraPost

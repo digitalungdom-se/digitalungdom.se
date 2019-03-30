@@ -2,8 +2,13 @@ import React from 'react'
 import { Avatar, Col, Button, Row, message } from 'antd'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Auth as actions } from 'actions'
 
 class AuthButtons extends React.Component {
+
+	componentWillMount() {
+		this.props.auth()
+	}
 
 	componentDidUpdate() {
 		if(this.props.Auth.username && Date.now() - this.props.Auth.authTime < 1000) message.success('Du är nu inloggad')
@@ -68,10 +73,16 @@ class AuthButtons extends React.Component {
 	}
 }
 
+const mapDispatchToProps = dispatch => {
+	return {
+		auth: () => dispatch(actions.auth())
+	}
+}
+
 const mapStateToProps = (state) => {
 	return {
 		Auth: state.Auth
 	}
 }
 
-export default connect(mapStateToProps)(AuthButtons)
+export default connect(mapStateToProps, mapDispatchToProps)(AuthButtons)

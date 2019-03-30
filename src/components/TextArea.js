@@ -24,20 +24,49 @@ const h_rule = () => (
 const { TabPane } = Tabs
 
 class TextArea extends Component {
+
+	static getDerivedStateFromProps(nextProps) {
+	  // Should be a controlled component.
+	  if ('value' in nextProps) {
+	    return {
+	      ...(nextProps.value || {}),
+	    };
+	  }
+	  return null;
+	}
+
 	constructor(props) {
 		super(props)
+
+		const value = props.value || {};
 		this.textInput = React.createRef()
 		this.linkURL = React.createRef()
 		this.linkText = React.createRef()
 		this.imgURL = React.createRef()
 		this.imgAlt = React.createRef()
 		this.state = {
-			text: '',
+			text: value.text || '',
 			selection: 0,
 			length: 0,
 			linkModal: false,
 			imgModal: false
 		}
+	}
+
+	handleChange = (e) => {
+	  if(e) {
+	    let v = {text: e.target.value, length: e.target.value.length}
+	    this.setState(v)
+	    this.triggerChange(v)
+	  }
+	}
+
+	triggerChange = (changedValue) => {
+	  // Should provide an event to pass value to Form.
+	  const onChange = this.props.onChange;
+	  if (onChange) {
+	    onChange(Object.assign({}, this.state, changedValue));
+	  }
 	}
 
 	insert = (type, one, two ) => {
@@ -154,6 +183,7 @@ class TextArea extends Component {
 
 		return (
 			<Tabs
+				type="card"
 				onTabClick={() => {
 					this.setState({
 						text: textToEmoji(this.textInput.textAreaRef.value)
@@ -162,6 +192,7 @@ class TextArea extends Component {
 				tabBarExtraContent={this.props.extraActions ? (
 					renderButtons([buttons[1]])
 				) : null}
+				value={this.state.text}
 			>
 				<TabPane
 					tab="Skriv"
@@ -233,7 +264,8 @@ class TextArea extends Component {
 					<Input.TextArea
 						autosize={{minRows: 10, maxRows: 24}}
 						ref={element => this.textInput = element}
-						onChange={() => this.setState({length: this.textInput.textAreaRef.value.length})}
+						onChange={this.handleChange}
+						placeholder={this.props.placeholder}
 					/>
 					<span style={{float: 'right'}}>
 						{this.state.length} / 10000
@@ -243,16 +275,20 @@ class TextArea extends Component {
 					tab="Förhandsvisa"
 					key="2"
 				>
+				{(this.state.text &&
 					<ReactMarkdown
-					source={this.state.text}
-					renderers={{
-						text: emojiSupport,
-						image: (props) => {
-							return <img {...props} style={{maxWidth: '100%'}} />
+						source={this.state.text}
+						renderers={{
+							text: emojiSupport,
+							image: (props) => {
+								return <img {...props} style={{maxWidth: '100%'}} />
+							}
 						}
-					}
-					}
-					/>
+						}
+					/>)
+					||
+					<span style={{color: 'gray'}}>Det finns ingen text att förhandsvisa.</span>
+				}
 				</TabPane>
 			</Tabs>
 		)
