@@ -15,6 +15,7 @@ const antiAgorize = require( './controllers/user/agora/antiAgorize' );
 const asteri = require( './controllers/user/agora/asteri' );
 const getAgoragrams = require( './controllers/user/agora/getAgoragrams' );
 const metaAgorize = require( './controllers/user/agora/metaAgorize' );
+const get = require( './controllers/get' );
 
 // registration
 router.get( '/register_check_username', register.registerCheckUsername );
@@ -41,6 +42,9 @@ router.post( '/asteri', ensureUserAuthenticated, asteri.asteri );
 router.get( '/get_agoragrams', getAgoragrams.getAgoragrams );
 router.get( '/get_agoragram', getAgoragrams.getAgoragram );
 router.post( '/meta_agorize', ensureUserAuthenticated, metaAgorize.metaAgorize );
+
+// get user
+router.get( '/get_user', get.getPublicUserById );
 
 // Produce 500 eror
 router.get( '/500', async function() {
