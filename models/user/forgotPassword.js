@@ -1,15 +1,16 @@
-/* global db include */
+/* global db include abs_path*/
 
 const bcrypt = require( 'bcryptjs' );
 const crypto = require( 'crypto' );
 const sha256 = require( 'js-sha256' );
-const path = require( 'path' );
 const fs = require( 'fs-extra' );
+const util = require( 'util' );
+const readFile = util.promisify( fs.readFile );
 const Hogan = require( 'hogan.js' );
 
-const sendMail = include( 'helpers/sendMail' ).sendMail;
+const sendMail = include( 'utils/sendMail' ).sendMail;
 
-module.exports.forgotPassword = async function( email ) {
+module.exports.sendForgotPassword = async function( email ) {
   const token = crypto.randomBytes( 36 ).toString( 'hex' );
   const tokenHash = sha256( token );
 
@@ -19,35 +20,30 @@ module.exports.forgotPassword = async function( email ) {
   update[ 'resetPasswordToken' ] = tokenHash;
   update[ 'resetPasswordExpires' ] = tokenExpires;
 
-  await db.collection( 'applications' ).updateOne( {
-    'email': email
-  }, {
-    $set: update
-  } );
-
-  const templateData = fs.readFileSync( path.join( __dirname, '..', 'emails', 'forgotPassword.mustache' ), 'utf8' );
+  const templateData = readFile( abs_path( 'emails/forgotPassword/forgotPassword.mustache' ), 'utf8' );
   const template = Hogan.compile( templateData );
   const body = template.render( { token: token } );
 
-  await sendMail( email, 'Glömt lösenord', body );
+  [ email, update ] = await Promise.all( [
+    sendMail( email, 'Glömt lösenord', body ),
+    ( db.collection( 'applications' ).findOneAndUpdate( { 'email': email }, { '$set': update }, { '_id': 1 } ) ).value
+  ] );
+
+  return update;
 };
 
 module.exports.resetPassword = async function( token, password ) {
   password = bcrypt.hashSync( password, 13 );
   token = sha256( token );
 
-  const user = await db.collection( 'users' ).findOne( { 'resetPasswordToken': token }, {
-    projection: { '_id': 0, 'email': 1 }
-  } );
-
-  await db.collection( 'users' ).updateOne( { 'resetPasswordToken': token }, {
+  const email = ( await db.collection( 'users' ).findOneAndUpdate( { 'resetPasswordToken': token }, {
     '$set': { 'password': password },
     '$unset': { 'resetPasswordToken': 1, 'resetPasswordExpires': 1 }
-  } );
+  }, { 'projection': { '_id': 0, 'email': 1 } } ) ).email;
 
-  const templateData = fs.readFileSync( path.join( __dirname, '..', 'emails', 'forgotConfirmation.mustache' ), 'utf8' )
+  const templateData = readFile( abs_path( 'emails/forgotPassword/forgotPasswordConfirmation.mustache' ), 'utf8' );
   const template = Hogan.compile( templateData );
   const body = template.render();
 
-  await sendMail( user.email, 'Ditt lösenord har ändrats', body );
+  await sendMail( email, 'Ditt lösenord har ändrats', body );
 };

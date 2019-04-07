@@ -6,11 +6,11 @@ const checkUsername = include( 'models/check' ).checkUsername;
 const checkEmail = include( 'models/check' ).checkEmail;
 const getAgreementVersion = include( 'models/get' ).getAgreementVersion;
 const createUser = include( 'models/user/register' ).createUser;
-const sendVerification = include( 'models/user/register' ).sendVerification;
+const verify = include( 'models/user/register' ).verify;
 
-const validateProfilePicuture = require( './profilePicture' ).validateProfilePicuture;
+const validateProfilePicuture = include( 'utils/validateProfilePicture' ).validateProfilePicuture;
 
-module.exports.register_check_username = async function( req, res ) {
+module.exports.registerCheckUsername = async function( req, res ) {
   const username = req.query.username;
 
   if ( typeof username != 'string' ) return res.send( { username: false } );
@@ -18,13 +18,28 @@ module.exports.register_check_username = async function( req, res ) {
   return res.send( { username: await checkUsername( username ) } );
 };
 
-module.exports.register_check_email = async function( req, res ) {
+module.exports.registerCheckEmail = async function( req, res ) {
   const email = req.query.email;
 
   if ( typeof email != 'string' ) return res.send( { email: false } );
   if ( !validator.isEmail( email ) ) return res.send( { email: false } );
 
   return res.send( { email: await checkEmail( email ) } );
+};
+
+module.exports.verify = async function( req, res ) {
+  const result = await verify( req.body.token );
+
+  if ( !result ) {
+    return res.send( {
+      'type': 'failed',
+      'reason': 'token does not exist'
+    } );
+  } else {
+    return res.send( {
+      'type': 'success'
+    } );
+  }
 };
 
 module.exports.register = async function( req, res ) {
@@ -68,7 +83,7 @@ module.exports.register = async function( req, res ) {
   // Validates gender according to following rules: is an integer between 0 and 3.
   if ( !validator.isInt( gender, { min: 0, max: 3 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Gender is malformed', 'gender': gender } );
 
-  if ( req.files.profilePicture ) {
+  if ( req.files && req.files.profilePicture ) {
     const profilePicture = req.files.profilePicture.data;
     const pictureValidation = await validateProfilePicuture( profilePicture, req.files.profilePicture.truncated );
     if ( pictureValidation.error ) return res.status( 400 ).send( { 'type': 'fail', 'reason': pictureValidation.reason } );
@@ -99,7 +114,7 @@ module.exports.register = async function( req, res ) {
     'profilePicture': profilePicture,
     'resetPasswordToken': null,
     'resetPasswordExpires': null,
-    'verified': true,
+    'verified': false,
     'verificationToken': null,
   };
 

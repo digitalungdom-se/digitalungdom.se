@@ -2,25 +2,6 @@
 
 const ObjectID = require( 'mongodb' ).ObjectID;
 
-const getAgoragramProjection = {
-  '_id': 1,
-  'type': 1,
-  'author': 1,
-  'group': 1,
-  'badges': 1,
-  'modified': 1,
-  'body': 1,
-  'stars': 1,
-  'children': 1,
-  'pinned': 1,
-
-  'title': 1,
-  'tags': 1,
-  'commentAmount': 1,
-
-  'post': 1,
-};
-
 // Post includes text|link posts|questions
 
 // Used to validate if the agoragram was posted by the requesting user
@@ -165,11 +146,31 @@ module.exports.asteri = async function( id, starId ) {
   }
 };
 
+let getAgoragramProjection = {
+  '_id': 1,
+  'type': 1,
+  'author': 1,
+  'group': 1,
+  'badges': 1,
+  'modified': 1,
+  'body': 1,
+  'stars': 1,
+  'children': 1,
+  'pinned': 1,
+
+  'title': 1,
+  'tags': 1,
+  'commentAmount': 1,
+
+  'post': 1,
+};
+
 // Get all new posts
 module.exports.getAgoragrams = async function( hexSecondsAfter, hexSecondsBefore, sort, id ) {
   const objectIDAfter = ObjectID( hexSecondsAfter + '0000000000000000' );
   const objectIDBefore = ObjectID( hexSecondsBefore + '0000000000000000' );
 
+  // Do not send all ids that have starred the post, only the request id if it exists.
   if ( id ) getAgoragramProjection[ 'starredby.$' ] = ObjectID( id );
 
   if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } }, { 'projection': {} } ).limit( 10 ).sort( { '_id': -1 } ).toArray();
@@ -177,7 +178,9 @@ module.exports.getAgoragrams = async function( hexSecondsAfter, hexSecondsBefore
   else return null;
 };
 
+// Get single post
 module.exports.getAgoragram = async function( postId, id ) {
+  // Do not send all ids that have starred the post, only the request id if it exists.
   if ( id ) getAgoragramProjection[ 'starredby.$' ] = ObjectID( id );
 
   return await db.collection( 'agoragrams' ).find( { '$or': [ { '_id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] }, { 'projection': {} } ).toArray();

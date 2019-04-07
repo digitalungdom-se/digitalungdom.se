@@ -1,11 +1,11 @@
 /* global include */
 
-const validateProfilePicuture = include( 'helpers/validateProfilePicture' ).validateProfilePicture;
+const validateProfilePicuture = include( 'utils/validateProfilePicture' ).validateProfilePicture;
 const setProfilePicture = include( 'models/user/set' ).setProfilePicture;
 
 module.exports.uploadProfilePicture = async function( req, res ) {
   const id = req.user;
-  if ( !req.files.profilePicture ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'no files uploaded' } );
+  if ( !req.files && !req.files.profilePicture ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'no files uploaded' } );
 
   const profilePictureBuffer = req.files.profilePicture.data;
   const pictureValidation = await validateProfilePicuture( profilePictureBuffer, req.files.profilePicture.truncated );

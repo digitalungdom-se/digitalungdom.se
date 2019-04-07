@@ -39,6 +39,14 @@ module.exports.login = async function( req, res ) {
   } )( req, res );
 };
 
+module.exports.logout = async function( req, res ) {
+  req.session.destroy();
+
+  return res.send( {
+    'type': 'success'
+  } );
+};
+
 // Simple passportjs local strategy
 passport.use( 'local', new LocalStrategy(
   // Remember the username and password fields have to be named 'username' and 'password'. See passportjs documentation to change default names.
