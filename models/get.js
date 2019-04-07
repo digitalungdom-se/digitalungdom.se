@@ -12,6 +12,12 @@ module.exports.getAgreementVersion = async function() {
   return agreementVersion;
 };
 
+module.exports.getPublicUserById = async function( id ) {
+  const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { '_id': 0, 'name': 1, 'username': 1, 'profilePicture': 1 } } );
+
+  return user;
+};
+
 module.exports.getUserById = async function( id ) {
   const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { '_id': 0, 'verificationToken': 0, 'resetPasswordToken': 0, 'resetPasswordExpires': 0 } } );
 
