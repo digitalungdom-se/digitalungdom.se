@@ -1,29 +1,35 @@
-/* global include */
-
 const express = require( 'express' );
 const router = express.Router();
 require( 'express-async-errors' );
 
-const ensureUserAuthenticated = include( 'middlewares/ensureUserAuthentication' ).ensureUserAuthenticated;
-const ensureNotUserAuthenticated = include( 'middlewares/ensureUserAuthentication' ).ensureNotUserAuthenticated;
+const ensureUserAuthenticated = require( './middlewares/ensureUserAuthentication' ).ensureUserAuthenticated;
+const ensureNotUserAuthenticated = require( './middlewares/ensureUserAuthentication' ).ensureNotUserAuthenticated;
 
-const register = require( './user/register' );
-const authorisation = require( './user/authorisation' );
+const register = require( './controllers/user/register' );
+const authorisation = require( './controllers/user/authorisation' );
 
-const agorize = require( './user/agora/agorize' );
-const antiAgorize = require( './user/agora/antiAgorize' );
-const asteri = require( './user/agora/asteri' );
-const getAgoragrams = require( './user/agora/getAgoragrams' );
-const metaAgorize = require( './user/agora/metaAgorize' );
+const forgotPassword = require( './controllers/user/forgotPassword' );
+
+const agorize = require( './controllers/user/agora/agorize' );
+const antiAgorize = require( './controllers/user/agora/antiAgorize' );
+const asteri = require( './controllers/user/agora/asteri' );
+const getAgoragrams = require( './controllers/user/agora/getAgoragrams' );
+const metaAgorize = require( './controllers/user/agora/metaAgorize' );
 
 // registration
-router.get( '/register_check_username', register.register_check_username );
-router.get( '/register_check_email', register.register_check_email );
+router.get( '/register_check_username', register.registerCheckUsername );
+router.get( '/register_check_email', register.registerCheckEmail );
 router.post( '/register', ensureNotUserAuthenticated, register.register );
+router.post( '/verify', ensureNotUserAuthenticated, register.verify );
+
+// forgot password
+router.post( '/forgot', ensureNotUserAuthenticated, forgotPassword.forgot );
+router.post( '/reset', ensureNotUserAuthenticated, forgotPassword.reset );
 
 // authorisation
 router.post( '/auth', authorisation.auth );
 router.post( '/login', ensureNotUserAuthenticated, authorisation.login );
+router.post( '/logout', ensureUserAuthenticated, authorisation.logout );
 
 // Upload profile picture
 router.post( '/set_profile_picture', ensureNotUserAuthenticated, authorisation.login );

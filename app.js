@@ -2,10 +2,10 @@
 
 global.base_dir = __dirname;
 global.abs_path = function( path ) {
-  return base_dir + path;
+  return `${base_dir}/${path}`;
 };
 global.include = function( file ) {
-  return require( abs_path( '/' + file ) );
+  return require( abs_path( file ) );
 };
 
 require( 'dotenv' ).config();
@@ -98,6 +98,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
   // Development error handling
   if ( state === 'development' ) app.use( errorhandler() );
 
+  // Production error handler
   app.use( function( err, req, res, next ) {
     if ( !err.statusCode ) err.statusCode = 500;
     if ( !err.customMessage ) err.customMessage = 'Internal Server Error';
