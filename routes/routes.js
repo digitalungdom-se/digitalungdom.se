@@ -27,7 +27,7 @@ router.post( '/forgot', ensureNotUserAuthenticated, forgotPassword.forgot );
 router.post( '/reset', ensureNotUserAuthenticated, forgotPassword.reset );
 
 // authorisation
-router.post( '/auth', authorisation.auth );
+router.get( '/auth', authorisation.auth );
 router.post( '/login', ensureNotUserAuthenticated, authorisation.login );
 router.post( '/logout', ensureUserAuthenticated, authorisation.logout );
 
