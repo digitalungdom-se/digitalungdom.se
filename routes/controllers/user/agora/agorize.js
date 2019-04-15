@@ -8,7 +8,7 @@ const checkBadges = include( 'models/check' ).checkBadges;
 
 const agorize = include( 'models/user/agora' ).agorize;
 
-module.exports.agorize = async function( req, res ) {
+module.exports.agorize = async function ( req, res ) {
   // Fetches all the fields and their values
   const id = req.user;
   const body = req.body.body;
@@ -67,8 +67,9 @@ module.exports.agorize = async function( req, res ) {
   }
 
   const status = await agorize( id, { title, body, type, group, badges, tags, replyTo } );
+
   if ( status.error ) {
-    return res.status( 500 ).send( { 'type': 'fail', 'reason': status.reason } );
+    return res.status( 500 ).send( { 'type': 'fail', 'reason': status.error } );
   } else {
     return res.status( 201 ).send( { 'type': 'success' } );
   }

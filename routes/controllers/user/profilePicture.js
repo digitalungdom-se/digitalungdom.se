@@ -1,6 +1,6 @@
 /* global include */
 
-const validateProfilePicuture = include( 'utils/validateProfilePicture' ).validateProfilePicture;
+const validateProfilePicture = include( 'utils/validateProfilePicture' ).validateProfilePicture;
 const setProfilePicture = include( 'models/user/set' ).setProfilePicture;
 
 module.exports.uploadProfilePicture = async function( req, res ) {
@@ -8,15 +8,11 @@ module.exports.uploadProfilePicture = async function( req, res ) {
   if ( !req.files && !req.files.profilePicture ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'no files uploaded' } );
 
   const profilePictureBuffer = req.files.profilePicture.data;
-  const pictureValidation = await validateProfilePicuture( profilePictureBuffer, req.files.profilePicture.truncated );
+  const pictureValidation = await validateProfilePicture( profilePictureBuffer, req.files.profilePicture.truncated );
 
   if ( pictureValidation.error ) return res.status( 400 ).send( { 'type': 'fail', 'reason': pictureValidation.reason } );
 
-  const status = await setProfilePicture( id, profilePictureBuffer );
+  await setProfilePicture( id, profilePictureBuffer );
 
-  if ( status ) {
-    return res.status( 201 ).send( { 'type': 'success' } );
-  } else {
-    return res.status( 500 ).send( { 'type': 'fail', 'reason': 'internal server error' } );
-  }
+  return res.status( 201 ).send( { 'type': 'success' } );
 };
