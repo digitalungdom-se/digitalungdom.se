@@ -6,14 +6,15 @@ const validator = require( 'validator' );
 const getAgoragrams = include( 'models/user/agora' ).getAgoragrams;
 const getAgoragram = include( 'models/user/agora' ).getAgoragram;
 
-module.exports.getAgoragrams = async function( req, res ) {
+module.exports.getAgoragrams = async function ( req, res ) {
   const id = req.user;
   let dateAfter = req.query.dateAfter;
   let dateBefore = req.query.dateBefore;
   const sort = req.query.sort;
+  const group = req.query.group;
 
   // Checks that they all are strings, validatorjs only allows string (prevent errors)
-  if ( typeof sort !== 'string' || typeof dateAfter !== 'string' || typeof dateBefore !== 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );
+  if ( typeof sort !== 'string' || typeof dateAfter !== 'string' || typeof dateBefore !== 'string' || typeof group !== 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );
 
   if ( !validator.isHexadecimal( dateAfter ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Time must be hexadecimal seconds since unix epoch', dateAfter } );
   if ( dateAfter.length > 8 ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Time must be hexadecimal seconds since unix epoch', dateAfter } );
@@ -23,17 +24,16 @@ module.exports.getAgoragrams = async function( req, res ) {
 
   if ( !validator.isIn( sort, [ 'new', 'top' ] ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You can sort by new|top', sort } );
 
+  if ( !validator.isLength( group, { min: 3, max: 32 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid group', group } );
+
   dateAfter = dateAfter.length < 8 ? '0'.repeat( 8 - dateAfter.length ) + dateAfter : dateAfter;
   dateBefore = dateBefore.length < 8 ? '0'.repeat( 8 - dateBefore.length ) + dateBefore : dateBefore;
 
-  if ( id && !validateObjectID( id ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'invalid user id', id } );
-
-  const posts = await getAgoragrams( dateAfter, dateBefore, sort, id );
-  if ( Array.isArray( posts ) ) return res.send( { 'type': 'success', posts } );
-  else return res.status( 500 ).send( { 'type': 'fail', 'reason': 'internal server error' } );
+  const posts = await getAgoragrams( dateAfter, dateBefore, sort, group, id );
+  return res.send( { 'type': 'success', posts } );
 };
 
-module.exports.getAgoragram = async function( req, res ) {
+module.exports.getAgoragram = async function ( req, res ) {
   const id = req.user;
   const postId = req.query.postId;
 
@@ -42,6 +42,5 @@ module.exports.getAgoragram = async function( req, res ) {
   if ( id && !validateObjectID( id ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'invalid user id', id } );
 
   const post = await getAgoragram( postId, id );
-  if ( Array.isArray( post ) ) return res.send( { 'type': 'success', post } );
-  else return res.status( 500 ).send( { 'type': 'fail', 'reason': 'internal server error' } );
+  return res.send( { 'type': 'success', post } );
 };

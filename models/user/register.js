@@ -52,10 +52,10 @@ module.exports.sendVerification = async function( email ) {
 
 module.exports.verify = async function( token ) {
   // Verifies the user by finding the sent token in the db and verifying them.
-  return ( await db.collection( 'users' ).findOneAndUpdate( { 'verificationToken': token }, {
+  await db.collection( 'users' ).findOneAndUpdate( { 'verificationToken': token }, {
     '$unset': { 'verificationToken': 1 },
     '$set': { 'verified': true }
   }, {
     '_id': 1
-  } ) ).value;
+  } );
 };
