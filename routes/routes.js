@@ -43,16 +43,17 @@ router.get( '/get_agoragrams', getAgoragrams.getAgoragrams );
 router.get( '/get_agoragram', getAgoragrams.getAgoragram );
 router.post( '/meta_agorize', ensureUserAuthenticated, metaAgorize.metaAgorize );
 
-// get user
+// get
 router.get( '/get_user', get.getPublicUserById );
+router.get( '/status', get.status );
 
 // Produce 500 eror
-router.get( '/500', async function() {
+router.get( '/500', async function () {
   throw new Error( 'Random error' );
 } );
 
 // Produce 403 eror
-router.get( '/403', function( req, res, next ) {
+router.get( '/403', function ( req, res, next ) {
   let err = new Error( 'Forbidden' );
   err.statusCode = 403;
   err.customMessage = 'Forbidden';
@@ -60,7 +61,7 @@ router.get( '/403', function( req, res, next ) {
 } );
 
 // Produce 401 eror
-router.get( '/401', function( req, res, next ) {
+router.get( '/401', function ( req, res, next ) {
   let err = new Error( 'Unauthorized' );
   err.statusCode = 401;
   err.customMessage = 'Unauthorized';
@@ -68,7 +69,7 @@ router.get( '/401', function( req, res, next ) {
 } );
 
 // Produce 404 error
-router.all( '*', function( req, res, next ) {
+router.all( '*', function ( req, res, next ) {
   let err = new Error( 'Not Found' );
   err.statusCode = 404;
   err.customMessage = 'Not Found';
