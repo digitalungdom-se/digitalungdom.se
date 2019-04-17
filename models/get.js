@@ -31,7 +31,7 @@ module.exports.getUserByEmail = async function ( email ) {
 };
 
 module.exports.getUserByUsername = async function ( username ) {
-  const user = await db.collection( 'users' ).findOne( { 'username': username.toLowerCase() } ).collation( { locale: 'en', strength: 2 } );
+  const user = await db.collection( 'users' ).findOne( { 'usernameLower': username.toLowerCase() } );
 
   return user;
 };

@@ -18,6 +18,7 @@ module.exports.agorize = async function ( id, agoragramData ) {
   const agoragram = {};
   const agoragramId = ObjectID();
   agoragram[ '_id' ] = agoragramId;
+  agoragram[ 'id' ] = agoragram.toString().slice( 0, 14 );
   agoragram[ 'author' ] = ObjectID( id );
   agoragram[ 'type' ] = agoragramData.type;
   if ( agoragramData.group ) agoragram[ 'group' ] = agoragramData.group;
@@ -226,5 +227,5 @@ module.exports.getAgoragram = async function ( postId, id ) {
   if ( id ) getAgoragramProjection[ 'starredby.$' ] = ObjectID( id );
   else getAgoragramProjection[ 'starredby' ] = 0;
 
-  return await db.collection( 'agoragrams' ).find( { '$or': [ { '_id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] }, { 'projection': getAgoragramProjection } ).toArray();
+  return await db.collection( 'agoragrams' ).find( { '$or': [ { 'id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] }, { 'projection': getAgoragramProjection } ).toArray();
 };
