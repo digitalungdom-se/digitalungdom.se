@@ -47,3 +47,9 @@ module.exports.getRoleIdByName = async function ( name ) {
 
   return user.roles;
 };
+
+module.exports.getMemberAmount = async function () {
+  const memberAmount = await db.collection( 'users' ).count();
+
+  return memberAmount;
+};

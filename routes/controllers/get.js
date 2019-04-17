@@ -3,6 +3,7 @@
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 
 const getPublicUserById = include( 'models/get' ).getPublicUserById;
+const getMemberAmount = include( 'models/get' ).getMemberAmount;
 
 module.exports.getPublicUserById = async function ( req, res ) {
   let userId = req.query.userId;
@@ -18,6 +19,7 @@ module.exports.getPublicUserById = async function ( req, res ) {
 };
 
 module.exports.status = async function ( req, res ) {
+  const memberAmount = await getMemberAmount();
   const json = {
     'board': {
       'general': 'Jobbar på digitalungdom.se',
@@ -28,7 +30,10 @@ module.exports.status = async function ( req, res ) {
     'server': {
       'digitalungdom.se': 'online',
       'dub': 'online'
+    },
+    'members': {
+      'amount': memberAmount
     }
-  }
-  return res.send( json )
+  };
+  return res.send( json );
 };
