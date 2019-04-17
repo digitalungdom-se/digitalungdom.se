@@ -208,15 +208,14 @@ module.exports.getAgoragrams = async function ( hexSecondsAfter, hexSecondsBefor
   // Do not send all ids that have starred the post, only the request id if it exists.
   const getAgoragramProjection = {};
   if ( id ) getAgoragramProjection[ 'starredby.$' ] = ObjectID( id );
-  else getAgoragramProjection[ 'starredby' ] = 0;
 
   // only get agoragrams from specific group or all
   let getAgoragramFilter = {};
   if ( group === 'all' || !group ) getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } };
   else getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'group': group, 'type': { '$in': [ 'text', 'link', 'question' ] } };
 
-  if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter, { 'projection': getAgoragramProjection } ).limit( 10 ).sort( { '_id': -1 } ).toArray();
-  else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter, { 'projection': getAgoragramProjection } ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
+  if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter, { getAgoragramProjection } ).limit( 10 ).sort( { '_id': -1 } ).toArray();
+  else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter, { getAgoragramProjection } ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
   else return null;
 };
 
@@ -225,7 +224,6 @@ module.exports.getAgoragram = async function ( postId, id ) {
   // Do not send all ids that have starred the post, only the request id if it exists.
   const getAgoragramProjection = {};
   if ( id ) getAgoragramProjection[ 'starredby.$' ] = ObjectID( id );
-  else getAgoragramProjection[ 'starredby' ] = 0;
 
-  return await db.collection( 'agoragrams' ).find( { '$or': [ { 'id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] }, { 'projection': getAgoragramProjection } ).toArray();
+  return await db.collection( 'agoragrams' ).find( { '$or': [ { 'id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] }, { getAgoragramProjection } ).toArray();
 };
