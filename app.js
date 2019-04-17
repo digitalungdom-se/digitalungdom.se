@@ -1,10 +1,10 @@
 /* global db base_dir abs_path */
 
 global.base_dir = __dirname;
-global.abs_path = function( path ) {
+global.abs_path = function ( path ) {
   return `${base_dir}/${path}`;
 };
-global.include = function( file ) {
+global.include = function ( file ) {
   return require( abs_path( file ) );
 };
 
@@ -33,8 +33,8 @@ const state = process.env.NODE_ENV;
 
 const app = express();
 
-MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async function( err, client ) {
-  if ( err ) return console.log( err );
+MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async function ( err, client ) {
+  if ( err ) return console.log( 'mongodb', err );
   global.db = client.db( 'digitalungdom' );
 
   // Enable trust proxy if in production (needed for nginx?)
@@ -99,7 +99,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
   if ( state === 'development' ) app.use( errorhandler() );
 
   // Production error handler
-  app.use( function( err, req, res, next ) {
+  app.use( function ( err, req, res, next ) {
     if ( !err.statusCode ) err.statusCode = 500;
     if ( !err.customMessage ) err.customMessage = 'Internal Server Error';
 
@@ -107,7 +107,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
   } );
 
   // Use react front-end
-  app.get( '*', function( req, res ) { res.sendFile( path.join( __dirname, '/build/index.html' ) ); } );
+  app.get( '*', function ( req, res ) { res.sendFile( path.join( __dirname, '/build/index.html' ) ); } );
 
   // set port to 8080
   app.set( 'port', ( 8080 ) );

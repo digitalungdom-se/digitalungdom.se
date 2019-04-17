@@ -8,7 +8,7 @@ const getAgreementVersion = include( 'models/get' ).getAgreementVersion;
 const createUser = include( 'models/user/register' ).createUser;
 const verify = include( 'models/user/register' ).verify;
 
-const validateProfilePicuture = include( 'utils/validateProfilePicture' ).validateProfilePicuture;
+const validateProfilePicture = include( 'utils/validateProfilePicture' ).validateProfilePicuture;
 
 module.exports.registerCheckUsername = async function( req, res ) {
   const username = req.query.username;
@@ -85,7 +85,7 @@ module.exports.register = async function( req, res ) {
 
   if ( req.files && req.files.profilePicture ) {
     const profilePicture = req.files.profilePicture.data;
-    const pictureValidation = await validateProfilePicuture( profilePicture, req.files.profilePicture.truncated );
+    const pictureValidation = await validateProfilePicture( profilePicture, req.files.profilePicture.truncated );
     if ( pictureValidation.error ) return res.status( 400 ).send( { 'type': 'fail', 'reason': pictureValidation.reason } );
   }
 

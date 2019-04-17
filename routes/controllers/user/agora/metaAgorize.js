@@ -3,10 +3,9 @@
 const validator = require( 'validator' );
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 
-const validateAuthorById = include( 'models/user/agora' ).validateAuthorById;
 const metaAgorize = include( 'models/user/agora' ).metaAgorize;
 
-module.exports.metaAgorize = async function( req, res ) {
+module.exports.metaAgorize = async function ( req, res ) {
   // Fetches all the fields and their values
   const id = req.user;
   const postId = req.body.postId;
@@ -17,12 +16,7 @@ module.exports.metaAgorize = async function( req, res ) {
   if ( !validateObjectID( postId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'postId is not an objectID', postId } );
   if ( !validator.isLength( body, { min: 0, max: 10000 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Body is too long', body } );
 
-  if ( await validateAuthorById( id, postId ) ) {
-    const exists = await metaAgorize( postId, { body } );
-    if ( new Date() - exists < 10000 ) return res.status( 201 ).send( { 'type': 'success' } );
-    else if ( exists ) return res.status( 500 ).send( { 'type': 'failed', 'reason': 'internal server error' } );
-    else return res.status( 404 ).send( { 'type': 'failed', 'reason': 'no post with that id', postId } );
-  } else {
-    return res.status( 403 ).send( { 'type': 'fail', 'reason': 'not authorised to edit this post', postId } );
-  }
+  const exists = await metaAgorize( id, postId, { body } );
+  if ( exists ) return res.status( 201 ).send( { 'type': 'success' } );
+  else return res.status( 404 ).send( { 'type': 'failed', 'reason': 'no post with that id', postId } );
 };
