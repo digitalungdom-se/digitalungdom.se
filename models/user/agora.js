@@ -19,6 +19,7 @@ module.exports.agorize = async function ( id, agoragramData ) {
   const agoragramId = ObjectID();
   agoragram[ '_id' ] = agoragramId;
   agoragram[ 'id' ] = agoragram.toString().slice( 0, 14 );
+  agoragram[ 'hypergora' ] = agoragramData.hyperAgora;
   agoragram[ 'author' ] = ObjectID( id );
   agoragram[ 'type' ] = agoragramData.type;
   if ( agoragramData.group ) agoragram[ 'group' ] = agoragramData.group;
@@ -127,15 +128,21 @@ module.exports.asteri = async function ( id, starId ) {
   // Checks if the user has already rated this post, if it hasn't the query will result in undefined.
   // Also retrieves if the post even exists
 
+  let queryArray = [];
+
   const starredAgoragram = await db.collection( 'agoragrams' ).findOne( {
     '_id': ObjectID( starId ),
     'starredBy': ObjectID( id )
   }, {
-    'projection': { '_id': 1, 'starredBy.$': 1 }
+    'projection': { '_id': 1, 'author': 1, 'starredBy.$': 1 }
   } );
 
   // Checks if exists
   if ( !starredAgoragram._id ) return { 'error': 'agoragram does not exist' };
+  if ( starredAgoragram.author ) {
+    const authorId = starredAgoragram.author;
+    queryArray.push( db.collection( 'users' ).updateOne( { '_id': authorId }, { $inc: { 'stars': 1 } } ) );
+  }
 
   const agoragramStar = {};
   let star = 0;
@@ -154,11 +161,15 @@ module.exports.asteri = async function ( id, starId ) {
   }
 
   // Gets the replyToId (only comments have this field) and increments it's stars at the same time. Database god.
-  const starredPost = await db.collection( 'agoragrams' ).findOneAndUpdate( {
+  queryArray.push( db.collection( 'agoragrams' ).findOneAndUpdate( {
     '_id': ObjectID( starId )
   }, agoragramStar, {
     'projection': { '_id': 0, 'replyTo': 1 }
-  } );
+  } ) );
+
+  let starredPost = ( await Promise.all( queryArray ) )[ 1 ];
+  queryArray = [];
+
   const replyToId = starredPost.value.replyTo;
   // Checks if it is a comment. Then updates that comments parents children array then sorts it (only if the starred comment's stars is larger than the next one).
   // This process is done to accelerate front-end sorted tree building.
