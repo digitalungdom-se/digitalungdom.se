@@ -1,2 +1,2 @@
-export { default as boiler } from './boiler'
-export { default as header } from './header'
+export { default as boiler } from './boiler.js'
+export { default as header } from './header.js'

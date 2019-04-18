@@ -9,7 +9,7 @@ import {
 	Login
 } from 'containers'
 import { State } from '@components'
-import Agora from './agora'
+import Agora from './agora.js'
 import { boiler as Wrapper } from 'wrappers'
 
 const NoMatch = () => <div>No match</div>
