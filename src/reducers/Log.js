@@ -1,4 +1,4 @@
-const Log = (state = {}, action) => {
+export default (state = {}, action) => {
 	switch(action.type) {
 		case 'SAVE_PAYLOAD':
 			return {
@@ -19,5 +19,3 @@ const Log = (state = {}, action) => {
 			return state
 	}
 }
-
-export default Log

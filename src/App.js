@@ -1,38 +1,21 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
-import { Layout, LocaleProvider } from 'antd'
-import { Header, Footer } from 'components'
-import sv_SE from 'antd/lib/locale-provider/sv_SE'
-import AppRouter from './AppRouter'
-import 'resources/App.css'
+import React, { Component } from 'react';
+import Router from './routes'
+import { Provider } from 'react-redux'
+import configureStore from './configureStore'
+import { PersistGate } from 'redux-persist/integration/react'
+import history from './history'
 
-const { Content } = Layout
-
-const AppDOM = () => (
-	<Router>
-		<Layout style={{minHeight: '100vh'}}>
-			<Layout.Header
-				style={{padding: 0}}
-			>
-				<Header />
-			</Layout.Header>
-			<Content style={{marginBottom: 20}}>
-				<AppRouter />
-			</Content>
-			<Layout.Footer style={{padding: 0}}>
-				<Footer />
-			</Layout.Footer>
-		</Layout>
-	</Router>
-)
+const { store, persistor } = configureStore()
 
 class App extends Component {
   render() {
     return (
-    	<LocaleProvider locale={sv_SE}>
-      	<AppDOM />
-      </LocaleProvider>
-    );
+    	<Provider store={store}>
+    		<PersistGate loading={null} persistor={persistor}>
+      		<Router history={history} />
+    		</PersistGate>
+    	</Provider>
+    )
   }
 }
 

@@ -1,6 +1,6 @@
 const nodemailer = require( 'nodemailer' );
 
-module.exports.sendMail = async function( email, subject, content, attachment ) {
+module.exports.sendMail = async function ( email, subject, content, attachment ) {
   /** Simple send email helper to minimise code. See nodemailer documentation for more details **/
   const transporter = nodemailer.createTransport( {
     service: 'gmail',
@@ -11,7 +11,7 @@ module.exports.sendMail = async function( email, subject, content, attachment ) 
   } );
 
   const mail = {
-    from: 'Digitalungdom <' + process.env.EMAIL + '>',
+    from: 'Digital Ungdom <' + process.env.EMAIL + '>',
     to: email,
     subject: subject,
     html: content,

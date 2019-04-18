@@ -24,12 +24,10 @@ module.exports.sendForgotPassword = async function( email ) {
   const template = Hogan.compile( templateData );
   const body = template.render( { token: token } );
 
-  [ email, update ] = await Promise.all( [
+  await Promise.all( [
     sendMail( email, 'Glömt lösenord', body ),
-    ( db.collection( 'applications' ).findOneAndUpdate( { 'email': email }, { '$set': update }, { '_id': 1 } ) ).value
+    db.collection( 'applications' ).findOneAndUpdate( { 'email': email }, { '$set': update }, { '_id': 1 } )
   ] );
-
-  return update;
 };
 
 module.exports.resetPassword = async function( token, password ) {

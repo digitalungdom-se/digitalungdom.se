@@ -1,5 +1,11 @@
 import createAsyncFunction from './createAsyncFunction.js'
 
+const fakeResponse = 0 ? {
+  "type": "success",
+  "name": "Douglas Bengtsson",
+  "username": "Nautman"
+} : null
+
 export let Auth = {
   receiveAuth: ( response ) => ( {
     type: 'RECEIVE_AUTH',
@@ -8,18 +14,25 @@ export let Auth = {
   } )
 }
 
-Auth = {
-  ...Auth,
-  ...createAsyncFunction( 'auth', { method: 'POST', route: '/api/auth' }, [ Auth.receiveAuth ] )
+export const State = {
+  addFunction: (name, method, route, template) => ({
+    type: 'ADD_FUNCTION',
+    name,
+    method,
+    route,
+    template
+  }),
+  removeFunction: (name) => ({
+    type: 'REMOVE_FUNCTION',
+    name
+  }),
+  ...createAsyncFunction('do_function', null, [])
 }
 
-const fakeResponse = 0 ? {
-  "type": "success",
-  "name": "Douglas Bengtsson",
-  "username": "Nautman"
-} : null
-
-export const Login = {
+Auth = {
+  ...Auth,
+  ...createAsyncFunction( 'auth', { method: 'GET', route: '/api/auth' }, [ Auth.receiveAuth ] ),
+  ...createAsyncFunction( 'logOut', { method: 'POST', route: '/api/logout' }, [] ),
   ...createAsyncFunction( 'login', { method: 'POST', route: '/api/login' }, [ Auth.receiveAuth ], fakeResponse ),
 }
 
@@ -34,10 +47,7 @@ export const Users = {
 }
 
 export const Agora = {
-  ...createAsyncFunction( 'agora_publish_text', { method: 'POST', route: '/api/agorize' }, [] ),
-  ...createAsyncFunction( 'agora_publish_link', { method: 'POST', route: '/api/agorize' }, [] ),
-  ...createAsyncFunction( 'agora_publish_question', { method: 'POST', route: '/api/agorize' }, [] ),
-  ...createAsyncFunction( 'agora_publish_comment', { method: 'POST', route: '/api/agorize' }, [] ),
+  ...createAsyncFunction( 'agorize', { method: 'POST', route: '/api/agorize' }, [] ),
 
   ...createAsyncFunction( 'anti_agorize', { method: 'POST', route: '/api/anti_agorize' }, [] ),
   ...createAsyncFunction( 'meta_agorize', { method: 'POST', route: '/api/meta_agorize' }, [] ),
@@ -46,5 +56,10 @@ export const Agora = {
 
   ...createAsyncFunction( 'get_agoragram', { method: 'GET', route: '/api/get_agoragram' }, [] ),
   ...createAsyncFunction( 'get_comments', { method: 'GET', route: '/api/get_comments' }, [] ),
+
+  viewComments: (post) => ({
+    type: 'VIEW_COMMENTS',
+    post
+  })
 
 }

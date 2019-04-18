@@ -8,14 +8,14 @@ const checkBadges = include( 'models/check' ).checkBadges;
 
 const agorize = include( 'models/user/agora' ).agorize;
 
-module.exports.agorize = async function( req, res ) {
+module.exports.agorize = async function ( req, res ) {
   // Fetches all the fields and their values
   const id = req.user;
   const body = req.body.body;
   const type = req.body.type;
   const group = req.body.group;
   // Is not required
-  const badges = req.body.badges;
+  let badges = req.body.badges;
 
   // Post specific
   const title = req.body.title;
@@ -33,13 +33,14 @@ module.exports.agorize = async function( req, res ) {
   if ( group !== 'user' ) {
     if ( !validateObjectID( group ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'group is not an objectID', group } );
     if ( !( await checkGroup( id, group ) ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You are not authorised to use that role', group } );
-  } else if ( !Array.isArray( badges ) ) {
+    badges = [];
+  } else if ( !Array.isArray( badges ) && badges.length !== 0 ) {
     for ( let badge of badges ) {
       if ( !validateObjectID( badge ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'badge is not an objectID', badge } );
     }
     if ( !( await checkBadges( id, badges ) ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You are not authorised to use those badges', badges } );
   } else {
-    return res.status( 400 ).send( { 'type': 'fail', 'reason': 'badges must be an array of objectIDs', badges } );
+    badges = [];
   }
 
   // Specific validation
@@ -67,8 +68,9 @@ module.exports.agorize = async function( req, res ) {
   }
 
   const status = await agorize( id, { title, body, type, group, badges, tags, replyTo } );
+
   if ( status.error ) {
-    return res.status( 500 ).send( { 'type': 'fail', 'reason': status.reason } );
+    return res.status( 500 ).send( { 'type': 'fail', 'reason': status.error } );
   } else {
     return res.status( 201 ).send( { 'type': 'success' } );
   }

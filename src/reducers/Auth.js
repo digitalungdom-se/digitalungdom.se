@@ -1,6 +1,10 @@
-const Auth = (state = {}, action) => {
+export default (state = {}, action) => {
 	switch(action.type) {
 		case 'RECEIVE_AUTH':
+			if(action.response.reason === "Not authorised") return {
+				...action.response,
+				authTime: action.response._responseTime
+			}
 			return {
 				...state,
 				...action.response,
@@ -16,11 +20,24 @@ const Auth = (state = {}, action) => {
 			return {
 				...state,
 				authing: false,
-				authed: action.response
+			}
+		case 'REQUEST_LOGIN':
+			return {
+				...state,
+				loggingIn: true,
+			}
+		case 'RESPONSE_LOGIN':
+			return {
+				...state,
+				loggingIn: false,
+				loginResponse: action.response.type,
+				reason: action.response.reason
+			}
+		case 'RESPONSE_LOGOUT':
+			return {
+				authed: action.type === 'fail'
 			}
 		default:
 			return state
 	}
 }
-
-export default Auth
