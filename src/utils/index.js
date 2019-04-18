@@ -1,2 +1,2 @@
-export { hexToUint8, Uint8ToHex } from './hexstrings'
-export { timeToHex } from './time'
+export { hexToUint8, Uint8ToHex } from './hexstrings.js'
+export { timeToHex } from './time.js'

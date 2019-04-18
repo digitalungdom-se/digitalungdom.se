@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
-import Agora from './agora'
-import Auth from './auth'
-import Posts from './posts'
-import State from './state'
-import Log from './log'
+import Agora from './agora.js'
+import Auth from './auth.js'
+import Posts from './posts.js'
+import State from './state.js'
+import Log from './log.js'
 
 export default combineReducers({
 	Agora,
