@@ -9,7 +9,7 @@ module.exports.forgot = async function( req, res ) {
   const email = validator.normalizeEmail( req.body.email );
 
   const exists = await sendForgotPassword( email );
-  console.log( exists );
+
   if ( exists ) {
     return res.send( {
       'type': 'success'

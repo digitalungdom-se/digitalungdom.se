@@ -9,7 +9,7 @@ const getUserByEmail = include( 'models/get' ).getUserByEmail;
 const getUserByUsername = include( 'models/get' ).getUserByUsername;
 const getUserById = include( 'models/get' ).getUserById;
 
-module.exports.auth = async function( req, res ) {
+module.exports.auth = async function ( req, res ) {
   const id = req.user;
   if ( !id ) return res.status( 401 ).send( { 'type': 'failed', 'reason': 'Not authorised' } );
   const user = await getUserById( id );
@@ -22,12 +22,12 @@ module.exports.auth = async function( req, res ) {
   } );
 };
 
-module.exports.login = async function( req, res ) {
+module.exports.login = async function ( req, res ) {
   // Use local strategy with custom callbacks
-  passport.authenticate( 'local', function( err, user, info ) {
+  passport.authenticate( 'local', function ( err, user, info ) {
     if ( err ) throw err;
     if ( !user ) return res.send( { type: 'fail', reason: info } );
-    req.login( user[ '_id' ], function( err ) {
+    req.login( user[ '_id' ], function ( err ) {
       if ( err ) throw err;
       return res.send( {
         'type': 'success',
@@ -39,7 +39,7 @@ module.exports.login = async function( req, res ) {
   } )( req, res );
 };
 
-module.exports.logout = async function( req, res ) {
+module.exports.logout = async function ( req, res ) {
   req.session.destroy();
 
   return res.send( {
@@ -50,7 +50,7 @@ module.exports.logout = async function( req, res ) {
 // Simple passportjs local strategy
 passport.use( 'local', new LocalStrategy(
   // Remember the username and password fields have to be named 'username' and 'password'. See passportjs documentation to change default names.
-  async function( username, password, done ) {
+  async function ( username, password, done ) {
     // Checks that both inputs are string, so no errors occur.
     if ( typeof username != 'string' || typeof password != 'string' ) {
       return done( null, false, { field: 'username', message: 'incorrect input' } );
@@ -58,7 +58,7 @@ passport.use( 'local', new LocalStrategy(
 
     // Finds the user by username/email. If the username looks like a valid email it will find user by email, else it will find by username.
     let user;
-    user = validator.isEmail( username ) ? user = await getUserByEmail( username ) : await getUserByUsername( username );
+    user = validator.isEmail( username ) ? user = await getUserByEmail( username ): await getUserByUsername( username );
 
     if ( !user ) {
       // If it does not find a user will return false and say that it could not find a user
@@ -77,11 +77,10 @@ passport.use( 'local', new LocalStrategy(
   }
 ) );
 
-// yeah, i do not really know what this does, but it is needed for passportjs to work.
-passport.serializeUser( function( user, done ) {
+passport.serializeUser( function ( user, done ) {
   done( null, user );
 } );
 
-passport.deserializeUser( function( user, done ) {
+passport.deserializeUser( function ( user, done ) {
   done( null, user );
 } );

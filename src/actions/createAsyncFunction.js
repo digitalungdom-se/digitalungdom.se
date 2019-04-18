@@ -18,52 +18,64 @@ const query = params => Object.keys(params)
 function createAsyncFunction(name, request, responseCallbacks) {
 	const Category = {}
 
-	Category[name] = (input, fakeResponse) => {
+	Category[name] = (input, fakeResponse, undefinedRequest) => {
+		if(request === null) request = undefinedRequest
 		return dispatch => {
 			dispatch(Log.savePayload(input, request.method + ' ' + request.route))
 
-			dispatch(Category['request_' + name](input, Date.now()))
-
 			const body = request.method === 'POST' ? { body: JSON.stringify(input) } : {}
+			const _url = `${request.route}${request.method === 'GET' && input ? `?${query(input)}` : ''}`
 
-			console.log(request, body)
+			dispatch(Category['request_' + name](input, Date.now(), _url))
 
-			return fetch(`${request.route}${request.method === 'GET' ? `?${query(input)}` : ''}`, {
+			return fetch(_url, {
 				method: request.method,
 				headers: {"Content-Type": "application/json"},
 				...body
 			})
 				.then(response => response.json())
 				.then(response => {
-					console.log(response)
 					dispatch(Log.saveResponse(response))
-					dispatch(Category['response_' + name]({ ...response, _responseTime: Date.now()}))
-					responseCallbacks.forEach(callback => dispatch(callback({ ...response , _responseTime: Date.now()})))
-					return response
+					dispatch(Category['response_' + name](response, Date.now(), _url))
+					responseCallbacks.forEach(callback => dispatch(callback(response, Date.now(), _url)))
+					return {response, _requestTime: Date.now(), _url}
 				})
-				.catch(error => {
-					if(fakeResponse) error = fakeResponse
-					dispatch(Log.saveResponse(error))
-					dispatch(Category['response_' + name](error, Date.now()))
-					if(fakeResponse) responseCallbacks.forEach(callback => dispatch(callback({ ...error , _responseTime: Date.now()})));
-					return error
+				.catch(err => {
+					dispatch(Log.saveResponse({douglas: "too stupid too log this, probably a network error tho"}))
 				})
+				// .then(response => {
+				// 	dispatch(Log.saveResponse(response))
+				// 	dispatch(Category['response_' + name](response, Date.now(), _url))
+				// 	responseCallbacks.forEach(callback => dispatch(callback(response, Date.now(), _url)))
+				// 	return {response, _requestTime: Date.now(), _url}
+				// })
+				// .catch(error => {
+				// 	if(fakeResponse) error = fakeResponse
+				// 	dispatch(Log.saveResponse(error))
+				// 	if(fakeResponse) {
+				// 		dispatch(Category['response_' + name](error, Date.now(), _url))
+				// 		responseCallbacks.forEach(callback => dispatch(callback(error, Date.now(), _url)))
+				// 	} else dispatch(Category['response_' + name](error, Date.now(), _url))
+				// 	return {response: error, _requestTime: Date.now(), _url}
+				// })
 		}
 	}
 
 	const requestType = 'REQUEST_' + name.toUpperCase()
 	const responseType = 'RESPONSE_' + name.toUpperCase()
 
-	Category['request_' + name] = (request, _requestTime) => ({
+	Category['request_' + name] = (request, _requestTime, _url) => ({
 		type: requestType,
 		request,
-		_requestTime
+		_requestTime,
+		_url
 	})
 
-	Category['response_' + name] = (response, _responseTime) => ({
+	Category['response_' + name] = (response, _responseTime, _url) => ({
 		type: responseType,
 		response,
-		_responseTime
+		_responseTime,
+		_url
 	})
 
 	return Category

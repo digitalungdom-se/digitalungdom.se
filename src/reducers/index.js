@@ -1,16 +1,14 @@
 import { combineReducers } from 'redux'
-import Log from './Log.js'
-import Auth from './Auth.js'
-import Login from './Login.js'
-import Register from './Register.js'
-import Users from './Users.js'
-import Agora from './Agora.js'
+import Agora from './agora'
+import Auth from './auth'
+import Posts from './posts'
+import State from './state'
+import Log from './log'
 
 export default combineReducers({
-	Log,
-	Login,
-	Register,
-	Users,
+	Agora,
 	Auth,
-	Agora
+	Posts,
+	Log,
+	State
 })

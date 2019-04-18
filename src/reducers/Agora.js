@@ -1,121 +1,91 @@
-const initialState = {
-	posts: [
-	{
-		user: {
-			username: 'Nautman',
-			name: 'Douglas Bengtsson'
-		},
-		date: new Date('2019-02-18'),
-		text: 'Hello',
-		title: 'Digitalt rådslag!',
-		stars: 10,
-		comments: 121
+export default (state = {
+	viewingComments: false,
+	comments: {},
+	posts: {
+		total: 0,
+		routes: {},
+		fetchedSeveral: false,
+		fullIds: {}
 	}
-	]
-}
-
-const Agora = (state = initialState, action) => {
+}, action) => {
 	switch(action.type) {
-		
-		case 'REQUEST_AGORA_PUBLISH_POST':
-			return {
-				...state,
-				publishing_post: true
-			}
-			break
-		case 'RESPONSE_AGORA_PUBLISH_POST':
-			return {
-				...state,
-				publishing_post: action.type
-			}
-			break
-		case 'REQUEST_AGORA_PUBLISH_LINK':
-			return {
-				...state,
-				publishing_post: true
-			}
-			break
-		case 'RESPONSE_AGORA_PUBLISH_LINK':
-			return {
-				...state,
-				publishing_post: action.type
-			}
-			break
-		case 'REQUEST_AGORA_PUBLISH_QUESTION':
-			return {
-				...state,
-				publishing_post: true
-			}
-			break
-		case 'RESPONSE_AGORA_PUBLISH_QUESTION':
-			return {
-				...state,
-				publishing_post: action.type
-			}
-			break
-		case 'REQUEST_AGORA_PUBLISH_COMMENT':
-			return {
-				...state,
-				publishing_comment: true
-			}
-			break
-		case 'RESPONSE_AGORA_PUBLISH_COMMENT':
-			return {
-				...state,
-				publishing_comment: action.type
-			}
-			break
-		case 'REQUEST_ANTI_AGORIZE':
-			return {
-				...state,
-				anti_agorizing: action.postId
-			}
-			break
-		case 'RESPONSE_ANTI_AGORIZE':
-			return {
-				...state,
-				anti_agorizing: action.type
-			}
-			break
-		case 'REQUEST_META_AGORIZE':
-			return {
-				...state,
-				meta_agorizing: action.postId
-			}
-			break
-		case 'RESPONSE_META_AGORIZE':
-			return {
-				...state,
-				meta_agorizing: action.type
-			}
-			break
 		case 'REQUEST_GET_AGORAGRAMS':
 			return {
 				...state,
-				getting_agoragrams: true
+				...action._requestTime,
+				posts: {
+					...state.posts,
+					[action._url]: false,
+					fetchedSeveral: true
+				},
+				fetchingAgoragrams: true
 			}
-			break
 		case 'RESPONSE_GET_AGORAGRAMS':
-			return {
-				...state,
-				agoragrams: action.posts
-			}
-			break
-		case 'REQUEST_GET_AGORAGRAM':
-			return {
-				...state,
-				getting_agoragram: true
-			}
-			break
+			if(action.response.type === "success") {
+				const posts = {}
+				const list = action.response.posts.map(post => {
+					posts[post._id] = post
+					return post._id
+				})
+				return {
+					...state,
+					...action._responseTime,
+					fetchingAgoragrams: false,
+					posts: {
+						...state.posts,
+						...posts,
+						fetchedSeveral: true,
+						total: state.posts.total + list.length,
+						[action._url]: list,
+					}
+					// agoragrams: []
+				}
+			} else return state
 		case 'RESPONSE_GET_AGORAGRAM':
+		// console.log({
+		// 		...state,
+		// 		posts: {
+		// 			...state.posts,
+		// 			[action.response.post[0]._id]: {
+		// 				...action.response.post[0],
+		// 				comments: action.response.post.slice(0, 1)
+		// 			}
+		// 		}
+		// 	})
+		// console.log({
+		// 	[action.response.post[0]._id]: {
+		// 		...action.response.post[0],
+		// 		comments: action.response.post.slice(0, 1)
+		// 	}
+		// })
+		if(action.response.type === "success") return {
+			...state,
+			posts: {
+				...state.posts,
+				total: state.posts.total + 1,
+				[action.response.post[0]._id]: {
+					...action.response.post[0],
+					comments: action.response.post.slice(1, action.response.post.length),
+				},
+				fullIds: {
+					...state.posts.fullIds,
+					[action.response.post[0].id]: action.response.post[0]._id
+				}
+			}
+		}
+		else return state
+			// return {
+			// 	...state,
+			// 	posts: {
+			// 		...state.posts,
+			// 	}
+			// }
+		case 'VIEW_COMMENTS':
 			return {
 				...state,
-				agoragram: action.posts
+				viewingComments: true
 			}
-			break
 		default:
 			return state
 	}
 }
-
-export default Agora
