@@ -34,13 +34,14 @@ module.exports.agorize = async function ( req, res ) {
   if ( !validator.isIn( type, [ 'text', 'comment', 'link', 'question' ] ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'you can only post a (text|comment|link|question)', 'typeVariable': type } );
   if ( !validator.isLength( body, { min: 0, max: 10000 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'body is too long', body } );
 
-  if ( role !== 'user' ) {
-    if ( !validateObjectID( role ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'role is not an objectID', role } );
+  if ( validateObjectID( role ) ) {
     validateQueryArray.push( checkGroup( id, role ) );
 
     display[ 'type' ] = 'role';
     display[ 'display' ] = role;
+
   } else if ( Array.isArray( badges ) && badges.length !== 0 ) {
+    if ( badges.length > 3 ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'too many badges, max 3', badges } );
     for ( let badge of badges ) {
       if ( !validateObjectID( badge ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'badge is not an objectID', badge } );
     }
