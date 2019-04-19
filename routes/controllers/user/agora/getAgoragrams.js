@@ -11,7 +11,7 @@ module.exports.getAgoragrams = async function ( req, res ) {
   let dateAfter = req.query.dateAfter;
   let dateBefore = req.query.dateBefore;
   const sort = req.query.sort;
-  const group = req.query.group;
+  const hypagora = req.query.hypagora;
 
   // Checks that they all are strings, validatorjs only allows string (prevent errors)
   if ( typeof sort !== 'string' || typeof dateAfter !== 'string' || typeof dateBefore !== 'string' || typeof group !== 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );
@@ -24,21 +24,22 @@ module.exports.getAgoragrams = async function ( req, res ) {
 
   if ( !validator.isIn( sort, [ 'new', 'top' ] ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'You can sort by new|top', sort } );
 
-  if ( !validator.isLength( group, { min: 3, max: 32 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid group', group } );
+  if ( !validator.isLength( hypagora, { min: 3, max: 32 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid group', hypagora } );
 
   dateAfter = dateAfter.length < 8 ? '0'.repeat( 8 - dateAfter.length ) + dateAfter : dateAfter;
   dateBefore = dateBefore.length < 8 ? '0'.repeat( 8 - dateBefore.length ) + dateBefore : dateBefore;
 
-  const posts = await getAgoragrams( dateAfter, dateBefore, sort, group, id );
+  const posts = await getAgoragrams( dateAfter, dateBefore, sort, hypagora, id );
   return res.send( { 'type': 'success', posts } );
 };
 
 module.exports.getAgoragram = async function ( req, res ) {
   const id = req.user;
   const postId = req.query.postId;
+  const test = postId.length < 24 ? postId + '0'.repeat( 24 - postId.length ) : postId;
 
-  // Checks that postId is an ObjectID
-  if ( postId ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid postId', postId } );
+  // Checks that postId is valid objectID by adding some 0
+  if ( !validateObjectID( test ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid postId', postId } );
 
   const post = await getAgoragramByShortId( postId, id );
   return res.send( { 'type': 'success', post } );

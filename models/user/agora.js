@@ -204,14 +204,14 @@ module.exports.asteri = async function ( id, starId ) {
 };
 
 // Get all new posts
-module.exports.getAgoragrams = async function ( hexSecondsAfter, hexSecondsBefore, sort, group ) {
+module.exports.getAgoragrams = async function ( hexSecondsAfter, hexSecondsBefore, sort, hypagora, userId ) {
   const objectIDAfter = ObjectID( hexSecondsAfter + '0000000000000000' );
   const objectIDBefore = ObjectID( hexSecondsBefore + '0000000000000000' );
 
-  // only get agoragrams from specific group or all
+  // only get agoragrams from specific hypagora or all
   let getAgoragramFilter = {};
-  if ( group === 'all' || !group ) getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } };
-  else getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'group': group, 'type': { '$in': [ 'text', 'link', 'question' ] } };
+  if ( hypagora === 'general' || !hypagora ) getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } };
+  else getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'hypagora': hypagora, 'type': { '$in': [ 'text', 'link', 'question' ] } };
 
   if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter ).limit( 10 ).sort( { '_id': -1 } ).toArray();
   else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
@@ -219,11 +219,11 @@ module.exports.getAgoragrams = async function ( hexSecondsAfter, hexSecondsBefor
 };
 
 // Get single post
-module.exports.getAgoragramById = async function ( postId ) {
+module.exports.getAgoragramById = async function ( postId, userId ) {
   return await db.collection( 'agoragrams' ).find( { '$or': [ { '_id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] } ).toArray();
 };
 
 // Get single post
-module.exports.getAgoragramByShortId = async function ( postId ) {
+module.exports.getAgoragramByShortId = async function ( postId, userId ) {
   return await db.collection( 'agoragrams' ).find( { '$or': [ { 'shortId': postId }, { 'post': postId } ] } ).toArray();
 };
