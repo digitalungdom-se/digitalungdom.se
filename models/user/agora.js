@@ -14,56 +14,61 @@ module.exports.validateAuthorById = async function ( candidateId, postId ) {
 
 // Post post/comment
 module.exports.agorize = async function ( id, agoragramData ) {
-  // Unpacks the agoragram data
-  const agoragram = {};
+  // Initiate query array, array that withholds queries that will be called async later.
+  const queryArray = [];
+
+  // Unpacks the general agoragram data
+  let agoragram = { ...agoragramData.general };
+
   const agoragramId = ObjectID();
   agoragram[ '_id' ] = agoragramId;
-  agoragram[ 'id' ] = agoragram.toString().slice( 0, 14 );
-  agoragram[ 'hypergora' ] = agoragramData.hyperAgora;
+  agoragram[ 'shortId' ] = agoragramId.toString().slice( 0, 14 );
   agoragram[ 'author' ] = ObjectID( id );
-  agoragram[ 'type' ] = agoragramData.type;
-  if ( agoragramData.group ) agoragram[ 'group' ] = agoragramData.group;
-  else if ( agoragramData.badges ) agoragram[ 'badges' ] = agoragramData.badges;
+
   agoragram[ 'modified' ] = false;
-  agoragram[ 'body' ] = agoragramData.body;
   agoragram[ 'stars' ] = 0;
-  agoragram[ 'starredBy' ] = [];
   agoragram[ 'children' ] = [];
   agoragram[ 'pinned' ] = false;
   agoragram[ 'deleted' ] = false;
 
-  // Initiate query array, array that withholds queries that will be called async later.
-  const queryArray = [];
-
   // Adds agoragram type specific fields, e.g. title for normal posts and replyTo for comments
-  if ( [ 'text', 'link', 'question' ].includes( agoragramData.type ) ) {
-    agoragram[ 'title' ] = agoragramData.title;
-    agoragram[ 'tags' ] = agoragramData.tags;
+  if ( [ 'text', 'link', 'question' ].includes( agoragram.type ) ) {
+    agoragram = { ...agoragram, ...agoragramData.post };
     agoragram[ 'commentAmount' ] = 0;
+
+    queryArray.push( db.collection( 'users' ).updateOne( { '_id': ObjectID( id ) }, { $inc: { 'agora.score.posts': 1 } } ) );
   } else {
-    const replyToId = agoragramData.replyTo;
+    const replyToId = ObjectID( agoragramData.comment.replyTo );
 
     const replyExists = await db.collection( 'agoragrams' ).findOneAndUpdate( {
-      '_id': ObjectID( replyToId )
+      '_id': replyToId
     }, {
       '$push': { 'children': agoragramId }
     }, {
       'projection': { '_id': 1, 'type': 1, 'post': 1 }
     } );
 
+
     if ( !replyExists.value ) return { 'error': 'replyTo does not exist', 'replyTo': replyToId };
-    else if ( replyExists.value.type === 'comment' ) agoragram[ 'post' ] = replyExists.value.post;
-    else agoragram[ 'post' ] = replyExists.value._id;
+
+    agoragram[ 'post' ] = {};
+    if ( replyExists.value.type === 'comment' ) {
+      agoragram[ 'post' ][ 'id' ] = replyExists.value.post.id;
+      agoragram[ 'post' ][ 'shortId' ] = replyExists.value.post.shortId;
+    } else {
+      agoragram[ 'post' ][ 'id' ] = replyExists.value._id;
+      agoragram[ 'post' ][ 'shortId' ] = replyExists.value.shortId;
+    }
 
     agoragram[ 'replyTo' ] = replyToId;
 
-    queryArray.push( db.collection( 'agoragrams' ).findOneAndUpdate( {
-      '_id': ObjectID( agoragram.post )
+    queryArray.push( db.collection( 'agoragrams' ).updateOne( {
+      '_id': ObjectID( agoragram.post.id )
     }, {
       '$inc': { 'commentAmount': 1 }
-    }, {
-      'projection': { '_id': 1 }
     } ) );
+
+    queryArray.push( db.collection( 'users' ).updateOne( { '_id': ObjectID( id ) }, { $inc: { 'agora.score.comments': 1 } } ) );
   }
 
   queryArray.push( db.collection( 'agoragrams' ).insertOne( agoragram ) );
@@ -79,48 +84,40 @@ module.exports.antiAgorize = async function ( candidateId, postId ) {
   const setAgoragram = {};
 
   unsetAgoragram[ 'author' ] = true;
-  unsetAgoragram[ 'group' ] = true;
-  unsetAgoragram[ 'badges' ] = true;
+  unsetAgoragram[ 'display' ] = true;
   unsetAgoragram[ 'body' ] = true;
 
   setAgoragram[ 'modified' ] = new Date();
   setAgoragram[ 'deleted' ] = true;
-  const post = await db.collection( 'agoragrams' ).findOneAndUpdate( {
+  const updated = await db.collection( 'agoragrams' ).updateOne( {
     '_id': ObjectID( postId ),
     'author': ObjectID( candidateId )
   }, {
     '$set': setAgoragram,
     '$unset': unsetAgoragram
-  }, {
-    'projection': { '_id': 0, 'deleted': 1 },
-    'returnOriginal': false
   } );
 
-  if ( post.value ) return post.value.deleted;
-  else return null;
+  if ( updated.result.nModified ) return { 'error': false };
+  else return { 'error': 'unauthorised, post does not exist, or post already deleted' };
 };
 
 // Edit post/comment
-module.exports.metaAgorize = async function ( candidateId, postId, agoragramData ) {
+module.exports.metaAgorize = async function ( candidateId, postId, body ) {
   // Sets the new comments body and add that it has been modified
   const setAgoragram = {};
-  setAgoragram[ 'body' ] = agoragramData.body;
+  setAgoragram[ 'body' ] = body;
   setAgoragram[ 'modified' ] = new Date();
 
-  const post = await db.collection( 'agoragrams' ).findOneAndUpdate( {
+  const updated = await db.collection( 'agoragrams' ).updateOne( {
     '_id': ObjectID( postId ),
     'author': ObjectID( candidateId ),
-    'type': { '$in': [ 'post', 'question', 'comment' ] },
-    'deleted': false,
+    'type': { '$in': [ 'text', 'question', 'comment' ] },
   }, {
     '$set': setAgoragram
-  }, {
-    'projection': { '_id': 0, 'modified': 1 },
-    'returnOriginal': false
   } );
 
-  if ( post.value ) return post.value.modified;
-  else return null;
+  if ( updated.result.nModified ) return { 'error': false };
+  else return { 'error': 'unauthorised, post does not exist, or post is uneditable' };
 };
 
 // Like post/comment
@@ -130,50 +127,42 @@ module.exports.asteri = async function ( id, starId ) {
 
   let queryArray = [];
 
-  const starredAgoragram = await db.collection( 'agoragrams' ).findOne( {
-    '_id': ObjectID( starId ),
-    'starredBy': ObjectID( id )
-  }, {
-    'projection': { '_id': 1, 'author': 1, 'starredBy.$': 1 }
-  } );
+  const starredAgoragram = await db.collection( 'agoragrams' ).findOne( { '_id': ObjectID( starId ) } );
 
   // Checks if exists
   if ( !starredAgoragram._id ) return { 'error': 'agoragram does not exist' };
-  if ( starredAgoragram.author ) {
-    const authorId = starredAgoragram.author;
-    queryArray.push( db.collection( 'users' ).updateOne( { '_id': authorId }, { $inc: { 'stars': 1 } } ) );
-  }
-
-  const agoragramStar = {};
-  let star = 0;
+  let starredByUser = await db.collection( 'users' ).updateOne( { '_id': ObjectID( id ) }, { $addToSet: { 'agora.starredAgoragrams': ObjectID( starId ) } } );
+  starredByUser = !( starredByUser.result.nModified );
 
   // Checks if the user has rated the post or not
-  if ( starredAgoragram.starredBy ) {
-    // If the user hasn't starred the post/comment
-    agoragramStar[ '$push.starredBy' ] = ObjectID( id );
-    agoragramStar[ '$inc.stars' ] = 1;
-    star = 1;
-  } else {
+  let star = 0;
+  if ( starredByUser ) {
     // If the user has starred the post/comment, i.e. unstar it.
-    agoragramStar[ '$pull.starredBy' ] = ObjectID( id );
-    agoragramStar[ '$inc.stars' ] = -1;
+    queryArray.push( db.collection( 'users' ).updateOne( { '_id': ObjectID( id ) }, { $pull: { 'agora.starredAgoragrams': ObjectID( starId ) } } ) );
     star = -1;
+  } else star = 1;
+
+  if ( starredAgoragram.author ) {
+    const authorId = starredAgoragram.author;
+    queryArray.push( db.collection( 'users' ).updateOne( { '_id': authorId }, { $inc: { 'agora.score.stars': star } } ) );
   }
 
   // Gets the replyToId (only comments have this field) and increments it's stars at the same time. Database god.
   queryArray.push( db.collection( 'agoragrams' ).findOneAndUpdate( {
     '_id': ObjectID( starId )
-  }, agoragramStar, {
+  }, {
+    $inc: { 'stars': star }
+  }, {
     'projection': { '_id': 0, 'replyTo': 1 }
   } ) );
 
-  let starredPost = ( await Promise.all( queryArray ) )[ 1 ];
+  let starredPost = ( await Promise.all( queryArray ) )[ queryArray.length - 1 ];
   queryArray = [];
 
-  const replyToId = starredPost.value.replyTo;
   // Checks if it is a comment. Then updates that comments parents children array then sorts it (only if the starred comment's stars is larger than the next one).
   // This process is done to accelerate front-end sorted tree building.
-  if ( replyToId ) {
+  if ( starredPost.value && starredPost.value.replyTo ) {
+    const replyToId = starredPost.value.replyTo;
     // Gets all the starred comments siblings and increments the starred comments stars in the parents child array. database god.
     let children = ( db.collection( 'agoragrams' ).findOneAndUpdate( {
       '_id': ObjectID( replyToId ),
@@ -209,32 +198,32 @@ module.exports.asteri = async function ( id, starId ) {
       }
     }
   }
+  // return if it starred or unstarred the post
+  const action = star === 1 ? 'starred' : 'unstarred';
+  return { 'error': false, action };
 };
 
 // Get all new posts
-module.exports.getAgoragrams = async function ( hexSecondsAfter, hexSecondsBefore, sort, group, id ) {
+module.exports.getAgoragrams = async function ( hexSecondsAfter, hexSecondsBefore, sort, group ) {
   const objectIDAfter = ObjectID( hexSecondsAfter + '0000000000000000' );
   const objectIDBefore = ObjectID( hexSecondsBefore + '0000000000000000' );
-
-  // Do not send all ids that have starred the post, only the request id if it exists.
-  const getAgoragramProjection = {};
-  if ( id ) getAgoragramProjection[ 'starredby.$' ] = ObjectID( id );
 
   // only get agoragrams from specific group or all
   let getAgoragramFilter = {};
   if ( group === 'all' || !group ) getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } };
   else getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'group': group, 'type': { '$in': [ 'text', 'link', 'question' ] } };
 
-  if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter, { getAgoragramProjection } ).limit( 10 ).sort( { '_id': -1 } ).toArray();
-  else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter, { getAgoragramProjection } ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
+  if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter ).limit( 10 ).sort( { '_id': -1 } ).toArray();
+  else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
   else return null;
 };
 
 // Get single post
-module.exports.getAgoragram = async function ( postId, id ) {
-  // Do not send all ids that have starred the post, only the request id if it exists.
-  const getAgoragramProjection = {};
-  if ( id ) getAgoragramProjection[ 'starredby.$' ] = ObjectID( id );
+module.exports.getAgoragramById = async function ( postId ) {
+  return await db.collection( 'agoragrams' ).find( { '$or': [ { '_id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] } ).toArray();
+};
 
-  return await db.collection( 'agoragrams' ).find( { '$or': [ { 'id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] }, { getAgoragramProjection } ).toArray();
+// Get single post
+module.exports.getAgoragramByShortId = async function ( postId ) {
+  return await db.collection( 'agoragrams' ).find( { '$or': [ { 'shortId': postId }, { 'post': postId } ] } ).toArray();
 };

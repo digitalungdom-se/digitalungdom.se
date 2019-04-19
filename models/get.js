@@ -7,45 +7,39 @@ module.exports.getAgreementVersion = async function () {
   It retrieves the latest agreement and returns it. This can be later used to put in the users document (registering) or check that
   they have accepted the latest agreement when logging in. **/
 
-  const agreementVersion = await db.collection( 'agreements' ).findOne( { '$query': {}, '$orderby': { 'agreementVersion': -1 } }, { 'project': { '_id': 0, 'agreementVersion': 1 } } );
+  const agreementVersion = ( await db.collection( 'agreements' ).find( { 'type': 'digitalungdom' }, { '_id': 0, 'agreementVersion': 1 } ).sort( { _id: -1 } ).limit( 1 ).toArray() )[ 0 ].agreementVersion;
 
   return agreementVersion;
 };
 
 module.exports.getPublicUserById = async function ( id ) {
-  const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { '_id': 0, 'name': 1, 'username': 1, 'profilePicture': 1 } } );
+  const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { '_id': 0, 'details.name': 1, 'details.username': 1, 'details.profilePicture': 1 } } );
 
   return user;
 };
 
 module.exports.getUserById = async function ( id ) {
-  const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { '_id': 0, 'verificationToken': 0, 'resetPasswordToken': 0, 'resetPasswordExpires': 0 } } );
+  const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { 'verificationToken': 0, 'resetPassword': 0 } } );
 
   return user;
 };
 
 module.exports.getUserByEmail = async function ( email ) {
-  const user = await db.collection( 'users' ).findOne( { 'email': email }, { 'projection': { 'verificationToken': 0, 'resetPasswordToken': 0, 'resetPasswordExpires': 0 } } );
+  const user = await db.collection( 'users' ).findOne( { 'details.email': email }, { 'projection': { 'verificationToken': 0, 'resetPassword': 0 } } );
 
   return user;
 };
 
 module.exports.getUserByUsername = async function ( username ) {
-  const user = await db.collection( 'users' ).findOne( { 'usernameLower': username.toLowerCase() } );
+  const user = ( await db.collection( 'users' ).find( { 'details.username': username.toLowerCase() }, { 'projection': { 'verificationToken': 0, 'resetPassword': 0 } } ).collation( { locale: 'en', strength: 2 } ).toArray() )[ 0 ];
 
   return user;
 };
 
 module.exports.getUserRolesById = async function ( id ) {
-  const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { '_id': 0, 'roles': 1 } } );
+  const roles = ( await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { '_id': 0, 'agora.roles': 1 } } ) ).roles;
 
-  return user.roles;
-};
-
-module.exports.getRoleIdByName = async function ( name ) {
-  const user = await db.collection( 'roles' ).findOne( { 'name': name }, { 'projection': { '_id': 1 } } );
-
-  return user.roles;
+  return roles;
 };
 
 module.exports.getMemberAmount = async function () {
