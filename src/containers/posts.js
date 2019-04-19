@@ -40,7 +40,7 @@ class Posts extends Component {
 				before: timeToHex(before)
 			},
 			_url: "",
-			group: this.props.subreddit ? this.props.subreddit : "all",
+			group: this.props.hypagora ? this.props.hypagora : "all",
 			route: this.props.route ? this.props.route : this.props.location.pathname,
 			redirect: this.props.route ? this.props.route : this.props.location.pathname
 		}
@@ -57,11 +57,11 @@ class Posts extends Component {
 		let { sort } = filter
 		const { time } = this.props
 
-		const subreddit = this.props.subreddit
+		const hypagora = this.props.hypagora
 
 		let route = "/agora"
-		if(subreddit) {
-			route += "/r/" + subreddit
+		if(hypagora) {
+			route += "/h/" + hypagora
 		}
 		route += '/' + filter.sort
 
@@ -78,9 +78,9 @@ class Posts extends Component {
 				route += "/" + time
 			}
 		}
-		this.setState({ sort, date: {after, before}, group: subreddit})
+		this.setState({ sort, date: {after, before}, group: hypagora})
 		if(this.props.route !== route) this.props.history.push(route);
-		this.fetchPosts({ sort, date: {after, before}, group: subreddit})
+		this.fetchPosts({ sort, date: {after, before}, group: hypagora})
 	}
 
 	fetchPosts(filter) {

@@ -34,7 +34,7 @@ export default ({ match }) => (
 
 //<Route exact path="/" component={Home}/>
 //<Route path="/logga-in" component={Login}/>
-//<Route path="/agora/r/:subreddit" component={Agora} />
+//<Route path="/agora/h/:hypagora" component={Agora} />
 //<Route path="/agora" component={Agora}/>
 //<Route component={NoMatch} />
 //<Route exact path="/" component={Home}/>
@@ -49,7 +49,7 @@ export default ({ match }) => (
 // 		<Switch>
 // 			<Route exact path="/" component={Home}/>
 // 			<Route path="/logga-in" component={Login}/>
-// 			<Route path="/agora/r/:subreddit" component={Agora} />
+// 			<Route path="/agora/h/:hypagora" component={Agora} />
 // 			<Route exact path="/agora/:sort" component={Agora}/>
 // 			<Route exact path="/agora/:sort/:from/:to" component={Agora}/>
 // 			<Route exact path="/agora" component={Agora}/>
@@ -58,4 +58,4 @@ export default ({ match }) => (
 // 	</Wrapper>
 // )
 
-// <Route path="/r/:subreddit" component={Subreddit} />
+// <Route path="/h/:hypagora" component={Hypagora} />
