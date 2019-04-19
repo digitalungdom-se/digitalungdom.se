@@ -17,7 +17,7 @@ module.exports.auth = async function ( req, res ) {
   return res.send( {
     'type': 'success',
     'info': {
-      'id': user._id,
+      '_id': user._id,
       'name': user.details.name,
       'username': user.details.username,
       'email': user.details.email,
@@ -35,7 +35,7 @@ module.exports.login = async function ( req, res ) {
       if ( err ) throw err;
       return res.send( {
         'type': 'success',
-        'id': user._id,
+        '_id': user._id,
         'username': user.username,
         'name': user.name,
         'email': user.email,
