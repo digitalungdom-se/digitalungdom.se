@@ -43,21 +43,6 @@ function createAsyncFunction(name, request, responseCallbacks) {
 				.catch(err => {
 					dispatch(Log.saveResponse({douglas: "too stupid too log this, probably a network error tho"}))
 				})
-				// .then(response => {
-				// 	dispatch(Log.saveResponse(response))
-				// 	dispatch(Category['response_' + name](response, Date.now(), _url))
-				// 	responseCallbacks.forEach(callback => dispatch(callback(response, Date.now(), _url)))
-				// 	return {response, _requestTime: Date.now(), _url}
-				// })
-				// .catch(error => {
-				// 	if(fakeResponse) error = fakeResponse
-				// 	dispatch(Log.saveResponse(error))
-				// 	if(fakeResponse) {
-				// 		dispatch(Category['response_' + name](error, Date.now(), _url))
-				// 		responseCallbacks.forEach(callback => dispatch(callback(error, Date.now(), _url)))
-				// 	} else dispatch(Category['response_' + name](error, Date.now(), _url))
-				// 	return {response: error, _requestTime: Date.now(), _url}
-				// })
 		}
 	}
 
