@@ -120,8 +120,10 @@ class Posts extends Component {
 			sort: filter.sort,
 			group: filter.group
 		})
-		.then(({_url}) => {
-			return this.setState({_url})
+		.then(res => {
+			if(res) {
+				return this.setState({_url: res._url})
+			}
 		})
 		// let _url = response.result
 		// return this.setState({
