@@ -15,6 +15,7 @@
     "@risingstack/protect": "^1.2.0",
     "antd": "^3.11.6",
     "antd-password-input-strength": "^1.1.0",
+    "base-58": "0.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
@@ -55,10 +56,10 @@
     "validator": "^10.11.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-app-rewired start",
     "dev": "cross-env NODE_PATH=./src npm run start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -74,6 +75,8 @@
     "eslint": "^5.12.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-security": "^1.4.0",
+    "react-app-rewire-aliases": "^0.2.0",
+    "react-app-rewired": "^2.1.1",
     "safe-regex": "^2.0.1"
   },
   "engines": {
