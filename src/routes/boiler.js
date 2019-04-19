@@ -28,34 +28,3 @@ export default ({ match }) => (
 		</Switch>
 	</Wrapper>
 )
-
-// <Route exact path="/agora/:sort" component={Agora}/>
-// <Route exact path="/agora/:sort/:from/:to" component={Agora}/>
-
-//<Route exact path="/" component={Home}/>
-//<Route path="/logga-in" component={Login}/>
-//<Route path="/agora/h/:hypagora" component={Agora} />
-//<Route path="/agora" component={Agora}/>
-//<Route component={NoMatch} />
-//<Route exact path="/" component={Home}/>
-
-// export default Block
-
-// export default ({ match }) => (
-// 	<Wrapper>
-// 		<Wrapper.Header>
-// 			<Header />
-// 		</Wrapper.Header>
-// 		<Switch>
-// 			<Route exact path="/" component={Home}/>
-// 			<Route path="/logga-in" component={Login}/>
-// 			<Route path="/agora/h/:hypagora" component={Agora} />
-// 			<Route exact path="/agora/:sort" component={Agora}/>
-// 			<Route exact path="/agora/:sort/:from/:to" component={Agora}/>
-// 			<Route exact path="/agora" component={Agora}/>
-// 			<Route component={NoMatch} />
-// 		</Switch>
-// 	</Wrapper>
-// )
-
-// <Route path="/h/:hypagora" component={Hypagora} />

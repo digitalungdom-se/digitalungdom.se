@@ -6,8 +6,6 @@ class Filter extends React.Component {
 
 	render() {
 
-		// console.log('render filter')
-
 		const { sort, date } = this.props.defaultValue
 		let { after, before } = date
 
