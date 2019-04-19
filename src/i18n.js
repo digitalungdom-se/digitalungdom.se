@@ -9,6 +9,7 @@ i18n
   .use(backend)
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
+    loadPath: '/api/locales/{{lng}}/{{ns}}.json', 
   	resources,
     lng: "sv",
     fallbackLng: "sv", // use en if detected lng is not available
@@ -24,7 +25,8 @@ i18n
         return value
       },
       escapeValue: false // react already safes from xss
-    }
+    },
+    debug: true
   });
 
 export default i18n;

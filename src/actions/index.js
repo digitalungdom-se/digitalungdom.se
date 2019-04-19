@@ -29,9 +29,13 @@ export const State = {
   ...createAsyncFunction('do_function', null, [])
 }
 
+export const Users = {
+  ...createAsyncFunction( 'get_user', { method: 'GET', route: '/api/get_user' }, [] ),
+}
+
 Auth = {
   ...Auth,
-  ...createAsyncFunction( 'auth', { method: 'GET', route: '/api/auth' }, [ Auth.receiveAuth ] ),
+  ...createAsyncFunction( 'auth', { method: 'GET', route: '/api/auth' }, [ Auth.receiveAuth, Users.response_get_user ] ),
   ...createAsyncFunction( 'logOut', { method: 'POST', route: '/api/logout' }, [] ),
   ...createAsyncFunction( 'login', { method: 'POST', route: '/api/login' }, [ Auth.receiveAuth ], fakeResponse ),
 }
@@ -40,10 +44,6 @@ export const Register = {
   ...createAsyncFunction( 'register', { method: 'POST', route: '/api/register' }, [ Auth.receiveAuth ], fakeResponse ),
   ...createAsyncFunction( 'check_email', { method: 'GET', route: '/api/register_check_email' }, [] ),
   ...createAsyncFunction( 'check_username', { method: 'GET', route: '/api/register_check_username' }, [] ),
-}
-
-export const Users = {
-  ...createAsyncFunction( 'get_user', { method: 'POST', route: '/api/get_user' }, [] ),
 }
 
 export const Agora = {

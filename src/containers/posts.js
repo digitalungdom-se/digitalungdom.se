@@ -39,7 +39,7 @@ class Posts extends Component {
 				before: timeToHex(before)
 			},
 			_url: "",
-			hypagora: this.props.hypagora ? this.props.hypagora : "all",
+			hypagora: this.props.hypagora ? this.props.hypagora : "general",
 			route: this.props.route ? this.props.route : this.props.location.pathname,
 			redirect: this.props.route ? this.props.route : this.props.location.pathname
 		}
@@ -87,7 +87,7 @@ class Posts extends Component {
 			dateAfter: filter.date.after.hex,
 			dateBefore: filter.date.before.hex,
 			sort: filter.sort,
-			group: filter.hypagora
+			hypagora: filter.hypagora
 		})
 		.then(res => {
 			if(res) {
