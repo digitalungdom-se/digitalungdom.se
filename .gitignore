@@ -27,3 +27,6 @@ yarn-error.log*
 
 # Local env file with credentials
 .env
+
+# dontpush folder
+dontpush

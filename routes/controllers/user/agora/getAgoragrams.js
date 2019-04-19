@@ -4,7 +4,7 @@ const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 const validator = require( 'validator' );
 
 const getAgoragrams = include( 'models/user/agora' ).getAgoragrams;
-const getAgoragram = include( 'models/user/agora' ).getAgoragram;
+const getAgoragramByShortId = include( 'models/user/agora' ).getAgoragramByShortId;
 
 module.exports.getAgoragrams = async function ( req, res ) {
   const id = req.user;
@@ -38,9 +38,8 @@ module.exports.getAgoragram = async function ( req, res ) {
   const postId = req.query.postId;
 
   // Checks that postId is an ObjectID
-  // if ( !validateObjectID( postId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid postId', postId } );
-  if ( id && !validateObjectID( id ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'invalid user id', id } );
+  if ( postId ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid postId', postId } );
 
-  const post = await getAgoragram( postId, id );
+  const post = await getAgoragramByShortId( postId, id );
   return res.send( { 'type': 'success', post } );
 };
