@@ -1,30 +1,46 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { 
 	Route,
 	Switch
 } from 'react-router-dom'
 import {
 	Header,
-	Home,
-	Login
 } from 'containers'
 import { State } from '@components'
-import Agora from './agora.js'
 import { boiler as Wrapper } from 'wrappers'
 
+const Agora = lazy(() => import('./agora.js'))
+const Home = lazy(() => import('containers/home.js'))
+const Login = lazy(() => import('containers/login.js'))
+
 const NoMatch = () => <div>No match</div>
+const Loading = () => <div>Loading...</div>
 
 export default ({ match }) => (
 	<Wrapper>
 		<Wrapper.Header>
 			<Header />
 		</Wrapper.Header>
-		<Switch>
-			<Route path="/" exact component={Home}/>
-			<Route path="/logga-in" component={Login}/>
-			<Route path="/agora" component={Agora}/>
-			<Route path="/state/:create?" component={State}/>
-			<Route component={NoMatch} />
-		</Switch>
+		<Suspense fallback={<Loading />}>
+			<Switch>
+				<Route
+				path="/" exact
+				render={props => <Home {...props}/>}
+				/>
+				<Route
+				path="/logga-in"
+				render={props => <Login {...props}/>}
+				/>
+				<Route
+				path="/agora"
+				render={props => <Agora {...props} />} 
+				/>
+				<Route
+				path="/state/:create?"
+				render={props => <State {...props}/>}
+				/>
+				<Route component={NoMatch} />
+			</Switch>
+		</Suspense>
 	</Wrapper>
 )

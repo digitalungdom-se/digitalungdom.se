@@ -2,8 +2,9 @@ import React from 'react'
 import { Authentication } from 'containers'
 import { header as Wrapper } from 'wrappers'
 import { Dropdown } from '@components'
+import { withTranslation } from 'react-i18next'
 
-export default () => (
+export default withTranslation()(({ t }) => (
 	<Wrapper>
 		<Wrapper.Authentication>
 			<Authentication />
@@ -11,7 +12,7 @@ export default () => (
 		<Wrapper.Dropdown>
 			<Dropdown
 				links={[
-					{text: 'Home', to: '/'},
+					{text: t("Home"), to: '/'},
 					{text: 'Agora', to: '/agora'},
 					{text: 'State', to: '/state'},
 					{text: 'State_create', to: '/state/create'}
@@ -19,4 +20,4 @@ export default () => (
 			/>
 		</Wrapper.Dropdown>
 	</Wrapper>
-)
+))
