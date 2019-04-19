@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default ({ subreddit }) => (
+export default ({ hypagora }) => (
 	<div>
 		<div>Surrounding</div>
-		<div>{subreddit}</div>
+		<div>{hypagora}</div>
 	</div>
 )

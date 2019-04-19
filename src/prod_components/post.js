@@ -23,7 +23,7 @@ class Post extends React.Component {
 				<div style={{outline: '1px solid black'}}>
 					<h1>{post.title}</h1>
 					<Link
-						to={"/agora/r/minecraft/comments/" + Base58.encode(post._id.slice(0,7)) + "/title"}
+						to={"/agora/h/minecraft/comments/" + Base58.encode(post._id.slice(0,7)) + "/title"}
 					>
 						Comments
 					</Link>

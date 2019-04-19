@@ -13,11 +13,11 @@ import {
 } from 'containers'
 import { connect } from 'react-redux'
 
-const Subreddit = ({ children, subreddit }) => (
+const Hypagora = ({ children, hypagora }) => (
 	<div>
-		Subreddit – {"/r/" + subreddit}
+		Hypagora – {"/h/" + hypagora}
 		{children}
-		<Surrounding subreddit={subreddit} />
+		<Surrounding hypagora={hypagora} />
 	</div>
 )
 
@@ -27,44 +27,44 @@ class Inner extends React.Component {
 	}
 	render() {
 		const { params } = this.props.match
-		let time, sort, subreddit
+		let time, sort, hypagora
 		
-		if(params.subredditOrTime && params.subredditOrTime.indexOf('=') !== -1) time = params.subredditOrTime;
+		if(params.hypagoraOrTime && params.hypagoraOrTime.indexOf('=') !== -1) time = params.hypagoraOrTime;
 		else if(params.timeOrId && params.timeOrId.indexOf('=') !== -1) time = params.timeOrId;
 
-		if(params.rOrSort && params.rOrSort !== 'r' && params.rOrSort.indexOf('=') === -1) sort = params.rOrSort;
+		if(params.hOrSort && params.hOrSort !== 'h' && params.hOrSort.indexOf('=') === -1) sort = params.hOrSort;
 		else if(params.commentsOrSortOrOther !== "comments") sort = params.commentsOrSortOrOther;
 
-		if(params.rOrSort === 'r') subreddit = params.subredditOrTime;
+		if(params.hOrSort === 'h') hypagora = params.hypagoraOrTime;
 
-		if(params.rOrSort !== 'r') return (
+		if(params.hOrSort !== 'h') return (
 			<div>
-				<Posts history={this.props.history} route={this.props.location.pathname} time={time} sort={sort} subreddit={subreddit} />
-				<Surrounding subreddit={null} />
+				<Posts history={this.props.history} route={this.props.location.pathname} time={time} sort={sort} hypagora={hypagora} />
+				<Surrounding hypagora={null} />
 			</div>
 		)
-		if(params.rOrSort === 'r') {
+		if(params.hOrSort === 'h') {
 			if(params.commentsOrSortOrOther === "comments") {
 				const id = params.timeOrId
 				return (
-					<Subreddit subreddit={subreddit}>
+					<Hypagora hypagora={hypagora}>
 						<Post
 							id={params.timeOrId}
 							comments
 						/>
-					</Subreddit>
+					</Hypagora>
 				)
 			} else if(params.commentsOrSortOrOther === "wiki") {
 				return (
-					<Subreddit subreddit={subreddit}>
+					<Hypagora hypagora={hypagora}>
 						<Wiki />
-					</Subreddit>
+					</Hypagora>
 				)
 			} else {
 				return (
-					<Subreddit subreddit={subreddit}>
-						<Posts history={this.props.history} route={this.props.location.pathname} time={time} sort={sort} subreddit={subreddit} />
-					</Subreddit>
+					<Hypagora hypagora={hypagora}>
+						<Posts history={this.props.history} route={this.props.location.pathname} time={time} sort={sort} hypagora={hypagora} />
+					</Hypagora>
 				)
 			}
 		}
@@ -81,14 +81,14 @@ const SubOrPos = connect(mapStateToProps)(Inner)
 export default connect(mapStateToProps)(({ fetchedSeveral }) => (
 	<div>
 		<Switch>
-			<Route path="/agora/r/:subreddit/submit" render={(props) => (
+			<Route path="/agora/h/:hypagora/submit" render={(props) => (
 				<div>
-					<Agorize subreddit={props.match.params.subreddit}/>
-					<Surrounding subreddit={props.match.params.subreddit} />
+					<Agorize hypagora={props.match.params.hypagora}/>
+					<Surrounding hypagora={props.match.params.hypagora} />
 				</div>
 			)} />
-			<Route path="/agora/:rOrSort?/:subredditOrTime?/:commentsOrSortOrOther?/:timeOrId?" component={SubOrPos}/>
+			<Route path="/agora/:hOrSort?/:hypagoraOrTime?/:commentsOrSortOrOther?/:timeOrId?" component={SubOrPos}/>
 		</Switch>
-		{fetchedSeveral && <Route path="/agora/r/:subreddit/comments/:id/:title" render={(props) => <Post comments id={props.match.params.id} />} />}
+		{fetchedSeveral && <Route path="/agora/h/:hypagora/comments/:id/:title" render={(props) => <Post comments id={props.match.params.id} />} />}
 	</div>
 ))

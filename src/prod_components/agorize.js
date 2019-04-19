@@ -21,7 +21,7 @@ class Agorize extends React.Component {
 			>
 				<h1>Agorize</h1>
 				<div>
-					<input name="group" type="text" placeholder="group" defaultValue={this.props.subreddit} />
+					<input name="group" type="text" placeholder="group" defaultValue={this.props.hypagora} />
 				</div>
 				<div>
 					<select name="type">
