@@ -1,0 +1,28 @@
+{
+	"en": {
+		"translation": {
+			"Home": "Home",
+			"Log in": "Log in",
+			"Register": "Register",
+			"Username": "Username",
+			"E-mail": "E-mail",
+			"Logging in": "Logging in",
+			"Password": "Password",
+			"uppercased_noun": "{{noun, uppercase}}",
+			"lowercased_noun": "{{noun, lowercase}}"
+		}
+	},
+	"sv": {
+		"translation": {
+			"Home": "Startsida",
+			"Log in": "Logga in",
+			"Register": "Bli medlem",
+			"Username": "Användarnamn",
+			"E-mail": "E-mail",
+			"Logging in": "Loggar in",
+			"Password": "Lösenord",
+			"uppercased_noun": "{{noun, uppercase}}",
+			"lowercased_noun": "{{noun, lowercase}}"
+		}
+	}
+}
