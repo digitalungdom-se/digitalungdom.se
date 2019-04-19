@@ -13,7 +13,7 @@ module.exports.getAgreementVersion = async function () {
 };
 
 module.exports.getPublicUserById = async function ( id ) {
-  const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { '_id': 0, 'details.name': 1, 'details.username': 1, 'details.profilePicture': 1 } } );
+  const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { 'details.name': 1, 'details.username': 1, 'details.profilePicture': 1 } } );
 
   return user;
 };
