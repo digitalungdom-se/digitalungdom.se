@@ -36,7 +36,10 @@ export default (state = {
 						...posts,
 						fetchedSeveral: true,
 						total: state.posts.total + list.length,
-						[action._url]: list,
+						routes: {
+							...state.posts.routes,
+							[action._url]: list,
+						}
 					}
 					// agoragrams: []
 				}

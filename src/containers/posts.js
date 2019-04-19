@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Agora as actions } from 'actions'
-import { Filter, Post } from '@components'
+import { Filter } from '@components'
+import { Post } from 'containers'
 import { timeToHex } from 'utils'
 import { Redirect } from 'react-router-dom'
 
 const mapStateToProps = (state) => ({
-	state: state.Agora
+	routes: state.Agora.posts.routes
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -45,35 +46,6 @@ class Posts extends Component {
 		}
 	}
 
-	// shouldComponentUpdate() {
-	// 	// const { time, sort } = this.props
-
-	// 	// const regex = (c) => new RegExp(c + "=([0-9, -]*)", 'g')
-
-	// 	// let after, before
-
-	// 	// if(time) {
-	// 	// 	after = time.match(regex("a"))
-	// 	// 	before = time.match(regex("b"))
-	// 	// }
-
-	// 	// after = after ? after[0].substr(2) : 0
-	// 	// before = before ? before[0].substr(2) : Date.now()
-
-	// 	// this.setState({
-	// 	// 	sort: sort ? sort : "new",
-	// 	// 	date: {
-	// 	// 		after: timeToHex(after),
-	// 	// 		before: timeToHex(before)
-	// 	// 	},
-	// 	// 	route: this.props.route ? this.props.route : this.props.location.pathname,
-	// 	// 	redirect: this.props.route ? this.props.route : this.props.location.pathname
-	// 	// })
-	// 	// console.log('ajshdasjhdjskhjsh')
-	// 	// return false
-	// 	// return true
-	// }
-
 	componentWillMount() {
 
 		this.fetchPosts(this.state)
@@ -107,10 +79,8 @@ class Posts extends Component {
 			}
 		}
 		this.setState({ sort, date: {after, before}, group: subreddit})
-		// this.setState({ sort, date: { after, before }, redirect: route })
 		if(this.props.route !== route) this.props.history.push(route);
 		this.fetchPosts({ sort, date: {after, before}, group: subreddit})
-		// console.log(this.props.history.push())
 	}
 
 	fetchPosts(filter) {
@@ -125,31 +95,19 @@ class Posts extends Component {
 				return this.setState({_url: res._url})
 			}
 		})
-		// let _url = response.result
-		// return this.setState({
-		// 	_url: response
-		// })
 	}
 
 	render() {
-		// console.log(this.state.redirect, this.state.route)
-		// console.log(this.props.route)
-		// console.log('render posts')
+
+		console.log(this.props.routes)
 
 		const loading = ([0,0,0,0,0,0,0,0,0,0]).map((a, index) => <Post key={index} loading />)
-		const posts = !this.props.state.posts[this.state._url] ? null : this.props.state.posts[this.state._url].map(id => (
+		const posts = !this.props.routes[this.state._url] ? loading : this.props.routes[this.state._url].map(id => (
 			<Post
 				id={id}
 				key={id}
 			/>
 		))
-		// const posts = this.state._url ? null : this.props.state.posts[this.state._url.result._url].map((id, index) => (
-		// 	<Post
-		// 		key={index}
-		// 		post={post}
-		// 	/>
-		// ))
-
 		return (
 			<div>
 				<Filter
@@ -157,7 +115,6 @@ class Posts extends Component {
 					defaultValue={this.state}
 				/>
 				<div>
-				{this.props.state.fetchingAgoragrams && loading}
 				{posts}
 				</div>
 			</div>
