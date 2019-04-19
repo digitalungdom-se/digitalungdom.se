@@ -228,7 +228,7 @@ module.exports.getAgoragramByShortId = async function ( postId ) {
   return await db.collection( 'agoragrams' ).find( { '$or': [ { 'shortId': postId }, { 'post': postId } ] } ).toArray();
 };
 // Check if starred
-module.exports.getAgoragramByShortId = async function ( userId, starredList ) {
+module.exports.chkedStarredAgoragrams = async function ( userId, starredList ) {
   userId = ObjectID( userId );
 
   const list = await db.collection( 'users' ).aggregate( [

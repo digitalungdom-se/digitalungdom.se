@@ -1,13 +1,11 @@
 /* global include */
 
-const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 const validator = require( 'validator' );
 
 const getAgoragrams = include( 'models/user/agora' ).getAgoragrams;
 const getAgoragramByShortId = include( 'models/user/agora' ).getAgoragramByShortId;
 
 module.exports.getAgoragrams = async function ( req, res ) {
-  const id = req.user;
   let dateAfter = req.query.dateAfter;
   let dateBefore = req.query.dateBefore;
   const sort = req.query.sort;
@@ -29,16 +27,15 @@ module.exports.getAgoragrams = async function ( req, res ) {
   dateAfter = dateAfter.length < 8 ? '0'.repeat( 8 - dateAfter.length ) + dateAfter : dateAfter;
   dateBefore = dateBefore.length < 8 ? '0'.repeat( 8 - dateBefore.length ) + dateBefore : dateBefore;
 
-  const posts = await getAgoragrams( dateAfter, dateBefore, sort, hypagora, id );
+  const posts = await getAgoragrams( dateAfter, dateBefore, sort, hypagora );
   return res.send( { 'type': 'success', posts } );
 };
 
 module.exports.getAgoragram = async function ( req, res ) {
-  const id = req.user;
   const postId = req.query.postId;
 
   if ( typeof postId !== 'string' || postId.length !== 14 || !validator.isHexadecimal( postId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid postId', postId } );
 
-  const post = await getAgoragramByShortId( postId, id );
+  const post = await getAgoragramByShortId( postId );
   return res.send( { 'type': 'success', post } );
 };
