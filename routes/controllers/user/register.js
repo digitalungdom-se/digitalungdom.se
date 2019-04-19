@@ -8,7 +8,7 @@ const getAgreementVersion = include( 'models/get' ).getAgreementVersion;
 const createUser = include( 'models/user/register' ).createUser;
 const verify = include( 'models/user/register' ).verify;
 
-const validateProfilePicture = include( 'utils/validateProfilePicture' ).validateProfilePicuture;
+const validateProfilePicture = include( 'utils/validation/validateProfilePicture' ).validateProfilePicuture;
 
 module.exports.verify = async function ( req, res ) {
   const result = await verify( req.body.token );
