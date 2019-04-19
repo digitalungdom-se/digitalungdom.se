@@ -3,10 +3,10 @@ import  React from 'react'
 class Agorize extends React.Component {
 	handleForm(e) {
 		e.preventDefault()
-		const { groups, group, type, title, body, tags } = e.target
+		const { role, hypagora, type, title, body, tags } = e.target
 		const values = {
-			groups: groups.value.replace(/ /g, '').split(',').filter(Boolean),
-			group: group.value,
+			role: role.value,
+			hypagora: hypagora.value,
 			type: type.value,
 			title: title.value.toString(),
 			body: body.value.toString(),
@@ -23,10 +23,10 @@ class Agorize extends React.Component {
 			>
 				<h1>Agorize</h1>
 				<div>
-					<input name="groups" type="text" placeholder="groups"/>
+					<input name="hypagora" type="text" placeholder="hypagora" defaultValue={this.props.hypagora}/>
 				</div>
 				<div>
-					<input name="group" type="text" placeholder="author" defaultValue="user"/>
+					<input name="role" type="text" placeholder="role" defaultValue="user"/>
 				</div>
 				<div>
 					<select name="type">

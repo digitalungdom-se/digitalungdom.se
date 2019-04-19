@@ -19,6 +19,9 @@ class Post extends React.Component {
 						Comments
 					</Link>
 				</div>
+				<div>
+				{JSON.stringify(post)}
+				</div>
 				{
 					comments &&
 					<Comments comments={post.comments} />

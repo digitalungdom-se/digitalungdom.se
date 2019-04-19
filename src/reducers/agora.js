@@ -55,7 +55,7 @@ export default (state = {
 					},
 					fullIds: {
 						...state.posts.fullIds,
-						[action.response.post[0].id]: action.response.post[0]._id
+						[action.response.post[0].shortId]: action.response.post[0]._id
 					}
 				}
 			}
