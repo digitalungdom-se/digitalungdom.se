@@ -5,7 +5,6 @@ import {
 } from 'react-router-dom'
 import {
 	Agorize,
-	Comments,
 	Posts,
 	Post,
 	Surrounding,
@@ -45,7 +44,6 @@ class Inner extends React.Component {
 		)
 		if(params.hOrSort === 'h') {
 			if(params.commentsOrSortOrOther === "comments") {
-				const id = params.timeOrId
 				return (
 					<Hypagora hypagora={hypagora}>
 						<Post

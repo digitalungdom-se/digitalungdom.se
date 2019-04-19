@@ -1,10 +1,9 @@
 import React from 'react'
-import { Link, Post } from '@components'
-import { Comments } from 'containers'
+import { Post } from '@components'
 import { Agora as actions } from 'actions'
 import { connect } from 'react-redux'
 import Base58 from 'base-58'
-import { hexToUint8, Uint8ToHex } from 'utils'
+import { hexToUint8, Uint8ToHex, makeTitle } from 'utils'
 
 class PostContainer extends React.Component {
 
@@ -27,7 +26,7 @@ class PostContainer extends React.Component {
 			}
 		}
 		const post = this.props.posts[id]
-		if(!loading) link = Base58.encode(hexToUint8(post._id.slice(0,14)));
+		if(!loading) link = "/agora/h/" + post.hypagora + "/comments/" + Base58.encode(hexToUint8(post._id.slice(0,14))) + '/' + makeTitle(post.title);
 		return (
 			<Post
 				loading={loading}
