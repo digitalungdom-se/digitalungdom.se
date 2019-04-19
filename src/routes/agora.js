@@ -14,9 +14,9 @@ import { connect } from 'react-redux'
 
 const Hypagora = ({ children, hypagora }) => (
 	<div>
+		<Surrounding hypagora={hypagora} />
 		Hypagora – {"/h/" + hypagora}
 		{children}
-		<Surrounding hypagora={hypagora} />
 	</div>
 )
 
@@ -38,8 +38,8 @@ class Inner extends React.Component {
 
 		if(params.hOrSort !== 'h') return (
 			<div>
+				<Surrounding hypagora={"general"} />
 				<Posts history={this.props.history} route={this.props.location.pathname} time={time} sort={sort} hypagora={hypagora} />
-				<Surrounding hypagora={null} />
 			</div>
 		)
 		if(params.hOrSort === 'h') {
@@ -81,8 +81,8 @@ export default connect(mapStateToProps)(({ fetchedSeveral }) => (
 		<Switch>
 			<Route path="/agora/h/:hypagora/submit" render={(props) => (
 				<div>
-					<Agorize hypagora={props.match.params.hypagora}/>
 					<Surrounding hypagora={props.match.params.hypagora} />
+					<Agorize hypagora={props.match.params.hypagora}/>
 				</div>
 			)} />
 			<Route path="/agora/:hOrSort?/:hypagoraOrTime?/:commentsOrSortOrOther?/:timeOrId?" component={SubOrPos}/>
