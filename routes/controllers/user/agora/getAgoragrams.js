@@ -36,10 +36,9 @@ module.exports.getAgoragrams = async function ( req, res ) {
 module.exports.getAgoragram = async function ( req, res ) {
   const id = req.user;
   const postId = req.query.postId;
-  const test = postId.length < 24 ? postId + '0'.repeat( 24 - postId.length ) : postId;
 
   // Checks that postId is valid objectID by adding some 0
-  if ( !validateObjectID( test ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid postId', postId } );
+  if ( typeof postId !== 'string' && postId.isLength !== 14 && !validator.isHexadecimal( postId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid postId', postId } );
 
   const post = await getAgoragramByShortId( postId, id );
   return res.send( { 'type': 'success', post } );
