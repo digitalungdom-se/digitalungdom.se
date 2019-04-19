@@ -11,7 +11,7 @@ export default (state = {}, action) => {
 			}
 		case 'REMOVE_FUNCTION':
 			const newState = {}
-			const f = Object.keys(state).forEach(func => { if(func !== action.name) newState[func] = state[func]})
+			Object.keys(state).forEach(func => { if(func !== action.name) newState[func] = state[func]})
 			return newState
 		default:
 			return state

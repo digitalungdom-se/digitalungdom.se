@@ -1,6 +1,5 @@
 import React from 'react'
 import { timeToHex } from 'utils'
-import { Redirect } from 'react-router-dom'
 
 class Filter extends React.Component {
 

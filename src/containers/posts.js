@@ -4,7 +4,6 @@ import { Agora as actions } from 'actions'
 import { Filter } from '@components'
 import { Post } from 'containers'
 import { timeToHex } from 'utils'
-import { Redirect } from 'react-router-dom'
 
 const mapStateToProps = (state) => ({
 	routes: state.Agora.posts.routes
@@ -40,7 +39,7 @@ class Posts extends Component {
 				before: timeToHex(before)
 			},
 			_url: "",
-			group: this.props.hypagora ? this.props.hypagora : "all",
+			hypagora: this.props.hypagora ? this.props.hypagora : "all",
 			route: this.props.route ? this.props.route : this.props.location.pathname,
 			redirect: this.props.route ? this.props.route : this.props.location.pathname
 		}
@@ -57,7 +56,7 @@ class Posts extends Component {
 		let { sort } = filter
 		const { time } = this.props
 
-		const hypagora = this.props.hypagora
+		const hypagora = this.props.hypagora ? this.props.hypagora : this.state.hypagora
 
 		let route = "/agora"
 		if(hypagora) {
@@ -78,17 +77,17 @@ class Posts extends Component {
 				route += "/" + time
 			}
 		}
-		this.setState({ sort, date: {after, before}, group: hypagora})
+		this.setState({ sort, date: {after, before}, hypagora})
 		if(this.props.route !== route) this.props.history.push(route);
-		this.fetchPosts({ sort, date: {after, before}, group: hypagora})
+		this.fetchPosts({ sort, date: {after, before}, hypagora})
 	}
 
 	fetchPosts(filter) {
-		const response = this.props.get_agoragrams({
+		this.props.get_agoragrams({
 			dateAfter: filter.date.after.hex,
 			dateBefore: filter.date.before.hex,
 			sort: filter.sort,
-			group: filter.group
+			group: filter.hypagora
 		})
 		.then(res => {
 			if(res) {
@@ -98,8 +97,6 @@ class Posts extends Component {
 	}
 
 	render() {
-
-		console.log(this.props.routes)
 
 		const loading = ([0,0,0,0,0,0,0,0,0,0]).map((a, index) => <Post key={index} loading />)
 		const posts = !this.props.routes[this.state._url] ? loading : this.props.routes[this.state._url].map(id => (

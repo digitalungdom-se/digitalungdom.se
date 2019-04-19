@@ -14,7 +14,12 @@ class State extends React.Component {
 	}
 
 	onChange(e){
-    this.setState({[e.target.name]: e.target.value})
+		const newState = {
+			[e.target.name]: e.target.value,
+		}
+		if(e.target.name === "select") newState.payload = this.props.state.State[e.target.value].template
+			console.log()
+    this.setState(newState)
 	}
 
 	create(e) {
@@ -39,7 +44,6 @@ class State extends React.Component {
 		}
 		const functions = Object.keys(state.State)
 		let inner
-		console.log(state.Log)
 		if(this.props.match.params.create) {
 			inner = (
 				<form
@@ -76,9 +80,7 @@ class State extends React.Component {
 				<textarea
 					name="payload"
 					onChange={this.onChange.bind(this)}
-					defaultValue={
-						this.state.select ? state.State[this.state.select].template : "Data"
-					} placeholder="" style={style}
+					value={this.state.payload} placeholder="" style={style}
 				/>
 				<textarea readOnly value={`Payload\n${JSON.stringify(state.Log.payload, null, 2)}`} placeholder="" style={style} />
 				<textarea readOnly value={`Response\n${JSON.stringify(state.Log.response, null, 2)}`} placeholder="" style={style} />
