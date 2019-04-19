@@ -11,9 +11,17 @@ module.exports.antiAgorize = async function ( req, res ) {
 
   if ( !validateObjectID( postId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'postId is not an objectID', postId } );
 
-  const alreadyDeleted = await antiAgorize( userId, postId );
+  const status = await antiAgorize( userId, postId );
 
-  if ( !alreadyDeleted ) return res.status( 201 ).send( { 'type': 'success' } );
-  else if ( alreadyDeleted ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Agoragram already deleted', postId } );
-  else return res.status( 400 ).send( { 'type': 'fail', 'reason': 'No such post or ', postId } );
+  if ( status.error ) {
+    return res.send( {
+      'type': 'fail',
+      'reason': status.error,
+      postId
+    } );
+  } else {
+    return res.send( {
+      'type': 'success'
+    } );
+  }
 };

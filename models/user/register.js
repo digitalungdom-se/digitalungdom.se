@@ -9,9 +9,9 @@ const Hogan = require( 'hogan.js' );
 
 const sendMail = include( 'utils/sendMail' ).sendMail;
 
-module.exports.createUser = async function( user ) {
+module.exports.createUser = async function ( user ) {
   // Hahes the users password with 12 salt rounds (standard)
-  user.password = bcrypt.hashSync( user.password, 13 );
+  user.details.password = bcrypt.hashSync( user.details.password, 13 );
 
   // Generates 32 character (byte) long token to use for as a verification token. Inserts it into the users mongodb document and send them an email.
   const token = crypto.randomBytes( 32 ).toString( 'hex' );
@@ -22,40 +22,52 @@ module.exports.createUser = async function( user ) {
   const body = template.render( { token: token } );
 
   await Promise.all( [
-    sendMail( user.email, 'Verifiera din e-postadress', body ),
+    sendMail( user.details.email, 'Verifiera din e-postadress', body ),
     db.collection( 'users' ).insertOne( user ),
   ] );
+
+  return { 'error': false };
 };
 
-module.exports.sendVerification = async function( email ) {
+module.exports.sendVerification = async function ( email ) {
+  // Initiate query array, array that withholds queries that will be called async later.
+  let queryArray = [];
+
   // Finds token if exists
-  let token = db.collection( 'users' ).findOne( { 'email': email }, { 'projection': { '_id': 0, 'verificationToken': 1 } } );
+  let result = db.collection( 'users' ).findOne( { 'details.email': email }, { 'projection': { '_id': 0, 'verificationToken': 1, 'details.verified': 1 } } );
+  if ( !result ) return { 'error': 'no such email' };
+  else if ( result.details && result.details.verified ) return { 'error': 'already verified' };
 
   // Generates 32 character (byte) long token to use for as a verification token. Inserts it into the users mongodb document and send them an email.
-  if ( !token ) {
+  let token;
+  if ( !result.verificationToken ) {
     token = crypto.randomBytes( 32 ).toString( 'hex' );
-    let update = {};
-    update[ 'verificationToken' ] = token;
-
-    await db.collection( 'users' ).updateOne( { 'email': email }, {
-      '$set': update
-    } );
-
+    queryArray.push( db.collection( 'users' ).updateOne( { 'details.email': email }, { '$set': { 'verificationToken': token } } ) );
+  } else {
+    token = result.verificationToken;
   }
 
   const templateData = await readFile( abs_path( 'emails/register/verifyEmail.mustache' ), 'utf8' );
   const template = Hogan.compile( templateData );
   const body = template.render( { token: token } );
 
-  await sendMail( email, 'Verifiera din e-postadress', body );
+  queryArray.push( sendMail( email, 'Verifiera din e-postadress', body ) );
+
+  await Promise.all( queryArray );
+
+  return { 'error': false };
 };
 
-module.exports.verify = async function( token ) {
+module.exports.verify = async function ( token ) {
   // Verifies the user by finding the sent token in the db and verifying them.
-  await db.collection( 'users' ).findOneAndUpdate( { 'verificationToken': token }, {
+  const exists = ( await db.collection( 'users' ).findOneAndUpdate( { 'verificationToken': token }, {
     '$unset': { 'verificationToken': 1 },
-    '$set': { 'verified': true }
+    '$set': { 'details.verified': true }
   }, {
     '_id': 1
-  } );
+  } ) ).value;
+
+  if ( !exists ) return { 'error': 'verification token does not exist' };
+
+  return { 'error': false };
 };

@@ -20,7 +20,9 @@
     "security"
   ],
   "rules": {
-    "no-console": "off",
+    "no-console": ["error", {
+      "allow": ["warn", "error"]
+    }],
     "node/exports-style": ["error", "module.exports"],
     "node/prefer-global/buffer": ["error", "always"],
     "node/prefer-global/console": ["error", "always"],

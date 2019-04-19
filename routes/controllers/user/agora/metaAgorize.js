@@ -7,7 +7,7 @@ const metaAgorize = include( 'models/user/agora' ).metaAgorize;
 
 module.exports.metaAgorize = async function ( req, res ) {
   // Fetches all the fields and their values
-  const id = req.user;
+  const userId = req.user;
   const postId = req.body.postId;
   const body = req.body.body;
 
@@ -16,7 +16,17 @@ module.exports.metaAgorize = async function ( req, res ) {
   if ( !validateObjectID( postId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'postId is not an objectID', postId } );
   if ( !validator.isLength( body, { min: 0, max: 10000 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Body is too long', body } );
 
-  const exists = await metaAgorize( id, postId, { body } );
-  if ( exists ) return res.status( 201 ).send( { 'type': 'success' } );
-  else return res.status( 404 ).send( { 'type': 'failed', 'reason': 'no post with that id', postId } );
+  const status = await metaAgorize( userId, postId, body );
+
+  if ( status.error ) {
+    return res.send( {
+      'type': 'fail',
+      'reason': status.error,
+      postId
+    } );
+  } else {
+    return res.send( {
+      'type': 'success'
+    } );
+  }
 };

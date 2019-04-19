@@ -15,33 +15,34 @@ const antiAgorize = require( './controllers/user/agora/antiAgorize' );
 const asteri = require( './controllers/user/agora/asteri' );
 const getAgoragrams = require( './controllers/user/agora/getAgoragrams' );
 const metaAgorize = require( './controllers/user/agora/metaAgorize' );
+const check = require( './controllers/check' );
 const get = require( './controllers/get' );
 
 // registration
-router.get( '/register_check_username', register.registerCheckUsername );
-router.get( '/register_check_email', register.registerCheckEmail );
-router.post( '/register', ensureNotUserAuthenticated, register.register );
-router.post( '/verify', ensureNotUserAuthenticated, register.verify );
+router.get( '/register_check_username', check.registerCheckUsername );
+router.get( '/register_check_email', check.registerCheckEmail );
+router.post( '/register', register.register );
+router.post( '/verify', register.verify );
 
 // forgot password
-router.post( '/forgot', ensureNotUserAuthenticated, forgotPassword.forgot );
-router.post( '/reset', ensureNotUserAuthenticated, forgotPassword.reset );
+router.post( '/forgot_password', forgotPassword.forgot );
+router.post( '/reset_password', forgotPassword.reset );
 
 // authorisation
 router.get( '/auth', authorisation.auth );
-router.post( '/login', ensureNotUserAuthenticated, authorisation.login );
-router.post( '/logout', ensureUserAuthenticated, authorisation.logout );
+router.post( '/login', authorisation.login );
+router.post( '/logout', authorisation.logout );
 
 // Upload profile picture
-router.post( '/set_profile_picture', ensureNotUserAuthenticated, authorisation.login );
+//router.post( '/set_profile_picture', ensureNotUserAuthenticated, authorisation.login );
 
 // agora
 router.post( '/agorize', ensureUserAuthenticated, agorize.agorize );
 router.post( '/anti_agorize', ensureUserAuthenticated, antiAgorize.antiAgorize );
+router.post( '/meta_agorize', ensureUserAuthenticated, metaAgorize.metaAgorize );
 router.post( '/asteri', ensureUserAuthenticated, asteri.asteri );
 router.get( '/get_agoragrams', getAgoragrams.getAgoragrams );
 router.get( '/get_agoragram', getAgoragrams.getAgoragram );
-router.post( '/meta_agorize', ensureUserAuthenticated, metaAgorize.metaAgorize );
 
 // get
 router.get( '/get_user', get.getPublicUserById );

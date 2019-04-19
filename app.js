@@ -70,7 +70,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
   app.use( cookieParser() );
 
   // Cross site request and cross site request forgery
-  app.use( cors() );
+  app.use( cors( { origin: false } ) );
   //app.use( csrf( { cookie: true } ) );
 
   // Sessions

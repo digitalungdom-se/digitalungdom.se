@@ -12,6 +12,17 @@ module.exports.asteri = async function ( req, res ) {
   if ( !validateObjectID( postId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'postId is not an objectID', postId } );
 
   const status = await asteri( id, postId );
-  if ( status ) return res.status( 404 ).send( { 'type': 'fail', 'reason': status.error, postId } );
-  else return res.status( 201 ).send( { 'type': 'success' } );
+
+  if ( status.error ) {
+    return res.send( {
+      'type': 'fail',
+      'reason': status.error,
+      postId
+    } );
+  } else {
+    return res.send( {
+      'type': 'success',
+      'action': status.action
+    } );
+  }
 };

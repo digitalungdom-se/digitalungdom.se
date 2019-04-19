@@ -11,14 +11,18 @@ const getUserById = include( 'models/get' ).getUserById;
 
 module.exports.auth = async function ( req, res ) {
   const id = req.user;
-  if ( !id ) return res.status( 401 ).send( { 'type': 'failed', 'reason': 'Not authorised' } );
+  if ( !id ) return res.send( { 'type': 'fail', 'reason': 'user is not logged in' } );
   const user = await getUserById( id );
 
   return res.send( {
     'type': 'success',
-    'name': user.name,
-    'username': user.username,
-    'email': user.email,
+    'info': {
+      'id': user._id,
+      'name': user.details.name,
+      'username': user.details.username,
+      'email': user.details.email,
+      'profilePicture': user.details.profilePicture,
+    }
   } );
 };
 
@@ -31,9 +35,11 @@ module.exports.login = async function ( req, res ) {
       if ( err ) throw err;
       return res.send( {
         'type': 'success',
+        'id': user._id,
         'username': user.username,
         'name': user.name,
-        'email': user.email
+        'email': user.email,
+        'profilePicture': user.profilePicture
       } );
     } );
   } )( req, res );
@@ -63,14 +69,20 @@ passport.use( 'local', new LocalStrategy(
     if ( !user ) {
       // If it does not find a user will return false and say that it could not find a user
       return done( null, false, { field: 'username', message: 'no account' } );
-    } else if ( !user.verified ) {
+    } else if ( !user.details.verified ) {
       // If the user is not verified will return false and say that the user is not verified.
       return done( null, false, { field: 'username', message: 'not verified' } );
     }
 
     // Compares the candidate password to the users password, if they are 'equal' the strategy will return true and the users id, name, username, and email. Else false and an incorrect password message.
-    if ( await bcrypt.compare( password, user.password ) ) {
-      return done( null, { '_id': user[ '_id' ], name: user.name, username: user.username, email: user.email }, { message: 'Klart.' } );
+    if ( await bcrypt.compare( password, user.details.password ) ) {
+      return done( null, {
+        '_id': user[ '_id' ],
+        'name': user.details.name,
+        'username': user.details.username,
+        'email': user.details.email,
+        'profilePicture': user.details.profilePicture,
+      }, { message: 'done' } );
     } else {
       return done( null, false, { field: 'password', message: 'incorrect password' } );
     }
