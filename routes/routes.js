@@ -10,11 +10,7 @@ const authorisation = require( './controllers/user/authorisation' );
 
 const forgotPassword = require( './controllers/user/forgotPassword' );
 
-const agorize = require( './controllers/user/agora/agorize' );
-const antiAgorize = require( './controllers/user/agora/antiAgorize' );
-const asteri = require( './controllers/user/agora/asteri' );
-const getAgoragrams = require( './controllers/user/agora/getAgoragrams' );
-const metaAgorize = require( './controllers/user/agora/metaAgorize' );
+const agora = require( './controllers/user/agora' );
 const check = require( './controllers/check' );
 const get = require( './controllers/get' );
 
@@ -37,12 +33,12 @@ router.post( '/logout', authorisation.logout );
 //router.post( '/set_profile_picture', ensureNotUserAuthenticated, authorisation.login );
 
 // agora
-router.post( '/agorize', ensureUserAuthenticated, agorize.agorize );
-router.post( '/anti_agorize', ensureUserAuthenticated, antiAgorize.antiAgorize );
-router.post( '/meta_agorize', ensureUserAuthenticated, metaAgorize.metaAgorize );
-router.post( '/asteri', ensureUserAuthenticated, asteri.asteri );
-router.get( '/get_agoragrams', getAgoragrams.getAgoragrams );
-router.get( '/get_agoragram', getAgoragrams.getAgoragram );
+router.post( '/agorize', ensureUserAuthenticated, agora.agorize );
+router.post( '/anti_agorize', ensureUserAuthenticated, agora.antiAgorize );
+router.post( '/meta_agorize', ensureUserAuthenticated, agora.metaAgorize );
+router.post( '/asteri', ensureUserAuthenticated, agora.asteri );
+router.get( '/get_agoragrams', agora.getAgoragrams );
+router.get( '/get_agoragram', agora.getAgoragram );
 
 // get
 router.get( '/get_user', get.getPublicUser );

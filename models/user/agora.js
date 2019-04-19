@@ -1,7 +1,7 @@
-/* global db */
+/* global db include*/
 
 const ObjectID = require( 'mongodb' ).ObjectID;
-
+const generateBase58String = include( 'utils/generateBase58String' );
 // Post includes text|link posts|questions
 
 // Used to validate if the agoragram was posted by the requesting user
@@ -22,7 +22,7 @@ module.exports.agorize = async function ( id, agoragramData ) {
 
   const agoragramId = ObjectID();
   agoragram[ '_id' ] = agoragramId;
-  agoragram[ 'shortId' ] = agoragramId.toString().slice( 0, 14 );
+  agoragram[ 'shortId' ] = generateBase58String( 7 );
   agoragram[ 'author' ] = ObjectID( id );
 
   agoragram[ 'modified' ] = false;
@@ -228,7 +228,7 @@ module.exports.getAgoragramByShortId = async function ( postId ) {
   return await db.collection( 'agoragrams' ).find( { '$or': [ { 'shortId': postId }, { 'post': postId } ] } ).toArray();
 };
 // Check if starred
-module.exports.chkedStarredAgoragrams = async function ( userId, starredList ) {
+module.exports.checkStarredAgoragrams = async function ( userId, starredList ) {
   userId = ObjectID( userId );
 
   const list = await db.collection( 'users' ).aggregate( [
