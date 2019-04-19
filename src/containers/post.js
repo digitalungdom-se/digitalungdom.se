@@ -1,6 +1,6 @@
 import React from 'react'
 import { Post } from '@components'
-import { Agora as actions } from 'actions'
+import { Agora, Users } from 'actions'
 import { connect } from 'react-redux'
 import { hexToUint8, Uint8ToHex, makeTitle } from 'utils'
 
@@ -14,7 +14,9 @@ class PostContainer extends React.Component {
 		}
 		if(this.props.id) {
 			if(this.props.id.length === 24) {
+				// console.log(this.props.posts[this.props.id])
 				const id = this.props.posts[this.props.id].author
+				if(id === undefined) return
 				if(this.props.users[id] === undefined) this.props.get_user({userId: id})
 			}
 		}
@@ -22,11 +24,11 @@ class PostContainer extends React.Component {
 
 	shouldComponentUpdate() {
 		if(this.props.id === undefined) return false;
-		// console.log(this.props.id)
-		// if(this.props.id.length === 24) {
-		// 	const id = this.props.posts[this.props.id].author
-		// 	if(this.props.users[id] === undefined) this.props.get_user({userId: id})
-		// }
+		if(this.props.id.length === 24) {
+			const id = this.props.posts[this.props.id].author
+			// console.log(this.props.users[id])
+			if(this.props.users[id] === undefined) return false
+		}
 		return true
 	}
 
@@ -36,19 +38,31 @@ class PostContainer extends React.Component {
 			if(this.props.id.length === 24) {
 				id = this.props.id
 			} else {
-				// let x = this.props.posts.fullIds[this.props.post]
-				// if(x) id = x;
-				// else loading = true
+				let x = this.props.posts.fullIds[this.props.id]
+				if(x) id = x;
+				else loading = true
 			}
 		}
 		const post = this.props.posts[id]
-		if(!loading) link = "/agora/h/" + post.hypagora + "/comments/" + post.id + '/' + makeTitle(post.title);
+		if(!loading && post) {
+			link = "/agora/h/" + post.hypagora + "/comments/" + post.shortId + '/' + makeTitle(post.title);
+		}
 		return (
 			<Post
 				loading={loading}
 				post={post}
 				comments={this.props.comments}
-				link={link}
+				actions={
+					{
+						asteri: this.props.asteri,
+						anti_agorize: this.props.anti_agorize,
+						agorize: this.props.agorize,
+						report: this.props.report,
+						link,
+						id
+					}
+				}
+				author={post ? (post.author ? this.props.users[post.author] : false) : undefined}
 			/>
 		)
 	}
@@ -60,8 +74,13 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-	get_agoragram: id => dispatch(actions.get_agoragram(id)),
-	get_user: id => dispatch(actions.get_user(id))
+	get_agoragram: id => dispatch(Agora.get_agoragram(id)),
+	asteri: id => dispatch(Agora.asteri(id)),
+	meta_agorize: info => dispatch(Agora.meta_agorize(info)),
+	agorize: info => dispatch(Agora.agorize(info)),
+	report: info => dispatch(Agora.report(info)),
+	anti_agorize: id => dispatch(Agora.anti_agorize(id)),
+	get_user: id => dispatch(Users.get_user(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostContainer)

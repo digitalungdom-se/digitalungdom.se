@@ -3,15 +3,21 @@ export default (state = {
 }, action) => {
 	switch(action.type) {
 		case 'REQUEST_GET_USER':
-			console.log(action)
-			return state
+			return {
+				...state,
+				users: {
+					...state.users,
+					[action.request.userId]: false
+				}
+			}
 		case "RESPONSE_GET_USER":
 			let id, user
 			if(action._url === "/api/auth") {
-				id = action.response.info.id
-				user = action.response.info
+				id = action.response.info._id
+				user = {details: action.response.info}
 			} else {
-				console.log(action)
+				id = action.response.user._id
+				user = action.response.user
 			}
 			return {
 				...state,
