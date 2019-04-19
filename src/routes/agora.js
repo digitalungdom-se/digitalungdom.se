@@ -7,11 +7,10 @@ import {
 	Agorize,
 	Comments,
 	Posts,
+	Post,
 	Surrounding,
 	Wiki
 } from 'containers'
-// import Subreddit from './subreddit'
-import { Link, Post } from '@components'
 import { connect } from 'react-redux'
 
 const Subreddit = ({ children, subreddit }) => (
@@ -24,10 +23,6 @@ const Subreddit = ({ children, subreddit }) => (
 
 class Inner extends React.Component {
 	shouldComponentUpdate() {
-		// if(this.props.commentsOrSortOrOther !== "comments") {
-		// 	return true
-		// }
-		// return true
 		return !(this.props.fetchedSeveral)
 	}
 	render() {
@@ -55,9 +50,7 @@ class Inner extends React.Component {
 					<Subreddit subreddit={subreddit}>
 						<Post
 							id={params.timeOrId}
-							// loading={!this.props.posts[id]}
 							comments
-							// post={this.props.posts[id]}
 						/>
 					</Subreddit>
 				)
@@ -74,7 +67,6 @@ class Inner extends React.Component {
 					</Subreddit>
 				)
 			}
-			// return <Subreddit route={this.props.location.pathname} time={time} sort={sort} subreddit={subreddit} />;
 		}
 		return <div />
 	}
