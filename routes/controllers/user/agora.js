@@ -16,6 +16,8 @@ const antiAgorize = include( 'models/user/agora' ).antiAgorize;
 const asteri = include( 'models/user/agora' ).asteri;
 // edit a post
 const metaAgorize = include( 'models/user/agora' ).metaAgorize;
+// report a post
+const report = include( 'models/user/agora' ).report;
 // get posts (sort: new|top) (date: hex after unix to hex after unix)
 const getAgoragrams = include( 'models/user/agora' ).getAgoragrams;
 // get getAgoragram by shortId (its _id but 7 bytes)
@@ -173,6 +175,33 @@ module.exports.metaAgorize = async function ( req, res ) {
   }
 };
 
+module.exports.report = async function ( req, res ) {
+  // Fetches all the fields and their values
+  const id = req.body.id;
+  const reason = req.body.reason;
+  const place = req.body.place;
+
+  // Checks that they all are strings, validatorjs only allows string (prevent errors)
+  if ( typeof id !== 'string' || typeof reason !== 'string' || typeof place !== 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'only strings are accepted' } );
+  if ( !validateObjectID( id ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'postId is not an objectID', id } );
+  if ( !validator.isLength( reason, { min: 0, max: 1000 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'reason is too long', 'message': reason } );
+  if ( !validator.isIn( place, [ 'agoragram', 'user' ] ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'you can only report a (agoragram|profile)', place } );
+
+  const status = await report( id, reason, place );
+
+  if ( status.error ) {
+    return res.send( {
+      'type': 'fail',
+      'reason': status.error,
+      id
+    } );
+  } else {
+    return res.send( {
+      'type': 'success'
+    } );
+  }
+};
+
 module.exports.getAgoragrams = async function ( req, res ) {
   let dateAfter = req.query.dateAfter;
   let dateBefore = req.query.dateBefore;
@@ -200,10 +229,10 @@ module.exports.getAgoragrams = async function ( req, res ) {
 };
 
 module.exports.getAgoragram = async function ( req, res ) {
-  const postId = req.query.postId;
+  const shortId = req.query.shortId;
 
-  if ( typeof postId !== 'string' || postId.length !== 7 ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid postId', postId } );
+  if ( typeof shortId !== 'string' || shortId.length !== 7 ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid shortId', shortId } );
 
-  const post = await getAgoragramByShortId( postId );
+  const post = await getAgoragramByShortId( shortId );
   return res.send( { 'type': 'success', post } );
 };

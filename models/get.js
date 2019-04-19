@@ -12,14 +12,28 @@ module.exports.getAgreementVersion = async function () {
   return agreementVersion;
 };
 
-module.exports.getPublicUserById = async function ( id ) {
-  const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { 'details.name': 1, 'details.username': 1, 'details.profilePicture': 1 } } );
+module.exports.getPublicUserById = async function ( userIdArray ) {
+  userIdArray = userIdArray.map( id => ObjectID( id ) );
+
+  const user = await db.collection( 'users' ).find( { '_id': { $in: userIdArray } }, {
+    'projection': {
+      'details.name': 1,
+      'details.username': 1,
+      'details.profilePicture': 1
+    }
+  } ).toArray();
 
   return user;
 };
 
-module.exports.getPublicUserByUsername = async function ( username ) {
-  const user = ( await db.collection( 'users' ).find( { 'details.username': username.toLowerCase() }, { 'projection': { 'details.name': 1, 'details.username': 1, 'details.profilePicture': 1 } } ).collation( { locale: 'en', strength: 2 } ).toArray() )[ 0 ];
+module.exports.getPublicUserByUsername = async function ( usernameArray ) {
+  const user = await db.collection( 'users' ).find( { 'details.username': { $in: usernameArray } }, {
+    'projection': {
+      'details.name': 1,
+      'details.username': 1,
+      'details.profilePicture': 1
+    }
+  } ).collation( { locale: 'en', strength: 2 } ).toArray();
 
   return user;
 };
@@ -37,7 +51,7 @@ module.exports.getUserByEmail = async function ( email ) {
 };
 
 module.exports.getUserByUsername = async function ( username ) {
-  const user = ( await db.collection( 'users' ).find( { 'details.username': username.toLowerCase() }, { 'projection': { 'verificationToken': 0, 'resetPassword': 0 } } ).collation( { locale: 'en', strength: 2 } ).toArray() )[ 0 ];
+  const user = ( await db.collection( 'users' ).find( { 'details.username': username }, { 'projection': { 'verificationToken': 0, 'resetPassword': 0 } } ).collation( { locale: 'en', strength: 2 } ).toArray() )[ 0 ];
 
   return user;
 };

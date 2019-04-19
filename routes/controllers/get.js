@@ -8,21 +8,29 @@ const getPublicUserByUsername = include( 'models/get' ).getPublicUserByUsername;
 const getMemberAmount = include( 'models/get' ).getMemberAmount;
 
 module.exports.getPublicUser = async function ( req, res ) {
-  let userId = req.query.userId;
-  let username = req.query.username;
-
+  const type = req.query.type;
+  const userArray = req.query.userArray.split( ',' );
   let user;
-  if ( userId ) {
+
+  if ( !Array.isArray( userArray ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'userArray must be an array, it is in the name', 'return': userArray } );
+
+  if ( type === 'objectid' ) {
     // Validates userId to ensure that it is an objectId
-    if ( !validateObjectID( userId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'invalid user id', userId } );
+    for ( let userId of userArray ) {
+      if ( !validateObjectID( userId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'invalid objectId user id', 'return': userId } );
+    }
 
-    user = await getPublicUserById( userId );
-  } else if ( username ) {
+    user = await getPublicUserById( userArray );
+  } else if ( type === 'username' ) {
     // Validates username according to following rules: min 3 max 24 characters and only includes valid characters (A-Z, a-z, 0-9, and _)
-    if ( !validator.isLength( username, { min: 3, max: 24 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Username length is either too long or too short', 'username': username } );
-    if ( !/^(\w+)$/.test( username ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid characters in username', 'username': username } );
+    for ( let username of userArray ) {
+      if ( !validator.isLength( username, { min: 3, max: 24 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'username length is either too long or too short', 'return': username } );
+      if ( !/^(\w+)$/.test( username ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'invalid characters in username', 'return': username } );
+    }
 
-    user = await getPublicUserByUsername( username );
+    user = await getPublicUserByUsername( userArray );
+  } else {
+    return res.status( 400 ).send( { 'type': 'fail', 'reason': 'type is not a valid type (objectid|username)', 'return': type } );
   }
 
   if ( user ) {
