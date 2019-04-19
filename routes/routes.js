@@ -7,10 +7,10 @@ const ensureNotUserAuthenticated = require( './middlewares/ensureUserAuthenticat
 
 const register = require( './controllers/user/register' );
 const authorisation = require( './controllers/user/authorisation' );
-
 const forgotPassword = require( './controllers/user/forgotPassword' );
-
 const agora = require( './controllers/user/agora' );
+const set = require( './controllers/user/set' );
+
 const check = require( './controllers/check' );
 const get = require( './controllers/get' );
 
@@ -29,8 +29,8 @@ router.get( '/auth', authorisation.auth );
 router.post( '/login', authorisation.login );
 router.post( '/logout', authorisation.logout );
 
-// Upload profile picture
-//router.post( '/set_profile_picture', ensureNotUserAuthenticated, authorisation.login );
+// set settings
+//router.post( '/set', set.set );
 
 // agora
 router.post( '/agorize', ensureUserAuthenticated, agora.agorize );
@@ -39,6 +39,8 @@ router.post( '/meta_agorize', ensureUserAuthenticated, agora.metaAgorize );
 router.post( '/asteri', ensureUserAuthenticated, agora.asteri );
 router.get( '/get_agoragrams', agora.getAgoragrams );
 router.get( '/get_agoragram', agora.getAgoragram );
+
+router.post( '/report', agora.report );
 
 // get
 router.get( '/get_user', get.getPublicUser );

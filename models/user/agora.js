@@ -2,8 +2,8 @@
 
 const ObjectID = require( 'mongodb' ).ObjectID;
 const generateBase58String = include( 'utils/generateBase58String' );
-// Post includes text|link posts|questions
 
+// Post includes text|link posts|questions
 // Used to validate if the agoragram was posted by the requesting user
 module.exports.validateAuthorById = async function ( candidateId, postId ) {
   const authorId = await db.collection( 'agoragrams' ).findOne( { '_id': ObjectID( postId ) }, { '_id': 0, 'author': 1 } ).author;
@@ -30,6 +30,7 @@ module.exports.agorize = async function ( id, agoragramData ) {
   agoragram[ 'children' ] = [];
   agoragram[ 'pinned' ] = false;
   agoragram[ 'deleted' ] = false;
+  agoragram[ 'reports' ] = [];
 
   // Adds agoragram type specific fields, e.g. title for normal posts and replyTo for comments
   if ( [ 'text', 'link', 'question' ].includes( agoragram.type ) ) {
@@ -45,7 +46,7 @@ module.exports.agorize = async function ( id, agoragramData ) {
     }, {
       '$push': { 'children': agoragramId }
     }, {
-      'projection': { '_id': 1, 'type': 1, 'post': 1 }
+      'projection': { '_id': 1, 'type': 1, 'post': 1, 'shortId': 1 }
     } );
 
 
@@ -209,14 +210,35 @@ module.exports.getAgoragrams = async function ( hexSecondsAfter, hexSecondsBefor
   const objectIDBefore = ObjectID( hexSecondsBefore + '0000000000000000' );
 
   // only get agoragrams from specific hypagora or all
-  let getAgoragramFilter = {};
-  if ( hypagora === 'general' || !hypagora ) getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } };
-  else getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'hypagora': ObjectID( hypagora ), 'type': { '$in': [ 'text', 'link', 'question' ] } };
+  let getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore } };
+  if ( hypagora !== 'general' ) getAgoragramFilter[ 'hypagora' ] = ObjectID( hypagora );
+  getAgoragramFilter[ 'type' ] = { '$in': [ 'text', 'link', 'question' ] };
+  getAgoragramFilter[ 'deleted' ] = false;
 
   if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter ).limit( 10 ).sort( { '_id': -1 } ).toArray();
   else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
   else return null;
 };
+
+// report
+module.exports.report = async function ( id, reason, place ) {
+  id = ObjectID( id );
+  const insert = { 'type': 'report', 'where': place, 'message': reason, };
+
+  if ( place === 'agoragram' ) {
+    const exist = await db.collection( 'agoragrams' ).findOne( { '_id': id }, { projection: { '_id': 1 } } );
+    if ( !exist ) return { 'error': 'post does not exist' };
+    insert[ 'agoragramId' ] = id;
+  } else if ( place === 'profile' ) {
+    const exist = await db.collection( 'agoragrams' ).findOne( { '_id': id }, { projection: { '_id': 1 } } );
+    if ( !exist ) return { 'error': 'user does not exist' };
+    insert[ 'userId' ] = id;
+  }
+
+  db.collection( 'notifications' ).insertOne( insert );
+  return { 'error': false };
+};
+
 
 // Get single post
 module.exports.getAgoragramById = async function ( postId ) {
@@ -224,20 +246,21 @@ module.exports.getAgoragramById = async function ( postId ) {
 };
 
 // Get single post
-module.exports.getAgoragramByShortId = async function ( postId ) {
-  return await db.collection( 'agoragrams' ).find( { '$or': [ { 'shortId': postId }, { 'post': postId } ] } ).toArray();
+module.exports.getAgoragramByShortId = async function ( shortId ) {
+  return await db.collection( 'agoragrams' ).find( { '$or': [ { 'shortId': shortId }, { 'post.shortId': shortId } ] } ).toArray();
 };
 // Check if starred
 module.exports.checkStarredAgoragrams = async function ( userId, starredList ) {
   userId = ObjectID( userId );
+  starredList = starredList.map( id => ObjectID( id ) );
 
-  const list = await db.collection( 'users' ).aggregate( [
+  const userStarredList = await db.collection( 'users' ).aggregate( [
     { $match: { '_id': userId } },
     {
       $project: {
-        'agora.starredAgoragrams': {
+        'userStarredAgoragrams': {
           $filter: {
-            input: '$starredAgoragrams',
+            input: '$agora.starredAgoragrams',
             as: 'agoragram',
             cond: { $in: [ '$$agoragram', starredList ] }
           }
@@ -245,7 +268,7 @@ module.exports.checkStarredAgoragrams = async function ( userId, starredList ) {
         _id: 0
       }
     }
-  ] );
+  ] ).toArray();
 
-  console.log( list );
+  return userStarredList.userStarredAgoragrams;
 };
