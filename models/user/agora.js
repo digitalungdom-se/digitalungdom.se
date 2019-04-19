@@ -204,14 +204,14 @@ module.exports.asteri = async function ( id, starId ) {
 };
 
 // Get all new posts
-module.exports.getAgoragrams = async function ( hexSecondsAfter, hexSecondsBefore, sort, hypagora, userId ) {
+module.exports.getAgoragrams = async function ( hexSecondsAfter, hexSecondsBefore, sort, hypagora ) {
   const objectIDAfter = ObjectID( hexSecondsAfter + '0000000000000000' );
   const objectIDBefore = ObjectID( hexSecondsBefore + '0000000000000000' );
 
   // only get agoragrams from specific hypagora or all
   let getAgoragramFilter = {};
   if ( hypagora === 'general' || !hypagora ) getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'type': { '$in': [ 'text', 'link', 'question' ] } };
-  else getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'hypagora': hypagora, 'type': { '$in': [ 'text', 'link', 'question' ] } };
+  else getAgoragramFilter = { '_id': { '$gte': objectIDAfter, '$lte': objectIDBefore }, 'hypagora': ObjectID( hypagora ), 'type': { '$in': [ 'text', 'link', 'question' ] } };
 
   if ( sort === 'new' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter ).limit( 10 ).sort( { '_id': -1 } ).toArray();
   else if ( sort === 'top' ) return await db.collection( 'agoragrams' ).find( getAgoragramFilter ).sort( { 'rating': -1 } ).limit( 10 ).toArray();
@@ -219,11 +219,33 @@ module.exports.getAgoragrams = async function ( hexSecondsAfter, hexSecondsBefor
 };
 
 // Get single post
-module.exports.getAgoragramById = async function ( postId, userId ) {
+module.exports.getAgoragramById = async function ( postId ) {
   return await db.collection( 'agoragrams' ).find( { '$or': [ { '_id': ObjectID( postId ) }, { 'post': ObjectID( postId ) } ] } ).toArray();
 };
 
 // Get single post
-module.exports.getAgoragramByShortId = async function ( postId, userId ) {
+module.exports.getAgoragramByShortId = async function ( postId ) {
   return await db.collection( 'agoragrams' ).find( { '$or': [ { 'shortId': postId }, { 'post': postId } ] } ).toArray();
+};
+// Check if starred
+module.exports.getAgoragramByShortId = async function ( userId, starredList ) {
+  userId = ObjectID( userId );
+
+  const list = await db.collection( 'users' ).aggregate( [
+    { $match: { '_id': userId } },
+    {
+      $project: {
+        'agora.starredAgoragrams': {
+          $filter: {
+            input: '$starredAgoragrams',
+            as: 'agoragram',
+            cond: { $in: [ '$$agoragram', starredList ] }
+          }
+        },
+        _id: 0
+      }
+    }
+  ] );
+
+  console.log( list );
 };

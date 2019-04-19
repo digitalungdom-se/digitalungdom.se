@@ -45,7 +45,7 @@ router.get( '/get_agoragrams', getAgoragrams.getAgoragrams );
 router.get( '/get_agoragram', getAgoragrams.getAgoragram );
 
 // get
-router.get( '/get_user', get.getPublicUserById );
+router.get( '/get_user', get.getPublicUser );
 router.get( '/status', get.status );
 
 // Produce 500 eror

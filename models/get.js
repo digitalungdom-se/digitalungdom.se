@@ -18,6 +18,12 @@ module.exports.getPublicUserById = async function ( id ) {
   return user;
 };
 
+module.exports.getPublicUserByUsername = async function ( username ) {
+  const user = ( await db.collection( 'users' ).find( { 'details.username': username.toLowerCase() }, { 'projection': { 'details.name': 1, 'details.username': 1, 'details.profilePicture': 1 } } ).collation( { locale: 'en', strength: 2 } ).toArray() )[ 0 ];
+
+  return user;
+};
+
 module.exports.getUserById = async function ( id ) {
   const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { 'verificationToken': 0, 'resetPassword': 0 } } );
 
