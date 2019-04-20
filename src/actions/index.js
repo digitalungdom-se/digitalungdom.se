@@ -67,3 +67,10 @@ export const Agora = {
   })
 
 }
+
+export const Settings = {
+  changeTheme: choice => ({
+    type: 'CHANGE_THEME',
+    choice
+  })
+}

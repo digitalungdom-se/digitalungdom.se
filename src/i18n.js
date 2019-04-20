@@ -9,8 +9,7 @@ i18n
   .use(backend)
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
-    loadPath: '/api/locales/{{lng}}/{{ns}}.json', 
-  	resources,
+    loadPath: '/locales/{{lng}}/{{ns}}.json', 
     lng: "sv",
     fallbackLng: "sv", // use en if detected lng is not available
 
