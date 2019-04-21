@@ -201,7 +201,7 @@ const validate = {
 
       const addressObj = {
         'city': city,
-        'postNumber': postalCode,
+        'postalCode': postalCode,
         'address': address
       };
 
