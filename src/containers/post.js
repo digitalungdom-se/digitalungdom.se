@@ -10,14 +10,19 @@ class PostContainer extends React.Component {
 		if(this.props.comments) {
 			const id = this.props.id
 			// const id = this.props.id.length === 24 ? this.props.id : Uint8ToHex(Base58.decode(this.props.id))
-			this.props.get_agoragram({postId: id})
+			this.props.get_agoragram({shortId: id})
+			.then(res => {
+				if(res) {
+					const id = res.response.post[0].author
+					if(id !== undefined && this.props.users[id] === undefined) this.props.get_user({type: "objectid", userArray: [id]})
+				}
+			})
 		}
 		if(this.props.id) {
 			if(this.props.id.length === 24) {
-				// console.log(this.props.posts[this.props.id])
 				const id = this.props.posts[this.props.id].author
 				if(id === undefined) return
-				if(this.props.users[id] === undefined) this.props.get_user({userId: id})
+				if(this.props.users[id] === undefined) this.props.get_user({type: "objectid", userArray: [id]})
 			}
 		}
 	}
@@ -28,6 +33,7 @@ class PostContainer extends React.Component {
 			const id = this.props.posts[this.props.id].author
 			// console.log(this.props.users[id])
 			if(this.props.users[id] === undefined) return false
+		} else {
 		}
 		return true
 	}
@@ -62,7 +68,7 @@ class PostContainer extends React.Component {
 						id
 					}
 				}
-				author={post ? (post.author ? this.props.users[post.author] : false) : undefined}
+				author={post ? (post.author ? (this.props.users[post.author] ? this.props.users[post.author] : false) : undefined) : undefined}
 			/>
 		)
 	}

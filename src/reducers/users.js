@@ -11,19 +11,21 @@ export default (state = {
 				}
 			}
 		case "RESPONSE_GET_USER":
-			let id, user
+			let users = {}
 			if(action._url === "/api/auth") {
-				id = action.response.info._id
-				user = {details: action.response.info}
+				let id = action.response.info._id
+				let user = {details: action.response.info}
+				users = {
+					id: user
+				}
 			} else {
-				id = action.response.user._id
-				user = action.response.user
+				action.response.user.forEach(user => users[user._id] = user)
 			}
 			return {
 				...state,
 				users: {
 					...state.users,
-					[id]: user
+					...users
 				}
 			}
 		default:
