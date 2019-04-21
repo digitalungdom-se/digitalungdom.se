@@ -234,5 +234,6 @@ module.exports.getAgoragram = async function ( req, res ) {
   if ( typeof shortId !== 'string' || shortId.length !== 7 ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Invalid shortId', shortId } );
 
   const post = await getAgoragramByShortId( shortId );
+
   return res.send( { 'type': 'success', post } );
 };

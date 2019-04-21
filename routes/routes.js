@@ -30,7 +30,7 @@ router.post( '/login', authorisation.login );
 router.post( '/logout', authorisation.logout );
 
 // set settings
-//router.post( '/set', set.set );
+router.post( '/set', ensureUserAuthenticated, set.set );
 
 // agora
 router.post( '/agorize', ensureUserAuthenticated, agora.agorize );

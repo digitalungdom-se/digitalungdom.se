@@ -20,17 +20,19 @@ module.exports.checkEmail = async function ( email ) {
   else return { 'valid': true, 'field': 'email' };
 };
 
-module.exports.checkGroup = async function ( id, roleId ) {
+module.exports.checkGroup = async function ( userId, roleId ) {
   // Validates that the user is authorised to use the candidate group
-  const allowed = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ), 'details.roles': roleId }, { 'projection': { '_id': 1 } } );
+  userId = ObjectID( userId );
+  const allowed = await db.collection( 'users' ).findOne( { '_id': userId, 'details.roles': roleId }, { 'projection': { '_id': 1 } } );
 
   if ( allowed ) return { 'valid': false, 'field': 'role', 'checked': roleId };
   else return { 'valid': true, 'field': 'role' };
 };
 
-module.exports.checkBadges = async function ( id, badges ) {
+module.exports.checkBadges = async function ( userId, badges ) {
   // Validates that the user is authorised to use the candidate badges
-  const allowed = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ), 'details.badges': { '$all': badges } }, { 'projection': { '_id': 1 } } );
+  userId = ObjectID( userId );
+  const allowed = await db.collection( 'users' ).findOne( { '_id': userId, 'details.badges': { '$all': badges } }, { 'projection': { '_id': 1 } } );
 
   if ( allowed ) return { 'valid': false, 'field': 'badges', 'checked': badges };
   else return { 'valid': true, 'field': 'badges' };
@@ -38,7 +40,8 @@ module.exports.checkBadges = async function ( id, badges ) {
 
 module.exports.checkHypagora = async function ( hypagoraId ) {
   // Validates that the user is authorised to use the candidate badges
-  const allowed = await db.collection( 'hypagora' ).findOne( { '_id': ObjectID( hypagoraId ) }, { 'projection': { '_id': 1 } } );
+  hypagoraId = ObjectID( hypagoraId );
+  const allowed = await db.collection( 'hypagora' ).findOne( { '_id': hypagoraId }, { 'projection': { '_id': 1 } } );
 
   if ( allowed ) return { 'valid': false, 'field': 'hypagora', 'checked': hypagoraId };
   else return { 'valid': true, 'field': 'hypagora' };

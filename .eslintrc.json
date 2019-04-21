@@ -34,7 +34,7 @@
       "tryExtensions": [".js", ".json", ".node"]
     }],
     "indent": [
-      "error",
+      "off",
       2
     ],
     "linebreak-style": [
