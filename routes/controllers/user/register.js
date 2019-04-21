@@ -91,7 +91,7 @@ module.exports.register = async function ( req, res ) {
       'email': email,
       'verified': false,
       'password': password,
-      'name': name.toLowerCase().split( ' ' ).filter( n => n ).map( ( s ) => ( [ 'von', 'van', 'de', 'der', 'los', 'ibn', 'd´' ].indexOf( s ) === -1 ) ? s.charAt( 0 ).toUpperCase() + s.substring( 1 ) : s ).join( ' ' ),
+      'name': name.toLowerCase().split( ' ' ).filter( n => n ).map( ( s ) => ( [ 'von', 'van', 'de', 'der', 'los', 'ibn', 'd´', 'd\'' ].indexOf( s ) === -1 ) ? s.charAt( 0 ).toUpperCase() + s.substring( 1 ) : s ).join( ' ' ),
       'birthdate': new Date( Date.UTC( date[ 0 ], date[ 1 ] - 1, date[ 2 ] ) ),
       'gender': parseInt( gender ),
       'profilePicture': profilePicture,

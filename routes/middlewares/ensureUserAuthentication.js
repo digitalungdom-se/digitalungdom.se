@@ -15,9 +15,9 @@ module.exports.ensureUserAuthenticated = async function ( req, res, next ) {
   if ( req.isAuthenticated() && user && user.details.verified ) {
     return next();
   } else {
-    let err = new Error( 'Unauthorised' );
+    let err = new Error( 'unauthorised' );
     err.statusCode = 401;
-    err.customMessage = 'Unauthorised';
+    err.customMessage = 'unauthorised';
     next( err );
   }
 };
@@ -27,9 +27,9 @@ module.exports.ensureNotUserAuthenticated = async function ( req, res, next ) {
   if ( !req.isAuthenticated() ) {
     return next();
   } else {
-    let err = new Error( 'Forbidden' );
+    let err = new Error( 'forbidden' );
     err.statusCode = 403;
-    err.customMessage = 'Forbidden';
+    err.customMessage = 'forbidden';
     next( err );
   }
 };

@@ -33,7 +33,7 @@ module.exports.sendForgotPassword = async function ( email ) {
 };
 
 module.exports.resetPassword = async function ( token, password ) {
-  password = bcrypt.hashSync( password, 13 );
+  password = await bcrypt.hash( password, 13 );
   token = await multihashing.digest( token, 'sha2-512' );
 
   const exists = await db.collection( 'users' ).findOneAndUpdate( {

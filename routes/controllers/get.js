@@ -9,6 +9,7 @@ const getMemberAmount = include( 'models/get' ).getMemberAmount;
 
 module.exports.getPublicUser = async function ( req, res ) {
   const type = req.query.type;
+  if ( !userArray ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'userArray must be an array, it is in the name', 'return': userArray, 'field': 'userArray' } );
   const userArray = req.query.userArray.split( ',' );
   let user;
 
