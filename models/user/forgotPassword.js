@@ -21,7 +21,7 @@ module.exports.sendForgotPassword = async function ( email ) {
   update[ 'resetPassword.expires' ] = tokenExpires;
 
   const result = ( await db.collection( 'users' ).findOneAndUpdate( { 'details.email': email }, { '$set': update }, { '_id': 1 } ) ).value;
-  if ( !result ) return { 'error': 'no such email' };
+  if ( !result ) return { 'error': 'no such email', 'fields': [ 'email' ], 'return': { email } };
 
   const templateData = await readFile( abs_path( 'emails/forgotPassword/forgotPassword.mustache' ), 'utf8' );
   const template = Hogan.compile( templateData );
@@ -44,7 +44,7 @@ module.exports.resetPassword = async function ( token, password ) {
     '$unset': { 'resetPassword.token': 1, 'resetPassword.expires': 1 }
   }, { 'projection': { '_id': 0, 'details.email': 1 } } );
 
-  if ( !exists.value ) return { 'error': 'no such valid reset password token' };
+  if ( !exists.value ) return { 'error': 'no such valid reset password token', 'fields': [ 'token' ], 'return': { token } };
   const email = exists.value.details.email;
 
   const templateData = await readFile( abs_path( 'emails/forgotPassword/forgotPasswordConfirmation.mustache' ), 'utf8' );

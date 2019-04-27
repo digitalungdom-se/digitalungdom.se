@@ -6,49 +6,39 @@ const sendForgotPassword = include( 'models/user/forgotPassword' ).sendForgotPas
 const resetPassword = include( 'models/user/forgotPassword' ).resetPassword;
 
 module.exports.forgot = async function ( req, res ) {
+  // error array, should be used in every controller to handle errors and return them to client
+  const errors = [];
   let email = req.body.email;
-  if ( typeof email != 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );
+  if ( typeof email != 'string' ) errors.push( { 'reason': 'only strings are accepted', 'fields': [ 'email' ], 'return': { email } } );
   // Validates email according to following rules: is a valid email.
-  if ( !validator.isEmail( email ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Malformed email address', email } );
+  if ( !validator.isEmail( email ) ) errors.push( { 'reason': 'malformed email address', 'fields': [ 'email' ], 'return': { email } } );
   // Normalises email according to validatorjs (see validatorjs documentation for rules)
   email = validator.normalizeEmail( email );
 
-  const result = await sendForgotPassword( email );
+  const status = await sendForgotPassword( email );
+  if ( status.error ) errors.push( { 'reason': status.error, 'fields': status.fields, 'return': status.return } );
 
-  if ( result.error ) {
-    return res.send( {
-      'type': 'fail',
-      'reason': result.error,
-      email
-    } );
-  } else {
-    return res.send( {
-      'type': 'success'
-    } );
-  }
+  if ( errors.length > 0 ) return res.status( 400 ).send( { 'type': 'fail', 'errors': errors } );
+  else return res.send( { 'type': 'success' } );
 };
 
 module.exports.reset = async function ( req, res ) {
+  // error array, should be used in every controller to handle errors and return them to client
+  const errors = [];
   const password = req.body.password;
   const token = req.body.token;
 
-  if ( typeof password != 'string' || typeof token != 'string' ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Only strings are accepted' } );
+  if ( typeof password != 'string' || typeof token != 'string' ) errors.push( { 'reason': 'only strings are accepted', 'fields': [ 'password', 'token' ], 'return': { token } } );
 
   // Validates password according to following rules: min 8 max 72 characters, includes at least one character and one number
-  if ( !validator.isLength( password, { min: 8, max: 72 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Password length is either too long or too short', 'password': password } );
-  if ( !/((.*[a-öA-Ö])(.*[0-9]))|((.*[0-9])(.*[a-öA-Ö]))/.test( password ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'Password is not strong enough', 'password': password } );
+  if ( !validator.isLength( password, { min: 8, max: 72 } ) ) errors.push( { 'reason': 'password is not in length range 8-72', 'fields': [ 'password' ], 'return': {} } );
+  if ( !/((.*[a-öA-Ö])(.*[0-9]))|((.*[0-9])(.*[a-öA-Ö]))/.test( password ) ) errors.push( { 'reason': 'password is not strong enough', 'fields': [ 'password' ], 'return': {} } );
 
-  const result = await resetPassword( token, password );
+  if ( errors.length > 0 ) return res.status( 400 ).send( { 'type': 'fail', 'errors': errors } );
 
-  if ( result.error ) {
-    return res.send( {
-      'type': 'fail',
-      'reason': result.error,
-      token
-    } );
-  } else {
-    return res.send( {
-      'type': 'success'
-    } );
-  }
+  const status = await resetPassword( token, password );
+  if ( status.error ) errors.push( { 'reason': status.error, 'fields': status.fields, 'return': status.return } );
+
+  if ( errors.length > 0 ) return res.status( 400 ).send( { 'type': 'fail', 'errors': errors } );
+  else return res.send( { 'type': 'success' } );
 };

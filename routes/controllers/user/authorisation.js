@@ -11,12 +11,12 @@ const getUserById = include( 'models/get' ).getUserById;
 
 module.exports.auth = async function ( req, res ) {
   const id = req.user;
-  if ( !id ) return res.send( { 'type': 'fail', 'reason': 'user is not logged in' } );
+  if ( !id ) return res.send( { 'type': 'fail', 'errors': [ { 'reason': 'user is not logged in' } ] } );
   const user = await getUserById( id );
 
   return res.send( {
     'type': 'success',
-    'info': {
+    'details': {
       '_id': user._id,
       'name': user.details.name,
       'username': user.details.username,
@@ -30,22 +30,25 @@ module.exports.login = async function ( req, res ) {
   // Use local strategy with custom callbacks
   passport.authenticate( 'local', function ( err, user, info ) {
     if ( err ) throw err;
-    if ( !user ) return res.send( { type: 'fail', reason: info } );
+    if ( !user ) return res.send( { 'type': 'fail', 'errors': [ info ] } );
     req.login( user[ '_id' ], function ( err ) {
       if ( err ) throw err;
       return res.send( {
         'type': 'success',
-        '_id': user._id,
-        'username': user.username,
-        'name': user.name,
-        'email': user.email,
-        'profilePicture': user.profilePicture
+        'details': {
+          '_id': user._id,
+          'username': user.username,
+          'name': user.name,
+          'email': user.email,
+          'profilePicture': user.profilePicture
+        }
       } );
     } );
   } )( req, res );
 };
 
 module.exports.logout = async function ( req, res ) {
+  req.logout();
   req.session.destroy();
 
   return res.send( {
@@ -59,7 +62,7 @@ passport.use( 'local', new LocalStrategy(
   async function ( username, password, done ) {
     // Checks that both inputs are string, so no errors occur.
     if ( typeof username != 'string' || typeof password != 'string' ) {
-      return done( null, false, { field: 'username', message: 'incorrect input' } );
+      return done( null, false, { 'reason': 'only strings are accepted', 'fields': [ 'username', 'password' ], 'return': { username, password } } );
     }
 
     // Finds the user by username/email. If the username looks like a valid email it will find user by email, else it will find by username.
@@ -68,10 +71,10 @@ passport.use( 'local', new LocalStrategy(
 
     if ( !user ) {
       // If it does not find a user will return false and say that it could not find a user
-      return done( null, false, { field: 'username', message: 'no account' } );
+      return done( null, false, { 'reason': 'no account', 'fields': [ 'username' ], 'return': { username } } );
     } else if ( !user.details.verified ) {
       // If the user is not verified will return false and say that the user is not verified.
-      return done( null, false, { field: 'username', message: 'not verified' } );
+      return done( null, false, { 'reason': 'not verified', 'fields': [ 'username' ], 'return': { username } } );
     }
 
     // Compares the candidate password to the users password, if they are 'equal' the strategy will return true and the users id, name, username, and email. Else false and an incorrect password message.
@@ -84,7 +87,7 @@ passport.use( 'local', new LocalStrategy(
         'profilePicture': user.details.profilePicture,
       }, { message: 'done' } );
     } else {
-      return done( null, false, { field: 'password', message: 'incorrect password' } );
+      return done( null, false, { 'reason': 'incorrect password', 'fields': [ 'password' ], 'return': {} } );
     }
   }
 ) );

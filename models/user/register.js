@@ -44,7 +44,7 @@ module.exports.sendVerification = async function ( email ) {
     }
   } );
 
-  if ( !result ) return { 'error': 'no such email' };
+  if ( !result ) return { 'error': 'no such email', 'fields': [ 'email' ], 'return': { email } };
   // Generates 32 character (byte) long token to use for as a verification token. Inserts it into the users mongodb document and send them an email.
   let verificationToken = crypto.randomBytes( 32 ).toString( 'hex' );
   if ( result.details.verified ) {
@@ -78,7 +78,7 @@ module.exports.verify = async function ( verificationToken ) {
     'newEmail': 1
   } ) ).value;
 
-  if ( !exists ) return { 'error': 'verification token does not exist' };
+  if ( !exists ) return { 'error': 'verificationToken does not exist', 'fields': [ 'token' ], 'return': { 'token': verificationToken } };
   if ( exists[ 'newEmail' ] ) {
     const userId = ObjectID( exists[ '_id' ] );
     const email = exists[ 'newEmail' ];
