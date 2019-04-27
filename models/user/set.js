@@ -9,12 +9,13 @@ const Hogan = require( 'hogan.js' );
 
 const sendMail = include( 'utils/sendMail' ).sendMail;
 
-module.exports.userSet = async function ( id, update ) {
-  return ( await db.collection( 'users' ).updateOne( { '_id': ObjectID( id ) }, update ) );
+module.exports.userSet = async function ( userID, update ) {
+  userID = ObjectID( userID );
+  return ( await db.collection( 'users' ).updateOne( { '_id': userID }, update ) );
 };
 
-module.exports.setNewEmail = async function ( userId, email ) {
-  userId = ObjectID( userId );
+module.exports.setNewEmail = async function ( userID, email ) {
+  userID = ObjectID( userID );
   // Generates 32 character (byte) long token to use for as a verification token. Inserts it into the users mongodb document and send them an email.
   const verificationToken = crypto.randomBytes( 32 ).toString( 'hex' );
 
@@ -24,7 +25,7 @@ module.exports.setNewEmail = async function ( userId, email ) {
 
   await Promise.all( [
     sendMail( email, 'Verifiera din e-postadress', body ),
-    db.collection( 'users' ).updateOne( { '_id': userId }, { $set: { 'verificationToken': verificationToken, 'newEmail': email } } ),
+    db.collection( 'users' ).updateOne( { '_id': userID }, { $set: { 'verificationToken': verificationToken, 'newEmail': email } } ),
   ] );
 
   return { 'error': false };

@@ -8,36 +8,44 @@ const getPublicUserByUsername = include( 'models/get' ).getPublicUserByUsername;
 const getMemberAmount = include( 'models/get' ).getMemberAmount;
 
 module.exports.getPublicUser = async function ( req, res ) {
+  // error array, should be used in every controller to handle errors and return them to client
+  const errors = [];
   const type = req.query.type;
-  if ( !userArray ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'userArray must be an array, it is in the name', 'return': userArray, 'field': 'userArray' } );
-  const userArray = req.query.userArray.split( ',' );
-  let user;
+  let userArray = req.query.userArray;
+  if ( !userArray ) errors.push( { 'reason': 'userArray must be an array, it is in the name', 'fields': [ 'userArray' ], 'return': { userArray } } );
+  if ( errors.length > 0 ) return res.status( 400 ).send( { 'type': 'fail', 'errors': errors } );
+  userArray = userArray.split( ',' );
+  let users;
 
-  if ( !Array.isArray( userArray ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'userArray must be an array, it is in the name', 'return': userArray } );
+  if ( !Array.isArray( userArray ) ) errors.push( { 'reason': 'userArray must be an array, it is in the name', 'fields': [ 'userArray' ], 'return': { userArray } } );
 
   if ( type === 'objectid' ) {
     // Validates userId to ensure that it is an objectId
     for ( let userId of userArray ) {
-      if ( !validateObjectID( userId ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'invalid objectId user id', 'return': userId } );
+      if ( !validateObjectID( userId ) ) errors.push( { 'reason': 'invalid objectId user id', 'fields': [ 'userArray' ], 'return': { userId } } );
     }
 
-    user = await getPublicUserById( userArray );
+    if ( errors.length > 0 ) return res.status( 400 ).send( { 'type': 'fail', 'errors': errors } );
+
+    users = await getPublicUserById( userArray );
   } else if ( type === 'username' ) {
     // Validates username according to following rules: min 3 max 24 characters and only includes valid characters (A-Z, a-z, 0-9, and _)
     for ( let username of userArray ) {
-      if ( !validator.isLength( username, { min: 3, max: 24 } ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'username length is either too long or too short', 'return': username } );
-      if ( !/^(\w+)$/.test( username ) ) return res.status( 400 ).send( { 'type': 'fail', 'reason': 'invalid characters in username', 'return': username } );
+      if ( !validator.isLength( username, { min: 3, max: 24 } ) ) errors.push( { 'reason': 'username length is either too long or too short', 'fields': [ 'userArray' ], 'return': { username } } );
+      if ( !/^(\w+)$/.test( username ) ) errors.push( { 'reason': 'invalid characters in username', 'fields': [ 'userArray' ], 'return': { username } } );
     }
 
-    user = await getPublicUserByUsername( userArray );
+    if ( errors.length > 0 ) return res.status( 400 ).send( { 'type': 'fail', 'errors': errors } );
+
+    users = await getPublicUserByUsername( userArray );
   } else {
-    return res.status( 400 ).send( { 'type': 'fail', 'reason': 'type is not a valid type (objectid|username)', 'return': type } );
+    return res.status( 400 ).send( { 'type': 'fail', 'errors': [ { 'reason': 'type is not a valid type (objectid|username)', 'field': [ 'type' ], 'return': { type } } ] } );
   }
 
-  if ( user ) {
-    return res.send( { 'type': 'success', user } );
+  if ( users.length > 0 ) {
+    return res.send( { 'type': 'success', users } );
   } else {
-    return res.send( { 'type': 'fail', 'reason': 'no such user' } );
+    return res.send( { 'type': 'fail', 'errors': [ { 'reason': 'no such users', 'field': [ 'userArray' ], 'return': { userArray } } ] } );
   }
 };
 
