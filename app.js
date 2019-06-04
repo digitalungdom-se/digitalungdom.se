@@ -26,9 +26,9 @@ const fileUpload = require( 'express-fileupload' );
 const errorhandler = require( 'errorhandler' );
 const protect = require( '@risingstack/protect' );
 
-const i18next = require('i18next');
-const i18nextMiddleware = require('i18next-express-middleware');
-const Backend = require('i18next-node-fs-backend');
+const i18next = require( 'i18next' );
+const i18nextMiddleware = require( 'i18next-express-middleware' );
+const Backend = require( 'i18next-node-fs-backend' );
 
 const routes = require( './routes/routes' );
 
@@ -38,19 +38,19 @@ const state = process.env.NODE_ENV;
 const app = express();
 
 i18next
-  .use(Backend)
-  .use(i18nextMiddleware.LanguageDetector)
-  .init({
+  .use( Backend )
+  .use( i18nextMiddleware.LanguageDetector )
+  .init( {
     backend: {
       loadPath: __dirname + '/locales/{{lng}}/{{ns}}.json',
       addPath: __dirname + '/locales/{{lng}}/{{ns}}.missing.json'
     },
     fallbackLng: 'sv',
-    preload: ['en', 'sv'],
-  });
+    preload: [ 'en', 'sv' ],
+  } );
 
 MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async function ( err, client ) {
-  if ( err ) return console.log( 'mongodb', err );
+  if ( err ) return console.error( 'mongodb', err );
   global.db = client.db( 'digitalungdom' );
 
   // Enable trust proxy if in production (needed for nginx?)
@@ -78,7 +78,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
   app.use( express.static( 'build' ) );
   // i18n handler
   app.use( "/locales", express.static( 'locales' ) );
-  app.post('/static/locales/add/:lng/:ns', i18nextMiddleware.missingKeyHandler(i18next));
+  app.post( '/static/locales/add/:lng/:ns', i18nextMiddleware.missingKeyHandler( i18next ) );
 
   // Body parser
   app.use( bodyParser.json( { limit: '100kb' } ) );
@@ -121,6 +121,8 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
   app.use( function ( err, req, res, next ) {
     if ( !err.statusCode ) err.statusCode = 500;
     if ( !err.customMessage ) err.customMessage = 'Internal Server Error';
+
+    console.error( err );
 
     return res.status( err.statusCode ).send( `${err.statusCode} : ${err.customMessage}` );
   } );
