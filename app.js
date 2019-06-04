@@ -34,7 +34,7 @@ const state = process.env.NODE_ENV;
 const app = express();
 
 MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async function ( err, client ) {
-  if ( err ) return console.log( 'mongodb', err );
+  if ( err ) return console.error( 'mongodb', err );
   global.db = client.db( 'digitalungdom' );
 
   // Enable trust proxy if in production (needed for nginx?)
@@ -102,6 +102,7 @@ MongoClient.connect( process.env.DB_URL, { useNewUrlParser: true }, async functi
   app.use( function ( err, req, res, next ) {
     if ( !err.statusCode ) err.statusCode = 500;
     if ( !err.customMessage ) err.customMessage = 'Internal Server Error';
+    console.error( err );
 
     return res.status( err.statusCode ).send( `${err.statusCode} : ${err.customMessage}` );
   } );

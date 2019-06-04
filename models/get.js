@@ -12,10 +12,16 @@ module.exports.getAgreementVersion = async function () {
   return agreementVersion;
 };
 
-module.exports.getPublicUserById = async function ( id ) {
-  const user = await db.collection( 'users' ).findOne( { '_id': ObjectID( id ) }, { 'projection': { '_id': 0, 'details.name': 1, 'details.username': 1, 'details.profilePicture': 1 } } );
+module.exports.getPublicUserByID = async function ( userArray ) {
+  const users = await db.collection( 'users' ).find( { '_id': { $in: userArray } }, { 'projection': { '_id': 1, 'details.name': 1, 'details.username': 1, 'details.profilePicture': 1 } } ).toArray();
 
-  return user;
+  return users;
+};
+
+module.exports.getPublicUserByUsername = async function ( userArray ) {
+  const users = await db.collection( 'users' ).find( { 'details.username': { $in: userArray } }, { 'projection': { '_id': 1, 'details.name': 1, 'details.username': 1, 'details.profilePicture': 1 } } ).collation( { locale: 'en', strength: 2 } ).toArray();
+
+  return users;
 };
 
 module.exports.getUserById = async function ( id ) {
