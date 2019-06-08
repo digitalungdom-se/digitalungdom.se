@@ -41,7 +41,7 @@ class Inner extends React.Component {
 			/>
 		)
 		if(params.hOrSort === 'h') {
-			if(params.commentsOrSortOrOther === "comments") {
+			if(params.commentsOrSortOrOther === "kommentarer" || params.commentsOrSortOrOther === "comments") {
 				return (
 					<Hypagora
 						route="comments"
@@ -78,19 +78,19 @@ const SubOrPos = connect(mapStateToProps)(Inner)
 export default connect(mapStateToProps)(({ fetchedSeveral }) => (
 	<div>
 		<Switch>
-			<Route path="/agora/skapa_hypagora" render={(props) => (
+			<Route path="/agora/(skapa_hypagora|create_hypagora)" render={(props) => (
 				<div>
 					<Surrounding route="create_hypagora" />
 				</div>
 				)}
 			/>
-			<Route path="/agora/h/:hypagora/submit" render={(props) => (
+			<Route path="/agora/h/:hypagora/(publicera|submit)" render={(props) => (
 				<div>
 					<Surrounding hypagora={props.match.params.hypagora} />
 				</div>
 			)} />
 			<Route path="/agora/:hOrSort?/:hypagoraOrTime?/:commentsOrSortOrOther?/:timeOrId?" component={SubOrPos}/>
 		</Switch>
-		{fetchedSeveral && <Route path="/agora/h/:hypagora/comments/:id/:title" render={(props) => <Post comments id={props.match.params.id} />} />}
+		{fetchedSeveral && <Route path="/agora/h/:hypagora/(kommentarer|comments)/:id/:title" render={(props) => <Post comments id={props.match.params.id} />} />}
 	</div>
 ))

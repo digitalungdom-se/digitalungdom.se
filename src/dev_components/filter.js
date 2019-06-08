@@ -5,6 +5,7 @@ class Filter extends React.Component {
 
 	render() {
 
+		const { translations } = this.props
 		const { sort, date } = this.props.defaultValue
 		let { after, before } = date
 
@@ -16,8 +17,8 @@ class Filter extends React.Component {
 						defaultValue={sort}
 						onChange={(e) => this.props.onChange({sort: e.target.value, date})}
 					>
-						<option>new</option>
-						<option>top</option>
+						<option value="new">{translations["New"]}</option>
+						<option value="top">{translations["Top"]}</option>
 					</select>
 				</div>
 				<form onSubmit={(e) => {

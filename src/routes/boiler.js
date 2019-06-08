@@ -28,7 +28,7 @@ export default ({ match }) => (
 				render={props => <Home {...props}/>}
 				/>
 				<Route
-				path="/logga-in"
+				path="/(logga-in|login)"
 				render={props => <Login {...props}/>}
 				/>
 				<Route
