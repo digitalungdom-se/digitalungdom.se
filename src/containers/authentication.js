@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Auth as actions } from 'actions'
 import { connect } from 'react-redux'
+import { withTranslation } from 'react-i18next'
 import {
 	Link,
 	ProfileBox
@@ -22,7 +23,7 @@ class Authentication extends Component {
 
 	render() {
 
-		const { profile } = this.props
+		const { profile, t } = this.props
 
 		return (
 			<div>
@@ -31,12 +32,15 @@ class Authentication extends Component {
 					<ProfileBox
 						profile={profile}
 						logOut={this.props.logOut}
+						translations={{
+							"Log out": t("Log out")
+						}}
 					/>
 					:
 					<div>
-						<Link to="/logga-in">Logga in</Link>
+						<Link to={"/" + t("links.login")}>{t("Log in")}</Link>
 						<br/>
-						<Link to="/bli-medlem">Bli medlem</Link>
+						<Link to={"/" + t("links.register")}>{t("Register")}</Link>
 					</div>
 				}
 			</div>
@@ -44,4 +48,6 @@ class Authentication extends Component {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Authentication)
+export default withTranslation()(
+	connect(mapStateToProps, mapDispatchToProps)(Authentication)
+)

@@ -5,6 +5,7 @@ import { Filter } from '@components'
 import { Posts } from 'containers'
 import { timeToHex } from 'utils'
 import { withRouter } from 'react-router-dom'
+import { withTranslation } from 'react-i18next'
 
 const mapStateToProps = (state, props) => {
 	return ({
@@ -102,11 +103,17 @@ class FilterAndPosts extends Component {
 
 	render() {
 
+		const { t } = this.props
+
 		return (
 			<div>
 				<Filter
 					onChange={(field, value) => this.filterChange(field, value)}
 					defaultValue={this.state}
+					translations={{
+						"New": t("New"),
+						"Top": t("Top")
+					}}
 				/>
 				<Posts
 					loading={!this.props.routes[this.state._url]}
@@ -117,4 +124,6 @@ class FilterAndPosts extends Component {
 	}
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FilterAndPosts))
+export default withTranslation()(
+	withRouter(connect(mapStateToProps, mapDispatchToProps)(FilterAndPosts))
+)
