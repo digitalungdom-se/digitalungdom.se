@@ -6,9 +6,6 @@ import { withTranslation } from 'react-i18next'
 
 export default withTranslation()(({ t }) => (
 	<Wrapper>
-		<Wrapper.Authentication>
-			<Authentication />
-		</Wrapper.Authentication>
 		<Wrapper.Dropdown>
 			<Dropdown
 				links={[
