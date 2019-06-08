@@ -1,6 +1,9 @@
 import React from 'react'
-import { Actions, Comments } from 'containers'
-import { Comment } from '@components'
+// import { Actions, Comments } from 'containers'
+import Actions from 'containers/actions'
+import Comments from 'containers/comments'
+// import { Comment } from '@components'
+import Comment from '@components/comment'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state, props) => {

@@ -1,7 +1,10 @@
 import React from 'react'
-import { Authentication, Settings } from 'containers'
-import { header as Wrapper } from '@wrappers'
-import { Dropdown } from '@components'
+// import { Authentication, Settings } from 'containers'
+import Settings from 'containers/settings'
+// import { Header as Wrapper } from '@wrappers'
+import Wrapper from '@wrappers/header'
+// import { Dropdown } from '@components'
+import Dropdown from '@components/dropdown'
 import { withTranslation } from 'react-i18next'
 
 export default withTranslation()(({ t }) => (
@@ -16,6 +19,8 @@ export default withTranslation()(({ t }) => (
 				]}
 			/>
 		</Wrapper.Dropdown>
-		<Settings />
+
 	</Wrapper>
 ))
+
+// <Settings />

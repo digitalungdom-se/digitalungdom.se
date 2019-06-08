@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Post } from 'containers'
-import { Users } from 'actions'
+// import { Post } from 'containers'
+import Post from 'containers/post'
+// import { Users } from 'actions'
+import Users from 'actions/users'
 
 const mapDispatchToProps = dispatch => ({
 	get_user: id => dispatch(Users.get_user(id))
