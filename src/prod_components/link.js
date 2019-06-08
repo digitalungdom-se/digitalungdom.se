@@ -12,7 +12,7 @@ export default ({ children, to, type, onClick }) => {
 		</Link>
 	)
 	else return (
-		<Link onClick={onClick} to={to}>
+		<Link onClick={onClick} to={to} >
 			{children}
 		</Link>
 	)

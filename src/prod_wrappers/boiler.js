@@ -1,13 +1,17 @@
 import React from 'react'
+import { Layout, Button } from 'antd'
+
 
 const boiler = ({ children }) => (
-	<div>
+	<Layout>
+		<Button />
 		{children}
-	</div>
+	</Layout>
 )
 
 boiler.Header = ({ children }) => (
 	<div>
+		hello
 		{children}
 	</div>
 )

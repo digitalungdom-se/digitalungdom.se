@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from '@components'
 
-export default ({ profile, logOut }) => (
+export default ({ profile, logOut, translations }) => (
 	<div>
 		<div>
 			{profile.authing && 'Authing...'}
@@ -12,6 +12,6 @@ export default ({ profile, logOut }) => (
 					'Loading...'
 		}
 		</div>
-		<Button onClick={logOut}>Logga ut</Button>
+		<Button onClick={logOut}>{translations["Log out"]}</Button>
 	</div>
 )
