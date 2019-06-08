@@ -7,7 +7,7 @@ export default (state = {}, action) => {
 			}
 			return {
 				...state,
-				...action.response,
+				...action.response.details,
 				authTime: action.response._responseTime
 			}
 		case 'REQUEST_AUTH':

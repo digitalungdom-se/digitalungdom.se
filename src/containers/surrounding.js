@@ -1,8 +1,18 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { Widgets, CreateHypagora, Hypagora } from 'containers'
 
-export default ({ hypagora }) => (
+const mapStateToProps = (state, props) => {
+	return ({
+		hypagora_infos: state.Agora.hypagora_infos[props.hypagora]
+	})
+}
+
+export default connect(mapStateToProps)(({ hypagora, route }) => (
 	<div>
-		<div>Surrounding</div>
-		<div>{hypagora}</div>
+		<Widgets />
+		{
+			route === "create_hypagora" ? <CreateHypagora /> : <Hypagora hypagora={hypagora} />
+		}
 	</div>
-)
+))

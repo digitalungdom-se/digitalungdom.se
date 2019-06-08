@@ -1,4 +1,5 @@
 export const makeTitle = (title) => {
+	if(title === null) title = "null"
 	let link = ""
 	const allowedChars = "abcdefghijklmnopqrstuvwxyz_-0123456789"
 	let t = title.toLowerCase()

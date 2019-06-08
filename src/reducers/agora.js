@@ -1,14 +1,17 @@
-import { flatTree, buildTree } from 'utils'
+import { flatTree } from 'utils'
 
 export default (state = {
 	viewingComments: false,
 	comments: {},
+	fullIds: {},
+	users: [],
+	agoragrams: {},
 	posts: {
 		total: 0,
 		routes: {},
 		fetchedSeveral: false,
-		fullIds: {}
-	}
+	},
+	hypagora_infos: {}
 }, action) => {
 	switch(action.type) {
 		case 'REQUEST_GET_AGORAGRAMS':
@@ -24,18 +27,27 @@ export default (state = {
 			}
 		case 'RESPONSE_GET_AGORAGRAMS':
 			if(action.response.type === "success") {
-				const posts = {}
-				const list = action.response.posts.map(post => {
-					posts[post._id] = post
-					return post._id
+				const agoragrams = {}
+				const users = []
+				const list = action.response.agoragrams.map(agoragram => {
+					agoragrams[agoragram._id] = {
+						...agoragram,
+						users: [agoragram.author]
+					}
+					users.push(agoragram.author)
+					return agoragram._id
 				})
 				return {
 					...state,
 					...action._responseTime,
+					users: [...state.users, ...users],
 					fetchingAgoragrams: false,
+					agoragrams: {
+						...state.agoragrams,
+						...agoragrams
+					},
 					posts: {
 						...state.posts,
-						...posts,
 						fetchedSeveral: true,
 						total: state.posts.total + list.length,
 						routes: {
@@ -48,24 +60,54 @@ export default (state = {
 		case 'RESPONSE_GET_AGORAGRAM':
 			if(action.response.type === "success") {
 
-				const tree = flatTree(action.response.post)
+				const {tree, users} = flatTree(action.response.agoragram)
 
-				const comments = buildTree(action.response.post[0]._id, tree)
+				// const comments = buildTree(action.response.agoragram[0]._id, tree)
 
 				return {
 					...state,
+					fullIds: {
+						...state.fullIds,
+						[action.response.agoragram[0].shortID]: action.response.agoragram[0]._id
+					},
+					// comments: tree,
+					users: [...state.users, ...users],
+					agoragrams: {
+						...state.agoragrams,
+						...tree,
+						[action.response.agoragram[0]._id]: {
+							users,
+							...action.response.agoragram[0]
+						},
+					},
 					posts: {
 						...state.posts,
 						total: state.posts.total + 1,
-						[action.response.post[0]._id]: comments,
-						fullIds: {
-							...state.posts.fullIds,
-							[action.response.post[0].shortId]: action.response.post[0]._id
+						[action.response.agoragram[0]._id]: {
+							users,
+							...action.response.agoragram[0]
 						}
 					}
 				}
 			}
 			else return state
+		case 'REQUEST_ASTERI':
+			return state
+		case 'RESPONSE_ASTERI':
+			if(action.response.type === "success") {
+				let agoragram = state.agoragrams[action.response.agoragramID]
+				if(action.response.action === "unstarred") agoragram.stars--;
+				else agoragram.stars++;
+				// console.log(action.response.agoragramID, agoragram)
+				return {
+					...state,
+					agoragrams: {
+						...state.agoragrams,
+						[action.response.agoragramID]: agoragram
+					}
+				}
+			}
+			return state
 		case 'VIEW_COMMENTS':
 			return {
 				...state,
