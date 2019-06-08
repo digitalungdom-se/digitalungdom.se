@@ -1,9 +1,16 @@
 import React from 'react'
-import { Post } from '@components'
-import { Agora, Users } from 'actions'
+// import { Post } from '@components'
+import Post from '@components/post'
+// import { Agora, Users } from 'actions'
+import Agora from 'actions/agora'
+import Users from 'actions/users'
 import { connect } from 'react-redux'
-import { makeTitle, epochToRelativeTime } from 'utils'
-import { Actions, Comments } from 'containers'
+// import { makeTitle, epochToRelativeTime } from 'utils'
+import { makeTitle } from 'utils/agora'
+import { epochToRelativeTime } from 'utils/time'
+// import { Actions, Comments } from 'containers'
+import Comments from 'containers/comments'
+import Actions from 'containers/actions'
 
 class PostContainer extends React.Component {
 
@@ -24,8 +31,7 @@ class PostContainer extends React.Component {
 			_id: "0"
 		}
 		let time = epochToRelativeTime(post._id)
-		console.log(time)
-
+		
 		return (
 			<Post
 				loading={loading}

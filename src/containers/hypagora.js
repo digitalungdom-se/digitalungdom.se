@@ -1,5 +1,8 @@
 import React from 'react'
-import { FilterAndPosts, Post, Wiki } from 'containers'
+// import { FilterAndPosts, Post, Wiki } from 'containers'
+import Wiki from 'containers/wiki'
+import Post from 'containers/post'
+import FilterAndPosts from 'containers/filterandposts'
 
 const Hypagora = ({ route, filter, hypagora }) => {
 	let inner

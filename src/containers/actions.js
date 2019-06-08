@@ -1,6 +1,8 @@
 import React from 'react'
-import { Agora } from 'actions'
-import { Actions } from '@components'
+// import { Agora } from 'actions'
+import Agora from 'actions/agora'
+// import { Actions } from '@components'
+import Actions from '@components/actions'
 import { connect } from 'react-redux'
 
 const mapDispatchToProps = (dispatch) => ({

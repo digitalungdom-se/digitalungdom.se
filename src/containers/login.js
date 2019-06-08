@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Auth as actions } from 'actions'
-import { Login } from '@components'
+// import { Auth as actions } from 'actions'
+import actions from 'actions/auth'
+// import { Login } from '@components'
+import Login from '@components/login'
 import { withTranslation } from 'react-i18next'
 
 const mapDispatchToProps = dispatch => ({

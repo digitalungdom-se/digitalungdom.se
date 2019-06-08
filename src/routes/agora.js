@@ -3,12 +3,18 @@ import {
 	Route,
 	Switch
 } from 'react-router-dom'
-import {
-	Hypagora,
-	Post,
-	Surrounding,
-} from 'containers'
+import Hypagora from 'containers/hypagora'
+import Post from 'containers/post'
+import Surrounding from 'containers/surrounding'
+import CreateHypagora from 'containers/createhypagora'
+// import {
+// 	Hypagora,
+// 	Post,
+// 	Surrounding,
+// 	CreateHypagora,
+// } from 'containers'
 import { connect } from 'react-redux'
+import 'resources/agora.css'
 
 class Inner extends React.Component {
 	shouldComponentUpdate() {
@@ -76,20 +82,29 @@ const mapStateToProps = state => ({
 const SubOrPos = connect(mapStateToProps)(Inner)
 
 export default connect(mapStateToProps)(({ fetchedSeveral }) => (
-	<div>
+	<div
+		className="agora"
+	>
 		<Switch>
 			<Route path="/agora/(skapa_hypagora|create_hypagora)" render={(props) => (
-				<div>
-					<Surrounding route="create_hypagora" />
-				</div>
+				<Surrounding>
+				</Surrounding>
 				)}
 			/>
 			<Route path="/agora/h/:hypagora/(publicera|submit)" render={(props) => (
-				<div>
-					<Surrounding hypagora={props.match.params.hypagora} />
-				</div>
+				<Surrounding hypagora={props.match.params.hypagora} >
+					<CreateHypagora />
+				</Surrounding>
 			)} />
-			<Route path="/agora/:hOrSort?/:hypagoraOrTime?/:commentsOrSortOrOther?/:timeOrId?" component={SubOrPos}/>
+			<Route path="/agora/:hOrSort?/:hypagoraOrTime?/:commentsOrSortOrOther?/:timeOrId?" render={props => (
+				<Surrounding
+					hypagora={props.match.params.hypagoraOrTime}
+				>
+					<SubOrPos
+						{...props}
+					/>
+				</Surrounding>
+			)}/>
 		</Switch>
 		{fetchedSeveral && <Route path="/agora/h/:hypagora/(kommentarer|comments)/:id/:title" render={(props) => <Post comments id={props.match.params.id} />} />}
 	</div>

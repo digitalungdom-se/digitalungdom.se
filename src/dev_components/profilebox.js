@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button } from '@components'
+// import { Button } from '@components'
+import Button from '@components/button'
 
 export default ({ profile, logOut, translations }) => (
 	<div>

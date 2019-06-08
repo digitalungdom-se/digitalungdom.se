@@ -11,7 +11,11 @@ export default (state = {
 		routes: {},
 		fetchedSeveral: false,
 	},
-	hypagora_infos: {}
+	hypagora_infos: {
+		"general": {
+			background: "transparent"
+		}
+	}
 }, action) => {
 	switch(action.type) {
 		case 'REQUEST_GET_AGORAGRAMS':

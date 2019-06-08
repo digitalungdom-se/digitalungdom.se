@@ -1,21 +1,24 @@
 import React from 'react'
+import { Col } from 'antd'
 
-const header = ({ children }) => (
+const Header = ({ children }) => children
+
+Header.Authentication = ({ children }) => (
 	<div>
 		{children}
 	</div>
 )
 
-header.Authentication = ({ children }) => (
-	<div>
+Header.Dropdown = ({ children }) => (
+	<Col
+		xs={{span: 20, offset: 1}}
+		sm={{span: 8, offset: 1}}
+		md={{span: 6, offset: 1}}
+		lg={{span: 5}}
+		className="ant-col"
+	>
 		{children}
-	</div>
+	</Col>
 )
 
-header.Dropdown = ({ children }) => (
-	<div>
-		{children}
-	</div>
-)
-
-export default header
+export default Header

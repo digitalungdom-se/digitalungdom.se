@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { Auth as actions } from 'actions'
 import { connect } from 'react-redux'
 import { withTranslation } from 'react-i18next'
-import {
-	Link,
-	ProfileBox
-} from '@components'
+// import {
+// 	Link,
+// 	ProfileBox
+// } from '@components'
+import Link from '@components/link'
+import ProfileBox from '@components/profilebox'	
 
 const mapStateToProps = (state) => ({
 	profile: state.Auth

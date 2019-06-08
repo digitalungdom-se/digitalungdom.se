@@ -1,5 +1,6 @@
 import React from 'react'
-import { timeToHex } from 'utils'
+// import { timeToHex } from 'utils'
+import { timeToHex } from 'utils/time'
 
 class Filter extends React.Component {
 
