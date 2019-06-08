@@ -7,7 +7,7 @@ import {
 	Header,
 } from 'containers'
 import { State } from '@components'
-import { boiler as Wrapper } from 'wrappers'
+import { boiler as Wrapper } from '@wrappers'
 
 const Agora = lazy(() => import('./agora.js'))
 const Home = lazy(() => import('containers/home.js'))

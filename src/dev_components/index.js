@@ -1,5 +1,7 @@
+export { default as Actions } from './actions.js'
 export { default as Agorize } from './agorize.js'
 export { default as Button } from './button.js'
+export { default as Comment } from './comment.js'
 export { default as Dropdown } from './dropdown.js'
 export { default as Filter } from './filter.js'
 export { default as Link } from './link.js'

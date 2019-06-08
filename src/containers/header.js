@@ -1,6 +1,6 @@
 import React from 'react'
 import { Authentication, Settings } from 'containers'
-import { header as Wrapper } from 'wrappers'
+import { header as Wrapper } from '@wrappers'
 import { Dropdown } from '@components'
 import { withTranslation } from 'react-i18next'
 
