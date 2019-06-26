@@ -26,25 +26,19 @@ class Authentication extends Component {
 	render() {
 
 		const { profile, t } = this.props
-
-		return (
+		if(profile.username) return (
+			<ProfileBox
+				profile={profile}
+				logOut={this.props.logOut}
+				translations={{
+					"Log out": t("Log out")
+				}}
+			/>
+		)
+		else return (
 			<div>
-				{
-					profile.username ?
-					<ProfileBox
-						profile={profile}
-						logOut={this.props.logOut}
-						translations={{
-							"Log out": t("Log out")
-						}}
-					/>
-					:
-					<div>
-						<Link to={"/" + t("links.login")}>{t("Log in")}</Link>
-						<br/>
-						<Link to={"/" + t("links.register")}>{t("Register")}</Link>
-					</div>
-				}
+				<Link to={"/" + t("links.login")}>{t("Log in")}</Link>
+				<Link to={"/" + t("links.register")}>{t("Register")}</Link>
 			</div>
 		)
 	}

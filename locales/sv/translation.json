@@ -1,6 +1,13 @@
 {
+	"links": {
+		"login": "logga-in",
+		"register": "bli-medlem"
+	},
+	"New": "Nya",
+	"Top": "Topp",
   "Home": "Startsida",
   "Log in": "Logga in",
+  "Log out": "Logga ut",
   "Register": "Bli medlem",
   "Username": "Användarnamn",
   "E-mail": "E-mail",

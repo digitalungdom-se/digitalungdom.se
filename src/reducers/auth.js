@@ -1,7 +1,7 @@
 export default (state = {}, action) => {
 	switch(action.type) {
 		case 'RECEIVE_AUTH':
-			if(action.response.reason === "Not authorised") return {
+			if(action.response.type === "fail") return {
 				...action.response,
 				authTime: action.response._responseTime
 			}

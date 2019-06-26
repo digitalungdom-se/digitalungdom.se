@@ -17,7 +17,7 @@ const Login = lazy(() => import('containers/login.js'))
 const NoMatch = () => <div>No match</div>
 const Loading = () => <div>Loading...</div>
 
-export default connect(mapStateToProps)(({ match, theme }) => (
+export default connect(mapStateToProps)(({ match, theme, ...props }) => (
 	<Wrapper theme={theme}>
 		<Wrapper.Header>
 			<Header />
@@ -30,7 +30,7 @@ export default connect(mapStateToProps)(({ match, theme }) => (
 					render={props => <Home {...props}/>}
 					/>
 					<Route
-					path="/(logga-in|login)"
+					path="/(logga-in|log-in)"
 					render={props => <Login {...props}/>}
 					/>
 					<Route
