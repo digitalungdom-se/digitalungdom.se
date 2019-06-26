@@ -1,28 +1,38 @@
 import React from 'react'
 // import { Link } from '@components'
 import Link from '@components/link'
-import { Menu, Icon, Button, Dropdown } from 'antd'
+import { Menu, Icon, Button, Dropdown, Divider } from 'antd'
 import './dropdown.css'
 
-let menu = (links) => (
+let menu = (categories, links, active) => (
   <Menu
+  	// mode="inline"
+  	selectedKeys={[active]}
   >
-  	{links.map((link, id) => (
-  		<Menu.Item key={id + link.to}>
-  			<Link to={link.to}>{link.text}</Link>
-  		</Menu.Item>
+  	{categories.map(category => (
+	  		category.items.map(link => (
+	  			<Menu.Item
+	  				key={link}
+	  				style={{paddingTop: 10, paddingBottom: 10}}
+	  			>
+	  				<Link to={link}>{links[link]}</Link>
+	  			</Menu.Item>
+	  		))
   	))}
   </Menu>
 );
 
-export default ({ links }) => (
+export default ({ categories, links, active }) => (
 	<Dropdown
-		overlay={menu(links)}
+		overlay={menu(categories, links, active)}
 	>
-	  <Button
-	  	className="dropdown-button"
-	  >
-	    Button <Icon type="down" />
+	  <Button className="dropdown-button">
+	  	<span>
+		    <span className="dropdown-display-name">
+		    	{links[active]}
+		    </span>
+	    	<span><Icon type="compass"/></span>
+    	</span>
 	  </Button>
   </Dropdown>
 )

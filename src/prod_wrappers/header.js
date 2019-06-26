@@ -1,17 +1,49 @@
 import React from 'react'
-import { Col } from 'antd'
+import { Row, Col } from 'antd'
+import { Link } from 'react-router-dom'
 
-const Header = ({ children }) => children
+const Logo = () => (
+	<Link to="/" onClick={() => console.log("sup")}>
+		<h1 className="logo">
+			Digital Ungdom
+		</h1>
+	</Link>
+)
+
+const Header = ({ children }) => (
+	<Row
+		type="flex"
+		justify="space-between"
+		style={{height: 60}}
+	>
+		<Col
+			xs={{span: 9, offset: 0}}
+			sm={{span: 8, offset: 1}}
+			md={{span: 6, offset: 1}}
+			lg={{span: 4}}
+			className="ant-col"
+		>
+			<Logo />
+		</Col>
+		{children}
+	</Row>
+)
 
 Header.Authentication = ({ children }) => (
-	<div>
+	<Col
+		xs={{span: 9, offset: 0}}
+		sm={{span: 8, offset: 1}}
+		md={{span: 6, offset: 1}}
+		lg={{span: 4}}
+		className="ant-col"
+	>
 		{children}
-	</div>
+	</Col>
 )
 
 Header.Dropdown = ({ children }) => (
 	<Col
-		xs={{span: 20, offset: 1}}
+		xs={{span: 7, offset: 0}}
 		sm={{span: 8, offset: 1}}
 		md={{span: 6, offset: 1}}
 		lg={{span: 5}}
