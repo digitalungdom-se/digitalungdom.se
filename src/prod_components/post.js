@@ -1,5 +1,6 @@
 import React from 'react'
 import { Row, Col, Rate, Card, Skeleton } from 'antd'
+import Link from '@components/link.js'
 import './post.css'
 
 class Post extends React.Component {
@@ -11,7 +12,6 @@ class Post extends React.Component {
 		if(loading) return <div>Post loading...</div>;
 		const deleted = post.deleted
 		// console.log(post.stars)
-		console.log(post)
 
 		return (
 			<Card
@@ -30,13 +30,19 @@ class Post extends React.Component {
 						<div>
 							{post.stars}
 						</div>
+						<Rate
+							defaultValue={0} count={1}
+						/>
+						<div>
+							{post.stars}
+						</div>
 					</Col>
 					<Col
 						span={21}
 					>
 					<Skeleton active loading={loading}>
 						<Row className="info">
-							<span></span>
+							<Link type="user" id={post.author}></Link>
 						</Row>
 						<Row>
 								<h1>{post.title}</h1>
