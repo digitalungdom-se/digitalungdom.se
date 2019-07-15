@@ -1,13 +1,13 @@
 import React from 'react'
 import { Row, Col } from 'antd'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const Logo = () => (
-	<Link to="/" onClick={() => console.log("sup")}>
+	<NavLink to="/" onClick={() => console.log("sup")}>
 		<h1 className="logo">
 			Digital Ungdom
 		</h1>
-	</Link>
+	</NavLink>
 )
 
 const Header = ({ children }) => (

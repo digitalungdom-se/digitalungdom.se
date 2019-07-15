@@ -23,7 +23,7 @@ export default (state = {
 				}
 			} else {
 				if(action.response.errors[0] && action.response.errors[0].reason === "no such users") {
-					action.response.errors[0].return.userArray.forEach(id => users[id] = "deleted")
+					action.response.errors[0].return.userArray.forEach(id => users[id] = {username: "deleted"})
 				}
 				else action.response.users.forEach(user => users[user._id] = user)
 			}

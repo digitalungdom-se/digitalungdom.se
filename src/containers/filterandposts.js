@@ -10,6 +10,7 @@ import Posts from 'containers/posts'
 import { timeToHex } from 'utils/time'
 import { withRouter } from 'react-router-dom'
 import { withTranslation } from 'react-i18next'
+import {Card} from 'antd'
 
 const mapStateToProps = (state, props) => {
 	return ({
@@ -111,14 +112,16 @@ class FilterAndPosts extends Component {
 
 		return (
 			<div>
-				<Filter
-					onChange={(field, value) => this.filterChange(field, value)}
-					defaultValue={this.state}
-					translations={{
-						"New": t("New"),
-						"Top": t("Top")
-					}}
-				/>
+				<Card>
+					<Filter
+						onChange={(field, value) => this.filterChange(field, value)}
+						defaultValue={this.state}
+						translations={{
+							"New": t("New"),
+							"Top": t("Top")
+						}}
+					/>
+				</Card>
 				<Posts
 					loading={!this.props.routes[this.state._url]}
 					url={this.state._url}

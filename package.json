@@ -55,7 +55,7 @@
     "react-dom": "^16.7.0",
     "react-i18next": "^10.8.1",
     "react-markdown": "^4.0.6",
-    "react-redux": "^6.0.0",
+    "react-redux": "^7.1.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.8",
     "redux": "^4.0.1",
@@ -68,7 +68,7 @@
     "start": "react-app-rewired start",
     "dev": "cross-env NODE_PATH=./src npm run start",
     "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
