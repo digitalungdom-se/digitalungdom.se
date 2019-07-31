@@ -194,15 +194,13 @@ module.exports.asteri = async function ( userID, starID ) {
     // Same but opposite if it is the least starred comment and gets unstarred
     if ( !( starAgoragramIndex === 0 && star === 1 || starAgoragramIndex === ( children.length - 1 ) && star === -1 ) ) {
       // Fetches the rival comments index, i.e. the next sibling comment with more starss
-      const startAgoragramRivalIndex = starAgoragramIndex - star;
+      const rivalIndex = starAgoragramIndex - star;
 
       // Switches place with the two rival comments if the starred comment has more star
-      if ( children[ starAgoragramIndex ].stars > children[ startAgoragramRivalIndex ].stars ) {
-        let tmp = children[ starAgoragramIndex ];
-        children[ starAgoragramIndex ] = children[ startAgoragramRivalIndex ];
-        children[ startAgoragramRivalIndex ] = tmp;
+      if ( children[ starAgoragramIndex ].stars > children[ rivalIndex ].stars ) {
+        children = children.sort( ( a, b ) => ( a.stars < b.stars ) ? 1 : ( ( b.stars < a.stars ) ? -1 : 0 ) );
 
-        await db.collection( 'agoragrams' ).updateOne( { '_id': replyToID }, { '$set': { 'children': children } } );
+        db.collection( 'agoragrams' ).updateOne( { '_id': replyToID }, { '$set': { 'children': children } } );
       }
     }
   }
