@@ -1,25 +1,31 @@
 export default (state = {
 	users: {}
 }, action) => {
+	let users
 	switch(action.type) {
 		case 'REQUEST_GET_USER':
+			users = {}
+			action.request.userArray.forEach(id => users[id] = false)
 			return {
 				...state,
 				users: {
 					...state.users,
-					[action.request.userId]: false
+					...users
 				}
 			}
 		case "RESPONSE_GET_USER":
-			let users = {}
+			users = {}
 			if(action._url === "/api/auth") {
 				let id = action.response.info._id
 				let user = {details: action.response.info}
 				users = {
-					id: user
+					[id]: user
 				}
 			} else {
-				action.response.user.forEach(user => users[user._id] = user)
+				if(action.response.errors[0] && action.response.errors[0].reason === "no such users") {
+					action.response.errors[0].return.userArray.forEach(id => users[id] = {username: "deleted"})
+				}
+				else action.response.users.forEach(user => users[user._id] = user)
 			}
 			return {
 				...state,

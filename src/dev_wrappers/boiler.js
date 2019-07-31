@@ -1,4 +1,5 @@
 import React from 'react'
+import './boiler.css'
 
 const boiler = ({ children }) => (
 	<div>

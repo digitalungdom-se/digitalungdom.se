@@ -1,6 +1,13 @@
 {
+	"links": {
+		"login": "log-in",
+		"register": "register"
+	},
+	"New": "Nya",
+	"Top": "Topp",
   "Home": "Home",
 	"Log in": "Log in",
+	"Log out": "Log out",
 	"Register": "Register",
 	"Username": "Username",
 	"E-mail": "E-mail",

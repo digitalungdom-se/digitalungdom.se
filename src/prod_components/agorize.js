@@ -3,15 +3,17 @@ import  React from 'react'
 class Agorize extends React.Component {
 	handleForm(e) {
 		e.preventDefault()
-		const { group, type, title, body, tags } = e.target
+		const { role, hypagora, type, title, body, tags } = e.target
 		const values = {
-			group: group.value.replace(/ /g, '').split(','),
+			role: role.value,
+			hypagora: hypagora.value,
 			type: type.value,
-			title: title.value,
-			body: body.value,
-			tags: tags.value.replace(/ /g, '').split(','),
+			title: title.value.toString(),
+			body: body.value.toString(),
+			tags: tags.value.replace(/ /g, '').split(',').filter(Boolean),
 			badges: []
 		}
+		console.log(values)
 		this.props.agorize(values)
 	}
 	render() {
@@ -21,7 +23,10 @@ class Agorize extends React.Component {
 			>
 				<h1>Agorize</h1>
 				<div>
-					<input name="group" type="text" placeholder="group" defaultValue={this.props.hypagora} />
+					<input name="hypagora" type="text" placeholder="hypagora" defaultValue={this.props.hypagora}/>
+				</div>
+				<div>
+					<input name="role" type="text" placeholder="role" defaultValue="user"/>
 				</div>
 				<div>
 					<select name="type">

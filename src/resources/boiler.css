@@ -1,0 +1,28 @@
+.dark {
+  --layout-header: #000;
+}
+
+.light {
+  --layout-header: #fff;
+}
+
+.boiler-content {
+	min-height: 100vh;
+	padding-top: 60px;
+	display: flex;
+}
+
+.logo {
+  padding-left: 10px;
+  font-size: 25px;
+  color: var(--du-blue);
+}
+
+.ant-layout-header {
+  background: var(--layout-header);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.ant-layout-header .ant-col {
+	line-height: 60px;
+}

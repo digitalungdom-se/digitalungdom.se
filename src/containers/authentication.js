@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import { Auth as actions } from 'actions'
 import { connect } from 'react-redux'
-import {
-	Link,
-	ProfileBox
-} from '@components'
+import { withTranslation } from 'react-i18next'
+// import {
+// 	Link,
+// 	ProfileBox
+// } from '@components'
+import Link from '@components/link'
+import ProfileBox from '@components/profilebox'	
 
 const mapStateToProps = (state) => ({
 	profile: state.Auth
@@ -22,26 +25,25 @@ class Authentication extends Component {
 
 	render() {
 
-		const { profile } = this.props
-
-		return (
+		const { profile, t } = this.props
+		if(profile.username) return (
+			<ProfileBox
+				profile={profile}
+				logOut={this.props.logOut}
+				translations={{
+					"Log out": t("Log out")
+				}}
+			/>
+		)
+		else return (
 			<div>
-				{
-					profile.username ?
-					<ProfileBox
-						profile={profile}
-						logOut={this.props.logOut}
-					/>
-					:
-					<div>
-						<Link to="/logga-in">Logga in</Link>
-						<br/>
-						<Link to="/bli-medlem">Bli medlem</Link>
-					</div>
-				}
+				<Link to={"/" + t("links.login")}>{t("Log in")}</Link>
+				<Link to={"/" + t("links.register")}>{t("Register")}</Link>
 			</div>
 		)
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Authentication)
+export default withTranslation()(
+	connect(mapStateToProps, mapDispatchToProps)(Authentication)
+)

@@ -1,0 +1,16 @@
+.dropdown-button {
+	width: 100%;
+}
+
+.dropdown-button > span {
+	display: flex;
+  justify-content: space-between;
+}
+
+.dropdown-display-name {
+	/*float: left;*/
+}
+
+.dropdown-icon {
+	/*float: right;*/
+}

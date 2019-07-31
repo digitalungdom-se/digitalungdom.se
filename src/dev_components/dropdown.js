@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link } from '@components'
+// import { Link } from '@components'
+import Link from '@components/link'
 
 export default ({ links }) => (
 	<ul>

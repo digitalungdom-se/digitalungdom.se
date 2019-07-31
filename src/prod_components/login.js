@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({ login, Auth }) => (
+export default ({ login, Auth, translations }) => (
 	<form
 		onSubmit={(e) => {
 			e.preventDefault()
@@ -11,11 +11,11 @@ export default ({ login, Auth }) => (
 			})
 		}}
 	>
-		<input type="text" name="username" placeholder="username/e-mail" />
-		<input type="password" name="password" placeholder="password" />
-		<button type="submit">Login</button>
+		<input type="text" name="username" placeholder={translations["Username"] + "/" + translations["E-mail"]} />
+		<input type="password" name="password" placeholder={translations["Password"]} />
+		<button type="submit">{translations["Log in"]}</button>
 		<div>
-			{Auth.loggingIn && 'Logging in...'}<br/>
+			{Auth.loggingIn && translations["Logging in"] + "..."}<br/>
 			{Auth.loginResponse && Auth.loginResponse + ''}<br />
 			{Auth.loginResponse === 'fail' && JSON.stringify(Auth.reason)}
 		</div>
