@@ -20,6 +20,8 @@ const metaAgorize = include( 'models/user/agora' ).metaAgorize;
 const report = include( 'models/user/agora' ).report;
 // get posts (sort: new|top) (date: hex after unix to hex after unix)
 const getAgoragrams = include( 'models/user/agora' ).getAgoragrams;
+// get starred agoragrams for a list of agoragrams
+const getStarredAgoragrams = include( 'models/user/agora' ).getStarredAgoragrams;
 // get getAgoragram by shortID (its _id but 7 bytes)
 const getAgoragramByShortID = include( 'models/user/agora' ).getAgoragramByShortID;
 
@@ -205,8 +207,15 @@ module.exports.getAgoragrams = async function ( req, res ) {
 
   const agoragrams = await getAgoragrams( dateAfter, dateBefore, sort, hypagora );
 
+  let starredAgoragrams;
+  if ( req.user ) {
+    const agoragramsIDs = agoragrams.map( agoragram => agoragram[ '_id' ] );
+
+    starredAgoragrams = await getStarredAgoragrams( req.user, agoragramsIDs );
+  }
+
   if ( errors.length > 0 ) return res.status( 400 ).send( { 'type': 'fail', 'errors': errors } );
-  else return res.send( { 'type': 'success', agoragrams } );
+  else return res.send( { 'type': 'success', agoragrams, starredAgoragrams } );
 };
 
 module.exports.getAgoragram = async function ( req, res ) {

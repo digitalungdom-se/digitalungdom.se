@@ -258,9 +258,9 @@ module.exports.getAgoragramByShortID = async function ( shortID ) {
   return await db.collection( 'agoragrams' ).find( { '$or': [ { 'shortID': shortID }, { 'post.shortID': shortID } ] }, { projection: { 'reports': 0 } } ).toArray();
 };
 // Check if starred
-module.exports.checkStarredAgoragrams = async function ( userID, starredList ) {
+module.exports.getStarredAgoragrams = async function ( userID, agoragramIDList ) {
   userID = ObjectID( userID );
-  starredList = starredList.map( id => ObjectID( id ) );
+  agoragramIDList = agoragramIDList.map( id => ObjectID( id ) );
 
   const userStarredList = await db.collection( 'users' ).aggregate( [
     { $match: { '_id': userID } },
@@ -270,7 +270,7 @@ module.exports.checkStarredAgoragrams = async function ( userID, starredList ) {
           $filter: {
             input: '$agora.starredAgoragrams',
             as: 'agoragram',
-            cond: { $in: [ '$$agoragram', starredList ] }
+            cond: { $in: [ '$$agoragram', agoragramIDList ] }
           }
         },
         _id: 0
@@ -278,5 +278,5 @@ module.exports.checkStarredAgoragrams = async function ( userID, starredList ) {
     }
   ] ).toArray();
 
-  return userStarredList.userStarredAgoragrams;
+  return userStarredList[ 0 ].userStarredAgoragrams;
 };
