@@ -274,7 +274,7 @@ module.exports.getStarredAgoragrams = async function ( userID, agoragramIDList )
         _id: 0
       }
     }
-  ] ).toArray();
+  ] ).next();
 
-  return userStarredList[ 0 ].userStarredAgoragrams;
+  return userStarredList.userStarredAgoragrams;
 };

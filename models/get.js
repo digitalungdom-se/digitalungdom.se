@@ -51,7 +51,7 @@ module.exports.getUserByEmail = async function ( email ) {
 };
 
 module.exports.getUserByUsername = async function ( username ) {
-  const user = ( await db.collection( 'users' ).find( { 'details.username': username }, { 'projection': { 'verificationToken': 0, 'resetPassword': 0 } } ).collation( { locale: 'en', strength: 2 } ).toArray() )[ 0 ];
+  const user = await db.collection( 'users' ).find( { 'details.username': username }, { 'projection': { 'verificationToken': 0, 'resetPassword': 0 } } ).collation( { locale: 'en', strength: 2 } ).next();
 
   return user;
 };

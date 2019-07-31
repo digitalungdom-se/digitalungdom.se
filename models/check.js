@@ -4,7 +4,7 @@ const ObjectID = require( 'mongodb' ).ObjectID;
 const validator = require( 'validator' );
 
 module.exports.checkUsername = async function ( username ) {
-  const userExists = ( await db.collection( 'users' ).find( { 'details.username': username.toLowerCase() }, { 'projection': { '_id': 1 } } ).collation( { locale: 'en', strength: 2 } ).toArray() )[ 0 ];
+  const userExists = await db.collection( 'users' ).find( { 'details.username': username.toLowerCase() }, { 'projection': { '_id': 1 } } ).collation( { locale: 'en', strength: 2 } ).next();
 
   if ( userExists ) return { 'valid': false, 'field': 'username' };
   else return { 'valid': true, 'field': 'username' };
