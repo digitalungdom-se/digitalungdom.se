@@ -209,18 +209,18 @@ module.exports.getAgoragrams = async function ( req, res ) {
 
   const agoragrams = await getAgoragrams( dateAfter, dateBefore, sort, hypagora );
 
-  const promiseArray = [];
+  const queryArray = [];
 
   const userIDArray = agoragrams.map( agoragram => agoragram[ 'author' ] );
-  promiseArray.push( getPublicUsersByID( userIDArray ) );
+  queryArray.push( getPublicUsersByID( userIDArray ) );
 
   if ( req.user ) {
     const agoragramsIDs = agoragrams.map( agoragram => agoragram[ '_id' ] );
 
-    promiseArray.push( getStarredAgoragrams( req.user, agoragramsIDs ) );
+    queryArray.push( getStarredAgoragrams( req.user, agoragramsIDs ) );
   }
 
-  const [ users, starredAgoragrams ] = await Promise.all( promiseArray );
+  const [ users, starredAgoragrams ] = await Promise.all( queryArray );
 
   if ( errors.length > 0 ) return res.status( 400 ).send( { 'type': 'fail', 'errors': errors } );
   else return res.send( { 'type': 'success', agoragrams, users, starredAgoragrams } );
@@ -235,18 +235,18 @@ module.exports.getAgoragram = async function ( req, res ) {
 
   const agoragrams = await getAgoragramByShortID( agoragramShortID );
 
-  const promiseArray = [];
+  const queryArray = [];
 
   const userIDArray = agoragrams.map( agoragram => agoragram[ 'author' ] );
-  promiseArray.push( getPublicUsersByID( userIDArray ) );
+  queryArray.push( getPublicUsersByID( userIDArray ) );
 
   if ( req.user ) {
     const agoragramsIDs = agoragrams.map( agoragram => agoragram[ '_id' ] );
 
-    promiseArray.push( getStarredAgoragrams( req.user, agoragramsIDs ) );
+    queryArray.push( getStarredAgoragrams( req.user, agoragramsIDs ) );
   }
 
-  const [ users, starredAgoragrams ] = await Promise.all( promiseArray );
+  const [ users, starredAgoragrams ] = await Promise.all( queryArray );
 
   if ( errors.length > 0 ) return res.status( 400 ).send( { 'type': 'fail', 'errors': errors } );
   else return res.send( { 'type': 'success', agoragrams, users, starredAgoragrams } );
