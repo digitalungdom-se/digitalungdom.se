@@ -12,10 +12,10 @@ module.exports.getAgreementVersion = async function () {
   return agreementVersion;
 };
 
-module.exports.getPublicUserById = async function ( userIdArray ) {
-  userIdArray = userIdArray.map( id => ObjectID( id ) );
+module.exports.getPublicUsersByID = async function ( userIDArray ) {
+  userIDArray = userIDArray.map( id => ObjectID( id ) );
 
-  const user = await db.collection( 'users' ).find( { '_id': { $in: userIdArray } }, {
+  const user = await db.collection( 'users' ).find( { '_id': { $in: userIDArray } }, {
     'projection': {
       'details.name': 1,
       'details.username': 1,
@@ -26,7 +26,7 @@ module.exports.getPublicUserById = async function ( userIdArray ) {
   return user;
 };
 
-module.exports.getPublicUserByUsername = async function ( usernameArray ) {
+module.exports.getPublicUsersByUsername = async function ( usernameArray ) {
   const user = await db.collection( 'users' ).find( { 'details.username': { $in: usernameArray } }, {
     'projection': {
       'details.name': 1,

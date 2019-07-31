@@ -45,7 +45,7 @@ module.exports.agorize = async function ( userID, agoragramData ) {
     const replyExists = await db.collection( 'agoragrams' ).findOneAndUpdate( {
       '_id': replyToID
     }, {
-      '$push': { 'children': agoragramID }
+      '$push': { 'children': { 'id': agoragramID, 'stars': 0 } }
     }, {
       'projection': { '_id': 1, 'type': 1, 'post': 1, 'shortID': 1 }
     } );
@@ -138,7 +138,7 @@ module.exports.asteri = async function ( userID, starID ) {
   const starredAgoragram = await db.collection( 'agoragrams' ).findOne( { '_id': starID } );
 
   // Checks if exists
-  if ( !starredAgoragram._id ) return { 'error': 'agoragram does not exist', 'fields': [ 'starID' ], 'return': { starID } };
+  if ( !starredAgoragram ) return { 'error': 'agoragram does not exist', 'fields': [ 'starID' ], 'return': { starID } };
   let starredByUser = await db.collection( 'users' ).updateOne( { '_id': userID }, { $addToSet: { 'agora.starredAgoragrams': starID } } );
   starredByUser = !( starredByUser.result.nModified );
 
@@ -172,9 +172,9 @@ module.exports.asteri = async function ( userID, starID ) {
   if ( starredanAgoragram.value && starredanAgoragram.value.replyTo ) {
     const replyToID = ObjectID( starredanAgoragram.value.replyTo );
     // Gets all the starred comments siblings and increments the starred comments stars in the parents child array. database god.
-    let children = ( db.collection( 'agoragrams' ).findOneAndUpdate( {
+    let children = ( await db.collection( 'agoragrams' ).findOneAndUpdate( {
       '_id': replyToID,
-      'children._id': starID
+      'children.id': starID
     }, {
       '$inc': { 'children.$.stars': star }
     }, {
@@ -183,23 +183,23 @@ module.exports.asteri = async function ( userID, starID ) {
     } ) ).value.children;
 
     // Fetches the index of starred comment in sibling array
-    const startAgoragramIndex = children.findIndex( function ( child ) {
-      return child[ '_id' ] === replyToID;
+    const starAgoragramIndex = children.findIndex( function ( child ) {
+      return child[ 'id' ].toString() === starID.toString();
     } );
 
     // Change if statement to a try/catch statement? The following code will only throw an error if index is out of range. If it catches the error just ignore it. Faster? More elegant?
-    // ( startAgoragramIndex !== 0 && star !== 1 ) makes sure that the index will not < 0
-    // ( startAgoragramIndex !== ( children.length - 1 ) && star !== -1 ) makes sure that the index will not be out of range.
+    // ( starAgoragramIndex !== 0 && star !== 1 ) makes sure that the index will not < 0
+    // ( starAgoragramIndex !== ( children.length - 1 ) && star !== -1 ) makes sure that the index will not be out of range.
     // If it is the most starred comment, and gets starred, we do not need to check if it is the most starred comment again
     // Same but opposite if it is the least starred comment and gets unstarred
-    if ( ( startAgoragramIndex !== 0 && star !== 1 ) || ( startAgoragramIndex !== ( children.length - 1 ) && star !== -1 ) ) {
+    if ( !( starAgoragramIndex === 0 && star === 1 || starAgoragramIndex === ( children.length - 1 ) && star === -1 ) ) {
       // Fetches the rival comments index, i.e. the next sibling comment with more starss
-      const startAgoragramRivalIndex = startAgoragramIndex - star;
+      const startAgoragramRivalIndex = starAgoragramIndex - star;
 
       // Switches place with the two rival comments if the starred comment has more star
-      if ( children[ startAgoragramIndex ].stars > children[ startAgoragramRivalIndex ].stars ) {
-        let tmp = children[ startAgoragramIndex ];
-        children[ startAgoragramIndex ] = children[ startAgoragramRivalIndex ];
+      if ( children[ starAgoragramIndex ].stars > children[ startAgoragramRivalIndex ].stars ) {
+        let tmp = children[ starAgoragramIndex ];
+        children[ starAgoragramIndex ] = children[ startAgoragramRivalIndex ];
         children[ startAgoragramRivalIndex ] = tmp;
 
         await db.collection( 'agoragrams' ).updateOne( { '_id': replyToID }, { '$set': { 'children': children } } );
