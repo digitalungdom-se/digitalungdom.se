@@ -1,0 +1,15 @@
+.starCol {
+  text-align: center;
+  /*margin-top: 22px;*/
+}
+
+.starCol .ant-rate {
+  width: 100%;
+  font-size: 30px;
+}
+
+.starCol .ant-rate-star {
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}

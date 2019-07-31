@@ -1,48 +1,75 @@
 import React from 'react'
-import { Link } from '@components'
-import { Comments } from 'containers'
-import { Agora as actions } from 'actions'
-import { connect } from 'react-redux'
-import Base58 from 'base-58'
+import { Row, Col, Rate, Card, Skeleton } from 'antd'
+import Link from '@components/link.js'
+import './post.css'
 
 class Post extends React.Component {
 
-	componentWillMount() {
-		if(!this.props.post && !this.props.loading) {
-			let id = this.props.id
-			if(id.length < 8) id = Base58.decode(id);
-			console.log(id)
-			this.props.get_agoragram({postId: id})
-		}
-	}
 	render() {
-		const post = this.props.post ? this.props.post : this.props.posts[this.props.id]
-		if(!post) return <div>Post loading...</div>;
+
+		const { post, loading, children } = this.props
+
+		if(loading) return <div>Post loading...</div>;
+		const deleted = post.deleted
+		// console.log(post.stars)
+
 		return (
-			<div>
-				<div style={{outline: '1px solid black'}}>
-					<h1>{post.title}</h1>
-					<Link
-						to={"/agora/h/minecraft/comments/" + Base58.encode(post._id.slice(0,7)) + "/title"}
+			<Card
+				bodyStyle={{padding: '10px 20px 10px 0'}}
+				className="agora-post"
+			>
+				<Row
+				>
+					<Col
+						span={3}
+						className="starCol"
 					>
-						Comments
-					</Link>
-				</div>
-				{
-					this.props.comments &&
-					<Comments comments={post.comments} />
-				}
-			</div>
+						<Rate
+							defaultValue={0} count={1}
+						/>
+						<div>
+							{post.stars}
+						</div>
+						<Rate
+							defaultValue={0} count={1}
+						/>
+						<div>
+							{post.stars}
+						</div>
+					</Col>
+					<Col
+						span={21}
+					>
+					<Skeleton active loading={loading}>
+						<Row className="info">
+							<Link type="user" id={post.author}></Link>
+						</Row>
+						<Row>
+								<h1>{post.title}</h1>
+						</Row>
+					</Skeleton>
+					</Col>
+				</Row>
+			</Card>
 		)
 	}
+	/*<div>Author: {(!deleted && author !== "deleted") ? ((post.display.type === "user") ? author.details.username : author.details.name) : "deleted"}</div>*/
 }
 
-const mapStateToProps = state => ({
-	posts: state.Agora.posts
-})
+/*
+	<h1>{post.title}</h1>
+	<div>Modified:{post.modified}</div>
+	<div>Stars:{post.stars}</div>
+	<p>{!deleted ? post.body : "deleted"}</p>
+	{post.tags ?
+		<ul>
+			{post.tags.map(tag => <li key={tag} >{tag}</li>)}
+		</ul>
+		: null
+	}
+	{children}
+</Card>
+*/
 
-const mapDispatchToProps = dispatch => ({
-	get_agoragram: id => dispatch(actions.get_agoragram(id))
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post)
+export default Post

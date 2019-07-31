@@ -1,92 +1,76 @@
 import React from 'react'
-import { Post } from '@components'
-import { Agora, Users } from 'actions'
+// import { Post } from '@components'
+import Post from '@components/post'
+// import { Agora, Users } from 'actions'
+import Agora from 'actions/agora'
+import Users from 'actions/users'
 import { connect } from 'react-redux'
-import { hexToUint8, Uint8ToHex, makeTitle } from 'utils'
+// import { makeTitle, epochToRelativeTime } from 'utils'
+import { makeTitle } from 'utils/agora'
+import { epochToRelativeTime } from 'utils/time'
+// import { Actions, Comments } from 'containers'
+import Comments from 'containers/comments'
+import Actions from 'containers/actions'
 
 class PostContainer extends React.Component {
 
 	componentWillMount() {
-		if(this.props.comments) {
-			const id = this.props.id
-			// const id = this.props.id.length === 24 ? this.props.id : Uint8ToHex(Base58.decode(this.props.id))
-			this.props.get_agoragram({shortId: id})
+		if(this.props.loading === undefined) {
+			this.props.get_agoragram({agoragramShortID: this.props.shortID})
 			.then(res => {
-				if(res) {
-					const id = res.response.post[0].author
-					if(id !== undefined && this.props.users[id] === undefined) this.props.get_user({type: "objectid", userArray: [id]})
+				if(res.response.type === "success") {
+					this.props.get_user({type: "objectid", userArray: [this.props.post.users]})
 				}
 			})
 		}
-		if(this.props.id) {
-			if(this.props.id.length === 24) {
-				const id = this.props.posts[this.props.id].author
-				if(id === undefined) return
-				if(this.props.users[id] === undefined) this.props.get_user({type: "objectid", userArray: [id]})
-			}
-		}
-	}
-
-	shouldComponentUpdate() {
-		if(this.props.id === undefined) return false;
-		if(this.props.id.length === 24) {
-			const id = this.props.posts[this.props.id].author
-			// console.log(this.props.users[id])
-			if(this.props.users[id] === undefined) return false
-		} else {
-		}
-		return true
 	}
 
 	render() {
-		let id, link, loading = this.props.loading
-		if(this.props.id) {
-			if(this.props.id.length === 24) {
-				id = this.props.id
-			} else {
-				let x = this.props.posts.fullIds[this.props.id]
-				if(x) id = x;
-				else loading = true
-			}
+		let loading = this.props.loading || !this.props.post
+		let post = this.props.post ? this.props.post : {
+			_id: "0"
 		}
-		const post = this.props.posts[id]
-		if(!loading && post) {
-			link = "/agora/h/" + post.hypagora + "/comments/" + post.shortId + '/' + makeTitle(post.title);
-		}
+		let time = epochToRelativeTime(post._id)
+		
 		return (
 			<Post
 				loading={loading}
 				post={post}
-				comments={this.props.comments}
-				actions={
-					{
-						asteri: this.props.asteri,
-						anti_agorize: this.props.anti_agorize,
-						agorize: this.props.agorize,
-						report: this.props.report,
-						link,
-						id
-					}
+			>
+				<Actions
+					id={this.props.id}
+					link={loading ? null : "/agora/h/" + post.hypagora + "/comments/" + post.shortID + '/' + makeTitle(post.title)}
+				/>
+				{
+					!loading && this.props.comments &&
+					<Comments children={post.children} />
 				}
-				author={post ? (post.author ? (this.props.users[post.author] ? this.props.users[post.author] : false) : undefined) : undefined}
-			/>
+			</Post>
 		)
 	}
 }
 
-const mapStateToProps = state => ({
-	posts: state.Agora.posts,
-	users: state.Users.users
-})
+const mapStateToProps = (state, props) => {
+	let id = props.id
+	let shortID = props.id
+	if(props.id && props.id.length !== 24) {
+		shortID = props.id
+		if(state.Agora.fullIds[props.id]) id = state.Agora.fullIds[props.id]
+	}
+	let post = state.Agora.agoragrams[id]
+	let stars
+	if(post) stars = post.stars
+	return {
+		id,
+		shortID,
+		post,
+		stars
+	};
+}
 
 const mapDispatchToProps = dispatch => ({
-	get_agoragram: id => dispatch(Agora.get_agoragram(id)),
-	asteri: id => dispatch(Agora.asteri(id)),
-	meta_agorize: info => dispatch(Agora.meta_agorize(info)),
-	agorize: info => dispatch(Agora.agorize(info)),
-	report: info => dispatch(Agora.report(info)),
-	anti_agorize: id => dispatch(Agora.anti_agorize(id)),
-	get_user: id => dispatch(Users.get_user(id))
+	get_user: id => dispatch(Users.get_user(id)),
+	get_agoragram: id => dispatch(Agora.get_agoragram(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostContainer)

@@ -12,9 +12,9 @@ i18n
     // lng: "sv",
     fallbackLng: "sv", // use en if detected lng is not available
 
-    saveMissing: true, // send not translated keys to endpoint
+    saveMissing: false, // send not translated keys to endpoint
 
-    keySeparator: false, // we do not use keys in form messages.welcome
+    keySeparator: ".", // we do not use keys in form messages.welcome
 
     interpolation: {
       format: function(value, format, lng) {

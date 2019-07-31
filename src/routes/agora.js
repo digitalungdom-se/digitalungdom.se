@@ -3,22 +3,18 @@ import {
 	Route,
 	Switch
 } from 'react-router-dom'
-import {
-	Agorize,
-	Posts,
-	Post,
-	Surrounding,
-	Wiki
-} from 'containers'
+import Hypagora from 'containers/hypagora'
+import Post from 'containers/post'
+import Surrounding from 'containers/surrounding'
+import CreateHypagora from 'containers/createhypagora'
+// import {
+// 	Hypagora,
+// 	Post,
+// 	Surrounding,
+// 	CreateHypagora,
+// } from 'containers'
 import { connect } from 'react-redux'
-
-const Hypagora = ({ children, hypagora }) => (
-	<div>
-		<Surrounding hypagora={hypagora} />
-		Hypagora – {"/h/" + hypagora}
-		{children}
-	</div>
-)
+import 'resources/agora.css'
 
 class Inner extends React.Component {
 	shouldComponentUpdate() {
@@ -35,34 +31,43 @@ class Inner extends React.Component {
 		else if(params.commentsOrSortOrOther !== "comments") sort = params.commentsOrSortOrOther;
 
 		if(params.hOrSort === 'h') hypagora = params.hypagoraOrTime;
+		const filter = {
+			route: this.props.location.pathname,
+			id: params.timeOrId,
+			time,
+			sort,
+			hypagora,
+		}
 
 		if(params.hOrSort !== 'h') return (
-			<div>
-				<Surrounding hypagora={"general"} />
-				<Posts history={this.props.history} route={this.props.location.pathname} time={time} sort={sort} hypagora={hypagora} />
-			</div>
+			<Hypagora
+				route="h"
+				hypagora={hypagora}
+				filter={filter}
+			/>
 		)
 		if(params.hOrSort === 'h') {
-			if(params.commentsOrSortOrOther === "comments") {
+			if(params.commentsOrSortOrOther === "kommentarer" || params.commentsOrSortOrOther === "comments") {
 				return (
-					<Hypagora hypagora={hypagora}>
-						<Post
-							id={params.timeOrId}
-							comments
-						/>
-					</Hypagora>
+					<Hypagora
+						route="comments"
+						hypagora={hypagora}
+						filter={filter}
+					/>
 				)
 			} else if(params.commentsOrSortOrOther === "wiki") {
 				return (
-					<Hypagora hypagora={hypagora}>
-						<Wiki />
-					</Hypagora>
+					<Hypagora
+						route="wiki"
+						hypagora={hypagora}
+					/>
 				)
 			} else {
 				return (
-					<Hypagora hypagora={hypagora}>
-						<Posts history={this.props.history} route={this.props.location.pathname} time={time} sort={sort} hypagora={hypagora} />
-					</Hypagora>
+					<Hypagora
+						hypagora={hypagora}
+						filter={filter}
+					/>
 				)
 			}
 		}
@@ -77,16 +82,30 @@ const mapStateToProps = state => ({
 const SubOrPos = connect(mapStateToProps)(Inner)
 
 export default connect(mapStateToProps)(({ fetchedSeveral }) => (
-	<div>
+	<div
+		className="agora"
+	>
 		<Switch>
-			<Route path="/agora/h/:hypagora/submit" render={(props) => (
-				<div>
-					<Surrounding hypagora={props.match.params.hypagora} />
-					<Agorize hypagora={props.match.params.hypagora}/>
-				</div>
+			<Route path="/agora/(skapa_hypagora|create_hypagora)" render={(props) => (
+				<Surrounding>
+				</Surrounding>
+				)}
+			/>
+			<Route path="/agora/h/:hypagora/(publicera|submit)" render={(props) => (
+				<Surrounding hypagora={props.match.params.hypagora} >
+					<CreateHypagora />
+				</Surrounding>
 			)} />
-			<Route path="/agora/:hOrSort?/:hypagoraOrTime?/:commentsOrSortOrOther?/:timeOrId?" component={SubOrPos}/>
+			<Route path="/agora/:hOrSort?/:hypagoraOrTime?/:commentsOrSortOrOther?/:timeOrId?" render={props => (
+				<Surrounding
+					hypagora={props.match.params.hypagoraOrTime}
+				>
+					<SubOrPos
+						{...props}
+					/>
+				</Surrounding>
+			)}/>
 		</Switch>
-		{fetchedSeveral && <Route path="/agora/h/:hypagora/comments/:id/:title" render={(props) => <Post comments id={props.match.params.id} />} />}
+		{fetchedSeveral && <Route path="/agora/h/:hypagora/(kommentarer|comments)/:id/:title" render={(props) => <Post comments id={props.match.params.id} />} />}
 	</div>
 ))

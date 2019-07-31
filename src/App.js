@@ -10,11 +10,13 @@ const { store, persistor } = configureStore()
 class App extends Component {
   render() {
     return (
-    	<Provider store={store}>
-    		<PersistGate loading={null} persistor={persistor}>
-      		<Router history={history} />
-    		</PersistGate>
-    	</Provider>
+    	<React.Suspense fallback={<div>Initializing...</div>}>
+	    	<Provider store={store}>
+	    		<PersistGate loading={null} persistor={persistor}>
+	      		<Router history={history} />
+	    		</PersistGate>
+	    	</Provider>
+	    </React.Suspense>
     )
   }
 }
