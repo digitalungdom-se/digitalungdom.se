@@ -13,4 +13,10 @@ boiler.Header = ({ children }) => (
 	</div>
 )
 
+boiler.Content = ({ children }) => (
+	<div>
+		{children}
+	</div>
+)
+
 export default boiler

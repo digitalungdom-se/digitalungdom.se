@@ -12,7 +12,7 @@ const Boiler = ({ children, theme }) => (
 
 Boiler.Header = ({ children }) => (
 	<Header
-		style={{ position: 'fixed', zIndex: 1, width: '100%', height: 60, padding: 0 }}
+		style={{ position: 'fixed', zIndex: 2, width: '100%', height: 60, padding: 0 }}
 	>
 		{children}
 	</Header>

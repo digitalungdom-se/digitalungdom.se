@@ -1,31 +1,28 @@
 import React from 'react'
 // import { Actions, Comments } from 'containers'
-import Actions from 'containers/actions'
 import Comments from 'containers/comments'
 // import { Comment } from '@components'
 import Comment from '@components/comment'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import Agora from 'actions/agora'
 
-const mapStateToProps = (state, props) => {
-	let comment = state.Agora.agoragrams[props.id]
-	return {
-		comment,
-		stars: comment.stars
-	}
-}
+const CommentContainer = ({ level, id }) => {
+	const comment = useSelector(state => state.Agora.agoragrams[id])
+	const dispatch = useDispatch()
 
-const CommentContainer = ({ comment }) => {
 	return (
-		<Comment comment={comment}>
-			<Actions
-				id={comment._id}
-			/>
+		<Comment
+			comment={comment}
+			level={level}
+			asteri={Agora.asteri}
+			dispatch={dispatch}
+		>
 			{
 				comment.children.length !== 0 &&
-				<Comments children={comment.children} />
+				<Comments level={level + 1} children={comment.children} />
 			}
 		</Comment>
 	)
 }
 
-export default connect(mapStateToProps)(CommentContainer)
+export default CommentContainer

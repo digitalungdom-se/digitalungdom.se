@@ -6,18 +6,22 @@ import './dropdown.css'
 
 let menu = (categories, links, active) => (
   <Menu
-  	// mode="inline"
+  	mode="vertical"
   	selectedKeys={[active]}
   >
   	{categories.map(category => (
-	  		category.items.map(link => (
-	  			<Menu.Item
-	  				key={link}
-	  				style={{paddingTop: 10, paddingBottom: 10}}
-	  			>
-	  				<Link to={link}>{links[link]}</Link>
-	  			</Menu.Item>
-	  		))
+  		<Menu.ItemGroup title={category.title} key={category.title}>
+	  		{
+	  			category.items.map(link => (
+		  			<Menu.Item
+		  				key={link}
+		  				style={{paddingTop: 10, paddingBottom: 10, listStyleType: "none"}}
+		  			>
+		  				<Link to={link}>{links[link]}</Link>
+		  			</Menu.Item>
+		  		))
+	  		}
+	  		</Menu.ItemGroup>
   	))}
   </Menu>
 );
@@ -29,7 +33,12 @@ export default ({ categories, links, active }) => (
 	  <Button className="dropdown-button">
 	  	<span>
 		    <span className="dropdown-display-name">
-		    	{links[active]}
+		    	{
+		    		links[active] ?
+		    			links[active]
+		    			:
+		    			"404"
+		    	}
 		    </span>
 	    	<span><Icon type="compass"/></span>
     	</span>

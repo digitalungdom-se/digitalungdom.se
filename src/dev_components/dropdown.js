@@ -1,15 +1,17 @@
 import React from 'react'
 // import { Link } from '@components'
-import Link from '@components/link'
+import { NavLink } from 'react-router-dom'
 
-export default ({ links }) => (
+export default ({ links, categories }) => (
 	<ul>
-	{
-		links.map((link, id) => (
-			<li key={id + link.to}>
-				<Link to={link.to}>{link.text}</Link>
-			</li>
-		))
-	}
+		{
+			categories.map((category, id) => (
+				category.items.map((link, id) => (
+					<li key={id + link}>
+						<NavLink to={link}>{links[link]}</NavLink>
+					</li>
+				))
+			))
+		}
 	</ul>
 )

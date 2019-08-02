@@ -2,42 +2,22 @@ import React from 'react'
 // import { Button } from '@components'
 // import Button from '@components/button'
 import { Dropdown, Menu, Button } from 'antd'
-
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-        1st menu item
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
-        2nd menu item
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
-        3rd menu item
-      </a>
-    </Menu.Item>
-  </Menu>
-);
+import Link from '@components/link'
 
 export default ({ profile, logOut, translations }) => (
-	<Dropdown
-		overlay={menu}
-	>
-		<Button
+		<Link
       loading={profile.authing}
-      style={{width: "100%"}}>
+      style={{width: "100%"}}
+      to="/min-profil"
+      type="button"
+    >
       {
 			 profile.username ?
 			 profile.username
 				:
 				'Loading...'
 			}
-    </Button>
-	</Dropdown>
+    </Link>
 )
 
 /*<Button onClick={logOut}>{translations["Log out"]}</Button>*/

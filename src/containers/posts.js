@@ -32,7 +32,8 @@ class Posts extends React.Component {
 	}
 	render() {
 		if(!this.props.list || this.props.unknownUsers.length) return ([0,0,0,0,0,0,0,0,0,0]).map((a, index) => <Post key={"loading_post" + index} loading={true} />);
-		else return this.props.list.map((id, index) => <Post loading={false} id={id} key={id} />)
+		else if(this.props.list.length) return this.props.list.map((id, index) => <Post loading={false} id={id} key={id} />);
+		else return <Post empty={true} />
 	}
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Auth as actions } from 'actions'
+import actions from 'actions/auth'
 import { connect } from 'react-redux'
 import { withTranslation } from 'react-i18next'
 // import {
@@ -8,6 +8,7 @@ import { withTranslation } from 'react-i18next'
 // } from '@components'
 import Link from '@components/link'
 import ProfileBox from '@components/profilebox'	
+import { Row, Col } from '@components/grid'
 
 const mapStateToProps = (state) => ({
 	profile: state.Auth
@@ -36,10 +37,28 @@ class Authentication extends Component {
 			/>
 		)
 		else return (
-			<div>
-				<Link to={"/" + t("links.login")}>{t("Log in")}</Link>
-				<Link to={"/" + t("links.register")}>{t("Register")}</Link>
-			</div>
+			<Row
+				type="flex"
+				justify="space-between"
+			>
+				<Col>
+					<Link
+						linkType="button"
+						to={"/" + t("links.login")}
+					>
+						{t("Log in")}
+					</Link>
+				</Col>
+				<Col>
+					<Link
+						linkType="button"
+						to={"/" + t("links.register")}
+						type="primary"
+					>
+						{t("Register")}
+					</Link>
+				</Col>
+			</Row>
 		)
 	}
 }

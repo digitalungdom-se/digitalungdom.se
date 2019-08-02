@@ -1,0 +1,10 @@
+.notification-bell {
+	transition: 0.2s;
+	cursor: pointer;
+	color: grey;
+}
+
+.notification-bell:hover {
+	color: #4792f5;
+	transition: 0.2s;
+}

@@ -4,9 +4,9 @@ import {
 	Switch
 } from 'react-router-dom'
 import Hypagora from 'containers/hypagora'
-import Post from 'containers/post'
 import Surrounding from 'containers/surrounding'
 import CreateHypagora from 'containers/createhypagora'
+import Overlay from 'containers/Overlay'
 // import {
 // 	Hypagora,
 // 	Post,
@@ -85,6 +85,14 @@ export default connect(mapStateToProps)(({ fetchedSeveral }) => (
 	<div
 		className="agora"
 	>
+		{fetchedSeveral &&
+			<Route
+				path="/agora/h/:hypagora/(kommentarer|comments)/:id/:title"
+				render={(props) => 
+					<Overlay id={props.match.params.id}/>
+				}
+				/>
+		}
 		<Switch>
 			<Route path="/agora/(skapa_hypagora|create_hypagora)" render={(props) => (
 				<Surrounding>
@@ -106,6 +114,5 @@ export default connect(mapStateToProps)(({ fetchedSeveral }) => (
 				</Surrounding>
 			)}/>
 		</Switch>
-		{fetchedSeveral && <Route path="/agora/h/:hypagora/(kommentarer|comments)/:id/:title" render={(props) => <Post comments id={props.match.params.id} />} />}
 	</div>
 ))
