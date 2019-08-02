@@ -6,6 +6,7 @@ import Posts from './posts.js'
 import Settings from './settings.js'
 import State from './state.js'
 import Users from './users.js'
+import Register from './register.js'
 
 export default combineReducers({
 	Agora,
@@ -14,5 +15,6 @@ export default combineReducers({
 	Posts,
 	Settings,
 	State,
-	Users
+	Users,
+	Register
 })

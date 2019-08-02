@@ -4,6 +4,8 @@ const path = require('path');
 const pack = require('./package.json')
 const { override, fixBabelImports } = require('customize-cra');
 
+const state = process.env.NODE_ENV === "production" ? "prod" : "dev"
+
 /* config-overrides.js */
 module.exports = override(
 	fixBabelImports('import', {
@@ -12,7 +14,7 @@ module.exports = override(
 	  style: 'css',
 	}),
 	rewireAliases.aliasesOptions({
-      '@components': path.resolve(__dirname, `${paths.appSrc}/prod_components/`),
-      '@wrappers': path.resolve(__dirname, `${paths.appSrc}/prod_wrappers/`)
+      '@components': path.resolve(__dirname, `${paths.appSrc}/${state}_components/`),
+      '@wrappers': path.resolve(__dirname, `${paths.appSrc}/${state}_wrappers/`)
   })
 )

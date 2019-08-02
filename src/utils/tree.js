@@ -2,7 +2,7 @@ export const flatTree = comments => {
 	const tree = {}, users = []
 	comments.forEach(comment => {
 		tree[comment._id] = comment
-		if(users.indexOf(comment.author) === -1) users.push(comment.author)
+		if(comment.author && users.indexOf(comment.author) === -1) users.push(comment.author)
 	})
 	return {tree, users}
 }

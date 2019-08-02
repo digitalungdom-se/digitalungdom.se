@@ -4,21 +4,24 @@ import { Provider } from 'react-redux'
 import configureStore from './configureStore.js'
 import { PersistGate } from 'redux-persist/integration/react'
 import history from './history.js'
+import Loading from '@components/Loading'
 
 const { store, persistor } = configureStore()
 
-class App extends Component {
-  render() {
-    return (
-    	<React.Suspense fallback={<div>Initializing...</div>}>
-	    	<Provider store={store}>
-	    		<PersistGate loading={null} persistor={persistor}>
-	      		<Router history={history} />
-	    		</PersistGate>
-	    	</Provider>
-	    </React.Suspense>
-    )
-  }
+function App() {
+  return (
+  	<div
+  		style={{height: "100vh", width: "100vw"}}
+  	>
+			<React.Suspense fallback={<Loading logo/>}>
+		  	<Provider store={store}>
+		  		<PersistGate loading={null} persistor={persistor}>
+		    		<Router history={history} />
+		  		</PersistGate>
+		  	</Provider>
+		  </React.Suspense>
+  	</div>
+  )
 }
 
 export default App;

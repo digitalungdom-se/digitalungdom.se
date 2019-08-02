@@ -1,30 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
 // import { Link } from '@components'
+import { Button, Divider, Icon } from 'antd'
 import Link from '@components/link'
+import Reply from 'containers/Reply'
 
-class Actions extends React.Component {
-	render() {
-		const { asteri, anti_agorize, report } = this.props.actions
-		const { id, link } = this.props
-		return (
-			<div>
-				<button onClick={e => asteri({agoragramID: id})}>Asteri</button>
-				<button onClick={e => anti_agorize({agoragramID: id})}>anti_agorize</button>
-				<button onClick={e => {
-					const reason = prompt('Why bro?')
-					report({id, reason, place: "agoragram"})
-				}}>Report</button>
-				{
-					link &&
-					<Link
-						to={link}
+function Actions({ dispatch, anti_agorize, report, id, link, author, userId }) {
+
+	const [isReplying, reply] = useState(false)
+
+	return (
+		<div>
+			<Button
+				style={{padding: 0}}
+				type="link"
+				onClick={() => reply(!isReplying)}
+			>
+				Reply<Icon type="message" />
+			</Button>
+			{
+				author === userId &&
+				<React.Fragment>
+					<Divider type="vertical"/>
+					<Button
+						style={{padding: 0}}
+						type="link"
+						onClick={e => dispatch(anti_agorize({agoragramID: id}))}
 					>
-						Comments
-					</Link>
-				}
-		</div>
-		)
-	}
+						Delete
+					</Button>
+				</React.Fragment>
+			}
+			<Divider type="vertical"/>
+			<Button
+				style={{padding: 0}}
+				type="link"
+				onClick={e => {
+					const reason = prompt('Why bro?')
+					dispatch(report({id, reason, place: "agoragram"}))
+				}}
+			>
+				Report
+			</Button>
+			{
+				isReplying &&
+				<Reply
+					id={id}
+					onCancel={() => reply(false)}
+				/>
+			}
+	</div>
+	)
 }
 
 export default Actions

@@ -1,15 +1,50 @@
 .starCol {
   text-align: center;
-  /*margin-top: 22px;*/
+  /*padding-top: 10px;*/
+}
+
+.starCol .ratings {
+	/*height: 50px;*/
+	/*height: 48px;
+	line-height: 48px;*/
+	/*text-align: center;*/
+}
+
+.starCol .ratings div {
+	/*display: inline-block;*/
+}
+
+.starCol .ratings .icon {
+	/*position:relative;*/
+	/*margin-right: 16px;*/
+	/*top: calc(50% - 20px);*/
+}
+
+.starCol .ratings.star .icon {
+	/*margin-right: 13px;*/
+}
+
+.starCol .ratings.star .number {
+	/*margin-top: 8px;*/
+	/*margin-left: 2px;*/
+}
+
+.ant-row .number {
+	/*padding-left: 10px;*/
+	/*margin-top: 15px;*/
 }
 
 .starCol .ant-rate {
-  width: 100%;
-  font-size: 30px;
+  /*width: 100%;*/
+  /*font-size: 30px;*/
 }
 
 .starCol .ant-rate-star {
-  margin: 0 auto;
+  /*margin: 0 auto;
   display: block;
-  text-align: center;
+  text-align: center;*/
+}
+
+.agora-post .otherCol {
+	/*padding: 15px 0px 0px 20px;*/
 }

@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Widgets from 'containers/widgets'
+import { Row, Col } from '@components/grid'
 // import { Surrounding as Wrapper } from '@wrappers'
-import Wrapper from '@wrappers/surrounding'
 
 const mapStateToProps = (state, props) => {
 	let hypagora = props.hypagora
@@ -12,15 +12,29 @@ const mapStateToProps = (state, props) => {
 	})
 }
 
+
 export default connect(mapStateToProps)(({ hypagora_info, hypagora, route, children }) => (
-	<Wrapper
-		hypagora_info={hypagora_info}
+	<Row
+		className="agora-surrounding"
+		style={{
+			background: hypagora_info.background,
+		}}
 	>
-		<Wrapper.Children>
+		<Col
+				xs={{ span: 24 }}
+				sm={{ span: 24 }}
+				md={{ span: 17, offset: 0 }}
+				lg={{ span: 14, offset: 2 }}
+			>
 			{children}
-		</Wrapper.Children>
-		<Wrapper.Widgets>
+		</Col>
+		<Col
+				xs={0}
+				sm={{span: 0}}
+				md={{span: 7}}
+				lg={{span: 6, offset: 1}}
+			>
 			<Widgets />
-		</Wrapper.Widgets>
-	</Wrapper>
+		</Col>
+	</Row>
 ))
