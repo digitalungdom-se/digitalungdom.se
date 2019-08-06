@@ -24,11 +24,11 @@ class GDPR extends Component {
     return (
       <div>
         <Checkbox
-        style={{fontSize: '0.9em'}}
+        style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.4)'}}
         onChange={this.props.onChange}
       >
-        Genom att bli medlem accepterar du Digital Ungdoms användarvillkor.
-        <a href="#gdpr" onClick={this.showModal}>Läs mer.</a>
+        Jag godkänner Digital Ungdoms användarvillkor.
+        <a href="#gdpr" onClick={this.showModal}> Läs mer.</a>
       </Checkbox>
         <Modal
           visible={visible}
