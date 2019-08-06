@@ -3,7 +3,6 @@ import {
   Form, Icon, Input, Row, Col, Button, DatePicker, Select
 } from 'antd';
 import { Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
 import GDPR from './GDPR.js'
 import debounce from 'lodash/debounce'
 
@@ -127,11 +126,12 @@ class RegistrationForm extends React.Component {
     //   validateStatus: 'validating'
     // } : (this.props.Register.username ? (this.props.Register.username && this.props.Register.username !== undefined ? {} : {validateStatus: 'error'}) : {validateStatus}
 
+    //FIXA: Gör så att logga in länken fungerar med translations
     return (
       <Row type="flex" justify="center" style={{flex:1}}
       >
         <Col
-          style ={{backgroundColor: 'white', width: 520, paddingLeft: 40, paddingRight: 40, margin: 30, borderRadius: 10}}
+          style ={{backgroundColor: 'white', width: 520, paddingLeft: 40, paddingRight: 40, margin: 30, borderRadius: 10, border:'1px solid rgba(0,0,0,0.1)'}}
           xs= {{
             span: 24,
           }}
@@ -267,7 +267,7 @@ class RegistrationForm extends React.Component {
               )}
             </Form.Item>
 
-            <Form.Item>
+            <Form.Item style={{marginBottom: 14}}>
               {getFieldDecorator('confirm', {
                 rules: [{
                   required: true, message: 'Bekräfta ditt lösenord',
@@ -283,7 +283,7 @@ class RegistrationForm extends React.Component {
               )}
             </Form.Item>
 
-            <Form.Item>
+            <Form.Item style={{marginBottom: 14}}>
               {getFieldDecorator('agreement', {
                 rules: [{
                   required: true, message: 'För att bli medlem behöver du acceptera Digital Ungdoms användarvillkor.'
@@ -302,10 +302,20 @@ class RegistrationForm extends React.Component {
               style={{width: '100%'}} type="primary" htmlType="submit"
               disabled={!this.state.acceptedTOS}
               loading={this.props.registering}
-            >
-              Bli medlem
-            </Button>
+              >
+                Bli medlem
+              </Button>
             </Form.Item>
+
+            <Row style={{marginTop: 40}}>
+              <Col>
+                <div>
+                  Har du redan ett konto?
+                  <a href="log-in"> Logga in.</a>
+                </div>
+              </Col>
+            </Row>
+
           </Form>
         </Col>
       </Row>
