@@ -1,10 +1,11 @@
 import React, { Suspense, lazy } from 'react'
-import { 
+import {
 	Route,
 	Switch,
 	Link
 } from 'react-router-dom'
 import Header from 'containers/header'
+import Footer from 'containers/footer'
 import State from '@components/state'
 import Wrapper from '@wrappers/boiler'
 import { useSelector } from 'react-redux'
@@ -44,7 +45,7 @@ function App() {
 						/>
 						<Route
 							path="/agora"
-							render={props => <Agora {...props} />} 
+							render={props => <Agora {...props} />}
 						/>
 						<Route
 							path="/state/:create?"
