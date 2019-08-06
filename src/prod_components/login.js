@@ -54,7 +54,7 @@ export default ({ login, Auth, translations }) => (
 				<Row style={{marginTop: 40}}>
 					<Col>
 						<div>
-							Ny till Digtal Ungdom?
+							Ny till Digital Ungdom?
 							<a href="register"> Skapa ett konto.</a>
 						</div>
 					</Col>
