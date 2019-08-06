@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Form, Input, Row, Col, Button, DatePicker, Select
+  Form, Icon, Input, Row, Col, Button, DatePicker, Select
 } from 'antd';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -104,16 +104,6 @@ class RegistrationForm extends React.Component {
 
     const { getFieldDecorator } = this.props.form;
 
-    const formItemLayout = {
-      labelCol: {
-        // xs: { span: 7, offset: 1 },
-        sm: { span: 7, offset: 0 },
-      },
-      wrapperCol: {
-        xs: { span: 20 },
-        sm: { span: 15},
-      },
-    };
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
@@ -138,9 +128,10 @@ class RegistrationForm extends React.Component {
     // } : (this.props.Register.username ? (this.props.Register.username && this.props.Register.username !== undefined ? {} : {validateStatus: 'error'}) : {validateStatus}
 
     return (
-      <Row type="flex" justify="center"
+      <Row type="flex" justify="center" style={{flex:1}}
       >
         <Col
+          style ={{backgroundColor: 'white', width: 520, paddingLeft: 40, paddingRight: 40, margin: 30, borderRadius: 10}}
           xs= {{
             span: 24,
           }}
@@ -159,16 +150,12 @@ class RegistrationForm extends React.Component {
             style={{ padding: 30 }} onSubmit={this.handleSubmit}
           >
             <Row>
-              <Col
-                {...tailFormItemLayout.wrapperCol}
-              >
-                <h1>Bli medlem</h1>
+              <Col>
+                <h1 style={{marginBottom: 30, textAlign: 'center', color: 'rgba(1,45,213,0.6)', fontSize: 24}}>Bli medlem</h1>
               </Col>
             </Row>
-            <Form.Item
-              {...formItemLayout}
-              label="Namn"
-            >
+
+            <Form.Item>
               {getFieldDecorator('name', {
                 rules: [{
                   required: true, message: 'Fyll i ditt namn', whitespace: true,
@@ -180,12 +167,14 @@ class RegistrationForm extends React.Component {
                   pattern: /^(([A-Za-zÀ-ÖØ-öø-ÿ\-\'\,\.\ ]+))$/, message: 'Otillåtna karaktärer.'
                 }],
               })(
-                <Input />
+                <Input
+                prefix={<Icon type="smile" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder="Namn"
+                />
               )}
             </Form.Item>
+
             <Form.Item
-              {...formItemLayout}
-              label="Användarnamn"
               validateStatus={validateStatusUsername}
               // validateStatus={this.props.Register.checkingUsername !== undefined ? (this.props.Register.checkingUsername ? 'validating' : (this.props.Register.username && this.props.Register.checkingUsername !== undefined ? 'success' : 'error')) : undefined}
               // {...validateStatusUsername}
@@ -198,7 +187,7 @@ class RegistrationForm extends React.Component {
                   validator: this.checkUsername
                 },
                 {
-                  min: 3, max: 24, message: 'Användarnamnet måste vara mellan 3 och 24 karaktärer'
+                  min: 3, max: 24, message: 'Användarnamnet måste vara mellan 3 och 24 karaktärer.'
                 },
                 {
                   pattern: /^(\w+)$/, message: 'Otillåtna karaktärer.'
@@ -206,24 +195,23 @@ class RegistrationForm extends React.Component {
                 ]
               })(
                 <Input
+                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder="Användarnamn"
                 />
               )}
             </Form.Item>
-            <Form.Item
-              {...formItemLayout}
-              label="Födelsedatum"
-            >
+
+            <Form.Item>
               {getFieldDecorator('birthdate', {
                 rules: [{
-                  required: true, message: 'Välj ditt födelsedatum'
+                  required: true, message: 'Välj ditt födelsedatum.'
                 }],
               })(
-                <DatePicker placeholder="ÅÅÅÅ-MM-DD" style={{width: '100%'}} />
+                <DatePicker showToday={false} placeholder="Födelsedatum (ÅÅÅÅ-MM-DD)" style={{width: '100%'}} />
               )}
             </Form.Item>
+
             <Form.Item
-              {...formItemLayout}
-              label="E-mail"
               {...validateStatusEmail}
               hasFeedback={true}
             >
@@ -231,24 +219,26 @@ class RegistrationForm extends React.Component {
                 rules: [{
                   type: 'email', message: 'Ogiltig e-mail!',
                 }, {
-                  required: true, message: 'Fyll i din e-mail!',
+                  required: true, message: 'Fyll i din e-mail',
                 }, {
                   validator: this.checkEmail
                 }],
               })(
-                <Input />
+                <Input
+                prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder="E-mail"
+                />
               )}
             </Form.Item>
-            <Form.Item
-              {...formItemLayout}
-              label="Kön"
-            >
+            <Form.Item>
               {getFieldDecorator('gender', {
                 rules: [{
                   required: true, message: 'Välj ett alternativ.',
                 }],
               })(
-                <Select>
+                <Select
+                placeholder="Kön"
+                >
                   <Select.Option value="0">Man</Select.Option>
                   <Select.Option value="1">Kvinna</Select.Option>
                   <Select.Option value="2">Annat</Select.Option>
@@ -256,10 +246,8 @@ class RegistrationForm extends React.Component {
                 </Select>
               )}
             </Form.Item>
-            <Form.Item
-              {...formItemLayout}
-              label="Lösenord"
-            >
+
+            <Form.Item>
               {getFieldDecorator('password', {
                 rules: [{
                   required: true, message: 'Välj ett lösenord!',
@@ -271,13 +259,15 @@ class RegistrationForm extends React.Component {
                   min: 8, max: 72, message: 'Lösenordet måste vara mellan 8 och 72 karaktärer.'
                 }],
               })(
-                <Input type="password" />
+                <Input
+                type="password"
+                placeholder="Lösenord"
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                />
               )}
             </Form.Item>
-            <Form.Item
-              {...formItemLayout}
-              label="Bekräfta lösenord"
-            >
+
+            <Form.Item>
               {getFieldDecorator('confirm', {
                 rules: [{
                   required: true, message: 'Bekräfta ditt lösenord',
@@ -285,13 +275,18 @@ class RegistrationForm extends React.Component {
                   validator: this.compareToFirstPassword,
                 }],
               })(
-                <Input type="password" onBlur={this.handleConfirmBlur} />
+                <Input
+                type="password"
+                placeholder="Bekräfta lösenord"
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                onBlur={this.handleConfirmBlur} />
               )}
             </Form.Item>
-            <Form.Item {...tailFormItemLayout}>
+
+            <Form.Item>
               {getFieldDecorator('agreement', {
                 rules: [{
-                  required: true, message: 'För att bli medlem behöver du acceptera Digital Ungdoms användarvillkor'
+                  required: true, message: 'För att bli medlem behöver du acceptera Digital Ungdoms användarvillkor.'
                 }]
               	}, {
                 	valuePropName: 'checked',
@@ -301,7 +296,8 @@ class RegistrationForm extends React.Component {
                 />
               )}
             </Form.Item>
-            <Form.Item {...tailFormItemLayout}>
+
+            <Form.Item>
               <Button
               style={{width: '100%'}} type="primary" htmlType="submit"
               disabled={!this.state.acceptedTOS}
