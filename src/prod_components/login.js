@@ -8,7 +8,7 @@ import {
 export default ({ login, Auth, translations }) => (
 	<Row type="flex" justify="center" style={{width: '100%', position: 'absolute'}}>
 		<Col
-			style ={{backgroundColor: 'white', width: 520, paddingTop: 26, paddingLeft: 76, paddingRight: 76, margin: 30, borderRadius: 10, border:'1px solid rgba(0,0,0,0.1)'}}
+			style ={{backgroundColor: 'white', width: 520, top: 80, paddingTop: 26, paddingLeft: 76, paddingRight: 76, margin: 30, borderRadius: 10, border:'1px solid rgba(0,0,0,0.1)'}}
 		>
 			<Form
 				onSubmit={(e) => {
@@ -54,8 +54,8 @@ export default ({ login, Auth, translations }) => (
 				<Row style={{marginTop: 40}}>
 					<Col>
 						<div>
-							Ny till Digital Ungdom?
-							<a href="register"> Skapa ett konto.</a>
+							Saknar du ett konto?
+							<a href="register"> Skapa ett här.</a>
 						</div>
 					</Col>
 				</Row>
