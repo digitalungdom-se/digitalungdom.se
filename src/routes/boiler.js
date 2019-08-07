@@ -55,6 +55,9 @@ function App() {
 					</Switch>
 				</Suspense>
 			</Wrapper.Content>
+			<Wrapper.Footer>
+				<Footer />
+			</Wrapper.Footer>
 		</Wrapper>
 	)
 }

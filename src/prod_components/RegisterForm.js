@@ -131,7 +131,7 @@ class RegistrationForm extends React.Component {
       <Row type="flex" justify="center" style={{flex:1}}
       >
         <Col
-          style ={{backgroundColor: 'white', width: 520, paddingLeft: 40, paddingRight: 40, margin: 30, borderRadius: 10, border:'1px solid rgba(0,0,0,0.1)'}}
+          style ={{backgroundColor: 'white', width: 520, paddingLeft: 40, paddingRight: 40, marginTop: 30, marginBottom: 100, borderRadius: 10, border:'1px solid rgba(0,0,0,0.1)'}}
           xs= {{
             span: 24,
           }}
