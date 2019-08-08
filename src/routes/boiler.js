@@ -41,7 +41,7 @@ function App() {
 							render={props => <About {...props}/>}
 						/>
 						<Route
-							path="/(logga-in|log-in)"
+							path="/(logga-in|login)"
 							render={props => <Login {...props}/>}
 						/>
 						<Route

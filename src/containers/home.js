@@ -33,7 +33,7 @@ export default () => (
 						</Col>
 
 						<Col>
-							<Link to="log-in">
+							<Link to="login">
 								<Button ghost style={{fontSize: 18, height: 44, width: 154,  borderRadius: 10, color: "#434343", border: "2px solid #cccccc"}}>
 									Logga in
 								</Button>

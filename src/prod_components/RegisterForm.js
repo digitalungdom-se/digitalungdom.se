@@ -311,7 +311,7 @@ class RegistrationForm extends React.Component {
               <Col>
                 <div>
                   Har du redan ett konto?
-                  <a href="log-in"> Logga in.</a>
+                  <a href="login"> Logga in.</a>
                 </div>
               </Col>
             </Row>
