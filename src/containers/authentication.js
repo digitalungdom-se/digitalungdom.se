@@ -7,7 +7,7 @@ import { withTranslation } from 'react-i18next'
 // 	ProfileBox
 // } from '@components'
 import Link from '@components/link'
-import ProfileBox from '@components/profilebox'	
+import ProfileBox from '@components/profilebox'
 import { Row, Col } from '@components/grid'
 
 const mapStateToProps = (state) => ({
@@ -44,7 +44,7 @@ class Authentication extends Component {
 				<Col>
 					<Link
 						linkType="button"
-						to={"/" + t("links.login")}
+						to={"/" + t("login")}
 					>
 						{t("Log in")}
 					</Link>
@@ -52,7 +52,7 @@ class Authentication extends Component {
 				<Col>
 					<Link
 						linkType="button"
-						to={"/" + t("links.register")}
+						to={"/" + t("register")}
 						type="primary"
 					>
 						{t("Register")}
