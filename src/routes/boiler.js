@@ -15,6 +15,7 @@ import Loading from '@components/Loading'
 const Agora = lazy(() => import('./agora.js'))
 const Register = lazy(() => import('containers/Register.js'))
 const Home = lazy(() => import('containers/home.js'))
+const About = lazy(() => import('containers/about.js'))
 const Login = lazy(() => import('containers/login.js'))
 
 const NoMatch = () => <div>No match</div>
@@ -34,6 +35,10 @@ function App() {
 						<Route
 							path="/" exact
 							render={props => <Home {...props}/>}
+						/>
+						<Route
+							path="/(om-oss|about)"
+							render={props => <About {...props}/>}
 						/>
 						<Route
 							path="/(logga-in|log-in)"

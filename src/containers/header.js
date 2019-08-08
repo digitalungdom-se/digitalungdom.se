@@ -36,7 +36,7 @@ export default withTranslation()(
 					// md={{span: 6, offset: 1}}
 					// lg={{span: 4}}
 					className="ant-col"
-					style={{background: "red"}}
+					style={{}}
 				>
 					<LogoLink />
 				</Col>
@@ -46,7 +46,7 @@ export default withTranslation()(
 					md={{span: 6, offset: 0}}
 					lg={{span: 4}}
 					className="ant-col"
-					style={{background: "red"}}
+					style={{}}
 				>
 					<Dropdown
 						active={location.pathname}
@@ -68,12 +68,12 @@ export default withTranslation()(
 					md={{span: 6, offset: 0}}
 					lg={{span: 6, offset: 0}}
 					className="ant-col"
-					style={{background: "red"}}
+					style={{}}
 				>
 					<Search />
 				</Col>
 				<Col
-					style={{background: "red"}}
+					style={{}}
 				>
 					<Icons/>
 				</Col>
@@ -92,7 +92,7 @@ export default withTranslation()(
 					// sm={{span: 0, offset: 1}}
 					// md={{span: 0, offset: 1}}
 					// lg={{span: 1}}
-					style={{background: "red"}}
+					style={{}}
 					className="ant-col"
 				>
 					<Language/>
