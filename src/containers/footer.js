@@ -8,7 +8,7 @@ import './footer.css'
 export default withTranslation()(
 	withRouter(({ t, location }) => {
 		return (
-      <div style={{maxWidth: 1000, color: '#e3e3e3', fontSize: 13}}>
+      <div style={{maxWidth: 1200, color: '#e3e3e3', fontSize: 13}}>
         <Row type="flex" justify="space-between" gutter={16} style ={{marginBottom: 30, textAlign: 'left'}}>
           <Col span={8}>
             <div className="footerContainer">
