@@ -14,10 +14,13 @@ export default ({ login, Auth, translations }) => (
 		<input type="text" name="username" placeholder={translations["Username"] + "/" + translations["E-mail"]} />
 		<input type="password" name="password" placeholder={translations["Password"]} />
 		<button type="submit">{translations["Log in"]}</button>
-		<div>
-			{Auth.loggingIn && translations["Logging in"] + "..."}<br/>
-			{Auth.loginResponse && Auth.loginResponse + ''}<br />
-			{Auth.loginResponse === 'fail' && JSON.stringify(Auth.reason)}
-		</div>
 	</form>
 )
+
+/*
+<div>
+	{Auth.loggingIn && translations["Logging in"] + "..."}<br/>
+	{Auth.loginResponse && Auth.loginResponse + ''}<br />
+	{Auth.loginResponse === 'fail' && JSON.stringify(Auth.reason)}
+</div>
+*/

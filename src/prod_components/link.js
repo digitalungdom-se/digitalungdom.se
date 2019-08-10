@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Button, Popover } from 'antd'
 import { useSelector } from 'react-redux'
 
-export default ({ children, to, linkType, onClick, id, ...props }) => {
+export default ({ children, to = "", linkType, onClick, id, ...props }) => {
 	switch(linkType) {
 		case 'button':
 			return (

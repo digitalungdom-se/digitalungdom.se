@@ -1,18 +1,15 @@
 import React from 'react'
 // import { Authentication, Settings } from 'containers'
 import Settings from 'containers/settings'
-import Search from 'containers/Search'
 import Authentication from 'containers/authentication'
 // import { Header as Wrapper } from '@wrappers'
 // import { Dropdown } from '@components'
 import Dropdown from '@components/dropdown'
-import Icons from 'containers/Icons'
 import Menu from '@components/menu'
 import { withTranslation } from 'react-i18next'
 import { withRouter, NavLink } from 'react-router-dom'
 import { Row, Col } from '@components/grid'
 import Logo from '@components/Logo'
-import Language from 'containers/Language'
 
 const LogoLink = () => (
 	<NavLink to="/">
@@ -36,7 +33,6 @@ export default withTranslation()(
 					// md={{span: 6, offset: 1}}
 					// lg={{span: 4}}
 					className="ant-col"
-					style={{background: "red"}}
 				>
 					<LogoLink />
 				</Col>
@@ -46,12 +42,11 @@ export default withTranslation()(
 					md={{span: 6, offset: 0}}
 					lg={{span: 4}}
 					className="ant-col"
-					style={{background: "red"}}
 				>
 					<Dropdown
 						active={location.pathname}
 						categories={[
-							{title: "Digital Ungdom", items: ['/', '/agora', '/om-oss', '/verksamhet', '/state']},
+							{title: "Digital Ungdom", items: ['/', '/agora', '/om-oss', '/verksamhet']},
 						]}
 						links={{
 							'/': t("Home"),
@@ -63,21 +58,6 @@ export default withTranslation()(
 					/>
 				</Col>
 				<Col
-					xs={{span: 3, offset: 0}}
-					sm={{span: 5, offset: 0}}
-					md={{span: 6, offset: 0}}
-					lg={{span: 6, offset: 0}}
-					className="ant-col"
-					style={{background: "red"}}
-				>
-					<Search />
-				</Col>
-				<Col
-					style={{background: "red"}}
-				>
-					<Icons/>
-				</Col>
-				<Col
 					// xs={{span: 0, offset: 0}}
 					// sm={{span: 0, offset: 0}}
 					md={{span: 0, offset: 0}}
@@ -86,16 +66,6 @@ export default withTranslation()(
 					className="ant-col"
 				>
 					<Authentication/>
-				</Col>
-				<Col
-					// xs={{span: 0, offset: 0}}
-					// sm={{span: 0, offset: 1}}
-					// md={{span: 0, offset: 1}}
-					// lg={{span: 1}}
-					style={{background: "red"}}
-					className="ant-col"
-				>
-					<Language/>
 				</Col>
 			</Row>
 		)

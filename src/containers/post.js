@@ -2,7 +2,7 @@ import React from 'react'
 // import { Post } from '@components'
 import Post from '@components/post'
 // import { Agora, Users } from 'actions'
-import Agora from 'actions/agora'
+import Agora, { antiAgorize, reportAgoragram, asteri, getAgoragram } from 'actions/agora'
 import Users, { getUser } from 'actions/users'
 import { connect } from 'react-redux'
 // import { makeTitle, epochToRelativeTime } from 'utils'
@@ -15,7 +15,7 @@ class PostContainer extends React.Component {
 
 	componentWillMount() {
 		if(this.props.loading === undefined) {
-			this.props.get_agoragram({agoragramShortID: this.props.shortID})
+			this.props.getAgoragram(this.props.shortID)
 			.then(res => {
 				if(res) {
 					if(res.response.type === "success") {
@@ -99,8 +99,10 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
 	get_user: id => dispatch(Users.get_user(id)),
-	get_agoragram: id => dispatch(Agora.get_agoragram(id)),
-	asteri: id => dispatch(Agora.asteri(id)),
+	getAgoragram: id => dispatch(getAgoragram(id)),
+	asteri: id => dispatch(asteri(id)),
+	anti_agorize(id) {dispatch(antiAgorize(id))},
+	report(id) {dispatch(reportAgoragram(id))},
 	getUser: (userArray, type) => dispatch(getUser(userArray, type))
 })
 

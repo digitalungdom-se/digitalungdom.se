@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Form, Input, Row, Col, Button, DatePicker, Select
+  Form, Input, Row, Col, Button, DatePicker, Select, Card
 } from 'antd';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -138,6 +138,7 @@ class RegistrationForm extends React.Component {
     // } : (this.props.Register.username ? (this.props.Register.username && this.props.Register.username !== undefined ? {} : {validateStatus: 'error'}) : {validateStatus}
 
     return (
+      <Card>
       <Row type="flex" justify="center"
       >
         <Col
@@ -313,6 +314,7 @@ class RegistrationForm extends React.Component {
           </Form>
         </Col>
       </Row>
+      </Card>
     );
   }
 }

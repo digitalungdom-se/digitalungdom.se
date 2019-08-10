@@ -2,17 +2,11 @@ import React from 'react'
 // import { Button } from '@components'
 import Button from '@components/button'
 
-export default ({ profile, logOut, translations }) => (
+export default ({ profile, logout, translations }) => (
 	<div>
 		<div>
-			{profile.authing && 'Authing...'}
-			Logged in as: {
-				profile.username ?
-					profile.username
-					:
-					'Loading...'
-		}
+			Logged in as: {profile.username}
 		</div>
-		<Button onClick={logOut}>{translations["Log out"]}</Button>
+		<Button onClick={logout}>{translations["Log out"]}</Button>
 	</div>
 )
