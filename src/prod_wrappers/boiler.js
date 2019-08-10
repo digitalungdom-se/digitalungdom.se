@@ -2,7 +2,7 @@ import React from 'react'
 import { Layout, Row, Col } from 'antd'
 import 'resources/boiler.css'
 
-const { Content, Header } = Layout
+const { Content, Header, Footer } = Layout
 
 const Boiler = ({ children, theme }) => (
 	<Layout className={theme}>
@@ -24,6 +24,14 @@ Boiler.Content = ({ children }) => (
 	>
 		{children}
 	</Content>
+)
+
+Boiler.Footer = ({ children }) => (
+	<Footer style={{backgroundColor: '#133075', paddingTop: 60, paddingBottom: 6}}>
+		<Row type='flex' justify='center'>
+		{children}
+		</Row>
+	</Footer>
 )
 
 export default Boiler

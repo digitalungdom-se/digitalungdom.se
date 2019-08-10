@@ -1,0 +1,11 @@
+h3{
+  color: white;
+  marginBottom: 22;
+}
+.footerLink{
+  color: #e3e3e3;
+}
+.footerLink:hover {
+  text-decoration: underline;
+  color: #e3e3e3;
+}
