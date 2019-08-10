@@ -7,16 +7,16 @@ export default () => (
   <Row type="flex" justify="center"  style={{flex: 1}}>
   	<Row type="flex" justify="center" style={{maxWidth: 1100 }}>
 
-  		<Row type="flex" justify="center" style={{paddingTop: 80}}>
+  		<Row type="flex" justify="center" style={{paddingTop: 90}}>
 
   			<Col span={13}>
-  				<div style={{ backgroundColor: 'pink', position: 'relative', height: 400, textAlign: 'center', paddingTop: 160, marginRight: 30}}>
-  					<h1>Folk som hjälper varandra med programmering här</h1>
+          <div style={{height: 400, textAlign: 'center', marginLeft: -60, marginTop: -45}}>
+  					<img src="images/about1.png" style={{height: 490, width: 670}}/>
   				</div>
   			</Col>
 
   			<Col span={11}>
-  				<div style={{paddingRight: 50}}>
+  				<div style={{paddingLeft: 50}}>
 
             <h3 style={{fontSize: 24, color: "#434343", fontWeight: 'bold'}}>Vad är Digital Ungdom? 🤔</h3>
 
