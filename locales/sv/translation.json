@@ -1,8 +1,7 @@
 {
-	"links": {
-		"login": "logga-in",
-		"register": "bli-medlem"
-	},
+	"login": "logga-in",
+	"register": "bli-medlem"
+	
 	"New": "Nya",
 	"Top": "Topp",
   "Home": "Startsida",
