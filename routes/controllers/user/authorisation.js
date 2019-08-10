@@ -11,7 +11,7 @@ const getUserById = include( 'models/get' ).getUserById;
 
 module.exports.auth = async function ( req, res ) {
   const id = req.user;
-  if ( !id ) return res.send( { 'type': 'fail', 'errors': [ { 'reason': 'user is not logged in' } ] } );
+  if ( !id ) return res.status(401).send( { 'type': 'fail', 'errors': [ { 'reason': 'user is not logged in' } ] } );
   const user = await getUserById( id );
 
   return res.send( {

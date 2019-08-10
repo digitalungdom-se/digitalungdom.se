@@ -15,21 +15,23 @@ export default (state = {
 		"general": {
 			background: "transparent"
 		}
-	}
+	},
+	starredAgoragrams: []
 }, action) => {
 	switch(action.type) {
-		case 'REQUEST_GET_AGORAGRAMS':
+		case 'GET_AGORAGRAMS_REQUEST':
 			return {
 				...state,
 				...action._requestTime,
 				posts: {
 					...state.posts,
-					[action._url]: false,
+					[action.query]: false,
 					fetchedSeveral: true
 				},
-				fetchingAgoragrams: true
+				fetchingAgoragrams: true,
+				query: action.query
 			}
-		case 'RESPONSE_GET_AGORAGRAMS':
+		case 'GET_AGORAGRAMS_SUCCESS':
 			if(action.response.type === "success") {
 				const agoragrams = {}
 				const users = []
@@ -56,11 +58,35 @@ export default (state = {
 						total: state.posts.total + list.length,
 						routes: {
 							...state.posts.routes,
-							[action._url]: list,
+							[action.query]: list,
 						}
-					}
+					},
+					// starredAgoragrams: [
+					// 	...state.starredAgoragrams,
+					// 	...action.response.starredAgoragrams
+					// ]
 				}
 			} else return state
+		case 'GET_AGORAGRAM_SUCCESS':
+			const { tree } = flatTree(action.response.agoragrams)
+			return {
+				...state,
+				fullIds: {
+					...state.fullIds,
+					[action.response.agoragrams[0].shortID]: action.response.agoragrams[0]._id
+				},
+				agoragrams: {
+					...state.agoragrams,
+					...tree,
+					[action.response.agoragrams[0]._id]: {
+						...action.response.agoragrams[0]
+					}
+				}
+			}
+		case 'ASTERI_REQUEST':
+			return {
+				...state,
+			}
 		case 'RESPONSE_GET_AGORAGRAM':
 			if(action.response.type === "success") {
 

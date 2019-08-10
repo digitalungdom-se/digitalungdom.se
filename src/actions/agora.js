@@ -1,4 +1,4 @@
-import createAsyncFunction from './createAsyncFunction.js'
+import createAsyncFunction, { query } from './createAsyncFunction.js'
 
 const Agora = {
   ...createAsyncFunction( 'agorize', { method: 'POST', route: '/api/agorize' }, [] ),
@@ -21,5 +21,141 @@ const Agora = {
   })
 
 }
+
+export function agorize(info) {
+  return {
+    types: [
+      'AGORIZE_REQUEST',
+      'AGORIZE_SUCCESS',
+      'AGORIZE_FAILURE'
+    ],
+    callAPI: () =>
+    fetch("/api/agorize", {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(info)
+    }),
+    payload: info
+  }
+}
+
+export function getAgoragrams(filter) {
+  return {
+    types: [
+      'GET_AGORAGRAMS_REQUEST',
+      'GET_AGORAGRAMS_SUCCESS',
+      'GET_AGORAGRAMS_FAILURE'
+    ],
+    callAPI: () =>
+      fetch("/api/get_agoragrams?" + query(filter)),
+    callbacks: [
+      (response) => ({
+        type: "GET_USER_SUCCESS",
+        response
+      })
+    ],
+    payload: {
+      ...filter,
+      query: query(filter)
+    }
+  }
+}
+
+export function getAgoragram(agoragramShortID) {
+  return {
+    types: [
+      'GET_AGORAGRAM_REQUEST',
+      'GET_AGORAGRAM_SUCCESS',
+      'GET_AGORAGRAM_FAILURE'
+    ],
+    callAPI: () =>
+      fetch("/api/get_agoragram?" + query({agoragramShortID})),
+    callbacks: [
+      (response) => ({
+        type: "GET_USER_SUCCESS",
+        response
+      })
+    ],
+    payload: {
+      agoragramShortID,
+    }
+  }
+}
+
+export function antiAgorize(agoragramID) {
+  return {
+    types: [
+      'ANTI_AGORIZE_REQUEST',
+      'ANTI_AGORIZE_SUCCESS',
+      'ANTI_AGORIZE_FAILURE'
+    ],
+    callAPI: () =>
+    fetch("/api/anti_agorize", {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({agoragramID})
+    }),
+    payload: {
+      agoragramID
+    }
+  }
+}
+
+export function asteri(agoragramID) {
+  return {
+    types: [
+      'ASTERI_REQUEST',
+      'ASTERI_SUCCESS',
+      'ASTERI_FAILURE'
+    ],
+    callAPI: () =>
+    fetch("/api/asteri", {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        agoragramID
+      })
+    }),
+    payload: {
+      agoragramID
+    }
+  }
+}
+
+export function reportAgoragram(reason) {
+  return {
+    types: [
+      'REPORT_AGORAGRAM_REQUEST',
+      'REPORT_AGORAGRAM_SUCCESS',
+      'REPORT_AGORAGRAM_FAILURE'
+    ],
+    callAPI: () =>
+    fetch("/api/report", {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        place: "agoragram",
+        reason
+      })
+    }),
+    payload: {
+      place: "agoragram",
+      reason
+    }
+  }
+}
+
 
 export default Agora

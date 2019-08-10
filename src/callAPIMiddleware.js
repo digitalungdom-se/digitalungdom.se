@@ -1,6 +1,6 @@
 function callAPIMiddleware({ dispatch, getState }) {
   return next => action => {
-    const { types, callAPI, shouldCallAPI = () => true, payload = {} } = action
+    const { types, callAPI, shouldCallAPI = () => true, payload = {}, callbacks = [] } = action
 
     if (!types) {
       // Normal action: pass it on
@@ -31,21 +31,40 @@ function callAPIMiddleware({ dispatch, getState }) {
       })
     )
 
-    return callAPI().then(
-      response =>
-        dispatch(
-          Object.assign({}, payload, {
-            response: response,
-            type: successType
-          })
-        ),
-      error =>
-        dispatch(
-          Object.assign({}, payload, {
-            error,
-            type: failureType
-          })
-        )
+    return callAPI()
+    .then(
+      response => {
+        if(response.ok) {
+          response.json()
+          .then(response =>
+            {
+              dispatch(
+                Object.assign({}, payload, {
+                  response,
+                  type: successType
+                })
+              )
+              callbacks.forEach(callback => {
+                dispatch(callback(response))
+              })
+              return response
+            })
+        } else {
+          response.json()
+          .then(error => dispatch(
+            Object.assign({}, payload, {
+              error,
+              type: failureType
+            })
+          ))
+        }
+      },
+      error => dispatch(
+        Object.assign({}, payload, {
+          error,
+          type: failureType
+        })
+      )
     )
   }
 }

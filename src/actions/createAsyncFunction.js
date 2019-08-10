@@ -11,7 +11,7 @@ export const Log = {
 }
 
 const esc = encodeURIComponent;
-const query = params => Object.keys(params)
+export const query = params => Object.keys(params)
     .map(k => esc(k) + '=' + esc(params[k]))
     .join('&')
 

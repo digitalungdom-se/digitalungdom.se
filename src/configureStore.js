@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 import thunkMiddleware from 'redux-thunk'
 import reducer from 'reducers'
 import callAPIMiddleware from './callAPIMiddleware'
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const persistConfig = {
   key: 'root',
@@ -14,7 +15,9 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducer)
 
 export default () => {
-  let store = createStore(persistedReducer, applyMiddleware(thunkMiddleware, callAPIMiddleware))
+  let store = createStore(persistedReducer, composeWithDevTools(
+  	applyMiddleware(thunkMiddleware, callAPIMiddleware)
+  ))
   let persistor = persistStore(store)
   return { store, persistor }
 }

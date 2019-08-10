@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 // import { Agora as actions } from 'actions'
-import actions from 'actions/agora'
+import { getAgoragrams } from 'actions/agora'
 // import { Filter } from '@components'
 import Filter from '@components/filter'
 // import { Posts } from 'containers'
@@ -13,12 +13,12 @@ import { withTranslation } from 'react-i18next'
 
 const mapStateToProps = (state, props) => {
 	return ({
-		routes: state.Agora.posts.routes
+		list: state.Agora.posts.routes[state.Agora.query]
 	})
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	get_agoragrams: (gram, fakeResponse) => dispatch(actions.get_agoragrams(gram, fakeResponse)),
+	get_agoragrams: (filter) => dispatch(getAgoragrams(filter)),
 })
 
 class FilterAndPosts extends Component {
@@ -98,13 +98,14 @@ class FilterAndPosts extends Component {
 			sort: filter.sort,
 			hypagora: filter.hypagora
 		})
-		.then(res => {
-			if(res) {
-				return this.setState({_url: res._url})
-			}
-		})
+		// .then(res => {
+		// 	console.log(res)
+		// 	if(res) {
+		// 		return this.setState({_url: res._url})
+		// 	}
+		// })
 	}
-
+	
 	render() {
 
 		const { t } = this.props
@@ -120,8 +121,7 @@ class FilterAndPosts extends Component {
 					}}
 				/>
 				<Posts
-					loading={!this.props.routes[this.state._url]}
-					url={this.state._url}
+					list={this.props.list}
 				/>
 			</React.Fragment>
 		)
