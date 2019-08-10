@@ -77,7 +77,7 @@ export default () => (
         <Col>
           <div style={{ margin: 'auto', textAlign: 'center', width: 260}}>
             <div style={{ display: 'inline-block', position: 'relative', borderRadius: 10, height: 260, width: 260, backgroundColor: 'lightGreen' }}>
-              <img src="/public/Images/Portraits/Charles.png"/>
+              <img src="Images/Portraits/Charles.png" style={{height: "100%", borderRadius: 10}}/>
             </div>
             <h4 style={{fontSize: 20, color: "#434343", fontWeight: 'bold', marginBottom: 2, marginTop: 10}}>
               Charles Maddock

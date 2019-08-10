@@ -3,17 +3,18 @@ import { Link } from 'react-router-dom'
 import { Col, Row, Button } from 'antd'
 import "./home.css"
 
+
 export default () => (
 	<Row type="flex" justify="center" style={{flex: 1}}>
-		<Row type="flex" justify="center" style={{paddingTop: 130, maxWidth: 1200}}>
-			<Col span={13}>
-				<div style={{ backgroundColor: 'pink', position: 'relative', height: 400, textAlign: 'center', paddingTop: 160, marginRight: 30}}>
-					<h1>Coola bilder här</h1>
+		<Row type="flex" justify="center" style={{paddingTop: 110, maxWidth: 1200}}>
+			<Col span={14}>
+				<div style={{height: 400, textAlign: 'center', marginRight: 30,marginLeft: -20, marginTop: -45}}>
+					<img src="images/FrontPage.png" style={{height: 510, width: 700}}/>
 				</div>
 			</Col>
 
-			<Col span={11}>
-				<div style={{paddingRight: 50}}>
+			<Col span={10}>
+				<div>
 
 					<h1 style={{fontSize: 40, marginBottom: 10, color: 'black', fontWeight: 'bold'}}>Programmering är roligt!</h1>
 
