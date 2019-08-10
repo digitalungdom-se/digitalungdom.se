@@ -18,7 +18,8 @@ const Home = lazy(() => import('containers/home.js'))
 const About = lazy(() => import('containers/about.js'))
 const Login = lazy(() => import('containers/login.js'))
 
-const NoMatch = () => <div>No match</div>
+const NoMatch = lazy(() => import('containers/pageNotFound.js'))
+
 
 function App() {
 
