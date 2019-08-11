@@ -33,7 +33,7 @@ function Authentication({ t }) {
 	const authorizing = useSelector(state => state.Auth.authorizing)
 	const profile = useSelector(state => state.Auth.profile)
 
-	if(authorized || profile) return (
+	if(authorized) return (
 		<ProfileBox
 			authorizing={authorizing}
 			profile={profile}
@@ -51,7 +51,7 @@ function Authentication({ t }) {
 			<Col>
 				<Link
 					linkType="button"
-					to={"/" + t("links.login")}
+					to={"/" + t("links-login")}
 				>
 					{t("Log in")}
 				</Link>
@@ -59,7 +59,7 @@ function Authentication({ t }) {
 			<Col>
 				<Link
 					linkType="button"
-					to={"/" + t("links.register")}
+					to={"/" + t("links-register")}
 					type="primary"
 				>
 					{t("Register")}

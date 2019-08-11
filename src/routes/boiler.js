@@ -5,7 +5,7 @@ import {
 	Link
 } from 'react-router-dom'
 import Header from 'containers/header'
-import Footer from 'containers/footer'
+import Footer from '@components/footer'
 import State from '@components/state'
 import Wrapper from '@wrappers/boiler'
 import { useSelector } from 'react-redux'
@@ -14,11 +14,12 @@ import Loading from '@components/Loading'
 
 const Agora = lazy(() => import('./agora.js'))
 const Register = lazy(() => import('containers/Register.js'))
-const Home = lazy(() => import('containers/home.js'))
-const About = lazy(() => import('containers/about.js'))
+const Home = lazy(() => import('@components/home.js'))
+const About = lazy(() => import('@components/about.js'))
 const Login = lazy(() => import('containers/login.js'))
+const User = lazy(() => import('containers/User'))
 
-const NoMatch = lazy(() => import('containers/pageNotFound.js'))
+const NoMatch = lazy(() => import('@components/pageNotFound'))
 
 
 function App() {
@@ -54,16 +55,18 @@ function App() {
 							render={props => <Agora {...props} />}
 						/>
 						<Route
+							path="/u/:user"
+							render={props => <User username={props.match.params.user} />}
+						/>
+						<Route
 							path="/state/:create?"
 							render={props => <State {...props}/>}
 						/>
-						<Route component={NoMatch} />
+						<Route render={props => <NoMatch {...props} />} />
 					</Switch>
 				</Suspense>
 			</Wrapper.Content>
-			<Wrapper.Footer>
-				<Footer />
-			</Wrapper.Footer>
+			<Footer />
 		</Wrapper>
 	)
 }

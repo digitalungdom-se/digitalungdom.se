@@ -22,6 +22,24 @@ const Agora = {
 
 }
 
+/*
+Agorize
+Authentication required
+/api/agorize
+Fields: {
+  body,
+  type,
+  role
+
+  // Post specific
+  title,
+  tags,
+  hypagora
+
+  // Comment specific
+  replyTo
+}
+*/
 export function agorize(info) {
   return {
     types: [
@@ -36,9 +54,15 @@ export function agorize(info) {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(info)
+      body: JSON.stringify({
+        ...info,
+        role: "user"
+      })
     }),
-    payload: info
+    payload: {
+      ...info,
+      role: "user"
+    }
   }
 }
 
@@ -54,7 +78,10 @@ export function getAgoragrams(filter) {
     callbacks: [
       (response) => ({
         type: "GET_USER_SUCCESS",
-        response
+        response,
+        payload: {
+          type: "objectid"
+        }
       })
     ],
     payload: {
@@ -131,7 +158,7 @@ export function asteri(agoragramID) {
   }
 }
 
-export function reportAgoragram(reason) {
+export function reportAgoragram(id, reason) {
   return {
     types: [
       'REPORT_AGORAGRAM_REQUEST',
@@ -147,11 +174,13 @@ export function reportAgoragram(reason) {
       },
       body: JSON.stringify({
         place: "agoragram",
+        id,
         reason
       })
     }),
     payload: {
       place: "agoragram",
+      id,
       reason
     }
   }

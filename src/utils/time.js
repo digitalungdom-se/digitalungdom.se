@@ -28,7 +28,7 @@ export const timeToHex = (time) => {
 }
 
 export const epochToRelativeTime = (time) => {
-	let microseconds = parseInt(time.substring(0, 8), 16)*1000
+	let microseconds = parseInt(time, 16)*1000
 	let now = Date.now()
 	let delta = (now - microseconds)/1000
 	let unit, unitDelta

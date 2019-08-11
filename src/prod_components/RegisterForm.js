@@ -319,7 +319,6 @@ class RegistrationForm extends React.Component {
           </Form>
         </Col>
       </Row>
-      </Card>
     );
   }
 }

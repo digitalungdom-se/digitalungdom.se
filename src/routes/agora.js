@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom'
 import Hypagora from 'containers/hypagora'
 import Surrounding from 'containers/surrounding'
-import CreateHypagora from 'containers/createhypagora'
+import Agorize from 'containers/agorize'
 import Overlay from 'containers/Overlay'
 // import {
 // 	Hypagora,
@@ -94,14 +94,12 @@ export default connect(mapStateToProps)(({ fetchedSeveral }) => (
 				/>
 		}
 		<Switch>
-			<Route path="/agora/(skapa_hypagora|create_hypagora)" render={(props) => (
-				<Surrounding>
-				</Surrounding>
-				)}
-			/>
 			<Route path="/agora/h/:hypagora/(publicera|submit)" render={(props) => (
 				<Surrounding hypagora={props.match.params.hypagora} >
-					<CreateHypagora />
+					<Agorize
+						hypagora={props.match.params.hypagora}
+						agoragramType="post"
+					/>
 				</Surrounding>
 			)} />
 			<Route path="/agora/:hOrSort?/:hypagoraOrTime?/:commentsOrSortOrOther?/:timeOrId?" render={props => (

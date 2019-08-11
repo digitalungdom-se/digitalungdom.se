@@ -1,53 +1,148 @@
 import  React from 'react'
+import { Row, Col, Select, Input, Button, Form } from 'antd'
 
-class Agorize extends React.Component {
-	handleForm(e) {
+function Agorize({
+	agorize,
+	hypagora = "general",
+	agoragramType,
+	id = "",
+	availableHypagoras = ["general"],
+	form,
+	agorizing,
+}) {
+
+	const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form
+
+	function handleForm(e) {
 		e.preventDefault()
-		const { role, hypagora, type, title, body, tags } = e.target
-		const values = {
-			role: role.value,
-			hypagora: hypagora.value,
-			type: type.value,
-			title: title.value.toString(),
-			body: body.value.toString(),
-			tags: tags.value.replace(/ /g, '').split(',').filter(Boolean),
-			badges: []
+		form.validateFieldsAndScroll((err, values) => {
+	    if (!err) {
+	    	if(agoragramType === "post") {
+	    		agorize({
+	    			hypagora: values.hypagora,
+	    			type: values.type,
+	    			title: values.title,
+	    			tags: values.tags,
+	    			body: values.text
+	    		})
+	    	}
+	    	else agorize({
+	    		type: "comment",
+	    		body: values.text,
+	    		replyTo: id
+	    	})
+	    }
+	  });
+	}
+
+	const formItemLayout = agoragramType==="post" ? {
+		labelCol: {
+			xs: {span: 6}
+		},
+		wrapperCol: {
+			xs: {span: 16}
 		}
-		console.log(values)
-		this.props.agorize(values)
-	}
-	render() {
-		return (
-			<form
-				onSubmit={(e) => this.handleForm(e)}
+	} : {}
+	const tailFormLayout = agoragramType==="post" ? {
+		wrapperCol: {
+			xs: {
+				offset: 0
+			},
+			sm: {
+				offset: 6
+			}
+		}
+	} : {}
+
+	const titleError = isFieldTouched('titleError') && getFieldError('titleError');
+
+	return (
+		<Form
+			onSubmit={(e) => handleForm(e)}
+			{...formItemLayout}
+		>
+			<div
+				style={
+					agoragramType==="post" ?
+					{background: "white", border: "1px solid #e8e8e8", padding: 30}
+					: {}
+				}
 			>
-				<h1>Agorize</h1>
-				<div>
-					<input name="hypagora" type="text" placeholder="hypagora" defaultValue={this.props.hypagora}/>
-				</div>
-				<div>
-					<input name="role" type="text" placeholder="role" defaultValue="user"/>
-				</div>
-				<div>
-					<select name="type">
-						<option value="text">text</option>
-						<option value="link">link</option>
-						<option value="question">question</option>
-					</select>
-				</div>
-				<div>
-					<input name="title" type="text" placeholder="title" />
-				</div>
-				<div>
-					<textarea name="body" placeholder="body"/>
-				</div>
-				<div>
-					<input name="tags" type="text" placeholder="tags" />
-				</div>
-				<button type="submit">Submit</button>
-			</form>
-		)
-	}
+				{
+					agoragramType === "post" &&
+					<React.Fragment>
+						<Row>
+							<Col
+								offset={6}
+							>
+								<h2>Skapa inlägg</h2>
+							</Col>
+						</Row>
+						<Form.Item label="Hypagora">
+							{getFieldDecorator('hypagora', {
+								initialValue: hypagora,
+								rules: [
+									{required: true}
+								]
+		          })(
+		          	<Select>
+		          		{
+		          			availableHypagoras.map((hypagora) => 
+		          				<Select.Option key={hypagora + '-option'} value="hypagora">{hypagora}</Select.Option>
+		          			)
+		          		}
+		          	</Select>
+		          )}
+						</Form.Item>
+						<Form.Item label="Inläggstyp">
+							{getFieldDecorator('type', {
+								initialValue: "text",
+								rules: [
+									{required: true}
+								]
+		          })(
+		          	<Select>
+			          	<Select.Option value="text">Text</Select.Option>
+			          	<Select.Option value="link">Länk</Select.Option>
+			          	<Select.Option value="question">Fråga</Select.Option>
+		          	</Select>
+		          )}
+						</Form.Item>
+						<Form.Item label="Titel" validateStatus={titleError ? 'error' : ''} help={titleError || ''}>
+							{getFieldDecorator('title', {
+								rules: [{
+									required: true
+								}]
+							})(
+		          	<Input name="title" type="text" />
+		          )}
+						</Form.Item>
+						<Form.Item label="Taggar">
+							{getFieldDecorator('tags')(
+		          	<Select mode="tags" maxTagCount={5} />
+		          )}
+						</Form.Item>
+					</React.Fragment>	
+				}
+			<Form.Item
+				label={agoragramType==="post" ? "Text" : ""}
+			>
+				{getFieldDecorator('text')(
+        	<Input.TextArea
+        		name="body"
+        		placeholder="Text (optional)"
+        		autosize={{minRows: 4}}
+      		/>
+        )}
+			</Form.Item>
+			<Form.Item
+				{...tailFormLayout}
+			>
+				<Button loading={agorizing} type="primary" htmlType="submit">Publicera</Button>
+			</Form.Item>
+			</div>
+		</Form>
+	)
 }
 
-export default Agorize
+export default Form.create()(Agorize)

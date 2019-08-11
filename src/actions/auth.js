@@ -1,11 +1,12 @@
 import createAsyncFunction from './createAsyncFunction.js'
 import Users from 'actions/users'
 
-const addMeToUsers = (me) => ({
+const addMeToUsers = (me, payload) => ({
   type: "GET_USER_SUCCESS",
   response: {
     users: [{_id: me.details._id, details: me.details}]
-  }
+  },
+  payload
 })
 
 export function auth(form) {

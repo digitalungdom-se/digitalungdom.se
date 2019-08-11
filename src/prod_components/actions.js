@@ -3,8 +3,9 @@ import React, { useState } from 'react'
 import { Button, Divider, Icon } from 'antd'
 import Link from '@components/link'
 import Reply from 'containers/Reply'
+import Agorize from 'containers/agorize'
 
-function Actions({ dispatch, anti_agorize, report, id, link, author, userId }) {
+function Actions({ dispatch, remove, report, id, link, isAuthor, like, replied }) {
 
 	const [isReplying, reply] = useState(false)
 
@@ -13,18 +14,26 @@ function Actions({ dispatch, anti_agorize, report, id, link, author, userId }) {
 			<Button
 				style={{padding: 0}}
 				type="link"
+				onClick={e => like(id)}
+			>
+				Star
+			</Button>
+			<Divider type="vertical"/>
+			<Button
+				style={{padding: 0}}
+				type="link"
 				onClick={() => reply(!isReplying)}
 			>
 				Reply<Icon type="message" />
 			</Button>
 			{
-				author === userId &&
+				isAuthor &&
 				<React.Fragment>
 					<Divider type="vertical"/>
 					<Button
 						style={{padding: 0}}
 						type="link"
-						onClick={e => dispatch(anti_agorize({agoragramID: id}))}
+						onClick={e => remove(id)}
 					>
 						Delete
 					</Button>
@@ -36,15 +45,16 @@ function Actions({ dispatch, anti_agorize, report, id, link, author, userId }) {
 				type="link"
 				onClick={e => {
 					const reason = prompt('Why bro?')
-					dispatch(report({id, reason, place: "agoragram"}))
+					report(id, reason)
 				}}
 			>
 				Report
 			</Button>
 			{
-				isReplying &&
-				<Reply
+				(isReplying && !replied)&&
+				<Agorize
 					id={id}
+					agoragramType="comment"
 					onCancel={() => reply(false)}
 				/>
 			}

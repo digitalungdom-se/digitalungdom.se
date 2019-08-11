@@ -16,17 +16,17 @@ class PostContainer extends React.Component {
 	componentWillMount() {
 		if(this.props.loading === undefined) {
 			this.props.getAgoragram(this.props.shortID)
-			.then(res => {
-				if(res) {
-					if(res.response.type === "success") {
-						// if(this.props.post) this.props.get_user({type: "objectid", userArray: [this.props.post.users]});
-						if(this.props.post) this.props.getUser(this.props.post.users, "objectid")
-					}
-				}
-			})
-			.catch(err => {
-				console.error(err)
-			})
+			// .then(res => {
+			// 	if(res) {
+			// 		if(res.response.type === "success") {
+			// 			// if(this.props.post) this.props.get_user({type: "objectid", userArray: [this.props.post.users]});
+			// 			// if(this.props.post) this.props.getUser(this.props.post.users, "objectid")
+			// 		}
+			// 	}
+			// })
+			// .catch(err => {
+			// 	console.error(err)
+			// })
 		}
 	}
 
@@ -46,40 +46,16 @@ class PostContainer extends React.Component {
 				asteri={this.props.asteri}
 				link={loading ? null : "/agora/h/" + post.hypagora + "/comments/" + post.shortID + '/' + makeTitle(post.title)}
 				comments={this.props.comments}
+				isAuthor={this.props.isAuthor}
+				defaultBody={loading ? null : post.body}
+				report={this.props.report}
 			/>
 		)
 	}
 }
 
-// function PostContainer1({ empty, id }) {
-	
-// 	let shortID = id
-
-// 	if(id && id.length !== 24) {
-// 		shortID = id
-// 		let possibleId = 
-// 		if(state.Agora.fullIds[props.id]) id = state.Agora.fullIds[props.id]
-// 	}
-// 	let post = state.Agora.agoragrams[id]
-// 	let stars
-// 	if(post) stars = post.stars
-// 	return {
-// 		id,
-// 		shortID,
-// 		post,
-// 		stars
-// 	};
-
-// }
-
-/*
-<Actions
-	id={this.props.id}
-	link={loading ? null : "/agora/h/" + post.hypagora + "/comments/" + post.shortID + '/' + makeTitle(post.title)}
-/>
-*/
-
 const mapStateToProps = (state, props) => {
+	let isAuthor
 	let id = props.id
 	let shortID = props.id
 	if(props.id && props.id.length !== 24) {
@@ -87,13 +63,14 @@ const mapStateToProps = (state, props) => {
 		if(state.Agora.fullIds[props.id]) id = state.Agora.fullIds[props.id]
 	}
 	let post = state.Agora.agoragrams[id]
-	let stars
-	if(post) stars = post.stars
+	if(post) {
+		isAuthor = post.author === state.Auth.profile.details._id
+	}
 	return {
 		id,
 		shortID,
 		post,
-		stars
+		isAuthor
 	};
 }
 
