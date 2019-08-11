@@ -16,7 +16,10 @@ export default (state = {
 			background: "transparent"
 		}
 	},
-	starredAgoragrams: []
+	starredAgoragrams: [],
+	availableHypagoras: ["general"],
+	agorizing: [],
+	agorized: []
 }, action) => {
 	switch(action.type) {
 		case 'GET_AGORAGRAMS_REQUEST':
@@ -61,6 +64,7 @@ export default (state = {
 							[action.query]: list,
 						}
 					},
+					starredAgoragrams: state.starredAgoragrams.concat(action.response.starredAgoragrams)
 					// starredAgoragrams: [
 					// 	...state.starredAgoragrams,
 					// 	...action.response.starredAgoragrams
@@ -81,12 +85,60 @@ export default (state = {
 					[action.response.agoragrams[0]._id]: {
 						...action.response.agoragrams[0]
 					}
-				}
+				},
+				starredAgoragrams: state.starredAgoragrams.concat(action.response.starredAgoragrams)
 			}
 		case 'ASTERI_REQUEST':
-			return {
-				...state,
+			const alreadyStarred = state.starredAgoragrams.indexOf(action.payload.agoragramID)
+			const agoragram = state.agoragrams[action.payload.agoragramID]
+			if(alreadyStarred !== -1 ) {
+				state.starredAgoragrams.splice(alreadyStarred, 1)
+				return {
+					...state,
+					agoragrams: {
+						...state.agoragrams,
+						[action.payload.agoragramID]: {
+							...agoragram,
+							stars: agoragram.stars - 1
+						}
+					}
+				}
 			}
+			else return {
+				...state,
+				starredAgoragrams: [...state.starredAgoragrams, action.payload.agoragramID],
+				agoragrams: {
+					...state.agoragrams,
+					[action.payload.agoragramID]: {
+						...agoragram,
+						stars: agoragram.stars + 1
+					}
+				}
+			}
+			// return {
+			// 	...state,
+			// 	agoragrams: {
+			// 		...state.agoragrams,
+			// 		// [action.payload.agoragramID]:
+			// 	}
+			// }
+			return state
+		case 'AGORIZE_REQUEST':
+			if(action.payload.type === "comment") return {
+				...state,
+				agorizing: state.agorizing.concat(action.payload.replyTo),
+			}
+			return state
+		case 'AGORIZE_SUCCESS':
+			if(action.payload.type === "comment") {
+				return {
+					...state,
+					agorized: state.agorized.concat(action.payload.replyTo)
+				}
+			}
+			return state
+		case 'AGORIZE_FAILURE':
+			return state
 		case 'RESPONSE_GET_AGORAGRAM':
 			if(action.response.type === "success") {
 

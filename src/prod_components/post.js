@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Button, Divider, Empty, Row, Col, Rate, Card, Skeleton, Icon, Tag, Input } from 'antd'
 import Link from '@components/link.js'
 import Star from '@components/star'
-import Reply from 'containers/Reply'
+import Time from '@components/Time'
+import Agorize from 'containers/agorize'
 import './post.css'
 import Comments from 'containers/comments'
 
@@ -47,11 +48,13 @@ function Post({ empty, post, loading, children, link, asteri, comments }) {
 						type="flex" align="middle" justify="center" className="ratings" gutter={16}
 						onClick={() => {
 							clickStar(!isStarClicked)
-							asteri(post._id)}
-						}
+							asteri(post._id)
+						}}
 						style={{height: 48, cursor: "pointer"}}
 					>
-						<Col>
+						<Col
+							span={10}
+						>
 							<Star
 								key={"star" + post._id}
 								size={32}
@@ -59,7 +62,7 @@ function Post({ empty, post, loading, children, link, asteri, comments }) {
 								defaultClick={isStarClicked}
 							/>
 						</Col>
-						<Col className="number">
+						<Col className="number" span={10}>
 							<span style={{height: 24, fontSize: 16}}>
 								{post.stars}
 							</span>
@@ -70,7 +73,7 @@ function Post({ empty, post, loading, children, link, asteri, comments }) {
 							type="flex" align="middle" justify="center" className="ratings" gutter={16}
 							style={{height: 48}}
 						>
-							<Col>
+							<Col span={10} >
 								<Icon
 									type="message"
 									theme="twoTone"
@@ -78,7 +81,7 @@ function Post({ empty, post, loading, children, link, asteri, comments }) {
 									twoToneColor={"grey"}
 								/>
 							</Col>
-							<Col className="number">
+							<Col className="number" span={10}>
 								<span style={{height: 24, fontSize: 16}}>
 									{post.commentAmount}
 								</span>
@@ -90,29 +93,41 @@ function Post({ empty, post, loading, children, link, asteri, comments }) {
 					xs={{span: 20}}
 					sm={{span: 21}}
 					className="otherCol"
+					style={{
+						paddingTop: 8,
+						paddingLeft: 8
+					}}
 				>
-					<Row
-						type="flex"
-						justify="center"
-					>
-						<Col
-							span={23}
+					<Skeleton active loading={loading}>
+						<Row
+							type="flex"
+							justify="space-between"
 						>
-							<Skeleton active loading={loading}>
-								<Row className="info">
-									<Link type="user" id={post.author}></Link>
-								</Row>
-								<Row>
-										<h1>{post.title}</h1>
-								</Row>
-								<Row>
-									{
-										!loading && post.tags.map(tag => <Tag>{tag}</Tag>)
-									}
-								</Row>
-							</Skeleton>
-						</Col>
-					</Row>
+							<Col>
+								<Link linkType="user" id={post.author} />
+								<Divider type="vertical"/>
+								<Time time={post._id.substring(0, 8)} />
+							</Col>
+							<Col
+							>
+								<Link to={"/agora/h/" + post.hypagora}>
+									<Tag>{post.hypagora}</Tag>
+								</Link>
+							</Col>
+						</Row>
+						<Row>
+							<Link to={link}>
+								<h1>{post.title}</h1>
+							</Link>
+						</Row>
+						<Row
+							style={{paddingBottom: 8}}
+						>
+							{
+								!loading && post.tags.map(tag => <Tag key={tag}>{tag}</Tag>)
+							}
+						</Row>
+					</Skeleton>
 				</Col>
 			</Row>
 			{
@@ -126,8 +141,9 @@ function Post({ empty, post, loading, children, link, asteri, comments }) {
 						span={23}
 						// pull={3}
 					>
-						<Reply
+						<Agorize
 							id={post._id}
+							agoragramType="comment"
 						/>
 					</Col>
 					<Col

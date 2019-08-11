@@ -61,8 +61,8 @@ export default withTranslation()(
 					// xs={{span: 0, offset: 0}}
 					// sm={{span: 0, offset: 0}}
 					md={{span: 0, offset: 0}}
-					lg={{span: 1}}
-					style={{width: 8*24}}
+					lg={{span: 4}}
+					// style={{width: 8*24}}
 					className="ant-col"
 				>
 					<Authentication/>

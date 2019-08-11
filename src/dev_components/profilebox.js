@@ -5,7 +5,7 @@ import Button from '@components/button'
 export default ({ profile, logout, translations }) => (
 	<div>
 		<div>
-			Logged in as: {profile.username}
+			Logged in as: {profile.details.username}
 		</div>
 		<Button onClick={logout}>{translations["Log out"]}</Button>
 	</div>

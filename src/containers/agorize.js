@@ -1,16 +1,23 @@
 import React from 'react'
-import { Agorize } from '@components'
-import { Agora as actions } from 'actions'
-import { connect } from 'react-redux'
+import Agorize from '@components/agorize'
+import { agorize } from 'actions/agora'
+import { useSelector, useDispatch } from 'react-redux'
 
-const mapDispatchToProps = dispatch => ({
-	agorize: info => dispatch(actions.agorize(info))
-})
+export default ({ hypagora = "general", id, ...props }) => {
 
-export default connect(null, mapDispatchToProps)(({agorize}) => (
-	<div>
+	const dispatch = useDispatch()
+	const dispatchAgorize = (info) => dispatch(agorize(info))
+	const availableHypagoras = useSelector(state => state.Agora.availableHypagoras)
+	const agorizing = useSelector(state => state.Agora.agorizing.indexOf(id) !== -1)
+
+	return (
 		<Agorize
-			agorize={agorize}
+			agorize={dispatchAgorize}
+			hypagora={hypagora}
+			availableHypagoras={availableHypagoras}
+			id={id}
+			agorizing={agorizing}
+			{...props}
 		/>
-	</div>
-))
+	)
+}

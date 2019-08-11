@@ -3,8 +3,8 @@
 const validateObjectID = require( 'mongodb' ).ObjectID.isValid;
 const validator = require( 'validator' );
 
-const getPublicUserById = include( 'models/get' ).getPublicUserById;
-const getPublicUserByUsername = include( 'models/get' ).getPublicUserByUsername;
+const getPublicUserById = include( 'models/get' ).getPublicUsersById;
+const getPublicUserByUsername = include( 'models/get' ).getPublicUsersByUsername;
 const getMemberAmount = include( 'models/get' ).getMemberAmount;
 
 module.exports.getPublicUser = async function ( req, res ) {

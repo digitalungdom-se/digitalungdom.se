@@ -1,13 +1,12 @@
 import React from 'react'
+import Widgets from '@components/Widgets'
 
-const Widgets = (props) => {
-	const hypagora = props.hypagora
+const WidgetsContainer = ({ hypagora = "general" }) => {
 	return (
-		<div>
-			<div>Surrounding</div>
-			<div>{hypagora}</div>
-		</div>
+		<Widgets
+			hypagora={hypagora}
+		/>
 	)
 }
 
-export default Widgets
+export default WidgetsContainer

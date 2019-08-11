@@ -2,11 +2,11 @@ import React from 'react'
 // import { Comment } from 'containers'
 import Comment from 'containers/comment'
 
-const Comments = ({ children, level }) => {
+const Comments = ({ children, level = 0 }) => {
 	return children.map(child => (
 		<Comment
-			key={child}
-			id={child}
+			key={child.id}
+			id={child.id}
 			level={level}
 		/>
 	))

@@ -4,18 +4,22 @@ import Comments from 'containers/comments'
 // import { Comment } from '@components'
 import Comment from '@components/comment'
 import { useSelector, useDispatch } from 'react-redux'
-import Agora from 'actions/agora'
+import { asteri } from 'actions/agora'
 
 const CommentContainer = ({ level, id }) => {
 	const comment = useSelector(state => state.Agora.agoragrams[id])
+	const author = useSelector(state => state.Auth.profile.details._id)
 	const dispatch = useDispatch()
+	const dispatchAsteri = id => dispatch(asteri(id))
+	const isAuthor = author === comment.author
 
 	return (
 		<Comment
 			comment={comment}
 			level={level}
-			asteri={Agora.asteri}
+			asteri={dispatchAsteri}
 			dispatch={dispatch}
+			isAuthor={isAuthor}
 		>
 			{
 				comment.children.length !== 0 &&

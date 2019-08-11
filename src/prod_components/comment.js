@@ -5,13 +5,15 @@ import Actions from 'containers/actions'
 import './comment.css'
 import { Divider, Row, Col, Rate, Icon } from 'antd'
 import ReactMarkdown from 'react-markdown'
+import { useSelector } from 'react-redux'
 require('./comment.css')
 
 
-const Comment = ({ comment, comments, children, level, asteri, dispatch }) => {
+const Comment = ({ comment, comments, children, level, asteri }) => {
 
 	const [isCollapsed, collapse] = useState(false)
 	const [isClicked, click] = useState(false)
+	const isAuthor = useSelector(state => state.Auth.profile.details._id === comment.author)
 
 	return (
 		<Row
@@ -20,8 +22,8 @@ const Comment = ({ comment, comments, children, level, asteri, dispatch }) => {
 			style={level === 0 ? {marginBottom: 16} : {}}
 		>
 			<Col
-				// span={1}
-				style={{textAlign: "center", width: 24}}
+				span={1}
+				style={{textAlign: "center"}}
 			>
 				{
 					isCollapsed ?
@@ -31,12 +33,9 @@ const Comment = ({ comment, comments, children, level, asteri, dispatch }) => {
 					/>
 					:
 					<Star
-						key={"star" + comment._id}
-						onClick={() => {
-							click(!isClicked)
-							dispatch(asteri(comment._id))
-						}}
-						defaultClick={isClicked}
+						// key={"star" + comment._id}
+						type="minus-circle"
+						onClick={() => collapse(!isCollapsed)}
 					/>
 				}
 				{
@@ -58,7 +57,10 @@ const Comment = ({ comment, comments, children, level, asteri, dispatch }) => {
 			<Col
 				span={23}
 			>
-				<Link linkType="user" id={comment.author}></Link>
+				<div>
+					<Link linkType="user" id={comment.author}></Link>
+					<span> {comment.stars} stars</span>
+				</div>
 				{
 					!isCollapsed &&
 					<React.Fragment>
@@ -66,6 +68,7 @@ const Comment = ({ comment, comments, children, level, asteri, dispatch }) => {
 						<Actions
 							id={comment._id}
 							author={comment.author}
+							isAuthor={isAuthor}
 						/>
 						{children}
 					</React.Fragment>

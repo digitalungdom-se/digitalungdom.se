@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 // import { Button } from '@components'
-import { Button, Popover } from 'antd'
+import { Button } from 'antd'
 import { useSelector } from 'react-redux'
 
 export default ({ children, to = "", linkType, onClick, id, ...props }) => {
@@ -20,11 +20,9 @@ export default ({ children, to = "", linkType, onClick, id, ...props }) => {
 				!user.details ?
 				<code>[deleted]</code>
 				:
-				<Popover content={<div><h1>{user.details.username}</h1></div>}>
-					<Link to={"/u/" + user.details.username} {...props}>
-						{user.details.name}
-					</Link>
-				</Popover>
+				<Link to={"/u/" + user.details.username} {...props}>
+					{user.details.name}
+				</Link>
 			);
 			else return <code>{id === undefined ? "[deleted]" : "Loading..."}</code>
 		default:

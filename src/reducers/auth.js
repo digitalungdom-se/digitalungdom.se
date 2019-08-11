@@ -1,4 +1,8 @@
-export default (state = {}, action) => {
+export default (state = {
+	profile: {
+		details: {}
+	}
+}, action) => {
 	switch(action.type) {
 		case 'AUTH_REQUEST':
 			return {
@@ -10,11 +14,16 @@ export default (state = {}, action) => {
 				...state,
 				authorizing: false,
 				authorized: false,
+				profile: {
+					details: {}
+				}
 			}
 		case 'AUTH_SUCCESS':
 			return {
 				...state,
-				profile: action.response.details,
+				profile: {
+					details: action.response.details
+				},
 				authorizing: false,
 				authorized: true,
 			}
@@ -38,7 +47,9 @@ export default (state = {}, action) => {
 				...state,
 				authorizing: false,
 				authorized: true,
-				profile: action.response.details
+				profile: {
+					details: action.response.details
+				}
 			}
 		case 'LOGIN_FAILURE':
 			return {

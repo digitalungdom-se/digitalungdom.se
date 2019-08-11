@@ -9,7 +9,7 @@ i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     loadPath: '/locales/{{lng}}/{{ns}}.json',
-    // lng: "sv",
+    lng: "sv",
     fallbackLng: "sv", // use en if detected lng is not available
 
     saveMissing: false, // send not translated keys to endpoint

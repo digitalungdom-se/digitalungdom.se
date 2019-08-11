@@ -26,7 +26,7 @@ function callAPIMiddleware({ dispatch, getState }) {
     const [requestType, successType, failureType] = types
 
     dispatch(
-      Object.assign({}, payload, {
+      Object.assign({}, {payload}, {
         type: requestType
       })
     )
@@ -39,20 +39,20 @@ function callAPIMiddleware({ dispatch, getState }) {
           .then(response =>
             {
               dispatch(
-                Object.assign({}, payload, {
+                Object.assign({}, {payload}, {
                   response,
                   type: successType
                 })
               )
               callbacks.forEach(callback => {
-                dispatch(callback(response))
+                dispatch(callback(response, payload))
               })
               return response
             })
         } else {
           response.json()
           .then(error => dispatch(
-            Object.assign({}, payload, {
+            Object.assign({}, {payload}, {
               error,
               type: failureType
             })
@@ -60,7 +60,7 @@ function callAPIMiddleware({ dispatch, getState }) {
         }
       },
       error => dispatch(
-        Object.assign({}, payload, {
+        Object.assign({}, {payload}, {
           error,
           type: failureType
         })

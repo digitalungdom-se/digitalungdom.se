@@ -1,7 +1,8 @@
 export default (state = {
-	users: {}
+	users: {},
+	usernames: {}
 }, action) => {
-	let users
+	let users, usernames
 	switch(action.type) {
 		case 'REQUEST_GET_USER':
 		// console.log('HELLO')
@@ -16,23 +17,37 @@ export default (state = {
 			}
 		case "GET_USER_REQUEST":
 			users = {}
-			action.userArray.forEach(id => users[id] = false)
+			usernames = {}
+			if(action.payload.type !== "username") action.payload.userArray.forEach(id => users[id] = false)
+			else action.payload.userArray.forEach(id => usernames[id] = false)
 			return {
 				...state,
 				users: {
 					...state.users,
 					...users
+				},
+				usernames: {
+					...state.usernames,
+					...usernames
 				}
 			}
 			return state
 		case "GET_USER_SUCCESS":
-			const users = {}
-			action.response.users.forEach(user => users[user._id] = user)
+			users = {}
+			usernames = {}
+			action.response.users.forEach(user => {
+				users[user._id] = user
+				usernames[user.details.username] = user
+			})
 			return {
 				...state,
 				users: {
 					...state.users,
 					...users
+				},
+				usernames: {
+					...state.usernames,
+					...usernames
 				}
 			}
 			// users = {}
