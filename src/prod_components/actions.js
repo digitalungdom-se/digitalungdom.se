@@ -4,52 +4,54 @@ import { Button, Divider, Icon } from 'antd'
 import Link from '@components/link'
 import Reply from 'containers/Reply'
 import Agorize from 'containers/agorize'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar, faComment, faTrashAlt, faFlag } from '@fortawesome/free-solid-svg-icons'
 
-function Actions({ dispatch, remove, report, id, link, isAuthor, like, replied }) {
+function Actions({ dispatch, remove, report, id, link, isAuthor, like, replied, likes, liked, replies }) {
 
 	const [isReplying, reply] = useState(false)
+	const [isStarClicked, clickStar] = useState(liked)
 
 	return (
-		<div>
-			<Button
-				style={{padding: 0}}
-				type="link"
-				onClick={e => like(id)}
-			>
-				Star
-			</Button>
+		<div style={{padding: "8px 0"}}>
+			<span
+      	onClick={() => {
+      		clickStar(!isStarClicked)
+      		like(id)
+      	}}
+      	style={{cursor: "pointer"}}
+      >
+      	<FontAwesomeIcon color={isStarClicked ? "gold" : "lightgrey"} icon={faStar} /> {likes}
+      </span>
 			<Divider type="vertical"/>
-			<Button
-				style={{padding: 0}}
-				type="link"
+			<span
 				onClick={() => reply(!isReplying)}
-			>
-				Reply<Icon type="message" />
-			</Button>
+	    	style={{cursor: "pointer"}}
+	    >
+	    	<FontAwesomeIcon color="lightgrey" icon={faComment} /> {replies}
+	    </span>
 			{
 				isAuthor &&
 				<React.Fragment>
 					<Divider type="vertical"/>
-					<Button
-						style={{padding: 0}}
-						type="link"
+					<span
 						onClick={e => remove(id)}
-					>
-						Delete
-					</Button>
+			    	style={{cursor: "pointer"}}
+			    >
+			    	<FontAwesomeIcon color="lightgrey" icon={faTrashAlt} /> Ta bort
+			    </span>
 				</React.Fragment>
 			}
 			<Divider type="vertical"/>
-			<Button
-				style={{padding: 0}}
-				type="link"
+			<span
 				onClick={e => {
-					const reason = prompt('Why bro?')
-					report(id, reason)
+					const reason = prompt('Varför bör denna kommentar granskas?')
+					if(reason) report(id, reason)
 				}}
-			>
-				Report
-			</Button>
+	    	style={{cursor: "pointer"}}
+	    >
+	    	<FontAwesomeIcon color="lightgrey" icon={faFlag} /> Anmäl
+	    </span>
 			{
 				(isReplying && !replied)&&
 				<Agorize

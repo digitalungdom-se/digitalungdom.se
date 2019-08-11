@@ -15,6 +15,7 @@ import Overlay from 'containers/Overlay'
 // } from 'containers'
 import { connect } from 'react-redux'
 import 'resources/agora.css'
+import { Row, Col } from '@components/grid'
 
 class Inner extends React.Component {
 	shouldComponentUpdate() {
@@ -89,7 +90,14 @@ export default connect(mapStateToProps)(({ fetchedSeveral }) => (
 			<Route
 				path="/agora/h/:hypagora/(kommentarer|comments)/:id/:title"
 				render={(props) => 
-					<Overlay id={props.match.params.id}/>
+					<Row
+					>
+						<Col
+							span={20}
+						>
+							<Overlay id={props.match.params.id}/>
+						</Col>
+					</Row>
 				}
 				/>
 		}

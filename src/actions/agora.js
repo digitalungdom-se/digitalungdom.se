@@ -40,7 +40,7 @@ Fields: {
   replyTo
 }
 */
-export function agorize(info) {
+export function agorize(info, me) {
   return {
     types: [
       'AGORIZE_REQUEST',
@@ -56,15 +56,22 @@ export function agorize(info) {
       },
       body: JSON.stringify({
         ...info,
+        hypagora: "general",
         role: "user"
       })
     }),
     payload: {
       ...info,
-      role: "user"
+      role: "user",
+      me
     }
   }
 }
+
+export const filterAgora = (filter) => ({
+  type: "UPDATE_AGORA_FILTER",
+  ...filter
+})
 
 export function getAgoragrams(filter) {
   return {

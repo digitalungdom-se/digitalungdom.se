@@ -55,7 +55,7 @@ function App() {
 							render={props => <Agora {...props} />}
 						/>
 						<Route
-							path="/u/:user"
+							path="/@:user"
 							render={props => <User username={props.match.params.user} />}
 						/>
 						<Route

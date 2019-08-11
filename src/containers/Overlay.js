@@ -9,10 +9,8 @@ function Overlay({ id, history }) {
 
   const [isOpen, openModal] = useState(true)
 
-  console.log('hello')
-
 	return (
-		<ReactModal 
+		<ReactModal
       isOpen={isOpen}
       contentLabel="onRequestClose Example"
       className="Modal"

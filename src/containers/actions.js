@@ -14,6 +14,8 @@ const ActionsContainer = ({ id, ...props }) => {
 	const report = (reason) => dispatch(reportAgoragram(id, reason))
 	const remove = () => dispatch(antiAgorize(id))
 	const agorized = useSelector(state => state.Agora.agorized.indexOf(id) !== -1)
+	const likes = useSelector(state => state.Agora.agoragrams[id].stars)
+	const replies = useSelector(state => state.Agora.agoragrams[id].children.length)
 
 	return (
 		<Actions
@@ -22,9 +24,11 @@ const ActionsContainer = ({ id, ...props }) => {
 			userId={userId}
 			like={like}
 			liked={liked}
+			likes={likes}
 			report={report}
 			remove={remove}
 			replied={agorized}
+			replies={replies}
 		/>
 	)
 }

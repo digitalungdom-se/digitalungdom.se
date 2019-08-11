@@ -46,7 +46,7 @@ export default withTranslation()(
 					<Dropdown
 						active={location.pathname}
 						categories={[
-							{title: "Digital Ungdom", items: ['/', '/agora', '/om-oss', '/verksamhet']},
+							{title: "Digital Ungdom", items: ['/', '/agora', '/om-oss']},
 						]}
 						links={{
 							'/': t("Home"),

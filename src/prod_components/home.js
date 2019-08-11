@@ -6,14 +6,20 @@ import "./home.css"
 
 export default () => (
 	<Row type="flex" justify="center" style={{flex: 1}}>
-		<Row type="flex" justify="center" style={{paddingTop: 110, maxWidth: 1200}}>
-			<Col span={14}>
-				<div style={{height: 400, textAlign: 'center', marginRight: 30,marginLeft: -20, marginTop: -45}}>
-					<img src="images/FrontPage.png" style={{height: 510, width: 700}}/>
+		<Row type="flex" justify="center" align="middle" style={{paddingTop: 40, paddingBottom: 40}}>
+			<Col
+				sm={{span: 24}}
+				md={{span: 14}}
+			>
+				<div>
+					<img src="images/FrontPage.png" style={{width: "100%"}}/>
 				</div>
 			</Col>
-
-			<Col span={10}>
+			<Col
+				xs={{span: 20}}
+				sm={{span: 15}}
+				md={{span:8}}
+			>
 				<div>
 
 					<h1 style={{fontSize: 40, marginBottom: 10, color: 'black', fontWeight: 'bold'}}>Programmering är roligt!</h1>
@@ -27,7 +33,7 @@ export default () => (
 					<Row type="flex" justify="space-between">
 						<Col>
 							<Link to="register">
-								<Button style={{fontSize: 18, height: 44, width: 154,  borderRadius: 10}} type="primary">
+								<Button size="large" type="primary">
 									Bli medlem!
 								</Button>
 							</Link>
@@ -35,7 +41,7 @@ export default () => (
 
 						<Col>
 							<Link to="login">
-								<Button ghost style={{fontSize: 18, height: 44, width: 154,  borderRadius: 10, color: "#434343", border: "2px solid #cccccc"}}>
+								<Button ghost size="large" style={{color: "#434343", border: "2px solid #cccccc"}}>
 									Logga in
 								</Button>
 							</Link>
@@ -43,7 +49,7 @@ export default () => (
 
 						<Col>
 							<Link to="about">
-								<Button ghost style={{fontSize: 18, height: 44, width: 154,  borderRadius: 10, color: "#434343", border: "2px solid #cccccc"}}>
+								<Button ghost size="large" style={{color: "#434343", border: "2px solid #cccccc"}}>
 									Mer om oss
 								</Button>
 							</Link>

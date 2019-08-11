@@ -3,9 +3,11 @@ import React from 'react'
 import Wiki from 'containers/wiki'
 import Post from 'containers/post'
 import FilterAndPosts from 'containers/filterandposts'
+import Posts from 'containers/posts'
 
-const Hypagora = ({ route, filter, hypagora }) => {
+const Hypagora = ({ route, filter, hypagora = "general" }) => {
 	let inner
+
 	switch(route) {
 		case "comments":
 			inner = <Post comments id={filter.id} />
@@ -14,7 +16,8 @@ const Hypagora = ({ route, filter, hypagora }) => {
 			inner = <Wiki hypagora={hypagora} />
 			break
 		default:
-			inner = <FilterAndPosts filter={filter} hypagora={hypagora} />
+			// inner = <FilterAndPosts filter={filter} hypagora={hypagora} />
+			inner = <Posts hypagora={hypagora}/>
 			break
 	}
 	return (
