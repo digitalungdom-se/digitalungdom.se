@@ -33,25 +33,51 @@ import { Col, Row, Button, Icon } from 'antd'
 </Row>
 */
 
+const profile = (name, surname, bio, role, color) => (
+  <Col
+    xs={{span: 24}}
+    md={{span: 4}}
+  >
+    <div style={{ margin: 'auto', textAlign: 'center', width: "100%", maxWidth: 400, padding: "0 24px"}}>
+      <div style={{ margin: "0 auto", borderRadius: 10, backgroundColor: color }}>
+        <img src={require("resources/images/portraits/" + name.toLowerCase() + ".png")} style={{width: "100%", borderRadius: 10}}/>
+      </div>
+      <h4 style={{fontSize: 20, color: "#434343", fontWeight: 'bold', marginBottom: 2, marginTop: 10}}>
+        {name + " " + surname}
+      </h4>
+      <h4 style={{fontSize: 16, color: "#434343", fontStyle: "italic",  marginBottom: 16}}>
+        {role}
+      </h4>
+      <p style={{fontSize: 14, color: "#434343", marginBottom: 6, textAlign: "left"}}>
+        {bio}
+      </p>
+
+      <p style={{fontSize: 12, color: "#707070", textAlign:"justify" }}>
+        <a href={"mailto:" + name.toLowerCase() + "@digitalungdom.se"}><Icon type='mail' style={{marginRight: 8}}/> {name.toLowerCase()}@digitalungdom.se</a>
+      </p>
+    </div>
+  </Col>
+)
 
 export default () => (
 
   <Row type="flex" justify="center"  style={{flex: 1}}>
-  	<Row type="flex" justify="center" style={{maxWidth: 1100 }}>
-
+  	<Row type="flex" justify="center">
   		<Row type="flex" justify="center" style={{paddingTop: 90}}>
-
-  			<Col span={13}>
-          <div style={{height: 400, textAlign: 'center', marginLeft: -60, marginTop: -45}}>
-  					<img src="images/about1.png" style={{height: 490, width: 670}}/>
+  			<Col
+          sm={{span: 24}}
+          md={{span: 12}}
+        >
+          <div>
+  					<img src="images/about1.png" style={{width: "100%"}}/>
   				</div>
   			</Col>
-
-  			<Col span={11}>
-  				<div style={{paddingLeft: 50}}>
-
+  			<Col
+          xs={{span: 20}}
+          md={{span: 9}}
+        >
+  				<div>
             <h3 style={{fontSize: 24, color: "#434343", fontWeight: 'bold'}}>Vad är Digital Ungdom? 🤔</h3>
-
             <p style={{fontSize: 15, marginBottom: 40, color: "#434343", textAlign:"justify"}}>
             Digital Ungdom är ett nationellt allmännyttigt ideellt förbund i Sverige. Digital Ungdoms
             syfte är att i Sverige utveckla och underhålla ungdomars intresse för och kunskaper om
@@ -59,7 +85,6 @@ export default () => (
             är att verka genom ett brett kontaktnät av ungdomar och därigenom aktivt bidra till att
             Sverige blir världsledande inom digital teknik och datavetenskap.
             </p>
-
             <p style={{fontSize: 15, marginBottom: 40, color: "#434343", textAlign:"justify"}}>
             Digital Ungdom samarbetar med den nationella handlingsplanen för digitalisering av skolväsendet.
             Sveriges Kommuner och Landsting har efter en överrenskommelse med regeringen, ansvaret att ta fram
@@ -68,98 +93,46 @@ export default () => (
             </p>
   				</div>
   			</Col>
-
   		</Row>
-
       <Row type="flex" justify="center" style={{paddingTop: 80, width: '100%'}}>
-        <h3 style={{fontSize: 24, color: "#434343", fontWeight: 'bold'}}>Teamet 😍</h3>
+        <h3 style={{fontSize: 24, color: "#434343", fontWeight: 'bold'}}>Förbundsstyrelsen 😍</h3>
       </Row>
-
-      <Row type="flex" justify="space-between" style={{paddingTop: 20, width: '100%', marginBottom: 80}}>
-
-        <Col>
-          <div style={{ margin: 'auto', textAlign: 'center', width: 260}}>
-            <div style={{ display: 'inline-block', position: 'relative', borderRadius: 10, height: 260, width: 260, backgroundColor: 'lightGreen' }}>
-              <img src="Images/Portraits/Charles.png" style={{height: "100%", borderRadius: 10}}/>
-            </div>
-            <h4 style={{fontSize: 20, color: "#434343", fontWeight: 'bold', marginBottom: 2, marginTop: 10}}>
-              Charles Maddock
-            </h4>
-            <h4 style={{fontSize: 16, color: "#434343", fontStyle: "italic",  marginBottom: 16}}>
-              Styrelsemedlem
-            </h4>
-            <p style={{fontSize: 14, color: "#434343", marginBottom: 6, textAlign:"justify"}}>
-                Hej! Mitt namn är Charles, jag är 19 år och ansvarar mest för design här på digitalungdom.se!
-                Så ifall ni ser något riktigt fult är det nog mitt fel hehehe...
-            </p>
-
-            <p style={{fontSize: 12, color: "#707070", textAlign:"justify" }}>
-              <Icon type='mail'/> Charles@digitalungdom.se
-            </p>
-          </div>
-        </Col>
-        <Col>
-          <div style={{ margin: 'auto', textAlign: 'center', width: 260}}>
-            <div style={{ display: 'inline-block', borderRadius: 10, height: 260, width: 260, backgroundColor: 'orange' }}>
-
-            </div>
-            <h4 style={{fontSize: 20, color: "#434343", fontWeight: 'bold', marginBottom: 2, marginTop: 10}}>
-              Douglas Bengtsson
-            </h4>
-            <h4 style={{fontSize: 16, color: "#434343", fontStyle: "italic",  marginBottom: 16}}>
-              Ordförande
-            </h4>
-            <p style={{fontSize: 14, color: "#434343", marginBottom: 6, textAlign:"justify"}}>
-
-            </p>
-
-            <p style={{fontSize: 12, color: "#707070", textAlign:"justify"}}>
-              <Icon type='mail'/> Douglas@digitalungdom.se
-            </p>
-          </div>
-        </Col>
-        <Col>
-          <div style={{ margin: 'auto', textAlign: 'center', width: 260}}>
-            <div style={{ display: 'inline-block', borderRadius: 10, height: 260, width: 260, backgroundColor: 'lightPink' }}>
-
-            </div>
-            <h4 style={{fontSize: 20, color: "#434343", fontWeight: 'bold', marginBottom: 2, marginTop: 10}}>
-              Kelvin Szolnoky
-            </h4>
-            <h4 style={{fontSize: 16, color: "#434343", fontStyle: "italic",  marginBottom: 16}}>
-              Styrelsemedlem
-            </h4>
-            <p style={{fontSize: 14, color: "#434343", marginBottom: 6, textAlign:"justify"}}>
-
-            </p>
-
-            <p style={{fontSize: 12, color: "#707070", textAlign:"justify"}}>
-              <Icon type='mail'/> Kelvin@digitalungdom.se
-            </p>
-          </div>
-        </Col>
-        <Col>
-          <div style={{ margin: 'auto', textAlign: 'center', width: 260}}>
-            <div style={{ display: 'inline-block', borderRadius: 10, height: 260, width: 260, backgroundColor: 'lightBlue' }}>
-
-            </div>
-            <h4 style={{fontSize: 20, color: "#434343", fontWeight: 'bold', marginBottom: 2, marginTop: 10}}>
-              Simon Sondén
-            </h4>
-            <h4 style={{fontSize: 16, color: "#434343", fontStyle: "italic",  marginBottom: 16}}>
-              Styrelsemedlem
-            </h4>
-            <p style={{fontSize: 14, color: "#434343", marginBottom: 6, textAlign:"justify"}}>
-
-            </p>
-
-            <p style={{fontSize: 12, color: "#707070", textAlign:"justify"}}>
-              <Icon type='mail'/> Simon@digitalungdom.se
-            </p>
-          </div>
-        </Col>
-
-      </Row>
+      {
+        profile(
+          "Charles",
+          "Maddock",
+          "Hej! Mitt namn är Charles, jag är 19 år och ansvarar mest för design här på digitalungdom.se! Det är även jag som har ritat bilderna som ni ser på hemsidan.",
+          "Styrelseledamot",
+          "lightGreen"
+        )
+      }
+      {
+        profile(
+          "Douglas",
+          "Bengtsson",
+          "Tjena! Jag heter Douglas Bengtsson och är 19 år gammal. Som ordförande och grundare av Digital Ungdom är jag ansiktet utåt – men jobbar också med front-end.",
+          "Ordförande",
+          "#1e6ee8"
+        )
+      }
+      {
+        profile(
+          "Kelvin",
+          "Szolnoky",
+          "Hej! Jag heter Kelvin Szolnoky och jobbar framförallt med Digital Ungdoms back-end men självfallet även med andra styrelseuppgifter.",
+          "Vice ordförande",
+          "#13c2c2"
+        )
+      }
+      {
+        profile(
+          "Simon",
+          "Sondén",
+          "Hej! Jag heter Simon Sondén och jobbar bland annat med arkitekturen och algoritmerna bakom våra projekt. För övrigt älskar jag att bygga robotar.",
+          "Vice ordförande",
+          "#f5222d"
+        )
+      }
     </Row>
 	</Row>
 )

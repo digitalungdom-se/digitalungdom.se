@@ -49,6 +49,7 @@ class PostContainer extends React.Component {
 				isAuthor={this.props.isAuthor}
 				defaultBody={loading ? null : post.body}
 				report={this.props.report}
+				starred={this.props.starred}
 			/>
 		)
 	}
@@ -63,6 +64,7 @@ const mapStateToProps = (state, props) => {
 		if(state.Agora.fullIds[props.id]) id = state.Agora.fullIds[props.id]
 	}
 	let post = state.Agora.agoragrams[id]
+	let starred = state.Agora.starredAgoragrams.indexOf(id) !== -1
 	if(post) {
 		isAuthor = post.author === state.Auth.profile.details._id
 	}
@@ -70,7 +72,8 @@ const mapStateToProps = (state, props) => {
 		id,
 		shortID,
 		post,
-		isAuthor
+		isAuthor,
+		starred
 	};
 }
 

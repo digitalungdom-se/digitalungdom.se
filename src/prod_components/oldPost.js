@@ -1,16 +1,13 @@
 import React, { useState } from 'react'
-import { Avatar, Button, Divider, Empty, Row, Col, Rate, Card, Skeleton, Icon, Tag, Input } from 'antd'
+import { Button, Divider, Empty, Row, Col, Rate, Card, Skeleton, Icon, Tag, Input } from 'antd'
 import Link from '@components/link.js'
 import Star from '@components/star'
 import Time from '@components/Time'
 import Agorize from 'containers/agorize'
 import './post.css'
-import ReactMarkdown from 'react-markdown'
 import Comments from 'containers/comments'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComment, faShare, faStar } from '@fortawesome/free-solid-svg-icons'
 
-function Post({ empty, post, loading, children, link, asteri, comments, starred }) {
+function Post({ empty, post, loading, children, link, asteri, comments }) {
 
 	if(empty) return (
 		<Card>
@@ -34,67 +31,97 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 	)
 	const deleted = post.deleted
 
-	const [isStarClicked, clickStar] = useState(starred)
+	const [isStarClicked, clickStar] = useState(false)
 	// console.log(post.stars)
 
 	return (
-		<React.Fragment
+		<Card
+			bodyStyle={{padding: '10px 20px 10px 0'}}
+			className="agora-post"
+			bodyStyle={{padding: 0}}
 		>
-			<Card
-				// bodyStyle={{padding: '10px 20px 10px 0'}}
-				className="agora-post"
-				bodyStyle={{padding: 0}}
-				actions={[
-	        <span
-	        	onClick={() => {
-	        		clickStar(!isStarClicked)
-	        		asteri(post._id)
-	        	}}
-	        >
-	        	<FontAwesomeIcon color={isStarClicked ? "gold" : ""} icon={faStar} /> {post.stars}
-	        </span>,
-	        <Link to={link}
-	        >
-	        	<FontAwesomeIcon icon={faComment} /> {post.commentAmount}
-	        </Link>
-	        // <FontAwesomeIcon icon={faShare} />,
-	      ]}
-	      style={!comments ? {marginBottom: 24} : {}}
+			<Row
+				type="flex"
+				style={{borderBottom: "1px solid #e8e8e8"}}
 			>
-				<Row
-					type="flex"
-					style={{borderBottom: "1px solid #e8e8e8", padding: 8}}
+				<Col
+					xs={{span: 4}}
+					sm={{span: 3}}
+					className="starCol"
+					style={{background: "#f8f8f8"}}
 				>
-					<Col
-						span={3}
-						style={{textAlign: "center", paddingTop: 8}}
+					<Row
+						type="flex" align="middle" justify="center" className="ratings" gutter={16}
+						onClick={() => {
+							clickStar(!isStarClicked)
+							asteri(post._id)
+						}}
+						style={{height: 48, cursor: "pointer"}}
 					>
-						<Avatar icon="user" size={48}/>
-					</Col>
-					<Col
-						style={{paddingTop: 8}}
-						span={21}
-					>
+						<Col
+							span={10}
+						>
+							<Star
+								key={"star" + post._id}
+								size={32}
+								style={{height: 32}}
+								defaultClick={isStarClicked}
+							/>
+						</Col>
+						<Col className="number" span={10}>
+							<span style={{height: 24, fontSize: 16}}>
+								{post.stars}
+							</span>
+						</Col>
+					</Row>
+					<Link to={link}>
 						<Row
-							style={{width: "100%"}}
+							type="flex" align="middle" justify="center" className="ratings" gutter={16}
+							style={{height: 48}}
+						>
+							<Col span={10} >
+								<Icon
+									type="message"
+									theme="twoTone"
+									style={{fontSize: 32}}
+									twoToneColor={"grey"}
+								/>
+							</Col>
+							<Col className="number" span={10}>
+								<span style={{height: 24, fontSize: 16}}>
+									{post.commentAmount}
+								</span>
+							</Col>
+						</Row>
+					</Link>
+				</Col>
+				<Col
+					xs={{span: 20}}
+					sm={{span: 21}}
+					className="otherCol"
+					style={{
+						paddingTop: 8,
+						paddingLeft: 8
+					}}
+				>
+					<Skeleton active loading={loading}>
+						<Row
 							type="flex"
 							justify="space-between"
 						>
 							<Col>
 								<Link linkType="user" id={post.author} />
+								<Divider type="vertical"/>
+								<Time time={post._id.substring(0, 8)} />
 							</Col>
 							<Col
 							>
-								<Time time={post._id.substring(0, 8)} />
-								<Divider type="vertical"/>
 								<Link to={"/agora/h/" + post.hypagora}>
 									<Tag>{post.hypagora}</Tag>
 								</Link>
 							</Col>
 						</Row>
-						<Row
-							style={{width: "100%"}}
-						>
+						<Row>
 							<Link to={link}>
 								<h1>{post.title}</h1>
 							</Link>
@@ -103,26 +130,18 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 							style={{paddingBottom: 8}}
 						>
 							{
-								comments &&
-								<ReactMarkdown source={post.body} />
-							}
-							{
 								!loading && post.tags.map(tag => <Tag key={tag}>{tag}</Tag>)
 							}
 						</Row>
-					</Col>
-				</Row>
-			</Card>
+					</Skeleton>
+				</Col>
+			</Row>
 			{
 				!loading && comments &&
 				<Row
 					type="flex"
 					justify="center"
-					style={{
-						background: "white",
-						border: "1px solid #e8e8e8",
-						paddingTop: 16
-					}}
+					style={{paddingTop: 16}}
 				>
 					<Col
 						span={23}
@@ -141,8 +160,8 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 					</Col>
 				</Row>	
 			}
-		</React.Fragment>
-		)
+		</Card>
+	)
 	/*<div>Author: {(!deleted && author !== "deleted") ? ((post.display.type === "user") ? author.details.username : author.details.name) : "deleted"}</div>*/
 }
 

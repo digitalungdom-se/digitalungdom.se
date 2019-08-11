@@ -1,5 +1,6 @@
 import  React from 'react'
 import { Row, Col, Select, Input, Button, Form } from 'antd'
+import { Redirect } from 'react-router-dom'
 
 function Agorize({
 	agorize,
@@ -9,6 +10,7 @@ function Agorize({
 	availableHypagoras = ["general"],
 	form,
 	agorizing,
+	agorized
 }) {
 
 	const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form
@@ -19,7 +21,6 @@ function Agorize({
 	    if (!err) {
 	    	if(agoragramType === "post") {
 	    		agorize({
-	    			hypagora: values.hypagora,
 	    			type: values.type,
 	    			title: values.title,
 	    			tags: values.tags,
@@ -35,31 +36,32 @@ function Agorize({
 	  });
 	}
 
-	const formItemLayout = agoragramType==="post" ? {
-		labelCol: {
-			xs: {span: 6}
-		},
-		wrapperCol: {
-			xs: {span: 16}
-		}
-	} : {}
-	const tailFormLayout = agoragramType==="post" ? {
-		wrapperCol: {
-			xs: {
-				offset: 0
-			},
-			sm: {
-				offset: 6
-			}
-		}
-	} : {}
+	// const formItemLayout = agoragramType==="post" ? {
+	// 	labelCol: {
+	// 		xs: {span: 6}
+	// 	},
+	// 	wrapperCol: {
+	// 		xs: {span: 16}
+	// 	}
+	// } : {}
+	// const tailFormLayout = agoragramType==="post" ? {
+	// 	wrapperCol: {
+	// 		xs: {
+	// 			offset: 0
+	// 		},
+	// 		sm: {
+	// 			offset: 6
+	// 		}
+	// 	}
+	// } : {}
 
 	const titleError = isFieldTouched('titleError') && getFieldError('titleError');
+	if(agoragramType!=="comment" && agorized) return <Redirect to="/agora" />
 
 	return (
 		<Form
 			onSubmit={(e) => handleForm(e)}
-			{...formItemLayout}
+			// {...formItemLayout}
 		>
 			<div
 				style={
@@ -71,74 +73,54 @@ function Agorize({
 				{
 					agoragramType === "post" &&
 					<React.Fragment>
-						<Row>
-							<Col
-								offset={6}
-							>
-								<h2>Skapa inlägg</h2>
-							</Col>
-						</Row>
-						<Form.Item label="Hypagora">
-							{getFieldDecorator('hypagora', {
-								initialValue: hypagora,
-								rules: [
-									{required: true}
-								]
-		          })(
-		          	<Select>
-		          		{
-		          			availableHypagoras.map((hypagora) => 
-		          				<Select.Option key={hypagora + '-option'} value="hypagora">{hypagora}</Select.Option>
-		          			)
-		          		}
-		          	</Select>
-		          )}
-						</Form.Item>
-						<Form.Item label="Inläggstyp">
+						<h2>Publicera inlägg</h2>
+						<Form.Item>
 							{getFieldDecorator('type', {
-								initialValue: "text",
 								rules: [
 									{required: true}
 								]
 		          })(
-		          	<Select>
+		          	<Select
+		          		placeholder="Välj inläggstyp"
+		          	>
 			          	<Select.Option value="text">Text</Select.Option>
 			          	<Select.Option value="link">Länk</Select.Option>
-			          	<Select.Option value="question">Fråga</Select.Option>
 		          	</Select>
 		          )}
 						</Form.Item>
-						<Form.Item label="Titel" validateStatus={titleError ? 'error' : ''} help={titleError || ''}>
+						<Form.Item validateStatus={titleError ? 'error' : ''} help={titleError || ''}>
 							{getFieldDecorator('title', {
 								rules: [{
 									required: true
 								}]
 							})(
-		          	<Input name="title" type="text" />
+		          	<Input placeholder="Titel" type="text" />
 		          )}
 						</Form.Item>
-						<Form.Item label="Taggar">
+						<Form.Item>
 							{getFieldDecorator('tags')(
-		          	<Select mode="tags" maxTagCount={5} />
+		          	<Select
+		          		placeholder="Välj taggar (separera med Enter-knappen)"
+		          		mode="tags"
+		          		maxTagCount={5}
+		          	/>
 		          )}
 						</Form.Item>
 					</React.Fragment>	
 				}
-			<Form.Item
-				label={agoragramType==="post" ? "Text" : ""}
-			>
+			<Form.Item>
 				{getFieldDecorator('text')(
         	<Input.TextArea
         		name="body"
-        		placeholder="Text (optional)"
+        		placeholder="Text (icke-obligatoriskt)"
         		autosize={{minRows: 4}}
       		/>
         )}
 			</Form.Item>
 			<Form.Item
-				{...tailFormLayout}
+				// {...tailFormLayout}
 			>
-				<Button loading={agorizing} type="primary" htmlType="submit">Publicera</Button>
+				<Button loading={agorizing && (!agorized)} type="primary" htmlType="submit">Publicera</Button>
 			</Form.Item>
 			</div>
 		</Form>

@@ -8,7 +8,7 @@ export default ({ profile, logOut, translations }) => (
 		<Link
       loading={profile.authing}
       style={{width: "100%"}}
-      to={"/u/" + profile.details.username}
+      to={"/@" + profile.details.username}
       type="button"
     >
       {

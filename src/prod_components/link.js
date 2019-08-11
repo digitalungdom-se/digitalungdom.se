@@ -20,7 +20,7 @@ export default ({ children, to = "", linkType, onClick, id, ...props }) => {
 				!user.details ?
 				<code>[deleted]</code>
 				:
-				<Link to={"/u/" + user.details.username} {...props}>
+				<Link to={"/@" + user.details.username} {...props}>
 					{user.details.name}
 				</Link>
 			);

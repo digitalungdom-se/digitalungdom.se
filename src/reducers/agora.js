@@ -1,4 +1,14 @@
 import { flatTree } from 'utils'
+import { timeToHex } from 'utils/time'
+
+const generateRandom = (length) => {
+	let string = ""
+	const chars = "0123456789abcdef"
+	for(var i = 0; i < length; i++) {
+		string += chars[Math.floor(Math.random()*chars.length)]
+	}
+	return string
+}
 
 export default (state = {
 	viewingComments: false,
@@ -19,9 +29,25 @@ export default (state = {
 	starredAgoragrams: [],
 	availableHypagoras: ["general"],
 	agorizing: [],
-	agorized: []
+	agorized: [],
+	filter: {
+		sort: "new",
+		time: "month",
+		dateAfter: (Math.floor((Date.now()/1000 - 30*24*3600))).toString(16),
+		dateBefore: (Math.floor((Date.now()/1000))).toString(16)
+	},
+	lists: {}
 }, action) => {
 	switch(action.type) {
+		case 'UPDATE_AGORA_FILTER':
+			const { type, ...filter } = action
+			return {
+				...state,
+				filter: {
+					...state.filter,
+					...filter
+				}
+			}
 		case 'GET_AGORAGRAMS_REQUEST':
 			return {
 				...state,
@@ -64,7 +90,10 @@ export default (state = {
 							[action.query]: list,
 						}
 					},
-					starredAgoragrams: state.starredAgoragrams.concat(action.response.starredAgoragrams)
+					starredAgoragrams: state.starredAgoragrams.concat(action.response.starredAgoragrams),
+					lists: {
+						[action.payload.hypagora + "?t=" + action.payload.time + "&s=" + action.payload.sort]: list
+					}
 					// starredAgoragrams: [
 					// 	...state.starredAgoragrams,
 					// 	...action.response.starredAgoragrams
@@ -130,13 +159,34 @@ export default (state = {
 			}
 			return state
 		case 'AGORIZE_SUCCESS':
+			let agoragrams = {}
+			let _id = generateRandom(24)
+			console.log(action.payload)
 			if(action.payload.type === "comment") {
-				return {
-					...state,
-					agorized: state.agorized.concat(action.payload.replyTo)
+				agoragrams = {
+					[_id]: {
+						stars: 0,
+						author: action.payload.me,
+						body: action.payload.body,
+						children: [],
+						replyTo: action.payload.replyTo,
+						_id
+					},
+					[action.payload.replyTo]: {
+						...state.agoragrams[action.payload.replyTo],
+						children: state.agoragrams[action.payload.replyTo].children.concat({id: _id, stars: 0})
+					}
 				}
 			}
-			return state
+			console.log(agoragrams)
+			return {
+				...state,
+				agorized: state.agorized.concat(action.payload.replyTo),
+				agoragrams: {
+					...state.agoragrams,
+					...agoragrams
+				}
+			}
 		case 'AGORIZE_FAILURE':
 			return state
 		case 'RESPONSE_GET_AGORAGRAM':
