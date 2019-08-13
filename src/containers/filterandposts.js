@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // import { Agora as actions } from 'actions'
 import { getAgoragrams } from 'actions/agora'
 // import { Filter } from '@components'
-import Filter from '@components/Filter'
+import Filter from '@components/filter'
 // import { Posts } from 'containers'
 import Posts from 'containers/posts'
 // import { timeToHex } from 'utils'
@@ -105,7 +105,7 @@ class FilterAndPosts extends Component {
 		// 	}
 		// })
 	}
-	
+
 	render() {
 
 		const { t } = this.props
