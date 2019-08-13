@@ -10,7 +10,7 @@ export default () => (
 
       <Col>
         <div>
-          <img src="images/Whoops.png" style={{height: 330, marginTop: -50}}/>
+          <img src={require("resources/images/Whoops.png")} style={{height: 330, marginTop: -50}}/>
         </div>
       </Col>
 

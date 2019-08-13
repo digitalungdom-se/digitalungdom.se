@@ -12,7 +12,7 @@ export default () => (
 				md={{span: 14}}
 			>
 				<div>
-					<img src="images/FrontPage.png" style={{width: "100%"}}/>
+					<img src={require("resources/images/FrontPage.png")}  style={{width: "100%"}}/>
 				</div>
 			</Col>
 			<Col
