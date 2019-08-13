@@ -1,5 +1,5 @@
 import React from 'react'
-import Filter from '@components/Filter'
+import Filter from '@components/filter'
 import { useDispatch, useSelector } from 'react-redux'
 import { filterAgora } from 'actions/agora'
 
