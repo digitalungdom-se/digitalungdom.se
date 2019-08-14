@@ -75,7 +75,7 @@ function Register({ login, Auth, translations, form }) {
 						</Button>
 					</Form.Item>
 
-					<Row style={{marginTop: 40}}>
+					<Row style={{margin: 40}}>
 						<Col>
 							<div>
 								Saknar du ett konto?

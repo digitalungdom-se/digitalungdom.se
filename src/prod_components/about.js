@@ -36,7 +36,7 @@ import { Col, Row, Button, Icon } from 'antd'
 const profile = (name, surname, bio, role, color) => (
   <Col
     xs={{span: 24}}
-    md={{span: 4}}
+    md={{span: 6}}
   >
     <div style={{ margin: 'auto', textAlign: 'center', width: "100%", maxWidth: 400, padding: "0 24px"}}>
       <div style={{ margin: "0 auto", borderRadius: 10, backgroundColor: color }}>
@@ -63,15 +63,16 @@ export default () => (
 
   <Row type="flex" justify="center"  style={{flex: 1}}>
   	<Row type="flex" justify="center">
-  		<Row type="flex" justify="center" style={{paddingTop: 90}}>
+  		<Row type="flex" type="flex" align="middle" justify="space-between" style={{paddingTop: 90}}>
   			<Col
           sm={{span: 24}}
-          md={{span: 12}}
+          md={{span: 14}}
         >
           <div>
   					<img src={require("resources/images/about1.png")}  style={{width: "100%"}}/>
   				</div>
   			</Col>
+        
   			<Col
           xs={{span: 20}}
           md={{span: 9}}
@@ -95,7 +96,7 @@ export default () => (
   			</Col>
   		</Row>
       <Row type="flex" justify="center" style={{paddingTop: 80, width: '100%'}}>
-        <h3 style={{fontSize: 24, color: "#434343", fontWeight: 'bold'}}>Förbundsstyrelsen 😍</h3>
+        <h3 style={{fontSize: 24, color: "#434343", fontWeight: 'bold', marginBottom: 30}}>Förbundsstyrelsen 😍</h3>
       </Row>
       {
         profile(

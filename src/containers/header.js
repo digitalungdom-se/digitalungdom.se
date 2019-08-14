@@ -10,64 +10,90 @@ import { withTranslation } from 'react-i18next'
 import { withRouter, NavLink } from 'react-router-dom'
 import { Row, Col } from '@components/grid'
 import Logo from '@components/Logo'
+import Link from '@components/link'
 
 const LogoLink = () => (
-	<NavLink to="/">
+	<NavLink style={{textAlign: 'left'}}to="/">
 		<Logo />
 	</NavLink>
 )
+
+const gutter = {
+	xs: 10,
+	sm: 20,
+	md: 40,
+}
 
 export default withTranslation()(
 	withRouter(({ t, location }) => {
 		return (
 			<Row
 				type="flex"
-				justify="space-around"
+				justify="space-between"
 				style={{height: 60}}
-				gutter={16}
 			>
-				<Col
-					md={{offset: 1}}
-					// xs={{span: 9}}
-					// sm={{span: 8, offset: 0}}
-					// md={{span: 6, offset: 1}}
-					// lg={{span: 4}}
-					className="ant-col"
-				>
+				<Col>
 					<LogoLink />
 				</Col>
-				<Col
-					xs={{span: 9, offset: 0}}
-					sm={{span: 8, offset: 0}}
-					md={{span: 6, offset: 0}}
-					lg={{span: 4}}
-					className="ant-col"
-				>
-					<Dropdown
-						active={location.pathname}
-						categories={[
-							{title: "Digital Ungdom", items: ['/', '/agora', '/om-oss']},
-						]}
-						links={{
-							'/': t("Home"),
-							'/agora': 'Agora',
-							'/om-oss': 'Om oss',
-							'/verksamhet': 'Verksamhet',
-							'/state': 'State'
-						}}
-					/>
-				</Col>
-				<Col
-					// xs={{span: 0, offset: 0}}
-					// sm={{span: 0, offset: 0}}
-					md={{span: 0, offset: 0}}
-					lg={{span: 4}}
-					// style={{width: 8*24}}
-					className="ant-col"
-				>
-					<Authentication/>
-				</Col>
+
+				<Row type = 'flex' gutter={gutter} justify = 'right'>
+					<Col>
+						<Row
+							type="flex"
+							justify="right"
+							gutter={gutter}
+						>
+							<Col >
+								<Link
+									to={"/" + t("about")}
+									style={{color: "grey"}}
+								>
+									{t("Om oss")}
+								</Link>
+							</Col>
+
+							<Col >
+								<Link
+									to={"/" + t("agora")}
+									style={{color: "grey"}}
+								>
+									{t("Agora")}
+								</Link>
+							</Col>
+
+						</Row>
+
+					</Col>
+
+					<Col>
+						<Authentication/>
+					</Col>
+				</Row>
 			</Row>
 		)
 	})
 )
+
+/* Kommenterar bort för tillfället tills dess att headern fungera som vi diskuterade! :)
+	<Col
+		xs={{span: 9, offset: 0}}
+		sm={{span: 8, offset: 0}}
+		md={{span: 6, offset: 0}}
+		lg={{span: 4}}
+		className="ant-col"
+	>
+
+	<Dropdown
+		active={location.pathname}
+		categories={[
+			{title: "Digital Ungdom", items: ['/', '/agora', '/om-oss']},
+		]}
+		links={{
+			'/': t("Home"),
+			'/agora': 'Agora',
+			'/om-oss': 'Om oss',
+			'/verksamhet': 'Verksamhet',
+			'/state': 'State'
+		}}
+	/>
+	*/

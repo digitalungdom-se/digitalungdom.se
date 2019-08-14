@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Button } from 'antd'
 import { useSelector } from 'react-redux'
 
-export default ({ children, to = "", linkType, onClick, id, ...props }) => {
+export default ({ children, to = "", linkType, onClick, id, ...props}) => {
 	switch(linkType) {
 		case 'button':
 			return (
@@ -27,7 +27,7 @@ export default ({ children, to = "", linkType, onClick, id, ...props }) => {
 			else return <code>{id === undefined ? "[deleted]" : "Loading..."}</code>
 		default:
 			return (
-				<Link onClick={onClick} to={to} >
+				<Link onClick={onClick} to={to} {...props}>
 					{children}
 				</Link>
 			)

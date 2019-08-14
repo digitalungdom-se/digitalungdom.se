@@ -27,7 +27,7 @@ export default () => (
           </p>
 
           <Row type="flex" justify="space-between">
-              <Link to="about">
+              <Link to="">
                 <Button type="primary" style={{ borderRadius: 10 }}>
                   Tillbaka till landningssidan
                 </Button>
