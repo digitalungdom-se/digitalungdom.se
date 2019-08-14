@@ -46,21 +46,27 @@ function Authentication({ t }) {
 	else return (
 		<Row
 			type="flex"
-			justify="space-between"
+			justify="right"
+			gutter={{
+				xs: 10,
+				sm: 20,
+				md: 40,
+			}}
 		>
 			<Col>
 				<Link
-					linkType="button"
 					to={"/" + t("links-login")}
+					style={{color: "grey"}}
 				>
 					{t("Log in")}
 				</Link>
 			</Col>
+
 			<Col>
 				<Link
-					linkType="button"
 					to={"/" + t("links-register")}
 					type="primary"
+					style={{fontWeight: "bold"}}
 				>
 					{t("Register")}
 				</Link>
