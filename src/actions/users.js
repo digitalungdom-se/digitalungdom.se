@@ -14,9 +14,9 @@ export function getUser(userArray, type) {
     types: ['GET_USER_REQUEST', 'GET_USER_SUCCESS', 'GET_USER_FAILURE'],
     // Check the cache (optional):
     // Perform the fetching:
-    callAPI: () => fetch("/api/get_user?" + query({ type, userArray })),
+    callAPI: () => fetch("/api/agora/get/user?" + query({ type, userArray })),
     // Arguments to inject in begin/end actions
-    payload: { userArray, userType: type, url: "/api/get_user" }
+    payload: { userArray, userType: type, url: "/api/agora/get/user" }
   }
 }
 

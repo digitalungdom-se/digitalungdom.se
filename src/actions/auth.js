@@ -16,7 +16,7 @@ export function auth(form) {
       'AUTH_SUCCESS',
       'AUTH_FAILURE'
     ],
-    callAPI: () => fetch("/api/auth"),
+    callAPI: () => fetch("/api/agora/get/agoragram"),
     callbacks: [addMeToUsers],
     payload: form
   }
@@ -30,7 +30,7 @@ export function login(form) {
       'LOGIN_FAILURE'
     ],
     callAPI: () =>
-      fetch("/api/login", {
+      fetch("/api/user/login", {
         method: 'post',
         headers: {
           Accept: 'application/json',
