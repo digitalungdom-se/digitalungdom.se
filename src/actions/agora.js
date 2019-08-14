@@ -1,18 +1,18 @@
 import createAsyncFunction, { query } from './createAsyncFunction.js'
 
 const Agora = {
-  ...createAsyncFunction( 'agorize', { method: 'POST', route: '/api/agorize' }, [] ),
+  ...createAsyncFunction( 'agorize', { method: 'POST', route: '/api/agora/agorize/post' }, [] ),
 
-  ...createAsyncFunction( 'asteri', { method: 'POST', route: '/api/asteri' }, [] ),
+  ...createAsyncFunction( 'asteri', { method: 'POST', route: '/api/agora/asteri' }, [] ),
 
-  ...createAsyncFunction( 'anti_agorize', { method: 'POST', route: '/api/anti_agorize' }, [] ),
-  ...createAsyncFunction( 'meta_agorize', { method: 'POST', route: '/api/meta_agorize' }, [] ),
+  ...createAsyncFunction( 'anti_agorize', { method: 'POST', route: '/api/agora/anti_agorize' }, [] ),
+  ...createAsyncFunction( 'meta_agorize', { method: 'POST', route: '/api/agora/meta_agorize' }, [] ),
 
-  ...createAsyncFunction( 'get_agoragrams', { method: 'GET', route: '/api/get_agoragrams' }, [] ),
+  ...createAsyncFunction( 'get_agoragrams', { method: 'GET', route: '/api/agora/get/agoragrams' }, [] ),
 
   ...createAsyncFunction( 'report', { method: 'POST', route: '/api/report' }, [] ),
 
-  ...createAsyncFunction( 'get_agoragram', { method: 'GET', route: '/api/get_agoragram' }, [] ),
+  ...createAsyncFunction( 'get_agoragram', { method: 'GET', route: '/api/agora/get/agoragram' }, [] ),
   ...createAsyncFunction( 'get_comments', { method: 'GET', route: '/api/get_comments' }, [] ),
 
   viewComments: (post) => ({
@@ -48,7 +48,7 @@ export function agorize(info, me) {
       'AGORIZE_FAILURE'
     ],
     callAPI: () =>
-    fetch("/api/agorize", {
+    fetch("/api/agora/agorize/post", {
       method: 'post',
       headers: {
         Accept: 'application/json',
@@ -56,13 +56,11 @@ export function agorize(info, me) {
       },
       body: JSON.stringify({
         ...info,
-        hypagora: "general",
-        role: "user"
+        hypagora: "general"
       })
     }),
     payload: {
       ...info,
-      role: "user",
       me
     }
   }
@@ -81,7 +79,7 @@ export function getAgoragrams(filter) {
       'GET_AGORAGRAMS_FAILURE'
     ],
     callAPI: () =>
-      fetch("/api/get_agoragrams?" + query(filter)),
+      fetch("/api/agora/get/agoragrams?" + query(filter)),
     callbacks: [
       (response) => ({
         type: "GET_USER_SUCCESS",
@@ -106,7 +104,7 @@ export function getAgoragram(agoragramShortID) {
       'GET_AGORAGRAM_FAILURE'
     ],
     callAPI: () =>
-      fetch("/api/get_agoragram?" + query({agoragramShortID})),
+      fetch("/api/agora/get/agoragram?" + query({agoragramShortID})),
     callbacks: [
       (response) => ({
         type: "GET_USER_SUCCESS",
@@ -127,7 +125,7 @@ export function antiAgorize(agoragramID) {
       'ANTI_AGORIZE_FAILURE'
     ],
     callAPI: () =>
-    fetch("/api/anti_agorize", {
+    fetch("/api/agora/anti_agorize", {
       method: 'post',
       headers: {
         Accept: 'application/json',
@@ -149,7 +147,7 @@ export function asteri(agoragramID) {
       'ASTERI_FAILURE'
     ],
     callAPI: () =>
-    fetch("/api/asteri", {
+    fetch("/api/agora/asteri", {
       method: 'post',
       headers: {
         Accept: 'application/json',
