@@ -33,6 +33,14 @@ import { Col, Row, Button, Icon } from 'antd'
 </Row>
 */
 
+const CenterWrapper = ({ children }) => (
+	<Row type = "flex" justify="center">
+		<Col type = "flex" justify="center" span={20}>
+			{children}
+		</Col>
+	</Row>
+)
+
 const profile = (name, surname, bio, role, color) => (
   <Col
     xs={{span: 24}}
@@ -61,52 +69,54 @@ const profile = (name, surname, bio, role, color) => (
 
 export default () => (
 
-  <Row type="flex" justify="center"  style={{flex: 1}}>
-  	<Row type="flex" justify="center">
-  		<Row type="flex" type="flex" align="middle" justify="space-between" style={{paddingTop: 90}}>
-  			<Col
-          sm={{span: 24}}
-          md={{span: 14}}
-        >
-          <div>
-  					<img src={require("resources/images/about1.png")}  style={{width: "100%"}}/>
-  				</div>
-  			</Col>
-        
-  			<Col
-          xs={{span: 20}}
-          md={{span: 9}}
-        >
-  				<div>
-            <h3 style={{fontSize: 24, color: "#434343", fontWeight: 'bold'}}>Vad är Digital Ungdom? 🤔</h3>
-            <p style={{fontSize: 15, marginBottom: 40, color: "#434343", textAlign:"justify"}}>
-            Digital Ungdom är ett nationellt allmännyttigt ideellt förbund i Sverige. Digital Ungdoms
-            syfte är att i Sverige utveckla och underhålla ungdomars intresse för och kunskaper om
-            digital teknik och datavetenskap, samt hur detta kan användas. Digital Ungdoms vision
-            är att verka genom ett brett kontaktnät av ungdomar och därigenom aktivt bidra till att
-            Sverige blir världsledande inom digital teknik och datavetenskap.
-            </p>
-            <p style={{fontSize: 15, marginBottom: 40, color: "#434343", textAlign:"justify"}}>
-            Digital Ungdom samarbetar med den nationella handlingsplanen för digitalisering av skolväsendet.
-            Sveriges Kommuner och Landsting har efter en överrenskommelse med regeringen, ansvaret att ta fram
-            denna handlingsplan. Digital Ungdom bidrar med ett elevperspektiv i frågor som rör digital kompetens,
-             digitaliserings utveckling, och de förslag som kommer läggas fram till regeringen i samband med handlingsplanen.
-            </p>
-  				</div>
-  			</Col>
-  		</Row>
+  <div>
+    <Row style={{backgroundColor: 'white'}}>
+      <CenterWrapper>
+
+        <Row type="flex" justify="center" style={{paddingTop: 40, width: '100%'}}>
+          <h3 style={{fontSize: 44, color: "#434343", fontWeight: 'bold', marginBottom: 30}}>Om oss</h3>
+        </Row>
+
+      	<Row type="flex" type="flex" align="middle" justify="space-between" style={{paddingTop: 20, paddingBottom: 60}}>
+      		<Col
+            sm={{span: 24}}
+            md={{span: 14}}
+          >
+            <div>
+      				<img src={require("resources/images/about1.png")}  style={{width: "100%"}}/>
+      			</div>
+      		</Col>
+
+      		<Col
+            xs={{span: 20}}
+            md={{span: 9}}
+          >
+      			<div>
+              <h3 style={{fontSize: 24, color: "#434343", fontWeight: 'bold'}}>Vad är Digital Ungdom? 🤔</h3>
+              <p style={{fontSize: 15, marginBottom: 40, color: "#434343", textAlign:"justify"}}>
+              Digital Ungdom är ett nationellt allmännyttigt ideellt förbund i Sverige. Digital Ungdoms
+              syfte är att i Sverige utveckla och underhålla ungdomars intresse för och kunskaper om
+              digital teknik och datavetenskap, samt hur detta kan användas. Digital Ungdoms vision
+              är att verka genom ett brett kontaktnät av ungdomar och därigenom aktivt bidra till att
+              Sverige blir världsledande inom digital teknik och datavetenskap.
+              </p>
+              <p style={{fontSize: 15, marginBottom: 40, color: "#434343", textAlign:"justify"}}>
+              Digital Ungdom samarbetar med den nationella handlingsplanen för digitalisering av skolväsendet.
+              Sveriges Kommuner och Landsting har efter en överrenskommelse med regeringen, ansvaret att ta fram
+              denna handlingsplan. Digital Ungdom bidrar med ett elevperspektiv i frågor som rör digital kompetens,
+               digitaliserings utveckling, och de förslag som kommer läggas fram till regeringen i samband med handlingsplanen.
+              </p>
+      			</div>
+      		</Col>
+      	</Row>
+      </CenterWrapper>
+    </Row>
+
+    <CenterWrapper>
+
       <Row type="flex" justify="center" style={{paddingTop: 80, width: '100%'}}>
         <h3 style={{fontSize: 24, color: "#434343", fontWeight: 'bold', marginBottom: 30}}>Förbundsstyrelsen 😍</h3>
       </Row>
-      {
-        profile(
-          "Charles",
-          "Maddock",
-          "Hej! Mitt namn är Charles, jag är 19 år och ansvarar mest för design här på digitalungdom.se! Det är även jag som har ritat bilderna som ni ser på hemsidan.",
-          "Styrelseledamot",
-          "lightGreen"
-        )
-      }
       {
         profile(
           "Douglas",
@@ -134,6 +144,15 @@ export default () => (
           "#f5222d"
         )
       }
-    </Row>
-	</Row>
+      {
+        profile(
+          "Charles",
+          "Maddock",
+          "Hej! Mitt namn är Charles, jag är 19 år och ansvarar mest för design här på digitalungdom.se! Det är även jag som har ritat bilderna som ni ser på hemsidan.",
+          "Styrelseledamot",
+          "lightGreen"
+        )
+      }
+    </CenterWrapper>
+  </div>
 )

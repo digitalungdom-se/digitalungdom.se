@@ -35,9 +35,7 @@ Boiler.Content = ({ children }) => (
 		className="boiler-content"
 		style={{marginBottom: 100}}
 	>
-		<CenterWrapper>
 			{children}
-		</CenterWrapper>
 	</Content>
 )
 
