@@ -6,7 +6,7 @@ import createAsyncFunction from './createAsyncFunction.js'
 //   ...createAsyncFunction( 'check_username', { method: 'GET', route: '/api/register_check_username' }, [] ),
 // }
 
-export const checkEmail = createAsyncFunction('check_email', { method: 'GET', route: '/api/user/register' }, [] )
+export const checkEmail = createAsyncFunction('check_email', { method: 'GET', route: '/api/user/validate/email' }, [] )
 export const checkUsername = createAsyncFunction( 'check_username', { method: 'GET', route: '/api/user/validate/username' }, [] )
 
 export function register(form) {
