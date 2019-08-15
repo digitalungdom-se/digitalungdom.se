@@ -10,14 +10,6 @@ import Comments from 'containers/comments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment, faShare, faStar } from '@fortawesome/free-solid-svg-icons'
 
-const CenterWrapper = ({ children }) => (
-	<Row type = "flex" justify="center">
-		<Col type = "flex" justify="center" span={20}>
-			{children}
-		</Col>
-	</Row>
-)
-
 function Post({ empty, post, loading, children, link, asteri, comments, starred }) {
 
 	if(empty) return (
