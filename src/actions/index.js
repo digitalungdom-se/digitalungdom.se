@@ -47,7 +47,8 @@ export const Register = {
 }
 
 export const Agora = {
-  ...createAsyncFunction( 'agorize', { method: 'POST', route: '/api/agora/agorize/post' }, [] ),
+  ...createAsyncFunction( 'agorize_post', { method: 'POST', route: '/api/agora/agorize/post' }, [] ),
+  ...createAsyncFunction( 'agorize_comment', { method: 'POST', route: '/api/agora/agorize/comment' }, [] ),
 
   ...createAsyncFunction( 'asteri', { method: 'POST', route: '/api/agora/asteri' }, [] ),
 

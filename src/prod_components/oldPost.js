@@ -3,7 +3,7 @@ import { Button, Divider, Empty, Row, Col, Rate, Card, Skeleton, Icon, Tag, Inpu
 import Link from '@components/link.js'
 import Star from '@components/star'
 import Time from '@components/Time'
-import Agorize from 'containers/agorize'
+import {agorizePost} from 'containers/agorize'
 import './post.css'
 import Comments from 'containers/comments'
 
@@ -147,7 +147,7 @@ function Post({ empty, post, loading, children, link, asteri, comments }) {
 						span={23}
 						// pull={3}
 					>
-						<Agorize
+						<agorizePost
 							id={post._id}
 							agoragramType="comment"
 						/>
@@ -156,9 +156,9 @@ function Post({ empty, post, loading, children, link, asteri, comments }) {
 						span={23}
 						style={{paddingTop: 16}}
 					>
-						<Comments children={post.children} level={0} />							
+						<Comments children={post.children} level={0} />
 					</Col>
-				</Row>	
+				</Row>
 			}
 		</Card>
 	)

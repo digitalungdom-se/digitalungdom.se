@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Button, Divider, Icon } from 'antd'
 import Link from '@components/link'
 import Reply from 'containers/Reply'
-import Agorize from 'containers/agorize'
+import { agorizeComment } from 'containers/agorize'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faComment, faTrashAlt, faFlag } from '@fortawesome/free-solid-svg-icons'
 
@@ -54,7 +54,7 @@ function Actions({ dispatch, remove, report, id, link, isAuthor, like, replied, 
 	    </span>
 			{
 				(isReplying && !replied)&&
-				<Agorize
+				<agorizeComment
 					id={id}
 					agoragramType="comment"
 					onCancel={() => reply(false)}

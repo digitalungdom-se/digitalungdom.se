@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom'
 import Hypagora from 'containers/hypagora'
 import Surrounding from 'containers/surrounding'
-import Agorize from 'containers/agorize'
+import { agorizePost } from 'containers/agorize'
 import Overlay from 'containers/Overlay'
 // import {
 // 	Hypagora,
@@ -24,7 +24,7 @@ class Inner extends React.Component {
 	render() {
 		const { params } = this.props.match
 		let time, sort, hypagora
-		
+
 		if(params.hypagoraOrTime && params.hypagoraOrTime.indexOf('=') !== -1) time = params.hypagoraOrTime;
 		else if(params.timeOrId && params.timeOrId.indexOf('=') !== -1) time = params.timeOrId;
 
@@ -89,7 +89,7 @@ export default connect(mapStateToProps)(({ fetchedSeveral }) => (
 		{fetchedSeveral &&
 			<Route
 				path="/agora/h/:hypagora/(kommentarer|comments)/:id/:title"
-				render={(props) => 
+				render={(props) =>
 					<Row
 					>
 						<Col
@@ -104,7 +104,7 @@ export default connect(mapStateToProps)(({ fetchedSeveral }) => (
 		<Switch>
 			<Route path="/agora/h/:hypagora/(publicera|submit)" render={(props) => (
 				<Surrounding hypagora={props.match.params.hypagora} >
-					<Agorize
+					<agorizePost
 						hypagora={props.match.params.hypagora}
 						agoragramType="post"
 					/>
