@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { withTranslation } from 'react-i18next'
+import { withRouter, Link } from 'react-router-dom'
 import { Col, Row, Button } from 'antd'
 import "./home.css"
 
@@ -17,8 +18,9 @@ const CenterWrapper = ({ children }) => (
 	</Row>
 )
 
-export default () => (
-
+export default withTranslation() (
+	withRouter(({ t, location }) => {
+    return(
 	<Col type="flex" justify="space-between">
 		<Row style={{background: "#05379c", paddingTop: 60, paddingBottom: 50, width: "100%"}}>
 			<CenterWrapper>
@@ -49,7 +51,7 @@ export default () => (
 
 							<Row>
 								<Col span={8}>
-									<Link to="register">
+									<Link to={"/" + t("links-register")}>
 										<Button
 										style={{ width: '90%'}}
 										size="large"
@@ -60,7 +62,7 @@ export default () => (
 								</Col>
 
 								<Col span={8}>
-									<Link to="login">
+									<Link to={"/" + t("links-login")}>
 										<Button ghost size="large" style={{color: "rgba(255,255,255,0.9)", width: '90%', border: "2px solid #cccccc"}}>
 											Logga in
 										</Button>
@@ -68,7 +70,7 @@ export default () => (
 								</Col>
 
 								<Col span={8}>
-									<Link to="about">
+									<Link to={"/" + t("about")}>
 										<Button ghost size="large" style={{color: "rgba(255,255,255,0.9)",width: '90%', border: "2px solid #cccccc"}}>
 											Om oss
 										</Button>
@@ -119,4 +121,6 @@ export default () => (
 			</Row>
 		</Row>
 	</Col>
+    )
+  })
 )
