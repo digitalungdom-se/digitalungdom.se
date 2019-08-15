@@ -17,7 +17,7 @@ export function register(form) {
       'REGISTER_FAILURE'
     ],
     callAPI: () =>
-      fetch("api/register", {
+      fetch("api/user/register", {
         method: 'post',
         headers: {
           Accept: 'application/json',

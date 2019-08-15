@@ -48,3 +48,12 @@
 .agora-post .otherCol {
 	/*padding: 15px 0px 0px 20px;*/
 }
+
+.agora-post{
+  border-radius: 8px;
+}
+
+.ant-card-actions{
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
