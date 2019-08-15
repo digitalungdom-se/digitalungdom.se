@@ -10,6 +10,14 @@ import Comments from 'containers/comments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment, faShare, faStar } from '@fortawesome/free-solid-svg-icons'
 
+const CenterWrapper = ({ children }) => (
+	<Row type = "flex" justify="center">
+		<Col type = "flex" justify="center" span={20}>
+			{children}
+		</Col>
+	</Row>
+)
+
 function Post({ empty, post, loading, children, link, asteri, comments, starred }) {
 
 	if(empty) return (
@@ -34,97 +42,132 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 	)
 	const deleted = post.deleted
 
-  let body;
-  if( post.type === 'link'){
-      body =( <p><a href={post.body} target="_blank"> {post.body} </a></p> )
-    } else {
-      body = (
-        <Link to={link} style={{color:"grey"}}>
-        <ReactMarkdown source={post.body} />
-        </Link>
-      )
-    }
+	let wordLimitFadedDisplay = 600;
+
+	//Renders post body
+  const Body =() => {
+
+		//For some reason you must wait, this the if statment
+		if(post.body) {
+
+			//If the post is a link, render this
+			if( post.type === 'link'){
+	      return (<p><a href={post.body} style={{fontSize: 16}} target="_blank"> {post.body} </a></p>)
+	    }else{
+				//If its a text post with more than characters, render transparent faded div
+				if(post.body.length > wordLimitFadedDisplay){
+					return(
+						<Link to={link} style={{color:"rgba(0,0,0,0.7)", fontSize: 14 }}>
+							<div style={{postion: 'relative'}}>
+								<p>
+									{post.body.slice(0, wordLimitFadedDisplay) + "..."}
+								</p>
+								<div style={{position: 'absolute', bottom: 0, height: 100, width: "100%", backgroundImage: "linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1))"}}/>
+							</div>
+						</Link>
+					)
+
+				//For shorter posts
+				}else{
+					return (
+						<Link to={link} style={{color:"rgba(0,0,0,0.7)", fontSize: 16 }}>
+							<ReactMarkdown source={post.body} />
+						</Link>
+					)
+				}
+			}
+
+		}else{
+			return <p> Loading... </p>
+		}
+	}
 
 	const [isStarClicked, clickStar] = useState(starred)
 	// console.log(post.stars)
 
 	return (
-		<React.Fragment
-		>
+		<React.Fragment>
+
 			<Card
-				// bodyStyle={{padding: '10px 20px 10px 0'}}
 				className="agora-post"
-				bodyStyle={{padding: 0}}
-				actions={[
-	        <span
-	        	onClick={() => {
-	        		clickStar(!isStarClicked)
-	        		asteri(post._id)
-	        	}}
-	        >
-	        	<FontAwesomeIcon color={isStarClicked ? "gold" : ""} icon={faStar} /> {post.stars}
-	        </span>,
-	        <Link to={link}
-	        >
-	        	<FontAwesomeIcon icon={faComment} /> {post.commentAmount}
-	        </Link>
-	        // <FontAwesomeIcon icon={faShare} />,
-	      ]}
-	      style={!comments ? {marginBottom: 12} : {}}
-			>
-				<Row
-					type="flex"
-				>
-					<Col
-						span={3}
-						style={{textAlign: "center", paddingTop: 8}}
+				bodyStyle={{padding: 4, paddingRight: 30}}
+	      style={!comments ? {marginBottom: 12} : {}}>
+
+				<Col span={4} style={{textAlign: "center", paddingTop: 30}}>
+					<Avatar icon="user" size={48}/>
+				</Col>
+
+				<Col style={{paddingTop: 8}} span={20}>
+
+					<Row
+						style={{width: "100%"}}
+						type="flex"
+						justify="space-between"
 					>
-						<Avatar icon="user" size={48}/>
-					</Col>
-					<Col
-						style={{paddingTop: 8}}
-						span={21}
-					>
-						<Row
-							style={{width: "100%"}}
-							type="flex"
-							justify="space-between"
-						>
-							<Col>
-								<Link linkType="user" id={post.author} />
-							</Col>
-							<Col
-							>
-								<Time time={post._id.substring(0, 8)} />
-								<Divider type="vertical"/>
-								<Link to={"/agora/h/" + post.hypagora}>
-									<Tag>{post.hypagora}</Tag>
-								</Link>
-							</Col>
-						</Row>
-						<Row
-							style={{width: "100%"}}
-						>
-							<Link to={link}>
-								<h1>{post.title}</h1>
+						<Col>
+							<Link linkType="user" id={post.author} />
+						</Col>
+
+						<Col>
+							<Time time={post._id.substring(0, 8)} />
+							<Divider type="vertical"/>
+							<Link to={"/agora/h/" + post.hypagora}>
+								<Tag>{post.hypagora}</Tag>
 							</Link>
-						</Row>
-            <Row style={{width: "100%"}}>
-              {body}
-            </Row>
-						<Row
-							style={{paddingBottom: 8}}
-						>
-							{
-								comments
-							}
-							{
-								!loading && post.tags.map(tag => <Tag key={tag}>{tag}</Tag>)
-							}
-						</Row>
-					</Col>
-				</Row>
+						</Col>
+					</Row>
+
+					<Row style={{width: "100%"}}>
+						<Link to={link}>
+							<h1>{post.title}</h1>
+						</Link>
+					</Row>
+
+          <Row style={{width: "100%"}}>
+            <Body/>
+          </Row>
+
+					<Row
+						style={{paddingBottom: 20}}
+					>
+						{
+							comments
+						}
+						{
+							!loading && post.tags.map(tag => <Tag style={{opacity: 0.6}}key={tag}>{tag}</Tag>)
+						}
+					</Row>
+
+
+					<Row gutter ={20} style={{fontSize: 16, marginBottom: 10}}>
+
+						<Col span={5}>
+							<span
+							style={{}}
+							onClick={() => {
+								clickStar(!isStarClicked)
+								asteri(post._id)
+							}}>
+								<FontAwesomeIcon style={{marginRight: 4}} color={isStarClicked ? "gold" : ""} icon={faStar} /> {post.stars}
+							</span>
+						</Col>
+
+						<Col span={5}>
+							<Link to={link}>
+								<FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
+							</Link>
+						</Col>
+
+						<Col span={5}>
+							<FontAwesomeIcon icon={faShare} />
+						</Col>
+
+					</Row>
+
+				</Col>
+
 			</Card>
+
 			{
 				!loading && comments &&
 				<Row
