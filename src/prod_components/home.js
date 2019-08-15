@@ -109,7 +109,7 @@ export default withTranslation() (
 						</p>
 
 						<Row style={{marginTop: 30}}>
-								<Link to="register">
+								<Link to={"/" + t("links-register")}>
 									<Button type="primary" size="large" style={{ borderRadius: 10 }}>
 										Skapa ett konto
 									</Button>
