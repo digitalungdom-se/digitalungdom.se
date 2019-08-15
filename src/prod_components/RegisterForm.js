@@ -57,7 +57,7 @@ class RegistrationForm extends React.Component {
 
   checkUsername = async (rule, value, callback) => {
     if(value.length > 2 && value.length < 25) {
-      const response = await this.props.check_username({username: value})
+      const response = await this.checkUsername({username: value})
       if(response.username) {
         callback()
       } else {
@@ -75,7 +75,7 @@ class RegistrationForm extends React.Component {
 
   checkEmail = async (rule, value, callback) => {
     if(value.indexOf('@') !== -1) {
-      const response = await this.props.check_email({email: value})
+      const response = await this.checkEmail({email: value})
       if(response.email) {
         callback()
       } else {
