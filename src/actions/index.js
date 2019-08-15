@@ -42,7 +42,7 @@ Auth = {
 
 export const Register = {
   ...createAsyncFunction( 'register', { method: 'POST', route: '/api/user/register' }, [ Auth.receiveAuth ], fakeResponse ),
-  ...createAsyncFunction( 'check_email', { method: 'GET', route: '/api/user/validate/regisemailter_check_email' }, [] ),
+  ...createAsyncFunction( 'check_email', { method: 'GET', route: '/api/user/validate/email' }, [] ),
   ...createAsyncFunction( 'check_username', { method: 'GET', route: '/api/user/validate/username' }, [] ),
 }
 

@@ -34,6 +34,17 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 	)
 	const deleted = post.deleted
 
+  let body;
+  if( post.type === 'link'){
+      body =( <p><a href={post.body} target="_blank"> {post.body} </a></p> )
+    } else {
+      body = (
+        <Link to={link} style={{color:"grey"}}>
+        <ReactMarkdown source={post.body} />
+        </Link>
+      )
+    }
+
 	const [isStarClicked, clickStar] = useState(starred)
 	// console.log(post.stars)
 
@@ -59,11 +70,10 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 	        </Link>
 	        // <FontAwesomeIcon icon={faShare} />,
 	      ]}
-	      style={!comments ? {marginBottom: 24} : {}}
+	      style={!comments ? {marginBottom: 12} : {}}
 			>
 				<Row
 					type="flex"
-					style={{borderBottom: "1px solid #e8e8e8", padding: 8}}
 				>
 					<Col
 						span={3}
@@ -99,12 +109,14 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 								<h1>{post.title}</h1>
 							</Link>
 						</Row>
+            <Row style={{width: "100%"}}>
+              {body}
+            </Row>
 						<Row
 							style={{paddingBottom: 8}}
 						>
 							{
-								comments &&
-								<ReactMarkdown source={post.body} />
+								comments
 							}
 							{
 								!loading && post.tags.map(tag => <Tag key={tag}>{tag}</Tag>)
