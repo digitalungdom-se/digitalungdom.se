@@ -135,6 +135,7 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 
 						<Col span={5}>
 							<span
+							className="asteriButton"
 							style={{}}
 							onClick={() => {
 								clickStar(!isStarClicked)
@@ -145,7 +146,7 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 						</Col>
 
 						<Col span={5}>
-							<Link to={link}>
+							<Link className="commentButton" to={link}>
 								<FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
 							</Link>
 						</Col>

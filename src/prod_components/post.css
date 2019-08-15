@@ -1,3 +1,17 @@
+.asteriButton:hover{
+  color:#FFD700;
+}
+.asteriButton{
+  color:rgba(0,0,0,0.6);
+}
+
+.commentButton:hover{
+  color:#3256c9;
+}
+.commentButton{
+  color:rgba(0,0,0,0.6);
+}
+
 .starCol {
   text-align: center;
   /*padding-top: 10px;*/
