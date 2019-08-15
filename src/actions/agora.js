@@ -1,7 +1,8 @@
 import createAsyncFunction, { query } from './createAsyncFunction.js'
 
 const Agora = {
-  ...createAsyncFunction( 'agorize', { method: 'POST', route: '/api/agora/agorize/post' }, [] ),
+  ...createAsyncFunction( 'agorize_post', { method: 'POST', route: '/api/agora/agorize/post' }, [] ),
+  ...createAsyncFunction( 'agorize_comment', { method: 'POST', route: '/api/agora/agorize/agorize_comment' }, [] ),
 
   ...createAsyncFunction( 'asteri', { method: 'POST', route: '/api/agora/asteri' }, [] ),
 
@@ -40,7 +41,7 @@ Fields: {
   replyTo
 }
 */
-export function agorize(info, me) {
+export function agorizePost(info, me) {
   return {
     types: [
       'AGORIZE_REQUEST',
@@ -49,6 +50,32 @@ export function agorize(info, me) {
     ],
     callAPI: () =>
     fetch("/api/agora/agorize/post", {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...info,
+        hypagora: "general"
+      })
+    }),
+    payload: {
+      ...info,
+      me
+    }
+  }
+}
+
+export function agorizeComment(info, me) {
+  return {
+    types: [
+      'AGORIZE_REQUEST',
+      'AGORIZE_SUCCESS',
+      'AGORIZE_FAILURE'
+    ],
+    callAPI: () =>
+    fetch("/api/agora/agorize/comment", {
       method: 'post',
       headers: {
         Accept: 'application/json',
