@@ -18,6 +18,7 @@ const Home = lazy(() => import('@components/home.js'))
 const About = lazy(() => import('@components/about.js'))
 const Login = lazy(() => import('containers/login.js'))
 const User = lazy(() => import('containers/User'))
+const ProfilePicture = lazy(() => import('containers/ProfilePicture'))
 
 const NoMatch = lazy(() => import('@components/pageNotFound'))
 
@@ -54,6 +55,10 @@ function App() {
 							path="/agora"
 							render={props => <Agora {...props} />}
 						/>
+            <Route
+              path="/@:user/profile_picture"
+              render={props => <ProfilePicture username={props.match.params.user} />}
+            />
 						<Route
 							path="/@:user"
 							render={props => <User username={props.match.params.user} />}
