@@ -144,11 +144,15 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 							</Col>
 
 							<Col span={5}>
+								<span className="commentButton">
 									<FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
+								</span>
 							</Col>
 
 							<Col span={5}>
-								<FontAwesomeIcon icon={faShare} />
+								<span className="shareButton">
+									<FontAwesomeIcon icon={faShare} />
+								</span>
 							</Col>
 
 						</Row>

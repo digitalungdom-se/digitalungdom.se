@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from '@components/link'
-import { Card, Col } from 'antd'
+import { Card, Col, Divider } from 'antd'
 
 const hypagoraColor = "#1051c2"
 
@@ -28,15 +28,15 @@ function Widgets({ hypagora }) {
 					Agora
 				</h1>
 			</div>
-			<div
-				style={{padding: 16, paddingLeft: 20, paddingRight: 20, marginBottom: 10}}
-			>
-				<p>
-					<b>Agora</b> – benämningen på av torg i antika grekiska städer. De användes som marknadsplats eller allmän mötesplats.
+
+			<div style={{padding: 16, paddingLeft: 20, paddingRight: 20, fontSize: 14}}>
+				<p style={{ marginBottom: 14}}>
+					<b>Agora</b> är Digital Ungdoms egna forum där medlemmar kan göra inlägg.
 				</p>
-				<p>
-					Agora är Digital Ungdoms egna forum där medlemmar kan göra inlägg.
+				<p style={{color: "rgba(0,0,0,0.5)", fontStyle: 'italic', fontSize: 12, marginBottom: 20}}>
+					Agora är benämningen av torg i antika grekiska städer. De användes som marknadsplats eller allmän mötesplats.
 				</p>
+
 				<Link linkType="button" to={"/agora/h/" + hypagora + "/publicera"} type="primary"  style={{width: "100%", backgroundColor: hypagoraColor }}>
 					Publicera inlägg
 				</Link>
