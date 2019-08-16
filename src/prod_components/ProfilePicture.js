@@ -28,7 +28,7 @@ class ProfilePicture extends React.Component {
         res = await getProfilePictureByID( id, size ).callAPI();
       }
 
-      if(res.status === 200){
+      if(res && res.status === 200 ){
         const image = await res.json();
         const src = `data:${image.imageType.mime};base64, ${image.image}`;
         this.setState({src})

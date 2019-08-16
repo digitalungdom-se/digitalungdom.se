@@ -3,6 +3,7 @@ import { withTranslation } from 'react-i18next'
 import { withRouter, Link } from 'react-router-dom'
 import { Col, Row, Button } from 'antd'
 import "./home.css"
+import FrontPageTitle from './FrontPageTitle'
 
 const CenterWrapper = ({ children }) => (
 	<Row type = "flex" justify="center">
@@ -38,7 +39,7 @@ export default withTranslation() (
 					>
 						<div>
 
-							<h1 style={{fontSize: 40, marginBottom: 10, color: 'white', fontWeight: 'bold'}}>Programmering är roligt!</h1>
+							<h1 style={{fontSize: 40, marginBottom: 10, color: 'white', fontWeight: 'bold'}}> Programmering är roligt! </h1>
 
 							<h3 style={{fontSize: 30, color: "rgba(255,255,255,0.85)", fontWeight: 'bold'}}>Här kan du lära dig, <br/> dela med dig av och hjälpa<br/> andra med programmering. </h3>
 
