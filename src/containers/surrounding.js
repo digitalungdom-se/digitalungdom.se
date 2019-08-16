@@ -7,6 +7,20 @@ import Filter from 'containers/Filter'
 
 export default ({ hypagora = "general", children }) => {
 
+	const CenterWrapper = ({ children }) => (
+		<Col type = "flex" justify="center" span={20} style={{backgroundColor: 'pink'}}>
+			<Row
+			type = "flex"
+			justify="center"
+			style={{
+			background: hypagoraInfo ? hypagoraInfo.background : "transparent",
+			marginTop: 16,
+			backgroundColor: 'pink'}}>
+				{children}
+			</Row>
+		</Col>
+	)
+
 	const hypagoraInfo = useSelector(state => state.Agora.hypagora_infos[hypagora])
 
 	return (
@@ -14,28 +28,39 @@ export default ({ hypagora = "general", children }) => {
 			<Row>
 				<Filter />
 			</Row>
+
 			<Row
-				className="agora-surrounding"
-				style={{
-					background: hypagoraInfo ? hypagoraInfo.background : "transparent",
-					marginTop: 16
-				}}
-			>
+			type="flex"
+			justify="center"
+			style={{marginTop: 30}}>
 				<Col
-						xs={{ span: 24 }}
-						sm={{ span: 24 }}
-						md={{ span: 15, offset: 1 }}
-						lg={{ span: 10, offset: 5 }}
-					>
-					{children}
-				</Col>
-				<Col
-						xs={0}
+				xs={{ span: 22 }}
+				sm={{ span: 22 }}
+				md={{ span: 20 }}
+				lg={{ span: 18 }}
+				xl={{ span: 16 }}>
+					<Row
+					style={{width: "100%"}}
+					type = "flex"
+					justify="space-between">
+
+						<Col
+						xs={{ span: 22 }}
+						sm={{ span: 22 }}
+						md={{ span: 16 }}
+						lg={{ span: 16 }}>
+							{children}
+						</Col>
+
+						<Col
+						xs={{span: 0}}
 						sm={{span: 0}}
-						md={{span: 6, offset: 1}}
-						lg={{span: 5, offset: 1}}
-					>
-					<Widgets />
+						md={{span: 7}}
+						lg={{span: 7}}
+						type = "flex" justify="center">
+							<Widgets />
+						</Col>
+					</Row>
 				</Col>
 			</Row>
 		</React.Fragment>

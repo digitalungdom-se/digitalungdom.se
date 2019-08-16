@@ -1,12 +1,13 @@
 .asteriButton:hover{
   color:#FFD700;
+  transition: 0.1s
 }
 .asteriButton{
   color:rgba(0,0,0,0.6);
 }
 
 .commentButton:hover{
-  color:#3256c9;
+  transition: 0.1s
 }
 .commentButton{
   color:rgba(0,0,0,0.6);
