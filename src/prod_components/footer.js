@@ -11,47 +11,54 @@ export default () => {
     sm: 12,
     md: 10,
     lg: 6
-    // style:{background: 'red'}
   }
+
   return (
     //temporär fix medans denna inte är i boiler som Wrapper.Footer
     <Row type = "flex" justify="space-around" style={{background: "#05379c", color: "white", paddingBottom: 10,}}>
-      <Col type = "flex" justify="center" span={20}>
-      <Row
-        type="flex"
-        justify="left"
-        gutter={10}
-        style ={{paddingTop: 30, paddingBottom: 20,}}
-      >
-        <Col
-          {...size}
+      <Col
+      type = "flex"
+      justify="center"
+			xs={{ span: 22 }}
+			sm={{ span: 22 }}
+			md={{ span: 20 }}
+			lg={{ span: 18 }}
+			xl={{ span: 16 }}>
+        <Row
+          type="flex"
+          justify="left"
+          gutter={10}
+          style ={{paddingTop: 30, paddingBottom: 20,}}
         >
-          <h3>
-            Om oss
-          </h3>
-          <p>
-            Digital Ungdom är ett ideellt ungdomsförbund med syfte att i Sverige utveckla och underhålla ungdomars intresse för och kunskaper om digital teknik och datavetenskap samt hur detta kan användas.
-          </p>
-        </Col>
-        <Col
-          {...size}
-        >
-          <h3>
-            Kontakt
-          </h3>
-          <p>
-            E-post: <a href="mailto:styrelse@digitalungdom.se">styrelse@digitalungdom.se</a>
-          </p>
-          <p>
-            Telefonnummer: <a href="tel:+45709447003">+46709447003</a>
-          </p>
-          <p>
-            Discord-server: <a href="https://discord.gg/J4JhCWH">https://discord.gg/J4JhCWH</a>
-          </p>
-        </Col>
-      </Row>
+          <Col
+            {...size}
+          >
+            <h3>
+              Om oss
+            </h3>
+            <p>
+              Digital Ungdom är ett ideellt ungdomsförbund med syfte att i Sverige utveckla och underhålla ungdomars intresse för och kunskaper om digital teknik och datavetenskap samt hur detta kan användas.
+            </p>
+          </Col>
+          <Col
+            {...size}
+          >
+            <h3>
+              Kontakt
+            </h3>
+            <p>
+              E-post: <a href="mailto:styrelse@digitalungdom.se">styrelse@digitalungdom.se</a>
+            </p>
+            <p>
+              Telefonnummer: <a href="tel:+45709447003">+46709447003</a>
+            </p>
+            <p>
+              Discord-server: <a href="https://discord.gg/J4JhCWH">https://discord.gg/J4JhCWH</a>
+            </p>
+          </Col>
+        </Row>
 
-      <Row type='flex' style={{borderTop: '1px solid white', paddingTop: 12, opacity: 0.7, fontSize: 12}}>
+        <Row type='flex' style={{borderTop: '1px solid white', paddingTop: 12, opacity: 0.7, fontSize: 12}}>
          <Col>
            <p>
             Digital Ungdom 2019

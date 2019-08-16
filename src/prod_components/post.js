@@ -136,7 +136,6 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 						<Col span={5}>
 							<span
 							className="asteriButton"
-							style={{}}
 							onClick={() => {
 								clickStar(!isStarClicked)
 								asteri(post._id)

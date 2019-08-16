@@ -1,44 +1,47 @@
 import React from 'react'
 import Link from '@components/link'
-import { Card } from 'antd'
+import { Card, Col } from 'antd'
+
+const hypagoraColor = "#1051c2"
 
 function Widgets({ hypagora }) {
 	return (
-		<div
+		<Col
 			style={{
 				background: "white",
-				border: "1px solid #e8e8e8",
-				borderRadius: 4
+				border:'1px solid rgba(0,0,0,0.1)',
+				borderRadius: 8,
 			}}
 		>
 			<div
 				style={{
-					background: "#1051c2",
-					padding: 16,
-					borderTopRightRadius: 4,
-					borderTopLeftRadius: 4
+					background: hypagoraColor,
+					padding: 10,
+					borderTopRightRadius: 8,
+					borderTopLeftRadius: 8,
+					textAlign: 'center',
 				}}
 			>
 				<h1
-					style={{padding: 0, margin: 0, color: "white"}}
+					style={{padding: 0, margin: 0, color: "white", fontWeight: 'bold', fontSize: 24, letterSpacing: 1}}
 				>
 					Agora
 				</h1>
 			</div>
 			<div
-				style={{padding: 16}}
+				style={{padding: 16, paddingLeft: 20, paddingRight: 20, marginBottom: 10}}
 			>
 				<p>
-					Agora – benämningen på av torg i antika grekiska städer. De användes som marknadsplats eller allmän mötesplats.
+					<b>Agora</b> – benämningen på av torg i antika grekiska städer. De användes som marknadsplats eller allmän mötesplats.
 				</p>
 				<p>
 					Agora är Digital Ungdoms egna forum där medlemmar kan göra inlägg.
 				</p>
-				<Link linkType="button" to={"/agora/h/" + hypagora + "/publicera"} type="primary" style={{width: "100%"}}>
+				<Link linkType="button" to={"/agora/h/" + hypagora + "/publicera"} type="primary"  style={{width: "100%", backgroundColor: hypagoraColor }}>
 					Publicera inlägg
 				</Link>
 			</div>
-		</div>
+		</Col>
 	)
 }
 

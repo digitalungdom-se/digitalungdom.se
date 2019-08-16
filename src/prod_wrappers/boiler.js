@@ -14,7 +14,14 @@ const Boiler = ({ children, theme }) => (
 
 const CenterWrapper = ({ children }) => (
 	<Row type = "flex" justify="center">
-		<Col type = "flex" justify="center" span={20}>
+		<Col
+		type = "flex"
+		justify="center"
+		xs={{ span: 22 }}
+		sm={{ span: 22 }}
+		md={{ span: 20 }}
+		lg={{ span: 18 }}
+		xl={{ span: 16 }}>
 			{children}
 		</Col>
 	</Row>
