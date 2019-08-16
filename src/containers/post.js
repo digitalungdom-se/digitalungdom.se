@@ -38,7 +38,7 @@ class PostContainer extends React.Component {
 			_id: "0"
 		}
 		let time = epochToRelativeTime(post._id)
-		
+
 		return (
 			<Post
 				loading={loading}
