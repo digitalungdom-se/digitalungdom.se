@@ -5,7 +5,6 @@ export default (state = {
 	let users, usernames
 	switch(action.type) {
 		case 'REQUEST_GET_USER':
-		// console.log('HELLO')
 			users = {}
 			action.request.userArray.forEach(id => users[id] = false)
 			return {
@@ -18,8 +17,8 @@ export default (state = {
 		case "GET_USER_REQUEST":
 			users = {}
 			usernames = {}
-			if(action.payload.type !== "username") action.payload.userArray.forEach(id => users[id] = false)
-			else action.payload.userArray.forEach(id => usernames[id] = false)
+			if(action.payload.id) users[action.payload.id] = false
+			else usernames[action.payload.username] = false
 			return {
 				...state,
 				users: {

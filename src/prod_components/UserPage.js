@@ -1,6 +1,7 @@
 import React from 'react'
 import { Row, Col, Card, Avatar } from 'antd'
 import Loading from '@components/Loading'
+import ProfilePicture from '@components/ProfilePicture'
 
 function UserPage({ user, loading }) {
 	if (loading) return <Loading />
@@ -41,7 +42,7 @@ function UserPage({ user, loading }) {
 					paddingBottom: 24
 				}}
 			>
-				<Avatar style={{marginTop: -40, display: "block",}} size={80} icon="user" />
+        <ProfilePicture username={user.details.username} size={80}/>
 				<h2>{user.details.name}</h2>
 				<span style={{fontSize:16}}>@{user.details.username}</span>
 				<div>Medlem sedan {(new Date(parseInt(user._id.substring(0, 8), 16) * 1000)).toISOString().substring(0, 10)}</div>
