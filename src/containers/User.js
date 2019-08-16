@@ -12,8 +12,6 @@ function UserContainer({ username }) {
 		dispatch(getUser({username}))
 	}
 
-  console.log(user);
-
 	return (
 		<UserPage loading={!user} user={user} />
 	)

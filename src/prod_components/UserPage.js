@@ -28,35 +28,6 @@ function UserPage({ user, loading }) {
 					justify="space-between">
 
 						<Col
-						xs={{ span: 22 }}
-						sm={{ span: 22 }}
-						md={{ span: 16 }}
-						lg={{ span: 16 }}>
-
-							<div>
-								<Card>
-									<Skeleton active avatar paragraph={{ rows: 2 }} />
-								</Card>
-								<Card>
-									<Skeleton active avatar paragraph={{ rows: 2 }} />
-								</Card>
-								<Card>
-									<Skeleton active avatar paragraph={{ rows: 2 }} />
-								</Card>
-								<Card>
-									<Skeleton active avatar paragraph={{ rows: 2 }} />
-								</Card>
-								<Card>
-									<Skeleton active avatar paragraph={{ rows: 2 }} />
-								</Card>
-								<Card>
-									<Skeleton active avatar paragraph={{ rows: 2 }} />
-								</Card>
-							</div>
-
-						</Col>
-
-						<Col
 						xs={{span: 0}}
 						sm={{span: 0}}
 						md={{span: 7}}
@@ -105,6 +76,35 @@ function UserPage({ user, loading }) {
 								</div>
 							</Col>
 						</Col>
+
+            <Col
+            xs={{ span: 22 }}
+            sm={{ span: 22 }}
+            md={{ span: 16 }}
+            lg={{ span: 16 }}>
+
+              <div>
+                <Card>
+                  <Skeleton active avatar paragraph={{ rows: 2 }} />
+                </Card>
+                <Card>
+                  <Skeleton active avatar paragraph={{ rows: 2 }} />
+                </Card>
+                <Card>
+                  <Skeleton active avatar paragraph={{ rows: 2 }} />
+                </Card>
+                <Card>
+                  <Skeleton active avatar paragraph={{ rows: 2 }} />
+                </Card>
+                <Card>
+                  <Skeleton active avatar paragraph={{ rows: 2 }} />
+                </Card>
+                <Card>
+                  <Skeleton active avatar paragraph={{ rows: 2 }} />
+                </Card>
+              </div>
+
+            </Col>
 					</Row>
 				</Col>
 			</Row>
