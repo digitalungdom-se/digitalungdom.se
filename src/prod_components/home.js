@@ -4,8 +4,6 @@ import { withRouter, Link } from 'react-router-dom'
 import { Col, Row, Button } from 'antd'
 import "./home.css"
 
-
-
 const CenterWrapper = ({ children }) => (
 	<Row type = "flex" justify="center">
 		<Col type = "flex" justify="center" span={20}>
