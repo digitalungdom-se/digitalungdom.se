@@ -2,6 +2,11 @@
   color:#FFD700;
   transition: 0.1s
 }
+
+.asteriButton:hover{
+  color:#FFD700;
+  transition: 0.1s
+}
 .asteriButton{
   color:rgba(0,0,0,0.6);
 }
@@ -66,6 +71,11 @@
 
 .agora-post{
   border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.agora-post:hover{
+  border: 1px solid rgba(0,0,0,0.2);
 }
 
 .ant-card-actions{
