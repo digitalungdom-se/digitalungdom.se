@@ -7,10 +7,7 @@ import { timeToHex } from 'utils/time'
 function Filter({ updateFilter, time = 31, sort = "new" }) {
 
 	return (
-		<div
-			style={{background: "white", padding: "8px 0"}}
-		>
-
+		<div style={{background: "white", padding: "8px 0"}}>
 	 		<Row type="flex" justify="center">
 				<Col
 				xs={{ span: 22 }}
@@ -28,8 +25,10 @@ function Filter({ updateFilter, time = 31, sort = "new" }) {
 		 				>
 		 					Sortera efter
 		 				</span>
-		 				<Select defaultValue={sort}
+		 				<Select
+							defaultValue={sort}
 		 					onChange={sort => updateFilter({ sort })}
+							style={{border: "0"}}
 		 				>
 			 				<Select.Option value="new">nya</Select.Option>
 			 				<Select.Option value="top">topp</Select.Option>
@@ -38,7 +37,7 @@ function Filter({ updateFilter, time = 31, sort = "new" }) {
 
 		 			<Col>
 		 				<Select
-		 					defaultValue={time.toString()} buttonStyle="solid"
+		 					defaultValue={time.toString()}
 		 					onChange={(stringValue) => {
 		 						const value = {
 		 							day: 1,

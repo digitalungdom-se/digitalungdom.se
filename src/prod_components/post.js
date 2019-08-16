@@ -86,7 +86,7 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 				bodyStyle={{padding: 4, paddingRight: 30}}
 	      style={!comments ? {marginBottom: 12} : {}}>
 
-				<Link to={link}>
+				<Link to={link} style={{color: "rgba(0,0,0,0.6)"}}>
 
 					<Col span={4} style={{textAlign: "center", paddingTop: 30}}>
 						<Avatar icon="user" size={48}/>
