@@ -1,20 +1,30 @@
 .asteriButton:hover{
   color:#FFD700;
-  transition: 0.1s
+  transition: 0.1s;
 }
 
 .asteriButton:hover{
   color:#FFD700;
-  transition: 0.1s
+  transition: 0.1s;
 }
+
 .asteriButton{
   color:rgba(0,0,0,0.6);
 }
 
 .commentButton:hover{
-  transition: 0.1s
+  transition: 0.1s;
+  color: #4287f5;
 }
 .commentButton{
+  color:rgba(0,0,0,0.6);
+}
+
+.shareButton:hover{
+  transition: 0.1s;
+  color: #4287f5;
+}
+.shareButton{
   color:rgba(0,0,0,0.6);
 }
 
@@ -75,7 +85,7 @@
 }
 
 .agora-post:hover{
-  border: 1px solid rgba(0,0,0,0.2);
+  border: 1px solid rgba(0,0,0,0.25);
 }
 
 .ant-card-actions{

@@ -4,11 +4,7 @@ import { withRouter, Link } from 'react-router-dom'
 import { Col, Row, Button } from 'antd'
 import "./home.css"
 
-const fontSize = {
-	xs: 10,
-	sm: 20,
-	md: 40,
-}
+
 
 const CenterWrapper = ({ children }) => (
 	<Row type = "flex" justify="center">
@@ -20,14 +16,16 @@ const CenterWrapper = ({ children }) => (
 
 export default withTranslation() (
 	withRouter(({ t, location }) => {
+
     return(
 	<Col type="flex" justify="space-between">
 		<Row style={{background: "#05379c", paddingTop: 60, paddingBottom: 50, width: "100%"}}>
 			<CenterWrapper>
 				<Row type="flex" justify="space-between" align="middle">
 					<Col
-						sm={{span: 24}}
-						md={{span: 14}}
+						sm={{span: 22}}
+						md={{span: 22}}
+						lg={{span: 13}}
 					>
 						<div>
 							<img src={require("resources/images/FrontPage.png")}  style={{width: "100%"}}/>
@@ -35,17 +33,18 @@ export default withTranslation() (
 					</Col>
 
 					<Col
-						xs={{span: 20}}
-						sm={{span: 15}}
-						md={{span: 10}}
+						xs={{span: 20, offset: 1}}
+						sm={{span: 24, offset: 1}}
+						md={{span: 24, offset: 1}}
+						lg={{span: 10, offset: 1}}
 					>
 						<div>
 
 							<h1 style={{fontSize: 40, marginBottom: 10, color: 'white', fontWeight: 'bold'}}>Programmering är roligt!</h1>
 
-							<h3 style={{fontSize: 30, color: "rgba(255,255,255,0.9)", fontWeight: 'bold'}}>Här kan du lära dig, <br/> dela med dig av och hjälpa<br/> andra med programmering. </h3>
+							<h3 style={{fontSize: 30, color: "rgba(255,255,255,0.85)", fontWeight: 'bold'}}>Här kan du lära dig, <br/> dela med dig av och hjälpa<br/> andra med programmering. </h3>
 
-							<p style={{fontSize: 18, marginBottom: 40, color: "rgba(255,255,255,0.9)"}}>
+							<p style={{fontSize: 18, marginBottom: 40, color: "rgba(255,255,255,0.85)"}}>
 								Vi är ett svenskt ideellt ungdomsförbund för programmerings- och teknikintresserade ungdomar. Bli medlem och ta del av vår community! 🌟
 							</p>
 
@@ -87,13 +86,13 @@ export default withTranslation() (
 
 		<Row type="flex" justify="center" style={{flex: 1}}>
 			<Row type="flex" justify="center" style={{paddingTop: 140, paddingBottom: 80}}>
-				<Col span={8}>
+				<Col type="flex" justify="center"  md={{span: 4}}>
 					<div>
 						<img src={require("resources/images/underConstruction.png")} style={{height: 330, marginTop: -50}}/>
 					</div>
 				</Col>
 
-				<Col span={8}>
+				<Col type="flex" justify="center" xs={{span: 18}} sm={{span: 16}} md={{span: 8, offset: 8}} lg={{span: 8, offset: 4}}>
 					<div>
 
 						<h3 style={{fontSize: 28, color: "#434343", fontWeight: 'bold'}}>Arbete pågår!</h3>
