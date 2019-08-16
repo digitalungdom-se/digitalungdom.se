@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Avatar, Button, Divider, Empty, Row, Col, Rate, Card, Skeleton, Icon, Tag, Input } from 'antd'
 import Link from '@components/link.js'
+import { Redirect } from 'react-router';
 import Star from '@components/star'
 import Time from '@components/Time'
 import {agorizeComment} from 'containers/agorize'
@@ -49,7 +50,7 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 				//If its a text post with more than characters, render transparent faded div
 				if(post.body.length > wordLimitFadedDisplay){
 					return(
-						<Link to={link} style={{color:"rgba(0,0,0,0.7)", fontSize: 14 }}>
+						<Link style={{color:"rgba(0,0,0,0.7)", fontSize: 14 }}>
 							<div style={{postion: 'relative'}}>
 								<p>
 									{post.body.slice(0, wordLimitFadedDisplay) + "..."}
@@ -62,7 +63,7 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 				//For shorter posts
 				}else{
 					return (
-						<Link to={link} style={{color:"rgba(0,0,0,0.7)", fontSize: 16 }}>
+						<Link style={{color:"rgba(0,0,0,0.7)", fontSize: 16 }}>
 							<ReactMarkdown source={post.body} />
 						</Link>
 					)
@@ -74,8 +75,8 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 		}
 	}
 
+
 	const [isStarClicked, clickStar] = useState(starred)
-	// console.log(post.stars)
 
 	return (
 		<React.Fragment>
@@ -85,79 +86,74 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 				bodyStyle={{padding: 4, paddingRight: 30}}
 	      style={!comments ? {marginBottom: 12} : {}}>
 
-				<Col span={4} style={{textAlign: "center", paddingTop: 30}}>
-					<Avatar icon="user" size={48}/>
-				</Col>
+				<Link to={link}>
 
-				<Col style={{paddingTop: 8}} span={20}>
+					<Col span={4} style={{textAlign: "center", paddingTop: 30}}>
+						<Avatar icon="user" size={48}/>
+					</Col>
 
-					<Row
-						style={{width: "100%"}}
-						type="flex"
-						justify="space-between"
-					>
-						<Col>
-							<Link linkType="user" id={post.author} />
-						</Col>
+					<Col style={{paddingTop: 8}} span={20}>
 
-						<Col>
-							<Time time={post._id.substring(0, 8)} />
-							<Divider type="vertical"/>
-							<Link to={"/agora/h/" + post.hypagora}>
-								<Tag>{post.hypagora}</Tag>
-							</Link>
-						</Col>
-					</Row>
+						<Row
+							style={{width: "100%"}}
+							type="flex"
+							justify="space-between"
+						>
+							<Col>
+								<Link linkType="user" id={post.author} />
+							</Col>
 
-					<Row style={{width: "100%"}}>
-						<Link to={link}>
-							<h1>{post.title}</h1>
-						</Link>
-					</Row>
+							<Col>
+								<Time time={post._id.substring(0, 8)} />
+								<Divider type="vertical"/>
+								<Link to={"/agora/h/" + post.hypagora}>
+									<Tag>{post.hypagora}</Tag>
+								</Link>
+							</Col>
+						</Row>
 
-          <Row style={{width: "100%"}}>
-            <Body/>
-          </Row>
+						<Row style={{width: "100%"}}>
+								<h1>{post.title}</h1>
+						</Row>
 
-					<Row
-						style={{paddingBottom: 20}}
-					>
-						{
-							comments
-						}
-						{
-							!loading && post.tags.map(tag => <Tag style={{opacity: 0.6}}key={tag}>{tag}</Tag>)
-						}
-					</Row>
+	          <Row style={{width: "100%"}}>
+	            <Body/>
+	          </Row>
+
+						<Row style={{paddingBottom: 20}}>
+							{
+								comments
+							}
+							{
+								!loading && post.tags.map(tag => <Tag style={{opacity: 0.6}}key={tag}>{tag}</Tag>)
+							}
+						</Row>
 
 
-					<Row gutter ={20} style={{fontSize: 16, marginBottom: 10}}>
+						<Row gutter ={20} style={{fontSize: 16, marginBottom: 10}}>
 
-						<Col span={5}>
-							<span
-							className="asteriButton"
-							onClick={() => {
-								clickStar(!isStarClicked)
-								asteri(post._id)
-							}}>
-								<FontAwesomeIcon style={{marginRight: 4}} color={isStarClicked ? "gold" : ""} icon={faStar} /> {post.stars}
-							</span>
-						</Col>
+							<Col span={5}>
+								<span
+								className="asteriButton"
+								onClick={() => {
+									clickStar(!isStarClicked)
+									asteri(post._id)
+								}}>
+									<FontAwesomeIcon style={{marginRight: 4}} color={isStarClicked ? "gold" : ""} icon={faStar} /> {post.stars}
+								</span>
+							</Col>
 
-						<Col span={5}>
-							<Link className="commentButton" to={link}>
-								<FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
-							</Link>
-						</Col>
+							<Col span={5}>
+									<FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
+							</Col>
 
-						<Col span={5}>
-							<FontAwesomeIcon icon={faShare} />
-						</Col>
+							<Col span={5}>
+								<FontAwesomeIcon icon={faShare} />
+							</Col>
 
-					</Row>
-
-				</Col>
-
+						</Row>
+					</Col>
+				</Link>
 			</Card>
 
 			{
