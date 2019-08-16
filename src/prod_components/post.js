@@ -4,7 +4,7 @@ import Link from '@components/link.js'
 import { Redirect } from 'react-router';
 import Star from '@components/star'
 import Time from '@components/Time'
-import ProfilePicture from '@components/ProfilePicture'
+ import ProfilePicture from '@components/ProfilePicture'
 import {agorizeComment} from 'containers/agorize'
 import './post.css'
 import ReactMarkdown from 'react-markdown'
@@ -87,38 +87,10 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 				bodyStyle={{padding: 4, paddingRight: 30}}
 	      style={!comments ? {marginBottom: 12} : {}}>
 
-				<Col span={4} style={{textAlign: "center", paddingTop: 30}}>
-					<ProfilePicture id={post.author} size={56}/>
-				</Col>
-
-				<Col style={{paddingTop: 8}} span={20}>
-
-					<Row
-						style={{width: "100%"}}
-						type="flex"
-						justify="space-between"
-					>
-						<Col>
-							<Link linkType="user" id={post.author} />
-						</Col>
-
-						<Col>
-							<Time time={post._id.substring(0, 8)} />
-							<Divider type="vertical"/>
-							<Link to={"/agora/h/" + post.hypagora}>
-								<Tag>{post.hypagora}</Tag>
-							</Link>
-						</Col>
-					</Row>
-
-					<Row style={{width: "100%"}}>
-						<Link to={link}>
-							<h1>{post.title}</h1>
-						</Link>
-					</Row>
+				<Link to={link} style={{color: "rgba(0,0,0,0.6)"}}>
 
 					<Col span={4} style={{textAlign: "center", paddingTop: 30}}>
-						<Avatar icon="user" size={48}/>
+						<ProfilePicture id={post.author} size={48}/>
 					</Col>
 
 					<Col style={{paddingTop: 8}} span={20}>
