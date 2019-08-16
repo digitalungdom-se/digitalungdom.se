@@ -3,6 +3,7 @@ import { Avatar, Button, Divider, Empty, Row, Col, Rate, Card, Skeleton, Icon, T
 import Link from '@components/link.js'
 import Star from '@components/star'
 import Time from '@components/Time'
+import ProfilePicture from '@components/ProfilePicture'
 import {agorizeComment} from 'containers/agorize'
 import './post.css'
 import ReactMarkdown from 'react-markdown'
@@ -86,7 +87,7 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 	      style={!comments ? {marginBottom: 12} : {}}>
 
 				<Col span={4} style={{textAlign: "center", paddingTop: 30}}>
-					<Avatar icon="user" size={48}/>
+					<ProfilePicture id={post.author} size={56}/>
 				</Col>
 
 				<Col style={{paddingTop: 8}} span={20}>
