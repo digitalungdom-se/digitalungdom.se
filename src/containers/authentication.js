@@ -46,7 +46,7 @@ function Authentication({ t }) {
 	else return (
 		<Row
 			type="flex"
-			justify="right"
+			justify="end"
 			gutter={{
 				xs: 10,
 				sm: 20,

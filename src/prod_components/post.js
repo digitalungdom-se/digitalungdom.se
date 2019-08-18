@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Avatar, Button, Divider, Empty, Row, Col, Rate, Card, Skeleton, Icon, Tag, Input } from 'antd'
-import Link from '@components/link.js'
+import Link from '@components/link'
 import { Redirect } from 'react-router';
 import Star from '@components/star'
 import Time from '@components/Time'
@@ -12,7 +12,7 @@ import Comments from 'containers/comments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment, faShare, faStar } from '@fortawesome/free-solid-svg-icons'
 
-function Post({ empty, post, loading, children, link, asteri, comments, starred }) {
+function Post({ empty, post, loading, children, link, asteri, showComments, starred, showProfilePicture, user }) {
 
 	if(empty) return (
 		<Card>
@@ -81,28 +81,41 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 
 	return (
 		<React.Fragment>
-
 			<Card
 				className="agora-post"
-				bodyStyle={{padding: 4, paddingRight: 30}}
-        onClick={()=> console.log("he")}
-	      style={!comments ? {marginBottom: 12} : {}}>
-
-					<Col span={4} style={{textAlign: "center", paddingTop: 30}}>
-						<ProfilePicture id={post.author} size={48}/>
+				bodyStyle={{padding: 8, paddingLeft: 0}}
+	      style={!showComments ? {marginBottom: 12} : {}}
+	    >
+				<Link
+					to={link}
+					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
+				>
+					<Col
+						style={{textAlign: "center", paddingTop: 24, width: "10%", minWidth: 56, maxWidth: 72}}
+					>
+						{
+							showProfilePicture ?
+								<ProfilePicture id={post.author} size={40}/>
+							:
+								<Avatar
+									size={40}
+								/>
+						}
 					</Col>
-
-					<Col style={{paddingTop: 8}} span={20}>
-
+					<div
+						style={{paddingTop: 8, flex: "1"}} span={22}
+					>
 						<Row
 							style={{width: "100%"}}
 							type="flex"
 							justify="space-between"
 						>
 							<Col>
-								<Link linkType="user" id={post.author} />
+								<Link
+									linkType="user"
+									user={user}
+								/>
 							</Col>
-
 							<Col>
 								<Time time={post._id.substring(0, 8)} />
 								<Divider type="vertical"/>
@@ -111,7 +124,6 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 								</Link>
 							</Col>
 						</Row>
-
 						<Row style={{width: "100%"}}>
 							<Link to={link}>
 								<h1>{post.title}</h1>
@@ -122,9 +134,9 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 	            <Body/>
 	          </Row>
 
-						<Row style={{paddingBottom: 20}}>
+						<Row style={{paddingBottom: 8}}>
 							{
-								comments
+								showComments
 							}
 							{
 								!loading && post.tags.map(tag => <Tag style={{opacity: 0.6}}key={tag}>{tag}</Tag>)
@@ -158,11 +170,12 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 							</Col>
 
 						</Row>
-					</Col>
+					</div>
+				</Link>
 			</Card>
 
 			{
-				!loading && comments &&
+				!loading && showComments &&
 				<Row
 					type="flex"
 					justify="center"
