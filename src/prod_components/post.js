@@ -51,10 +51,10 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 				//If its a text post with more than characters, render transparent faded div
 				if(post.body.length > wordLimitFadedDisplay){
 					return(
-						<Link style={{color:"rgba(0,0,0,0.7)", fontSize: 14 }}>
+						<Link to={link} style={{color:"rgba(0,0,0,0.7)", fontSize: 14 }}>
 							<div style={{postion: 'relative'}}>
 								<p>
-									{post.body.slice(0, wordLimitFadedDisplay) + "..."}
+										{post.body.slice(0, wordLimitFadedDisplay) + "..."}
 								</p>
 								<div style={{position: 'absolute', bottom: 0, height: 100, width: "100%", backgroundImage: "linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1))"}}/>
 							</div>
@@ -85,9 +85,8 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 			<Card
 				className="agora-post"
 				bodyStyle={{padding: 4, paddingRight: 30}}
+        onClick={()=> console.log("he")}
 	      style={!comments ? {marginBottom: 12} : {}}>
-
-				<Link to={link} style={{color: "rgba(0,0,0,0.6)"}}>
 
 					<Col span={4} style={{textAlign: "center", paddingTop: 30}}>
 						<ProfilePicture id={post.author} size={48}/>
@@ -114,7 +113,9 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 						</Row>
 
 						<Row style={{width: "100%"}}>
+							<Link to={link}>
 								<h1>{post.title}</h1>
+							</Link>
 						</Row>
 
 	          <Row style={{width: "100%"}}>
@@ -158,7 +159,6 @@ function Post({ empty, post, loading, children, link, asteri, comments, starred 
 
 						</Row>
 					</Col>
-				</Link>
 			</Card>
 
 			{
