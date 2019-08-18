@@ -36,11 +36,15 @@ export default withTranslation()(
 					<LogoLink />
 				</Col>
 
-				<Row type = 'flex' gutter={gutter} justify = 'right'>
+				<Row
+					type='flex'
+					gutter={gutter}
+					justify="start"
+				>
 					<Col>
 						<Row
 							type="flex"
-							justify="right"
+							justify="start"
 							gutter={gutter}
 						>
 							<Col >

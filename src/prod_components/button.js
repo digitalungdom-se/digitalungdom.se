@@ -1,7 +1,4 @@
 import React from 'react'
+import { Button } from "antd"
 
-export default ({ children, onClick }) => (
-	<button onClick={onClick}>
-		{children}
-	</button>
-)
+export default Button

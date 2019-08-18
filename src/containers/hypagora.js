@@ -10,7 +10,7 @@ const Hypagora = ({ route, filter, hypagora = "general" }) => {
 
 	switch(route) {
 		case "comments":
-			inner = <Post comments id={filter.id} />
+			inner = <Post showComments id={filter.id} />
 			break
 		case "wiki":
 			inner = <Wiki hypagora={hypagora} />
