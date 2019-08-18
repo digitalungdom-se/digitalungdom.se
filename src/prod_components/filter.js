@@ -16,7 +16,7 @@ function Filter({ updateFilter, time = 31, sort = "new" }) {
 				lg={{ span: 18 }}
 				xl={{ span: 16 }}>
 
-				<Row type="flex" justify="start">
+				<Row type="flex" justify="end">
 		 			<Col
 		 				style={{marginRight: 16}}
 		 			>
