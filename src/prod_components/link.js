@@ -2,9 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 // import { Button } from '@components'
 import { Button } from 'antd'
-import { useSelector } from 'react-redux'
 
-export default ({ children, to = "", linkType, onClick, id, ...props}) => {
+export default ({ children, to = "", linkType, onClick, id, user, ...props}) => {
 	switch(linkType) {
 		case 'button':
 			return (
@@ -15,14 +14,13 @@ export default ({ children, to = "", linkType, onClick, id, ...props}) => {
 				</Link>
 			)
 		case 'user':
-			const user = useSelector(state => state.Users.users[id])
 			if(user) return (
 				!user.details ?
-				<code>[deleted]</code>
+					<code>[deleted]</code>
 				:
-				<Link to={"/@" + user.details.username} {...props}>
-					{user.details.name}
-				</Link>
+					<Link to={"/@" + user.details.username} {...props}>
+						{user.details.name}
+					</Link>
 			);
 			else return <code>{id === undefined ? "[deleted]" : "Loading..."}</code>
 		default:

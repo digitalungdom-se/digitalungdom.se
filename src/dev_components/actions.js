@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 // import { Link } from '@components'
 import Link from '@components/link'
-import Agorize from 'containers/agorize'
+import { agorizePost } from 'containers/agorize'
 
 function Actions({
 	like,
@@ -43,7 +43,7 @@ function Actions({
 						{
 							showsField &&
 							<div>
-								<Agorize
+								<agorizePost
 									replyTo={id}
 									agoragramType={agoragramType}
 									defaultBody={defaultBody}
