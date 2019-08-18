@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 // import { Post } from 'containers'
+import Empty from '@components/Empty'
 import Post from 'containers/post'
 // import { Users } from 'actions'
 import Users from 'actions/users'
@@ -16,7 +17,7 @@ function Posts({ hypagora }) {
 
 	if(!list) return ([0,0,0,0,0,0,0,0,0,0]).map((a, index) => <Post key={"loading_post" + index} loading={true} />);
 	else if(list.length) return list.map((id, index) => <Post loading={false} id={id} key={id} />);
-	else return <Post empty={true} />
+	else return <Empty description="Inga inlägg hittades med detta filter!" />
 }
 
 export default Posts

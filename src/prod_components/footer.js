@@ -17,16 +17,17 @@ export default () => {
     //temporär fix medans denna inte är i boiler som Wrapper.Footer
     <Row type = "flex" justify="space-around" style={{background: "#05379c", color: "white", paddingBottom: 10,}}>
       <Col
-      type = "flex"
-      justify="center"
-			xs={{ span: 22 }}
-			sm={{ span: 22 }}
-			md={{ span: 20 }}
-			lg={{ span: 18 }}
-			xl={{ span: 16 }}>
+        type="flex"
+        justify="center"
+  			xs={{ span: 22 }}
+  			sm={{ span: 22 }}
+  			md={{ span: 20 }}
+  			lg={{ span: 18 }}
+  			xl={{ span: 16 }}
+      >
         <Row
           type="flex"
-          justify="left"
+          justify="start"
           gutter={10}
           style ={{paddingTop: 30, paddingBottom: 20,}}
         >
