@@ -202,7 +202,7 @@ function UserPage({ user, loading }) {
 								type="flex"
 								justify="start"
 									style={{
-										background: user.profile.color? user.profile.color: '#83aef2',
+										background: user.profile.colour ? user.profile.colour: '#83aef2',
 										padding: 10,
 										borderTopRightRadius: 8,
 										borderTopLeftRadius: 8,
