@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Form, Icon, Input, Row, Col, Button, DatePicker, Select
 } from 'antd';
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import GDPR from './GDPR.js'
 import debounce from 'lodash/debounce'
 
@@ -311,7 +311,7 @@ class RegistrationForm extends React.Component {
               <Col>
                 <div>
                   Har du redan ett konto?
-                  <a href="login"> Logga in.</a>
+                  <Link to="/login"> Logga in.</Link>
                 </div>
               </Col>
             </Row>

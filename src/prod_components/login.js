@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {
   Form, Icon, Input, Row, Col, Button,
 } from 'antd';
@@ -79,7 +80,7 @@ function Register({ login, Auth, translations, form }) {
 						<Col>
 							<div>
 								Saknar du ett konto?
-								<a href="register"> Skapa ett här.</a>
+								<Link to="/register"> Skapa ett här.</Link>
 							</div>
 						</Col>
 					</Row>
