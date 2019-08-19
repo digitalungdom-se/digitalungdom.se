@@ -48,7 +48,6 @@ module.exports.login = async function ( req, res ) {
 };
 
 module.exports.logout = async function ( req, res ) {
-  console.log("YEAH")
   req.logout();
   req.session.destroy();
 
