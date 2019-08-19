@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col, Card, Avatar, Skeleton } from 'antd'
 import Loading from '@components/Loading'
-import ProfilePicture from '@components/ProfilePicture'
+import ProfilePicture from 'containers/ProfilePicture'
 
 const userColor = "pink";
 

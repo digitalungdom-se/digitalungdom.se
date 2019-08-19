@@ -9,15 +9,15 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['Auth', 'State', 'Settings']
+  whitelist: [ 'Auth', 'State', 'Settings' ]
 }
 
-const persistedReducer = persistReducer(persistConfig, reducer)
+const persistedReducer = persistReducer( persistConfig, reducer )
 
 export default () => {
-  let store = createStore(persistedReducer, composeWithDevTools(
-  	applyMiddleware(thunkMiddleware, callAPIMiddleware)
-  ))
-  let persistor = persistStore(store)
+  let store = createStore( persistedReducer, composeWithDevTools(
+    applyMiddleware( thunkMiddleware, callAPIMiddleware )
+  ) )
+  let persistor = persistStore( store )
   return { store, persistor }
 }
