@@ -3,7 +3,7 @@ import React from 'react'
 // import Button from '@components/button'
 import { Menu, Dropdown, Button, Row } from 'antd'
 import Link from '@components/link'
-import ProfilePicture from '@components/ProfilePicture'
+import ProfilePicture from 'containers/ProfilePicture'
 
 
 const menu = () => (
