@@ -39,6 +39,8 @@ class PostContainer extends React.Component {
 		}
 		let time = epochToRelativeTime(post._id)
 
+    console.log(post);
+
 		return (
 			<Post
 				loading={loading}
@@ -50,6 +52,7 @@ class PostContainer extends React.Component {
 				defaultBody={loading ? null : post.body}
 				report={this.props.report}
 				starred={this.props.starred}
+        showProfilePicture={true}
 			/>
 		)
 	}

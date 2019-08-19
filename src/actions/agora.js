@@ -16,10 +16,10 @@ const Agora = {
   ...createAsyncFunction( 'get_agoragram', { method: 'GET', route: '/api/agora/get/agoragram' }, [] ),
   ...createAsyncFunction( 'get_comments', { method: 'GET', route: '/api/get_comments' }, [] ),
 
-  viewComments: (post) => ({
+  viewComments: ( post ) => ( {
     type: 'VIEW_COMMENTS',
     post
-  })
+  } )
 
 }
 
@@ -41,7 +41,7 @@ Fields: {
   replyTo
 }
 */
-export function agorizePost(info, me) {
+export function agorizePost( info, me ) {
   return {
     types: [
       'AGORIZE_REQUEST',
@@ -49,17 +49,17 @@ export function agorizePost(info, me) {
       'AGORIZE_FAILURE'
     ],
     callAPI: () =>
-    fetch("/api/agora/agorize/post", {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        ...info,
-        hypagora: "general"
-      })
-    }),
+      fetch( "/api/agora/agorize/post", {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( {
+          ...info,
+          hypagora: "general"
+        } )
+      } ),
     payload: {
       ...info,
       me
@@ -67,7 +67,7 @@ export function agorizePost(info, me) {
   }
 }
 
-export function agorizeComment(info, me) {
+export function agorizeComment( info, me ) {
   return {
     types: [
       'AGORIZE_REQUEST',
@@ -75,17 +75,17 @@ export function agorizeComment(info, me) {
       'AGORIZE_FAILURE'
     ],
     callAPI: () =>
-    fetch("/api/agora/agorize/comment", {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        ...info,
-        hypagora: "general"
-      })
-    }),
+      fetch( "/api/agora/agorize/comment", {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( {
+          ...info,
+          hypagora: "general"
+        } )
+      } ),
     payload: {
       ...info,
       me
@@ -93,12 +93,12 @@ export function agorizeComment(info, me) {
   }
 }
 
-export const filterAgora = (filter) => ({
+export const filterAgora = ( filter ) => ( {
   type: "UPDATE_AGORA_FILTER",
   ...filter
-})
+} )
 
-export function getAgoragrams(filter) {
+export function getAgoragrams( filter ) {
   return {
     types: [
       'GET_AGORAGRAMS_REQUEST',
@@ -106,24 +106,24 @@ export function getAgoragrams(filter) {
       'GET_AGORAGRAMS_FAILURE'
     ],
     callAPI: () =>
-      fetch("/api/agora/get/agoragrams?" + query(filter)),
+      fetch( "/api/agora/get/agoragrams?" + query( filter ) ),
     callbacks: [
-      (response) => ({
+      ( response ) => ( {
         type: "GET_USER_SUCCESS",
         response,
         payload: {
           type: "objectid"
         }
-      })
+      } )
     ],
     payload: {
       ...filter,
-      query: query(filter)
+      query: query( filter )
     }
   }
 }
 
-export function getAgoragram(agoragramShortID) {
+export function getAgoragram( agoragramShortID ) {
   return {
     types: [
       'GET_AGORAGRAM_REQUEST',
@@ -131,12 +131,12 @@ export function getAgoragram(agoragramShortID) {
       'GET_AGORAGRAM_FAILURE'
     ],
     callAPI: () =>
-      fetch("/api/agora/get/agoragram?" + query({agoragramShortID})),
+      fetch( "/api/agora/get/agoragram?" + query( { agoragramShortID } ) ),
     callbacks: [
-      (response) => ({
+      ( response ) => ( {
         type: "GET_USER_SUCCESS",
         response
-      })
+      } )
     ],
     payload: {
       agoragramShortID,
@@ -144,7 +144,7 @@ export function getAgoragram(agoragramShortID) {
   }
 }
 
-export function antiAgorize(agoragramID) {
+export function antiAgorize( agoragramID ) {
   return {
     types: [
       'ANTI_AGORIZE_REQUEST',
@@ -152,21 +152,21 @@ export function antiAgorize(agoragramID) {
       'ANTI_AGORIZE_FAILURE'
     ],
     callAPI: () =>
-    fetch("/api/agora/anti_agorize", {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({agoragramID})
-    }),
+      fetch( "/api/agora/anti_agorize", {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( { agoragramID } )
+      } ),
     payload: {
       agoragramID
     }
   }
 }
 
-export function asteri(agoragramID) {
+export function asteri( agoragramID ) {
   return {
     types: [
       'ASTERI_REQUEST',
@@ -174,23 +174,23 @@ export function asteri(agoragramID) {
       'ASTERI_FAILURE'
     ],
     callAPI: () =>
-    fetch("/api/agora/asteri", {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        agoragramID
-      })
-    }),
+      fetch( "/api/agora/asteri", {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( {
+          agoragramID
+        } )
+      } ),
     payload: {
       agoragramID
     }
   }
 }
 
-export function reportAgoragram(id, reason) {
+export function reportAgoragram( id, reason ) {
   return {
     types: [
       'REPORT_AGORAGRAM_REQUEST',
@@ -198,18 +198,18 @@ export function reportAgoragram(id, reason) {
       'REPORT_AGORAGRAM_FAILURE'
     ],
     callAPI: () =>
-    fetch("/api/report", {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        place: "agoragram",
-        id,
-        reason
-      })
-    }),
+      fetch( "/api/report", {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( {
+          place: "agoragram",
+          id,
+          reason
+        } )
+      } ),
     payload: {
       place: "agoragram",
       id,

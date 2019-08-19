@@ -44,15 +44,6 @@ export default ({ hypagora = "general", children }) => {
 					type = "flex"
 					justify="space-between">
 
-          <Col
-          xs={{span: 0}}
-          sm={{span: 0}}
-          md={{span: 7}}
-          lg={{span: 7}}
-          type = "flex" justify="center">
-            <Widgets />
-          </Col>
-
 						<Col
 						xs={{ span: 22 }}
 						sm={{ span: 22 }}
@@ -60,6 +51,15 @@ export default ({ hypagora = "general", children }) => {
 						lg={{ span: 16 }}>
 							{children}
 						</Col>
+
+            <Col
+            xs={{span: 0}}
+            sm={{span: 0}}
+            md={{span: 7}}
+            lg={{span: 7}}
+            type = "flex" justify="center">
+              <Widgets />
+            </Col>
 
 					</Row>
 				</Col>
