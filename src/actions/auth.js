@@ -1,28 +1,28 @@
 import createAsyncFunction from './createAsyncFunction.js'
 import Users from 'actions/users'
 
-const addMeToUsers = (me, payload) => ({
+const addMeToUsers = ( me, payload ) => ( {
   type: "GET_USER_SUCCESS",
   response: {
-    users: [{_id: me.details._id, details: me.details}]
+    users: [ { _id: me.details._id, details: me.details } ]
   },
   payload
-})
+} )
 
-export function auth(form) {
+export function auth( form ) {
   return {
     types: [
       'AUTH_REQUEST',
       'AUTH_SUCCESS',
       'AUTH_FAILURE'
     ],
-    callAPI: () => fetch("/api/user/auth"),
-    callbacks: [addMeToUsers],
+    callAPI: () => fetch( "/api/user/auth" ),
+    callbacks: [ addMeToUsers ],
     payload: form
   }
 }
 
-export function login(form) {
+export function login( form ) {
   return {
     types: [
       'LOGIN_REQUEST',
@@ -30,15 +30,15 @@ export function login(form) {
       'LOGIN_FAILURE'
     ],
     callAPI: () =>
-      fetch("/api/user/login", {
+      fetch( "/api/user/login", {
         method: 'post',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(form)
-      }),
-    callbacks: [addMeToUsers],
+        body: JSON.stringify( form )
+      } ),
+    callbacks: [ addMeToUsers ],
     payload: {
       ...form,
       password: null
@@ -54,22 +54,22 @@ export function logout() {
       'LOGOUT_SUCCESS',
       'LOGOUT_FAILURE'
     ],
-    callAPI: () => fetch("/api/user/logout", {
-        method: 'delete',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }),
+    callAPI: () => fetch( "/api/user/logout", {
+      method: 'delete',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    } ),
     payload: null
   }
 }
 
-const receiveAuth = ( response ) => ({
+const receiveAuth = ( response ) => ( {
   type: 'RECEIVE_AUTH',
   response,
   receivedAt: Date.now()
-})
+} )
 
 // const fakeResponse = 0 ? {
 //   "type": "success",
@@ -78,11 +78,11 @@ const receiveAuth = ( response ) => ({
 // } : null
 
 // let Auth = {
-  // receiveAuth: ( response ) => ( {
-  //   type: 'RECEIVE_AUTH',
-  //   response,
-  //   receivedAt: Date.now()
-  // } )
+// receiveAuth: ( response ) => ( {
+//   type: 'RECEIVE_AUTH',
+//   response,
+//   receivedAt: Date.now()
+// } )
 // }
 
 // Auth = {
