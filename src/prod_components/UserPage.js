@@ -164,7 +164,6 @@ function renderProfile(user){
 function UserPage({ user, loading }) {
 
 	if (loading || !user.profile) return <Loading />
-	console.log(user)
 	return (
 		<div>
 
@@ -213,7 +212,8 @@ function UserPage({ user, loading }) {
 										paddingLeft: 30,
 									}}>
 									<Col>
-										<ProfilePicture style={{position: 'absolute'}} username={user.details.username} size={80}/>
+										<ProfilePicture style={{position: 'absolute'}} id={user._id} size={80}/>
+                    <span style={{marginLeft:10}}>{user.profile.status}</span>
 									</Col>
 								</Row>
 

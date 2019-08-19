@@ -4,6 +4,7 @@ const query = params => Object.keys( params )
   .join( '&' )
 
 export function getProfilePictureByID( id, size ) {
+  size = 100;
   return {
     // Types of actions to emit before and after
     types: [ 'GET_PROFILE_PICTURE_REQUEST', 'GET_PROFILE_PICTURE_SUCCESS', 'GET_PROFILE_PICTURE_FAILURE' ],
@@ -16,6 +17,7 @@ export function getProfilePictureByID( id, size ) {
 }
 
 export function getProfilePictureByUsername( username, size ) {
+  size = 100;
   return {
     // Types of actions to emit before and after
     types: [ 'GET_PROFILE_PICTURE_REQUEST', 'GET_PROFILE_PICTURE_SUCCESS', 'GET_PROFILE_PICTURE_FAILURE' ],

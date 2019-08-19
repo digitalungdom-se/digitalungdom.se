@@ -13,14 +13,14 @@ import { useDispatch, useSelector } from 'react-redux'
       id = useSelector(state => state.ProfilePictures.usernames[username]);
       profilePicture = useSelector(state => state.ProfilePictures.profilePictures[id]);
 
-      if(profilePicture === undefined) {
+      if(!profilePicture) {
         const dispatch = useDispatch();
         dispatch(getProfilePictureByUsername(username, size));
       }
     } else if (id) {
       profilePicture = useSelector(state => state.ProfilePictures.profilePictures[id]);
 
-      if(profilePicture === undefined) {
+      if(!profilePicture) {
         const dispatch = useDispatch();
         dispatch(getProfilePictureByID(id, size));
       }
