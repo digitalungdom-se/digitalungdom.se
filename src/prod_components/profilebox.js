@@ -18,12 +18,13 @@ const menu = (profile, logout) => (
 
     <Menu.Divider />
     <Menu.Item >
-      <span
+      <Link
       style = { { color: '#c95b55' } }
       onClick ={logout}
+      to="/"
       >
         Logga ut
-      </span>
+      </Link>
     </Menu.Item>
   </Menu>
 )
