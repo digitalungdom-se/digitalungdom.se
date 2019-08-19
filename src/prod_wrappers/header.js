@@ -3,7 +3,7 @@ import { Row, Col } from 'antd'
 import { NavLink } from 'react-router-dom'
 
 const Logo = () => (
-	<NavLink to="/" onClick={() => console.log("sup")}>
+	<NavLink to="/agora" onClick={() => console.log("sup")}>
 		<h1 className="logo">
 			Digital Ungdom
 		</h1>
