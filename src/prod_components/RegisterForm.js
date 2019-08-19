@@ -126,7 +126,6 @@ class RegistrationForm extends React.Component {
     //   validateStatus: 'validating'
     // } : (this.props.Register.username ? (this.props.Register.username && this.props.Register.username !== undefined ? {} : {validateStatus: 'error'}) : {validateStatus}
 
-    //FIXA: Gör så att logga in länken fungerar med translations
     return (
       <Row type="flex" justify="center" style={{flex:1}}
       >
