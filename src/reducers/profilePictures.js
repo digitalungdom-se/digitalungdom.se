@@ -50,8 +50,8 @@ export default ( state = {
 
       usernames[ action.response.username ] = action.response._id;
       profilePictures[ action.response._id ] = {
+        imageType: action.response.imageType,
         image: action.response.image,
-        imageType: action.response.imageType
       }
 
       return {
