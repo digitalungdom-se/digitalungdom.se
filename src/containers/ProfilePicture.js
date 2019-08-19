@@ -1,45 +1,36 @@
 import React from 'react'
-import { Avatar } from 'antd'
-import { getProfilePictureByUsername,  getProfilePictureByID} from 'actions/users'
-import { useSelector } from 'react-redux'
+import {Avatar} from 'antd'
+import {getProfilePictureByUsername, getProfilePictureByID} from 'actions/profilePicture'
+import { useDispatch, useSelector } from 'react-redux'
 
 
-function ProfilePicture({ size, username, id }) {
-	
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     src: "",
-  //     size: props.size,
-  //     username: props.username,
-  //     id: props.id,
-  //   };
-  // }
+ function ProfilePicture({size, username, id}) {
+    let src = "";
+    let res;
+    let profilePicture;
 
-  // // Do asynchronous action here
-  // async componentWillMount() {
-  //     const size = this.state.size;
-  //     const username = this.state.username;
-  //     const id = this.state.id;
-  //     let res;
+    if (username) {
+      id = useSelector(state => state.ProfilePictures.usernames[username]);
+      profilePicture = useSelector(state => state.ProfilePictures.profilePictures[id]);
 
-  //     if(username){
-  //       res = await getProfilePictureByUsername( username, size ).callAPI();
-  //     } else if (id) {
-  //       res = await getProfilePictureByID( id, size ).callAPI();
-  //     }
+      if(profilePicture === undefined) {
+        const dispatch = useDispatch();
+        dispatch(getProfilePictureByUsername(username, size));
+      }
+    } else if (id) {
+      profilePicture = useSelector(state => state.ProfilePictures.profilePictures[id]);
 
-  //     if(res && res.status === 200 ){
-  //       const image = await res.json();
-  //       const src = `data:${image.imageType.mime};base64, ${image.image}`;
-  //       this.setState({src})
-  //     }
-  // }
+      if(profilePicture === undefined) {
+        const dispatch = useDispatch();
+        dispatch(getProfilePictureByID(id, size));
+      }
+    }
 
-  // render() {
-  //     const { src, size } = this.state;
-  //     return <Avatar icon="user" src={src} size={size}/>
-  // }
+    if (profilePicture) {
+      src = `data:${profilePicture.imageType.mime};base64, ${profilePicture.image}`;
+    }
+
+    return <Avatar icon="user" src={src} size={size}/>
 }
 
 export default ProfilePicture

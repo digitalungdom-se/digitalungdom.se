@@ -4,7 +4,7 @@ import Link from '@components/link'
 import { Redirect } from 'react-router';
 import Star from '@components/star'
 import Time from '@components/Time'
- import ProfilePicture from '@components/ProfilePicture'
+ import ProfilePicture from 'containers/ProfilePicture'
 import {agorizeComment} from 'containers/agorize'
 import './post.css'
 import ReactMarkdown from 'react-markdown'

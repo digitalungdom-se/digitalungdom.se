@@ -7,14 +7,16 @@ import Settings from './settings.js'
 import State from './state.js'
 import Users from './users.js'
 import Register from './register.js'
+import ProfilePictures from './profilePictures.js'
 
-export default combineReducers({
-	Agora,
-	Auth,
-	Log,
-	Posts,
-	Settings,
-	State,
-	Users,
-	Register
-})
+export default combineReducers( {
+  Agora,
+  Auth,
+  Log,
+  Posts,
+  Settings,
+  State,
+  Users,
+  Register,
+  ProfilePictures
+} )
