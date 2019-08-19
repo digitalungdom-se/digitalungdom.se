@@ -147,7 +147,7 @@ class RegistrationForm extends React.Component {
         >
           <Form
             className="window"
-            style={{ padding: 30 }} onSubmit={this.handleSubmit}
+            style={{ padding: "30px 30px 0 30px " }} onSubmit={this.handleSubmit}
           >
             <Row>
               <Col>
@@ -307,11 +307,11 @@ class RegistrationForm extends React.Component {
               </Button>
             </Form.Item>
 
-            <Row style={{marginTop: 40}}>
+            <Row style={{margin: 30}}>
               <Col>
                 <div>
                   Har du redan ett konto?
-                  <Link to="/login"> Logga in.</Link>
+                  <Link style={{marginBottom: 10}} to="/login"> Logga in.</Link>
                 </div>
               </Col>
             </Row>
