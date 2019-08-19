@@ -55,7 +55,7 @@ export function logout() {
       'LOGOUT_FAILURE'
     ],
     callAPI: () => fetch("/api/user/logout", {
-        method: 'post',
+        method: 'delete',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
