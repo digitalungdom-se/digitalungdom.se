@@ -38,7 +38,7 @@ function renderProfile( user, canEdit, userColour, setUserColour ) {
   if ( editing === false ) {
     return (
       <div>
-				<p style={{ marginTop: 12, marginBottom: 16, color: 'rgba(0,0,0,0.9)', fontSize: 16}}>
+				<p style={{ marginTop: 8, marginBottom: 16, color: 'rgba(0,0,0,0.9)', fontSize: 16}}>
 					{user.profile.bio}
 				</p>
 
@@ -136,6 +136,7 @@ function UserPage( { user, loading, canEdit } ) {
                       @{user.details.username}
                     </span>
                       <span>{user.profile.status ? ` - ${user.profile.status}` : ''}</span>
+                      <p style={{fontSize:'13px', marginTop:4}}><a href={user.profile.url} target="_blank">{user.profile.url}</a></p>
 									</p>
 									{
 										renderProfile(user, canEdit, userColour, setUserColour)

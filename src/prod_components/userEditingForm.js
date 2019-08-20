@@ -77,6 +77,15 @@ class UserEditingForm extends React.Component {
         )}
       </Form.Item>
 
+      <Form.Item style={formStyle}>
+        {getFieldDecorator('link')(
+          <Input
+          prefix={<Icon type="paper-clip" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          placeholder="URL"
+          />
+        )}
+      </Form.Item>
+
         <Form.Item style={formStyle}>
           {getFieldDecorator('biography',
             {
@@ -88,24 +97,6 @@ class UserEditingForm extends React.Component {
               prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="Bio"
               autosize={{ minRows: 3, maxRows: 6 }}
-            />
-          )}
-        </Form.Item>
-
-        <Form.Item style={formStyle}>
-          {getFieldDecorator('link')(
-            <Input
-            prefix={<Icon type="paper-clip" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="URL"
-            />
-          )}
-        </Form.Item>
-
-        <Form.Item style={formStyle}>
-          {getFieldDecorator('email')(
-            <Input
-            prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Email"
             />
           )}
         </Form.Item>
@@ -175,14 +166,11 @@ const WrappedUserEditingForm = Form.create( {
       status: Form.createFormField( {
         value: props.user.profile.status,
       } ),
-      biography: Form.createFormField( {
-        value: props.user.profile.bio,
-      } ),
       link: Form.createFormField( {
         value: props.user.profile.url,
       } ),
-      email: Form.createFormField( {
-        value: props.user.details.email,
+      biography: Form.createFormField( {
+        value: props.user.profile.bio,
       } ),
       colour: Form.createFormField( {
         value: props.user.profile.colour,
