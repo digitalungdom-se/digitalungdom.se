@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { Button, Row, Col, Card, Avatar, Skeleton, Form, Select, Icon, Input } from 'antd'
 import Loading from '@components/Loading'
 import UserEditingForm from '@components/userEditingForm'
@@ -6,26 +6,41 @@ import ProfilePicture from 'containers/ProfilePicture'
 
 const userColor = "pink";
 
-const handleSubmit = (e) => {
-	e.preventDefault();
-	this.props.form.validateFieldsAndScroll((err, values) => {
-		if (!err) {
-			console.log('Received values of form: ', values);
-			this.props.register({
-				...values,
-				birthdate: values.birthdate.format('YYYY-MM-DD')
-			})
-		}
-	});
+const handleSubmit = ( e ) => {
+  e.preventDefault();
+  this.props.form.validateFieldsAndScroll( ( err, values ) => {
+    if ( !err ) {
+      console.log( 'Received values of form: ', values );
+      this.props.register( {
+        ...values,
+        birthdate: values.birthdate.format( 'YYYY-MM-DD' )
+      } )
+    }
+  } );
 }
 
-function renderProfile(user){
+function editingButton( setEditing, canEdit ) {
+  if ( canEdit ) {
+    return ( <Button
+ 				ghost
+ 				onClick={()=> {
+ 					setEditing(true)
+ 					}
+ 				}
+ 				style={{color: "rgba(0,0,0,0.5)", width: '100%', marginTop: 20, border: "1px solid rgba(0,0,0,0.2)"}}
+ 				>
+ 					Redigera profil
+ 				</Button> )
+  }
+}
 
-	const [editing, setEditing] = useState(false);
+function renderProfile( user, canEdit ) {
 
-	if(editing === false){
-		return(
-			<div>
+  const [ editing, setEditing ] = useState( false );
+
+  if ( editing === false ) {
+    return (
+      <div>
 				<p style={{ marginTop: 12, marginBottom: 16, color: 'rgba(0,0,0,0.9)', fontSize: 16}}>
 					{user.profile.bio}
 				</p>
@@ -34,31 +49,21 @@ function renderProfile(user){
 				style={{fontSize:12}}>
 					Medlem sedan {(new Date(parseInt(user._id.substring(0, 8), 16) * 1000)).toISOString().substring(0, 10)}
 				</div>
-
-				<Button
-				ghost
-				onClick={()=> {
-					setEditing(true)
-					}
-				}
-				style={{color: "rgba(0,0,0,0.5)", width: '100%', marginTop: 20, border: "1px solid rgba(0,0,0,0.2)"}}
-				>
-					Redigera profil
-				</Button>
+        {editingButton(setEditing, canEdit)}
 			</div>
-		)
-	}else{
+    )
+  } else {
 
-		return <UserEditingForm user={user} cancel={()=> setEditing(false)}/>
+    return <UserEditingForm user={user} cancel={()=> setEditing(false)}/>
 
-	}
+  }
 }
 
-function UserPage({ user, loading }) {
+function UserPage( { user, loading, canEdit } ) {
 
-	if (loading || !user.profile) return <Loading />
-	return (
-		<div>
+  if ( loading || !user.profile ) return <Loading />
+  return (
+    <div>
 
 			<Row
 				type="flex"
@@ -128,10 +133,14 @@ function UserPage({ user, loading }) {
 									<p
 										style={{fontSize:16, marginTop: -4}}
 									>
-										@{user.details.username} - {user.profile.status}
+										<span
+                      style={{color:user.profile.colour ? user.profile.colour: '#83aef2'}}>
+                      @{user.details.username}
+                    </span>
+                      <span>{user.profile.status ? ` - ${user.profile.status}` : ''}</span>
 									</p>
 									{
-										renderProfile(user)
+										renderProfile(user, canEdit)
 									}
 
 								</div>
@@ -170,7 +179,7 @@ function UserPage({ user, loading }) {
 				</Col>
 			</Row>
 		</div>
-	)
+  )
 }
 
 export default UserPage
