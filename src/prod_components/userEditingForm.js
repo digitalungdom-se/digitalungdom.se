@@ -1,5 +1,6 @@
 import React from 'react'
-import { Form, Icon, Row, Col, Select, Input, TextArea, Button, Option } from 'antd'
+import { Form, Icon, Row, Col, Select, Input, TextArea, Button, Option, Popover } from 'antd'
+import { SketchPicker } from 'react-color'
 
 const formStyle = {
   marginBottom: 6
@@ -10,55 +11,52 @@ const colourList = [
   "#5cc947",
   "#3091db",
   "#120d94",
-  "#F0C1C9",
+  "#f0c1c9",
   "#ad300e",
 
 ]
 
 class UserEditingForm extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.state={
-      color: this.props.user.profile.color
+  constructor( props ) {
+    super( props )
+    this.state = {
+      displayColorPicker: false,
+      confirmDirty: false,
+      autoCompleteResult: [],
     }
   }
 
-  state = {
-    confirmDirty: false,
-    autoCompleteResult: [],
+  componentWillMount() {
+    this.setState( { colour: this.props.user.profile.colour } )
   }
 
-  componentWillMount(){
-    this.setState({color: this.props.user.profile.color})
-  }
-
-  handleSubmit = (e) => {
+  handleSubmit = ( e ) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-        this.props.register({
+    this.props.form.validateFieldsAndScroll( ( err, values ) => {
+      if ( !err ) {
+        this.props.register( {
           ...values,
-          birthdate: values.birthdate.format('YYYY-MM-DD')
-        })
+          birthdate: values.birthdate.format( 'YYYY-MM-DD' )
+        } )
       }
-    });
+    } );
   }
 
-  handleColorChange = value => {
-    console.log(value)
-      this.props.form.setFieldsValue({
-        color: value
-      });
-      this.setState({color: value})
-   };
+  handlecolourChange = value => {
+    this.props.setUserColour( value.hex );
+  };
+
+  handleClick = () => {
+    this.setState( { displayColorPicker: !this.state.displayColorPicker } )
+  };
+
+  handleClose = () => {
+    this.setState( { displayColorPicker: false } )
+  };
 
   render() {
-
     const { getFieldDecorator } = this.props.form;
-
-    console.log(this.props.user)
 
     return (
 
@@ -118,24 +116,26 @@ class UserEditingForm extends React.Component {
           >
             <Form.Item>
               {getFieldDecorator('colour')(
-                <Select
-                  prefix={<Icon type="bg-colors" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="backgrundsfärg"
-                  onChange={this.handleColorChange}
-                >
-                  <Select.Option value={colourList[0]}>{colourList[0]}</Select.Option>
-                  <Select.Option value={colourList[1]}>{colourList[1]}</Select.Option>
-                  <Select.Option value={colourList[2]}>{colourList[2]}</Select.Option>
-                  <Select.Option value={colourList[3]}>{colourList[3]}</Select.Option>
-                  <Select.Option value={colourList[4]}>{colourList[4]}</Select.Option>
-                  <Select.Option value={colourList[5]}>{colourList[5]}</Select.Option>
-                </Select>,
+                <div style={{}}>
+                    <div
+                      style={{height:"20px",borderRadius: '2px',background: this.props.userColour}}
+                      onClick={ this.handleClick }
+                      />
+                  { this.state.displayColorPicker ? <div style={{position: 'absolute',zIndex: '2'}}>
+                  <div
+                    style={{position: 'fixed',top: '0px',right: '0px',bottom: '0px',left: '0px'}}
+                    onClick={ this.handleClose }
+                    />
+                  <SketchPicker
+                    color={ this.props.userColour }
+                    onChange={ this.handlecolourChange }
+                    disableAlpha={ true }
+                    presetColors={[]}
+                    />
+                </div> : null }
+              </div>
               )}
             </Form.Item>
-          </Col>
-
-          <Col span={6}>
-            <div style={{width: "100%", height: 32, marginTop: 4, borderRadius: 4, backgroundColor: this.state.color}}/>
           </Col>
         </Row>
 
@@ -168,21 +168,27 @@ class UserEditingForm extends React.Component {
   }
 }
 
-const WrappedUserEditingForm = Form.create({
+const WrappedUserEditingForm = Form.create( {
 
-  mapPropsToFields(props) {
+  mapPropsToFields( props ) {
     return {
-      biography: Form.createFormField({
+      status: Form.createFormField( {
+        value: props.user.profile.status,
+      } ),
+      biography: Form.createFormField( {
         value: props.user.profile.bio,
-      }),
-      link: Form.createFormField({
+      } ),
+      link: Form.createFormField( {
         value: props.user.profile.url,
-      }),
-      color: Form.createFormField({
-        value: props.user.profile.color,
-      }),
+      } ),
+      email: Form.createFormField( {
+        value: props.user.details.email,
+      } ),
+      colour: Form.createFormField( {
+        value: props.user.profile.colour,
+      } ),
     };
   },
-})(UserEditingForm);
+} )( UserEditingForm );
 
 export default WrappedUserEditingForm

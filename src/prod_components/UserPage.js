@@ -4,8 +4,6 @@ import Loading from '@components/Loading'
 import UserEditingForm from '@components/userEditingForm'
 import ProfilePicture from 'containers/ProfilePicture'
 
-const userColor = "pink";
-
 const handleSubmit = ( e ) => {
   e.preventDefault();
   this.props.form.validateFieldsAndScroll( ( err, values ) => {
@@ -34,8 +32,7 @@ function editingButton( setEditing, canEdit ) {
   }
 }
 
-function renderProfile( user, canEdit ) {
-
+function renderProfile( user, canEdit, userColour, setUserColour ) {
   const [ editing, setEditing ] = useState( false );
 
   if ( editing === false ) {
@@ -53,15 +50,14 @@ function renderProfile( user, canEdit ) {
 			</div>
     )
   } else {
-
-    return <UserEditingForm user={user} cancel={()=> setEditing(false)}/>
-
+    return <UserEditingForm user={user} cancel={()=> {setEditing(false);setUserColour(user.profile.colour)}} setUserColour={setUserColour} userColour={userColour}/>
   }
 }
 
 function UserPage( { user, loading, canEdit } ) {
-
   if ( loading || !user.profile ) return <Loading />
+  const [ userColour, setUserColour ] = useState( user.profile.colour ? user.profile.colour : '#83aef2' );
+
   return (
     <div>
 
@@ -101,8 +97,9 @@ function UserPage( { user, loading, canEdit } ) {
 								<Row
 									type="flex"
 									justify="start"
+                  class="du-background"
 									style={{
-										background: user.profile.colour ? user.profile.colour: '#83aef2',
+										background: userColour,
 										padding: 10,
 										borderTopRightRadius: 8,
 										borderTopLeftRadius: 8,
@@ -134,13 +131,14 @@ function UserPage( { user, loading, canEdit } ) {
 										style={{fontSize:16, marginTop: -4}}
 									>
 										<span
-                      style={{color:user.profile.colour ? user.profile.colour: '#83aef2'}}>
+                      class="du-colour"
+                      style={{color:userColour}}>
                       @{user.details.username}
                     </span>
                       <span>{user.profile.status ? ` - ${user.profile.status}` : ''}</span>
 									</p>
 									{
-										renderProfile(user, canEdit)
+										renderProfile(user, canEdit, userColour, setUserColour)
 									}
 
 								</div>
