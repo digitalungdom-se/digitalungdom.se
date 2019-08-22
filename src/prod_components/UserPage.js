@@ -1,39 +1,31 @@
 import React, { useState } from 'react'
-import { Button, Row, Col, Card, Avatar, Skeleton, Form, Select, Icon, Input } from 'antd'
+import { Button, Row, Col, Card, Avatar, Skeleton, Icon } from 'antd'
 import Loading from '@components/Loading'
 import UserEditingForm from '@components/userEditingForm'
 import ProfilePicture from 'containers/ProfilePicture'
-
-const handleSubmit = ( e ) => {
-  e.preventDefault();
-  this.props.form.validateFieldsAndScroll( ( err, values ) => {
-    if ( !err ) {
-      console.log( 'Received values of form: ', values );
-      this.props.register( {
-        ...values,
-        birthdate: values.birthdate.format( 'YYYY-MM-DD' )
-      } )
-    }
-  } );
-}
+import { useDispatch } from 'react-redux'
 
 function editingButton( setEditing, canEdit ) {
   if ( canEdit ) {
     return ( <Button
- 				ghost
- 				onClick={()=> {
- 					setEditing(true)
- 					}
- 				}
- 				style={{color: "rgba(0,0,0,0.5)", width: '100%', marginTop: 20, border: "1px solid rgba(0,0,0,0.2)"}}
- 				>
- 					Redigera profil
- 				</Button> )
+			ghost
+			onClick={()=> {
+				setEditing(true)
+				}
+			}
+			style={{color: "rgba(0,0,0,0.5)", width: '100%', marginTop: 20, border: "1px solid rgba(0,0,0,0.2)"}}
+			>
+				Redigera profil
+			</Button>
+		)
   }
 }
 
 function renderProfile( user, canEdit, userColour, setUserColour ) {
   const [ editing, setEditing ] = useState( false );
+
+	const dispatch = useDispatch()
+	const dispatchUserProfile = info => console.log(info)
 
   if ( editing === false ) {
     return (
@@ -50,7 +42,18 @@ function renderProfile( user, canEdit, userColour, setUserColour ) {
 			</div>
     )
   } else {
-    return <UserEditingForm user={user} cancel={()=> {setEditing(false);setUserColour(user.profile.colour)}} setUserColour={setUserColour} userColour={userColour}/>
+    return (
+			<UserEditingForm
+				user={user}
+				cancel={()=> {
+					setEditing(false);
+					setUserColour(user.profile.colour)
+				}}
+				updateProfile={dispatchUserProfile}
+				setUserColour={setUserColour}
+				userColour={userColour}
+			/>
+		)
   }
 }
 

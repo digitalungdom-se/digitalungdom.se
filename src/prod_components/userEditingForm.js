@@ -35,10 +35,21 @@ class UserEditingForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll( ( err, values ) => {
       if ( !err ) {
-        this.props.register( {
-          ...values,
-          birthdate: values.birthdate.format( 'YYYY-MM-DD' )
+        //Parse object to array type
+        let userProfile = []
+        const update = values.profile
+
+        Object.keys(update).forEach((item, index) => {
+          if(this.props.user.profile[item] !== update[item].value){
+            userProfile.push([update[item].update, {[item]: update[item].value}])
+          }
+        });
+
+        this.props.updateProfile( {
+          updates: userProfile
         } )
+      }else{
+        console.log(err)
       }
     } );
   }
@@ -65,7 +76,7 @@ class UserEditingForm extends React.Component {
       >
 
       <Form.Item style={formStyle}>
-        {getFieldDecorator('status',
+        {getFieldDecorator('profile.status',
           {
             min: 3, max: 24, message: 'Din status måste vara mellan 3 och 24 karaktärer.'
           }
@@ -78,7 +89,7 @@ class UserEditingForm extends React.Component {
       </Form.Item>
 
       <Form.Item style={formStyle}>
-        {getFieldDecorator('link')(
+        {getFieldDecorator('profile.url')(
           <Input
           prefix={<Icon type="paper-clip" style={{ color: 'rgba(0,0,0,.25)' }} />}
           placeholder="URL"
@@ -87,7 +98,7 @@ class UserEditingForm extends React.Component {
       </Form.Item>
 
         <Form.Item style={formStyle}>
-          {getFieldDecorator('biography',
+          {getFieldDecorator('profile.bio',
             {
               max: 200, message: 'Din bio får max vara 200 karaktärer.'
             }
@@ -103,10 +114,19 @@ class UserEditingForm extends React.Component {
 
         <Row gutter={8}>
           <Col
-            span={18}
+            span={4}
+          >
+            <Icon
+              type="bg-colors"
+              style={{ marginLeft: 12, color: 'rgba(0,0,0,.25)' }}
+            />
+          </Col>
+
+          <Col
+            span={20}
           >
             <Form.Item>
-              {getFieldDecorator('colour')(
+              {getFieldDecorator('profile.colour')(
                 <div style={{}}>
                     <div
                       style={{height:"20px",borderRadius: '2px',background: this.props.userColour}}
@@ -135,7 +155,7 @@ class UserEditingForm extends React.Component {
             <Form.Item >
               <Button
                 style={{width: '100%'}} type="primary" htmlType="submit"
-                loading={this.props.registering}
+                onClick={this.handleSubmit}
               >
                 Spara
               </Button>
@@ -163,17 +183,29 @@ const WrappedUserEditingForm = Form.create( {
 
   mapPropsToFields( props ) {
     return {
-      status: Form.createFormField( {
-        value: props.user.profile.status,
+      'profile.status': Form.createFormField( {
+        value: {
+          value: props.user.profile.status,
+          update: "profile.status"
+        },
       } ),
-      link: Form.createFormField( {
-        value: props.user.profile.url,
+      'profile.url': Form.createFormField( {
+        value: {
+          value: props.user.profile.url,
+          update: "profile.url"
+        },
       } ),
-      biography: Form.createFormField( {
-        value: props.user.profile.bio,
+      'profile.bio': Form.createFormField( {
+        value:{
+          value: props.user.profile.bio,
+          update: "profile.bio"
+        }
       } ),
-      colour: Form.createFormField( {
-        value: props.user.profile.colour,
+      'profile.colour': Form.createFormField( {
+        value: {
+          value: props.user.profile.colour,
+          update: "profile.colour"
+        }
       } ),
     };
   },
