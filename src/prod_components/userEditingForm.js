@@ -37,19 +37,26 @@ class UserEditingForm extends React.Component {
       if ( !err ) {
         //Parse object to array type
         let userProfile = []
+        console.log( values );
         const update = values.profile
 
-        Object.keys(update).forEach((item, index) => {
-          if(this.props.user.profile[item] !== update[item].value){
-            userProfile.push([update[item].update, {[item]: update[item].value}])
+        Object.keys( update ).forEach( ( item, index ) => {
+          if ( this.props.user.profile[ item ] !== update[ item ] ) {
+            userProfile.push( [ `profile.${item}`, {
+              [ item ]: update[ item ]
+            } ] )
           }
-        });
+        } );
 
-        this.props.updateProfile( {
-          updates: userProfile
-        } )
-      }else{
-        console.log(err)
+        if ( userProfile.length > 0 ) {
+          this.props.edit( {
+            updates: userProfile
+          } )
+        }
+
+        this.props.submit()
+      } else {
+        console.log( err )
       }
     } );
   }
@@ -184,28 +191,16 @@ const WrappedUserEditingForm = Form.create( {
   mapPropsToFields( props ) {
     return {
       'profile.status': Form.createFormField( {
-        value: {
-          value: props.user.profile.status,
-          update: "profile.status"
-        },
+        value: props.user.profile.status,
       } ),
       'profile.url': Form.createFormField( {
-        value: {
-          value: props.user.profile.url,
-          update: "profile.url"
-        },
+        value: props.user.profile.url,
       } ),
       'profile.bio': Form.createFormField( {
-        value:{
-          value: props.user.profile.bio,
-          update: "profile.bio"
-        }
+        value: props.user.profile.bio
       } ),
       'profile.colour': Form.createFormField( {
-        value: {
-          value: props.user.profile.colour,
-          update: "profile.colour"
-        }
+        value: props.user.profile.colour
       } ),
     };
   },

@@ -16,16 +16,12 @@ function editingButton( setEditing, canEdit ) {
 			style={{color: "rgba(0,0,0,0.5)", width: '100%', marginTop: 20, border: "1px solid rgba(0,0,0,0.2)"}}
 			>
 				Redigera profil
-			</Button>
-		)
+			</Button> )
   }
 }
 
-function renderProfile( user, canEdit, userColour, setUserColour ) {
+function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   const [ editing, setEditing ] = useState( false );
-
-	const dispatch = useDispatch()
-	const dispatchUserProfile = info => console.log(info)
 
   if ( editing === false ) {
     return (
@@ -43,21 +39,24 @@ function renderProfile( user, canEdit, userColour, setUserColour ) {
     )
   } else {
     return (
-			<UserEditingForm
+      <UserEditingForm
 				user={user}
 				cancel={()=> {
 					setEditing(false);
 					setUserColour(user.profile.colour)
 				}}
-				updateProfile={dispatchUserProfile}
+        submit={()=> {
+          setEditing(false);
+        }}
 				setUserColour={setUserColour}
 				userColour={userColour}
+        edit={edit}
 			/>
-		)
+    )
   }
 }
 
-function UserPage( { user, loading, canEdit } ) {
+function UserPage( { user, loading, canEdit, edit } ) {
   if ( loading || !user.profile ) return <Loading />
   const [ userColour, setUserColour ] = useState( user.profile.colour ? user.profile.colour : '#83aef2' );
 
@@ -142,7 +141,7 @@ function UserPage( { user, loading, canEdit } ) {
                       <p style={{fontSize:'13px', marginTop:4}}><a href={user.profile.url} target="_blank">{user.profile.url}</a></p>
 									</p>
 									{
-										renderProfile(user, canEdit, userColour, setUserColour)
+										renderProfile(user, canEdit, edit,userColour, setUserColour)
 									}
 
 								</div>
