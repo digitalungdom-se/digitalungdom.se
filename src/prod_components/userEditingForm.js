@@ -6,16 +6,6 @@ const formStyle = {
   marginBottom: 6
 }
 
-const colourList = [
-  "#fcba03",
-  "#5cc947",
-  "#3091db",
-  "#120d94",
-  "#f0c1c9",
-  "#ad300e",
-
-]
-
 class UserEditingForm extends React.Component {
 
   constructor( props ) {
@@ -85,7 +75,7 @@ class UserEditingForm extends React.Component {
       <Form.Item style={formStyle}>
         {getFieldDecorator('profile.status',
           {
-            min: 3, max: 24, message: 'Din status måste vara mellan 3 och 24 karaktärer.'
+            min: 3, max: 16, message: 'Din status måste vara mellan 3 och 24 karaktärer.'
           }
         )(
           <Input
@@ -112,7 +102,6 @@ class UserEditingForm extends React.Component {
           )(
             <Input.TextArea
               value="this.props.user.profile.bio"
-              prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="Bio"
               autosize={{ minRows: 3, maxRows: 6 }}
             />
@@ -159,7 +148,7 @@ class UserEditingForm extends React.Component {
 
         <Row gutter={8}>
           <Col span={12}>
-            <Form.Item >
+            <Form.Item style={{marginBottom: 0}}>
               <Button
                 style={{width: '100%'}} type="primary" htmlType="submit"
                 onClick={this.handleSubmit}
@@ -170,7 +159,7 @@ class UserEditingForm extends React.Component {
           </Col>
 
           <Col span={12}>
-            <Form.Item >
+            <Form.Item style={{marginBottom: 0}}>
               <Button
       					ghost
       					onClick={this.props.cancel}
