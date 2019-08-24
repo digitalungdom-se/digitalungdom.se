@@ -26,15 +26,82 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   if ( editing === false ) {
     return (
       <div>
-				<p style={{ marginTop: 8, marginBottom: 16, color: 'rgba(0,0,0,0.9)', fontSize: 16}}>
+				<p style={{ marginTop: 8, marginBottom: 24, color: 'rgba(0,0,0,0.9)', fontSize: 18}}>
 					{user.profile.bio}
 				</p>
 
-				<div
-				style={{fontSize:12}}>
-					Medlem sedan {(new Date(parseInt(user._id.substring(0, 8), 16) * 1000)).toISOString().substring(0, 10)}
-				</div>
+				<p style={{fontSize: 13, margin: "6px 0px"}}>
+					<a
+					href={user.profile.url}
+					target="_blank"
+					>
+						{
+							user.profile.url?
+							(
+								<Row
+								type="flex"
+								justify="left"
+								gutter={6}
+								>
+									<Col>
+										<Icon
+										type="paper-clip"
+										style={{ color: 'rgba(0,0,0,.25)' }}
+										/>
+									</Col>
+									<Col>
+									{user.profile.url}
+									</Col>
+								</Row>
+							):
+							null
+						}
+					</a>
+				</p>
+
+				<p style={{fontSize: 13, margin: "6px 0px"}}>
+					{
+						user.details.email?
+						(
+							<Row
+							type="flex"
+							justify="left"
+							gutter={6}
+							>
+								<Col>
+									<Icon
+									type="mail"
+									style={{ color: 'rgba(0,0,0,.25)' }}
+									/>
+								</Col>
+								<Col>
+								{user.details.email}
+								</Col>
+							</Row>
+						):
+						null
+					}
+				</p>
+
+				<Row
+				style={{fontSize: 13, margin: "6px 0px"}}
+				type="flex"
+				justify="left"
+				gutter={6}
+				>
+					<Col>
+						<Icon
+						type="clock-circle"
+						style={{ color: 'rgba(0,0,0,.25)', marginLeft: -3}}
+						/>
+					</Col>
+					<Col>
+						Medlem sedan {(new Date(parseInt(user._id.substring(0, 8), 16) * 1000)).toISOString().substring(0, 10)}
+					</Col>
+				</Row>
+
         {editingButton(setEditing, canEdit)}
+
 			</div>
     )
   } else {
@@ -84,16 +151,18 @@ function UserPage( { user, loading, canEdit, edit } ) {
 					>
 
 						<Col
-							xs={{span: 0}}
-							sm={{span: 0}}
-							md={{span: 7}}
-							lg={{span: 7}}
-							type = "flex" justify="center">
+							xs={{span: 22}}
+							sm={{span: 22}}
+							md={{span: 9}}
+							lg={{span: 8}}
+							type = "flex"
+							justify="center">
 							<Col
 								style={{
 									background: "white",
 									border:'1px solid rgba(0,0,0,0.1)',
 									borderRadius: 8,
+									marginBottom: 16,
 								}}
 							>
 								<Row
@@ -138,7 +207,6 @@ function UserPage( { user, loading, canEdit, edit } ) {
                       @{user.details.username}
                     </span>
                       <span>{user.profile.status ? ` - ${user.profile.status}` : ''}</span>
-                      <p style={{fontSize:'13px', marginTop:4}}><a href={user.profile.url} target="_blank">{user.profile.url}</a></p>
 									</p>
 									{
 										renderProfile(user, canEdit, edit,userColour, setUserColour)
@@ -151,8 +219,8 @@ function UserPage( { user, loading, canEdit, edit } ) {
             <Col
             xs={{ span: 22 }}
             sm={{ span: 22 }}
-            md={{ span: 16 }}
-            lg={{ span: 16 }}>
+            md={{ span: 14 }}
+            lg={{ span: 15 }}>
 
               <div>
                 <Card>

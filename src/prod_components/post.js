@@ -96,7 +96,7 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 			<Card
 				className="agora-post"
 				bodyStyle={{padding: 8, paddingRight: "5%" }}
-	      style={!showComments ? {marginBottom: 12} : {}}
+	      style={!showComments ? {marginBottom: 12} : {marginTop: "5%"}}
 	    >
         <Route render={({ history}) => (
   				<span
