@@ -19,10 +19,9 @@ export default withTranslation()(
 	({ t }) => {
 
 		const dispatch = useDispatch()
-
 		const dispatchLogin = info => dispatch(login(info))
 
-		return (
+    return (
 			<div>
 				<Login
 					translations={{

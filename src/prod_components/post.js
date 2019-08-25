@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { Avatar, Button, Divider, Empty, Row, Col, Rate, Card, Skeleton, Icon, Tag, Input } from 'antd'
 import Link from '@components/link'
-import { Redirect } from 'react-router';
+import { Redirect } from 'react-router'
+import { Route } from 'react-router-dom'
 import Star from '@components/star'
 import Time from '@components/Time'
- import ProfilePicture from '@components/ProfilePicture'
+ import ProfilePicture from 'containers/ProfilePicture'
 import {agorizeComment} from 'containers/agorize'
 import './post.css'
 import ReactMarkdown from 'react-markdown'
@@ -30,16 +31,16 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 	if(loading) return (
 		<div>
 			<Card>
-			<Skeleton active avatar paragraph={{ rows: 2 }} />
+			   <Skeleton active avatar paragraph={{ rows: 2 }} />
 			</Card>
 		</div>
 	)
 	const deleted = post.deleted
 
-	let wordLimitFadedDisplay = 600;
+	let wordLimitFadedDisplay = 400;
 
 	//Renders post body
-  const Body =() => {
+  const Body = () => {
 
 		//For some reason you must wait, this the if statment
 		if(post.body) {
@@ -51,14 +52,25 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 				//If its a text post with more than characters, render transparent faded div
 				if(post.body.length > wordLimitFadedDisplay){
 					return(
-						<Link style={{color:"rgba(0,0,0,0.7)", fontSize: 14 }}>
+						<span to={link} style={{color:"rgba(0,0,0,0.7)", fontSize: 14 }}>
 							<div style={{postion: 'relative'}}>
-								<p>
-									{post.body.slice(0, wordLimitFadedDisplay) + "..."}
-								</p>
-								<div style={{position: 'absolute', bottom: 0, height: 100, width: "100%", backgroundImage: "linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1))"}}/>
+
+										{
+                      //Post is open if the comments are showing
+                      showComments?
+                      (<p>{post.body}</p>)
+                      :
+                      (
+                        <div>
+                        <p>{post.body.slice(0, wordLimitFadedDisplay) + "..."}</p>
+                        <div style={{position: 'absolute', bottom: 0, height: 100, width: "100%", backgroundImage: "linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1))"}}/>
+                        </div>
+                      )
+
+                    }
+
 							</div>
-						</Link>
+						</span>
 					)
 
 				//For shorter posts
@@ -83,93 +95,97 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 		<React.Fragment>
 			<Card
 				className="agora-post"
-				bodyStyle={{padding: 8, paddingLeft: 0}}
-	      style={!showComments ? {marginBottom: 12} : {}}
+				bodyStyle={{padding: 8, paddingRight: "5%" }}
+	      style={!showComments ? {marginBottom: 12} : {marginTop: "5%"}}
 	    >
-				<Link
-					to={link}
-					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
-				>
-					<Col
-						style={{textAlign: "center", paddingTop: 24, width: "10%", minWidth: 56, maxWidth: 72}}
-					>
-						{
-							showProfilePicture ?
-								<ProfilePicture id={post.author} size={40}/>
-							:
-								<Avatar
-									size={40}
-								/>
-						}
-					</Col>
-					<div
-						style={{paddingTop: 8, flex: "1"}} span={22}
-					>
-						<Row
-							style={{width: "100%"}}
-							type="flex"
-							justify="space-between"
-						>
-							<Col>
-								<Link
-									linkType="user"
-									user={user}
-								/>
-							</Col>
-							<Col>
-								<Time time={post._id.substring(0, 8)} />
-								<Divider type="vertical"/>
-								<Link to={"/agora/h/" + post.hypagora}>
-									<Tag>{post.hypagora}</Tag>
-								</Link>
-							</Col>
-						</Row>
-						<Row style={{width: "100%"}}>
-								<h1>{post.title}</h1>
-						</Row>
+        <Route render={({ history}) => (
+  				<span
+  					onClick={() => { history.push(link) }}
+  					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
+  				>
+  					<Col
+  						style={{textAlign: "center", paddingTop: 20, width: "10%", minWidth: 56, maxWidth: 72}}
+  					>
+  						{
+  							showProfilePicture ?
+  								<ProfilePicture id={post.author} size={40}/>
+  							:
+  								<Avatar
+  									size={40}
+  								/>
+  						}
+  					</Col>
+  					<div
+  						style={{paddingTop: 8, flex: "1"}} span={22}
+  					>
+  						<Row
+  							style={{width: "100%"}}
+  							type="flex"
+  							justify="space-between"
+  						>
+  							<Col>
+  								<Link
+  									linkType="user"
+  									user={user}
+  								/>
+  							</Col>
+  							<Col>
+  								<Time time={post._id.substring(0, 8)} />
+  								<Divider type="vertical"/>
+  								<Link to={"/agora/h/" + post.hypagora}>
+  									<Tag>{post.hypagora}</Tag>
+  								</Link>
+  							</Col>
+  						</Row>
+  						<Row style={{width: "100%"}}>
+  							<Link to={link}>
+  								<h1>{post.title}</h1>
+  							</Link>
+  						</Row>
 
-	          <Row style={{width: "100%"}}>
-	            <Body/>
-	          </Row>
+  	          <Row style={{width: "100%"}}>
+  	            <Body/>
+  	          </Row>
 
-						<Row style={{paddingBottom: 8}}>
-							{
-								showComments
-							}
-							{
-								!loading && post.tags.map(tag => <Tag style={{opacity: 0.6}}key={tag}>{tag}</Tag>)
-							}
-						</Row>
+  						<Row style={{paddingBottom: 8}}>
+  							{
+  								showComments
+  							}
+  							{
+  								!loading && post.tags.map(tag => <Tag style={{opacity: 0.6}}key={tag}>{tag}</Tag>)
+  							}
+  						</Row>
 
 
-						<Row gutter ={20} style={{fontSize: 16, marginBottom: 10}}>
+  						<Row gutter ={20} style={{fontSize: 16, marginBottom: 10}}>
 
-							<Col span={5}>
-								<span
-								className="asteriButton"
-								onClick={() => {
-									clickStar(!isStarClicked)
-									asteri(post._id)
-								}}>
-									<FontAwesomeIcon style={{marginRight: 4}} color={isStarClicked ? "gold" : ""} icon={faStar} /> {post.stars}
-								</span>
-							</Col>
+  							<Col span={5}>
+  								<span
+  								className="asteriButton"
+  								onClick={() => {
+  									clickStar(!isStarClicked)
+  									asteri(post._id)
+  								}}>
+  									<FontAwesomeIcon style={{marginRight: 4}} color={isStarClicked ? "gold" : ""} icon={faStar} /> {post.stars}
+  								</span>
+  							</Col>
 
-							<Col span={5}>
-								<span className="commentButton">
-									<FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
-								</span>
-							</Col>
+  							<Col span={5}>
+  								<span className="commentButton">
+  									<FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
+  								</span>
+  							</Col>
 
-							<Col span={5}>
-								<span className="shareButton">
-									<FontAwesomeIcon icon={faShare} />
-								</span>
-							</Col>
+  							<Col span={5}>
+  								<span className="shareButton">
+  									<FontAwesomeIcon icon={faShare} />
+  								</span>
+  							</Col>
 
-						</Row>
-					</div>
-				</Link>
+  						</Row>
+  					</div>
+  				</span>
+        )} />
 			</Card>
 
 			{
