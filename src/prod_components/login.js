@@ -1,9 +1,8 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {
   Form, Icon, Input, Row, Col, Button,
 } from 'antd';
-
-//FIXA: Gör så att register länken fungerar med translations
 
 function Register({ login, Auth, translations, form }) {
 	const { getFieldDecorator } = form
@@ -75,11 +74,11 @@ function Register({ login, Auth, translations, form }) {
 						</Button>
 					</Form.Item>
 
-					<Row style={{margin: 40}}>
+					<Row style={{margin: 30}}>
 						<Col>
 							<div>
 								Saknar du ett konto?
-								<a href="register"> Skapa ett här.</a>
+								<Link to="/register"> Skapa ett här.</Link>
 							</div>
 						</Col>
 					</Row>

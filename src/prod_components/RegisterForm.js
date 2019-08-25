@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Form, Icon, Input, Row, Col, Button, DatePicker, Select
 } from 'antd';
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import GDPR from './GDPR.js'
 import debounce from 'lodash/debounce'
 
@@ -126,7 +126,6 @@ class RegistrationForm extends React.Component {
     //   validateStatus: 'validating'
     // } : (this.props.Register.username ? (this.props.Register.username && this.props.Register.username !== undefined ? {} : {validateStatus: 'error'}) : {validateStatus}
 
-    //FIXA: Gör så att logga in länken fungerar med translations
     return (
       <Row type="flex" justify="center" style={{flex:1}}
       >
@@ -147,7 +146,7 @@ class RegistrationForm extends React.Component {
         >
           <Form
             className="window"
-            style={{ padding: 30 }} onSubmit={this.handleSubmit}
+            style={{ padding: "30px 30px 0 30px " }} onSubmit={this.handleSubmit}
           >
             <Row>
               <Col>
@@ -307,11 +306,11 @@ class RegistrationForm extends React.Component {
               </Button>
             </Form.Item>
 
-            <Row style={{marginTop: 40}}>
+            <Row style={{margin: 30}}>
               <Col>
                 <div>
                   Har du redan ett konto?
-                  <a href="login"> Logga in.</a>
+                  <Link style={{marginBottom: 10}} to="/login"> Logga in.</Link>
                 </div>
               </Col>
             </Row>
@@ -326,5 +325,3 @@ class RegistrationForm extends React.Component {
 const WrappedRegistrationForm = Form.create()(RegistrationForm);
 
 export default WrappedRegistrationForm
-
-// export default WrappedRegistrationForm

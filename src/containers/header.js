@@ -11,12 +11,24 @@ import { withRouter, NavLink } from 'react-router-dom'
 import { Row, Col } from '@components/grid'
 import Logo from '@components/Logo'
 import Link from '@components/link'
+import { useSelector } from 'react-redux'
 
-const LogoLink = () => (
-	<NavLink style={{textAlign: 'left'}}to="/">
+
+const LogoLink = () => {
+  const authorized = useSelector(state => state.Auth.authorized)
+
+  if(!authorized){
+	return (
+  <NavLink style={{textAlign: 'left'}}to="/">
 		<Logo />
-	</NavLink>
-)
+	</NavLink>);
+  } else{
+  return (
+    <NavLink style={{textAlign: 'left'}}to="/agora">
+  		<Logo />
+  	</NavLink>);
+  }
+}
 
 const gutter = {
 	xs: 10,
