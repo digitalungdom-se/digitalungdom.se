@@ -2,6 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom'
 import { action } from '@storybook/addon-actions';
+import { withKnobs, text, boolean, number } from '@storybook/addon-knobs';
 
 import Post from '@components/post'
 
@@ -23,6 +24,7 @@ const user = {
 }
 
 storiesOf('Agora/Post', module)
+	.addDecorator(withKnobs)
 	.addDecorator(story => (
 	    <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
 	))
@@ -31,11 +33,18 @@ storiesOf('Agora/Post', module)
 			loading={true}
 		/>
 	))
-	.add('Post', () => (
-		<Post
-			post={post}
-			showProfilePicture={false}
-			user={user}
-			asteri={action("starred")}
-		/>
-	))
+	.add('Post', () => {
+		const stars = number('Stars', 1)
+
+		return (
+			<Post
+				post={{
+					...post,
+					stars
+				}}
+				showProfilePicture={false}
+				user={user}
+				asteri={action("starred")}
+			/>
+		)
+	})

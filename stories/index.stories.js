@@ -8,7 +8,7 @@ import { Welcome } from '@storybook/react/demo';
 import Button from "prod_components/button";
 
 import './Agora/index.js'
-import './miscellaneous'
+import './miscellaneous.js'
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
