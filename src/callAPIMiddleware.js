@@ -50,13 +50,12 @@ function callAPIMiddleware({ dispatch, getState }) {
               return response
             })
         } else {
-          response.json()
-          .then(error => dispatch(
+          dispatch(
             Object.assign({}, {payload}, {
-              error,
+              error: response,
               type: failureType
             })
-          ))
+          )
         }
       },
       error => dispatch(

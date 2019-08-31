@@ -9,6 +9,7 @@ import Button from "prod_components/button";
 
 import './Agora/index.js'
 import './miscellaneous.js'
+import './Menu.js'
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
