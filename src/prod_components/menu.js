@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { Menu as AntdMenu } from 'antd'
 require('./menu.css')
 
-function Menu({ active, links }) {
+function Menu({ active, links, ...props }) {
 	return (
 		<AntdMenu
-	    mode="horizontal"
+			{...props}
 	    selectedKeys={[active]}
 	    // className={className}
 	    style={{lineHeight: '58px'}}
