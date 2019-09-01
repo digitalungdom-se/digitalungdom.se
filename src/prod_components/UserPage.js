@@ -1,24 +1,76 @@
 import React, { useState } from 'react'
-import { Button, Row, Col, Card, Avatar, Skeleton, Icon } from 'antd'
+import { Button, Row, Col, Card, Avatar, Skeleton, Icon, Dropdown, Menu } from 'antd'
 import Loading from '@components/Loading'
 import UserEditingForm from '@components/userEditingForm'
+import FileSelector from '@components/fileSelector'
 import ProfilePicture from 'containers/ProfilePicture'
+import ProfilePictureViewer from '@components/profilePictureViewer'
+
 import { useDispatch } from 'react-redux'
 
+
+const menu = (
+  <Menu>
+    <Menu.Item>
+      <FileSelector/>
+    </Menu.Item>
+    <Menu.Item>
+      Ta bort nuvarande profilbild
+    </Menu.Item>
+  </Menu>
+);
+
 function editingButton( setEditing, canEdit ) {
-  if ( canEdit ) {
-    return ( <Button
-			ghost
-			onClick={()=> {
-				setEditing(true)
-				}
-			}
-			style={{color: "rgba(0,0,0,0.5)", width: '100%', marginTop: 20, border: "1px solid rgba(0,0,0,0.2)"}}
+  if ( !canEdit ) {
+    return (
+      <Button
+  			ghost
+  			onClick={()=> {
+  				setEditing(true)
+  				}
+  			}
+  			style={{color: "rgba(0,0,0,0.5)", width: '100%', marginTop: 20, border: "1px solid rgba(0,0,0,0.2)"}}
 			>
 				Redigera profil
-			</Button> )
+			</Button>
+    )
   }
 }
+
+function editPictureButton( setEditing, canEdit ) {
+  if ( !canEdit ) {
+    return (
+      <a
+        style={{
+          color: "rgba(0,0,0,0.6)",
+          position: 'absolute',
+          top: 100,
+        }}
+      >
+        <Dropdown
+          overlay={menu}
+        >
+          <Row
+            type="flex"
+            gutter={6}
+          >
+            <Col>
+              <Icon
+              type="edit"
+              style={{ color: "rgba(0,0,0,0.6)" }}
+              />
+            </Col>
+
+            <Col>
+              Redigera profilbild
+            </Col>
+          </Row>
+        </Dropdown>
+      </a>
+    )
+  }
+}
+
 
 function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   const [ editing, setEditing ] = useState( false );
@@ -26,7 +78,14 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   if ( editing === false ) {
     return (
       <div>
-				<p style={{ marginTop: 8, marginBottom: 24, color: 'rgba(0,0,0,0.9)', fontSize: 18}}>
+				<p
+          style={{
+            marginTop: 8,
+            marginBottom: 24,
+            color: 'rgba(0,0,0,0.9)',
+            fontSize: 18
+          }}
+        >
 					{user.profile.bio}
 				</p>
 
@@ -40,7 +99,6 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
 							(
 								<Row
 								type="flex"
-								justify="left"
 								gutter={6}
 								>
 									<Col>
@@ -65,7 +123,6 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
 						(
 							<Row
 							type="flex"
-							justify="left"
 							gutter={6}
 							>
 								<Col>
@@ -86,7 +143,6 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
 				<Row
 				style={{fontSize: 13, margin: "6px 0px"}}
 				type="flex"
-				justify="left"
 				gutter={6}
 				>
 					<Col>
@@ -106,19 +162,23 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
     )
   } else {
     return (
-      <UserEditingForm
-				user={user}
-				cancel={()=> {
-					setEditing(false);
-					setUserColour(user.profile.colour)
-				}}
-        submit={()=> {
-          setEditing(false);
-        }}
-				setUserColour={setUserColour}
-				userColour={userColour}
-        edit={edit}
-			/>
+      <div>
+        {editPictureButton(setEditing, canEdit)}
+
+        <UserEditingForm
+  				user={user}
+  				cancel={()=> {
+  					setEditing(false);
+  					setUserColour(user.profile.colour)
+  				}}
+          submit={()=> {
+            setEditing(false);
+          }}
+  				setUserColour={setUserColour}
+  				userColour={userColour}
+          edit={edit}
+  			/>
+      </div>
     )
   }
 }
@@ -156,7 +216,9 @@ function UserPage( { user, loading, canEdit, edit } ) {
 							md={{span: 9}}
 							lg={{span: 8}}
 							type = "flex"
-							justify="center">
+							justify="center"
+            >
+
 							<Col
 								style={{
 									background: "white",
@@ -165,6 +227,7 @@ function UserPage( { user, loading, canEdit, edit } ) {
 									marginBottom: 16,
 								}}
 							>
+
 								<Row
 									type="flex"
 									justify="start"
@@ -179,21 +242,34 @@ function UserPage( { user, loading, canEdit, edit } ) {
 										marginBottom: 20,
 										paddingTop: 20,
 										paddingLeft: 30,
-									}}>
+									}}
+                >
 									<Col>
-										<ProfilePicture
-											style={{position: 'absolute'}}
-											id={user._id} size={80}
-										/>
+                    <a>
+  										<ProfilePicture
+  											style={{position: 'absolute'}}
+  											id={user._id}
+                        size={80}
+  										/>
+                    </a>
+                    <ProfilePictureViewer
+                    id={user._id}
+                    />
 									</Col>
 								</Row>
 
 								<div
-									style={{ padding: "16px 30px", fontSize: 14}}
+									style={{
+                    padding: "16px 30px",
+                    fontSize: 14
+                  }}
 								>
 
 									<h2
-										style={{margin: 0, fontWeight: 'bold'}}
+										style={{
+                      margin: 0,
+                      fontWeight: 'bold'
+                    }}
 									>
 										{user.details.name}
 									</h2>
