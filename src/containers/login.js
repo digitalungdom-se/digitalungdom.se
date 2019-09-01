@@ -22,20 +22,18 @@ export default withTranslation()(
 		const dispatchLogin = info => dispatch(login(info))
 
     return (
-			<div>
-				<Login
-					translations={{
-						"Log in": t("Log in"),
-						"Register": t("Register"),
-						"Logging in": t("Logging in"),
-						"Password": t("Password"),
-						"Username": t("uppercased_noun", {noun: t("Username")}),
-						"E-mail": t("lowercased_noun", {noun: t("E-mail")}),
-					}}
-					login={dispatchLogin}
-					// Auth={Auth}
-				/>
-			</div>
+			<Login
+				translations={{
+					"Log in": t("Log in"),
+					"Register": t("Register"),
+					"Logging in": t("Logging in"),
+					"Password": t("Password"),
+					"Username": t("uppercased_noun", {noun: t("Username")}),
+					"E-mail": t("lowercased_noun", {noun: t("E-mail")}),
+				}}
+				login={dispatchLogin}
+				// Auth={Auth}
+			/>
 		)
 	}
 )

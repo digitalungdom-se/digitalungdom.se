@@ -4,7 +4,7 @@ import {getProfilePictureByUsername, getProfilePictureByID} from 'actions/profil
 import { useDispatch, useSelector } from 'react-redux'
 
 
- function ProfilePicture({size, username, id}) {
+ function ProfilePicture({ size, username, id }) {
     let src = "";
     let res;
     let profilePicture;

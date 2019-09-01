@@ -40,9 +40,8 @@ Boiler.Header = ({ children }) => (
 Boiler.Content = ({ children }) => (
 	<Content
 		className="boiler-content"
-		style={{marginBottom: 100}}
 	>
-			{children}
+		{children}
 	</Content>
 )
 

@@ -3,13 +3,22 @@ import { Link } from 'react-router-dom'
 import {
   Form, Icon, Input, Row, Col, Button,
 } from 'antd';
+import Card from '@components/Card'
 
 function Register({ login, Auth, translations, form }) {
 	const { getFieldDecorator } = form
 	return (
-		<Row type="flex" justify="center" style={{width: '100%', position: 'absolute'}}>
-			<Col
-				style ={{backgroundColor: 'white', width: 520, top: 80, paddingTop: 26, paddingLeft: 76, paddingRight: 76, margin: 30, borderRadius: 10, border:'1px solid rgba(0,0,0,0.1)'}}
+		<Row
+			type="flex"
+			justify="center"
+		>
+			<Card
+				style={{
+					marginTop: 24,
+					width: "100%",
+					maxWidth: 400
+				}}
+				title="Logga in"
 			>
 				<Form
 					onSubmit={(e) => {
@@ -22,20 +31,8 @@ function Register({ login, Auth, translations, form }) {
 					    	})
 					    }
 					  })
-						// const { username, password } = e.target
-						// login({
-						// 	username: username.value,
-						// 	password: password.value
-						// })
 					}}
 				>
-
-					<Row>
-						<Col>
-							<h1 style={{marginBottom: 30, textAlign: 'center', color: 'rgba(1,45,213,0.6)', fontSize: 24}}>Logga in</h1>
-						</Col>
-					</Row>
-
 					<Form.Item>
 						{getFieldDecorator('username', {
 							rules: [{
@@ -74,7 +71,7 @@ function Register({ login, Auth, translations, form }) {
 						</Button>
 					</Form.Item>
 
-					<Row style={{margin: 30}}>
+					<Row>
 						<Col>
 							<div>
 								Saknar du ett konto?
@@ -83,7 +80,7 @@ function Register({ login, Auth, translations, form }) {
 						</Col>
 					</Row>
 				</Form>
-			</Col>
+			</Card>
 		</Row>
 	)
 }
