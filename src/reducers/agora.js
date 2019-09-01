@@ -72,6 +72,12 @@ export default ( state = {
             users.push( agoragram.author )
             return agoragram._id
           } )
+          const listQuery = (
+            action.payload.hypagora !== "" ?
+              action.payload.hypagora + "?t=" + action.payload.time + "&s=" + action.payload.sort
+              :
+              action.response.user.details.username
+          )
           return {
             ...state,
             ...action._responseTime,
@@ -92,7 +98,7 @@ export default ( state = {
             },
             starredAgoragrams: state.starredAgoragrams.concat( action.response.starredAgoragrams ),
             lists: {
-              [ action.payload.hypagora + "?t=" + action.payload.time + "&s=" + action.payload.sort ]: list
+              [ listQuery ]: list
             }
             // starredAgoragrams: [
             // 	...state.starredAgoragrams,

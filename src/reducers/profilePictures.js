@@ -34,14 +34,15 @@ export default ( state = {
 
       return {
         ...state,
+        [action.payload.username ? action.payload.username : action.payload.id]: false,
         profilePictures: {
-            ...state.profilePictures,
-            ...profilePictures
-          },
-          usernames: {
-            ...state.usernames,
-            ...usernames
-          }
+          ...state.profilePictures,
+          ...profilePictures,
+        },
+        usernames: {
+          ...state.usernames,
+          ...usernames
+        }
       }
       return state
     case "GET_PROFILE_PICTURE_SUCCESS":
@@ -64,6 +65,13 @@ export default ( state = {
             ...state.usernames,
             ...usernames
           }
+      }
+    case "GET_PROFILE_PICTURE_FAILURE":
+      return {
+        ...state,
+        profilePictures: {
+          [action.payload.username]: null
+        }
       }
       case "GET_USER_ERROR":
         console.log( action )

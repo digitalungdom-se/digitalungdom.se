@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Avatar, Button, Divider, Empty, Row, Col, Rate, Card, Skeleton, Icon, Tag, Input } from 'antd'
-import Link from '@components/link'
+import Link from 'containers/Link'
 import { Redirect } from 'react-router'
 import { Route } from 'react-router-dom'
 import Star from '@components/star'
@@ -126,7 +126,7 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
   							<Col>
   								<Link
   									linkType="user"
-  									user={user}
+  									id={post.author}
   								/>
   							</Col>
   							<Col>

@@ -4,15 +4,16 @@ import { getUser } from 'actions/users'
 import { set } from 'actions/set'
 import UserPage from '@components/UserPage'
 import { Row, Col } from '@components/grid'
+import Posts from 'containers/posts'
 
 function UserContainer( { username } ) {
   const dispatch = useDispatch()
 
   const user = useSelector( state => state.Users.usernames[ username ] );
-  if ( !user ) dispatch( getUser( { username } ) )
+  if ( !user ) dispatch( getUser( { username } ) );
 
 
-  const authenticatedUserID = useSelector( state => state.Auth.profile.details._id );
+  const authenticatedUserID = useSelector( state => state.Auth.profile.details._id)
 
   let canEdit = false;
   let edit = function () {};
@@ -24,9 +25,16 @@ function UserContainer( { username } ) {
     edit = ( info, userID ) => dispatch( set( info, userID ) )
   }
 
+  let agoragrams = useSelector(state => state.Agora.lists[username])
 
   return (
-    <UserPage loading={!user} user={user} canEdit={canEdit} edit={edit} />
+    <UserPage
+      loading={!user}
+      user={user}
+      canEdit={canEdit}
+      edit={edit}
+      posts={<Posts list={agoragrams} />}
+    />
   )
 }
 

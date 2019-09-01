@@ -7,7 +7,6 @@ function FilterContainer() {
 	const dispatch = useDispatch()
 	const updateAgoraFilter = (filter) => {
 		dispatch(filterAgora(filter));
-		console.log(filter)
 	}
 	const { time, sort } = useSelector(state => state.Agora.filter)
 
