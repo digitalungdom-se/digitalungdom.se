@@ -26,11 +26,11 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   if ( editing === false ) {
     return (
       <div>
-				<p style={{ marginTop: 8, marginBottom: 24, color: 'rgba(0,0,0,0.9)', fontSize: 18}}>
+				<div style={{ marginTop: 8, marginBottom: 24, color: 'rgba(0,0,0,0.9)', fontSize: 18}}>
 					{user.profile.bio}
-				</p>
+				</div>
 
-				<p style={{fontSize: 13, margin: "6px 0px"}}>
+				<div style={{fontSize: 13, margin: "6px 0px"}}>
 					<a
 					href={user.profile.url}
 					target="_blank"
@@ -40,7 +40,7 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
 							(
 								<Row
 								type="flex"
-								justify="left"
+								justify="start"
 								gutter={6}
 								>
 									<Col>
@@ -57,15 +57,15 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
 							null
 						}
 					</a>
-				</p>
+				</div>
 
-				<p style={{fontSize: 13, margin: "6px 0px"}}>
+				<div style={{fontSize: 13, margin: "6px 0px"}}>
 					{
 						user.details.email?
 						(
 							<Row
 							type="flex"
-							justify="left"
+							justify="start"
 							gutter={6}
 							>
 								<Col>
@@ -81,12 +81,12 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
 						):
 						null
 					}
-				</p>
+				</div>
 
 				<Row
 				style={{fontSize: 13, margin: "6px 0px"}}
 				type="flex"
-				justify="left"
+				justify="start"
 				gutter={6}
 				>
 					<Col>
@@ -123,7 +123,7 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   }
 }
 
-function UserPage( { user, loading, canEdit, edit } ) {
+function UserPage( { user, loading, canEdit, edit, posts } ) {
   if ( loading || !user.profile ) return <Loading spin card />
   const [ userColour, setUserColour ] = useState( user.profile.colour ? user.profile.colour : '#83aef2' );
 
@@ -168,7 +168,7 @@ function UserPage( { user, loading, canEdit, edit } ) {
 								<Row
 									type="flex"
 									justify="start"
-                  class="du-background"
+                  className="du-background"
 									style={{
 										background: userColour,
 										padding: 10,
@@ -202,7 +202,7 @@ function UserPage( { user, loading, canEdit, edit } ) {
 										style={{fontSize:16, marginTop: -4}}
 									>
 										<span
-                      class="du-colour"
+                      className="du-colour"
                       style={{color:userColour}}>
                       @{user.details.username}
                     </span>
@@ -222,26 +222,7 @@ function UserPage( { user, loading, canEdit, edit } ) {
             md={{ span: 14 }}
             lg={{ span: 15 }}>
 
-              <div>
-                <Card>
-                  <Skeleton active avatar paragraph={{ rows: 2 }} />
-                </Card>
-                <Card>
-                  <Skeleton active avatar paragraph={{ rows: 2 }} />
-                </Card>
-                <Card>
-                  <Skeleton active avatar paragraph={{ rows: 2 }} />
-                </Card>
-                <Card>
-                  <Skeleton active avatar paragraph={{ rows: 2 }} />
-                </Card>
-                <Card>
-                  <Skeleton active avatar paragraph={{ rows: 2 }} />
-                </Card>
-                <Card>
-                  <Skeleton active avatar paragraph={{ rows: 2 }} />
-                </Card>
-              </div>
+             {posts}
 
             </Col>
 					</Row>

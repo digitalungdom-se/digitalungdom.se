@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import Link from '@components/link'
 
-export default ({ linkType, id, ...props}) => {
+export default ({ linkType, id, user, ...props}) => {
 	switch(linkType) {
 		case 'user':
 			const user = useSelector(state => state.Users.users[id])

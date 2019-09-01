@@ -22,6 +22,15 @@ export function getUser( { username, dateAfter, dateBefore, sort, hypagora, id }
     // Check the cache (optional):
     // Perform the fetching:
     callAPI: () => fetch( "/api/agora/get/user?" + query( { username, dateAfter, dateBefore, sort, hypagora } ) ),
+    callbacks: [
+      (response, payload) => (
+        {
+          type: "GET_AGORAGRAMS_SUCCESS",
+          response,
+          payload
+        }
+      )
+    ],
     // Arguments to inject in begin/end actions
     payload: { username, dateAfter, dateBefore, sort, hypagora, url: "/api/agora/get/user" }
   }
