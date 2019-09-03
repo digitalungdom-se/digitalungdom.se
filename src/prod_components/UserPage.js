@@ -124,7 +124,7 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
 }
 
 function UserPage( { user, loading, canEdit, edit, posts } ) {
-  if ( loading || !user.profile ) return <Loading spin card />
+  if ( loading ) return <Loading spin card />
   const [ userColour, setUserColour ] = useState( user.profile.colour ? user.profile.colour : '#83aef2' );
 
   return (

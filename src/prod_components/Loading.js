@@ -34,6 +34,7 @@ function Loading({ logo, spin, card }) {
 					height: "80%",
 					border: card ? "1px solid #e8e8e8" : null,
 					background: card ? "white" : null,
+					paddingBottom: 48,
 				}}
 			>
 				<Center
@@ -51,7 +52,7 @@ function Loading({ logo, spin, card }) {
 						{
 							spin &&
 							<Spin
-								style={{marginTop: 50}}
+								style={{marginTop: 48}}
 								indicator={<Icon style={{fontSize:80}} type="loading" spin />}
 							/>
 						}
