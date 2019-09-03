@@ -21,7 +21,7 @@ function Overlay({ id, history }) {
       shouldReturnFocusAfterClose={true}
       onRequestClose={() => history.goBack()}
     >
-    	<Post id={id} comments />
+    	<Post id={id} showComments />
     </ReactModal>
 	)
 }

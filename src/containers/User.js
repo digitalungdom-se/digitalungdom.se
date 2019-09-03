@@ -10,7 +10,8 @@ function UserContainer( { username } ) {
   const dispatch = useDispatch()
 
   const user = useSelector( state => state.Users.usernames[ username ] );
-  if ( !user ) dispatch( getUser( { username } ) );
+  dispatch(getUser({ username }))
+  // if ( !user ) dispatch( getUser( { username } ) );
 
 
   const authenticatedUserID = useSelector( state => state.Auth.profile.details._id)
@@ -29,7 +30,7 @@ function UserContainer( { username } ) {
 
   return (
     <UserPage
-      loading={!user}
+      loading={user === undefined || user.profile === undefined}
       user={user}
       canEdit={canEdit}
       edit={edit}

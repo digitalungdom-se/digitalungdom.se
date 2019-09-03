@@ -10,6 +10,7 @@ import { makeTitle } from 'utils/agora'
 import { epochToRelativeTime } from 'utils/time'
 // import { Actions, Comments } from 'containers'
 import Actions from 'containers/actions'
+import { withRouter } from 'react-router-dom'
 
 class PostContainer extends React.Component {
 
@@ -45,12 +46,13 @@ class PostContainer extends React.Component {
 				post={post}
 				asteri={this.props.asteri}
 				link={loading ? null : "/agora/h/" + post.hypagora + "/comments/" + post.shortID + '/' + makeTitle(post.title)}
-				showComments={this.props.comments}
+				showComments={this.props.showComments}
 				isAuthor={this.props.isAuthor}
 				defaultBody={loading ? null : post.body}
 				report={this.props.report}
 				starred={this.props.starred}
         showProfilePicture={true}
+        redirect={(link) => this.props.history.push(link)}
 			/>
 		)
 	}
@@ -88,4 +90,4 @@ const mapDispatchToProps = dispatch => ({
 	getUser: (userArray, type) => dispatch(getUser(userArray, type))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PostContainer))

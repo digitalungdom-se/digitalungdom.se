@@ -57,6 +57,7 @@ export default ( state = {
 
       return {
         ...state,
+        [action.payload.id ? action.payload.id : action.payload.username]: action.response,
         profilePictures: {
             ...state.profilePictures,
             ...profilePictures

@@ -13,7 +13,7 @@ import Comments from 'containers/comments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment, faShare, faStar } from '@fortawesome/free-solid-svg-icons'
 
-function Post({ empty, post, loading, children, link, asteri, showComments, starred, showProfilePicture, user }) {
+function Post({ empty, post, loading, children, link, asteri, showComments, starred, showProfilePicture, user, redirect }) {
 
 	if(empty) return (
 		<Card>
@@ -91,131 +91,127 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 
 	const [isStarClicked, clickStar] = useState(starred)
 
+	function click(e) {
+		if(e.target.nodeName !== 'A') redirect(link)
+	}
+
 	return (
 		<React.Fragment>
 			<Card
 				className="agora-post"
 				bodyStyle={{padding: 8, paddingRight: "5%" }}
-	      style={!showComments ? {marginBottom: 12} : {marginTop: "5%"}}
+	      // style={!showComments ? {marginBottom: 12} : {marginTop: "5%"}}
+	      style={{
+	      	marginBottom: 16
+	      }}
 	    >
-        <Route render={({ history}) => (
-  				<span
-  					onClick={() => { history.push(link) }}
-  					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
-  				>
-  					<Col
-  						style={{textAlign: "center", paddingTop: 20, width: "10%", minWidth: 56, maxWidth: 72}}
-  					>
-  						{
-  							showProfilePicture ?
-  								<ProfilePicture id={post.author} size={40}/>
-  							:
-  								<Avatar
-  									size={40}
-  								/>
-  						}
-  					</Col>
-  					<div
-  						style={{paddingTop: 8, flex: "1"}} span={22}
-  					>
-  						<Row
-  							style={{width: "100%"}}
-  							type="flex"
-  							justify="space-between"
-  						>
-  							<Col>
-  								<Link
-  									linkType="user"
-  									id={post.author}
-  								/>
-  							</Col>
-  							<Col>
-  								<Time time={post._id.substring(0, 8)} />
-  								<Divider type="vertical"/>
-  								<Link to={"/agora/h/" + post.hypagora}>
-  									<Tag>{post.hypagora}</Tag>
-  								</Link>
-  							</Col>
-  						</Row>
-  						<Row style={{width: "100%"}}>
-  							<Link to={link}>
-  								<h1>{post.title}</h1>
-  							</Link>
-  						</Row>
-
-  	          <Row style={{width: "100%"}}>
-  	            <Body/>
-  	          </Row>
-
-  						<Row style={{paddingBottom: 8}}>
-  							{
-  								showComments
-  							}
-  							{
-  								!loading && post.tags.map(tag => <Tag style={{opacity: 0.6}}key={tag}>{tag}</Tag>)
-  							}
-  						</Row>
-
-
-  						<Row gutter ={20} style={{fontSize: 16, marginBottom: 10}}>
-
-  							<Col span={5}>
-  								<span
-  								className="asteriButton"
-  								onClick={() => {
-  									clickStar(!isStarClicked)
-  									asteri(post._id)
-  								}}>
-  									<FontAwesomeIcon style={{marginRight: 4}} color={isStarClicked ? "gold" : ""} icon={faStar} /> {post.stars}
-  								</span>
-  							</Col>
-
-  							<Col span={5}>
-  								<span className="commentButton">
-  									<FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
-  								</span>
-  							</Col>
-
-  							<Col span={5}>
-  								<span className="shareButton">
-  									<FontAwesomeIcon icon={faShare} />
-  								</span>
-  							</Col>
-
-  						</Row>
-  					</div>
-  				</span>
-        )} />
-			</Card>
-
-			{
-				!loading && showComments &&
-				<Row
-					type="flex"
-					justify="center"
-					style={{
-						background: "white",
-						border: "1px solid #e8e8e8",
-						paddingTop: 16
-					}}
+				<span
+					onClick={click}
+					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
 				>
 					<Col
-						span={23}
-						// pull={3}
+						style={{textAlign: "center", paddingTop: 20, width: "10%", minWidth: 56, maxWidth: 72}}
 					>
-						<agorizeComment
-							id={post._id}
-							agoragramType="comment"
-						/>
+						{
+							showProfilePicture ?
+								<ProfilePicture id={post.author} size={40}/>
+							:
+								<Avatar
+									size={40}
+								/>
+						}
 					</Col>
-					<Col
-						span={23}
-						style={{paddingTop: 16}}
+					<div
+						style={{paddingTop: 8, flex: "1"}} span={22}
 					>
-						<Comments children={post.children} level={0} />
-					</Col>
-				</Row>
-			}
+						<Row
+							style={{width: "100%"}}
+							type="flex"
+							justify="space-between"
+						>
+							<Col>
+								<Link
+									linkType="user"
+									id={post.author}
+								/>
+							</Col>
+							<Col>
+								<Time time={post._id.substring(0, 8)} />
+								<Divider type="vertical"/>
+								<Link to={"/agora/h/" + post.hypagora}>
+									<Tag>{post.hypagora}</Tag>
+								</Link>
+							</Col>
+						</Row>
+						<Row style={{width: "100%"}}>
+							<Link to={link}>
+								<h1>{post.title}</h1>
+							</Link>
+						</Row>
+
+	          <Row style={{width: "100%"}}>
+	            <Body/>
+	          </Row>
+
+						<Row style={{paddingBottom: 8}}>
+							{
+								showComments
+							}
+							{
+								!loading && post.tags.map(tag => <Tag style={{opacity: 0.6}}key={tag}>{tag}</Tag>)
+							}
+						</Row>
+
+
+						<Row gutter={20} style={{fontSize: 16, marginBottom: 10}}>
+
+							<Col span={5}>
+								<span
+								className="asteriButton"
+								onClick={() => {
+									clickStar(!isStarClicked)
+									asteri(post._id)
+								}}>
+									<FontAwesomeIcon style={{marginRight: 4}} color={isStarClicked ? "gold" : ""} icon={faStar} /> {post.stars}
+								</span>
+							</Col>
+
+							<Col span={5}>
+								<Link to={link}>
+									<span className="commentButton">
+										<FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
+									</span>
+								</Link>
+							</Col>
+
+							<Col span={5}>
+								<span className="shareButton">
+									<FontAwesomeIcon icon={faShare} />
+								</span>
+							</Col>
+
+						</Row>
+					</div>
+				</span>
+        {
+        	!loading && showComments &&
+        	<React.Fragment>
+        		<Col
+        			// pull={3}
+        		>
+        			<agorizeComment
+        				id={post._id}
+        				agoragramType="comment"
+        			/>
+        		</Col>
+        		<Col
+        			style={{paddingTop: 16}}
+        		>
+        			<Comments children={post.children} level={0} />
+        		</Col>
+      		</React.Fragment>
+        }
+			</Card>
 		</React.Fragment>
 		)
 	/*<div>Author: {(!deleted && author !== "deleted") ? ((post.display.type === "user") ? author.details.username : author.details.name) : "deleted"}</div>*/

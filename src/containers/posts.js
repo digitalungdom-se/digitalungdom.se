@@ -13,7 +13,7 @@ function Posts({ hypagora, list }) {
 		const filter = useSelector(state => state.Agora.filter)
 		const { time, sort, dateAfter, dateBefore } = filter
 		list = useSelector(state => state.Agora.lists[hypagora + "?t=" + time + "&s=" + sort])
-		if(list === undefined) useDispatch()(getAgoragrams({ dateAfter, dateBefore, hypagora, sort, time }));
+		if(list === undefined && hypagora !== undefined) useDispatch()(getAgoragrams({ dateAfter, dateBefore, hypagora, sort, time }));
 	}
 
 	if(!list) return ([0,0,0,0,0,0,0,0,0,0]).map((a, index) => <Post key={"loading_post" + index} loading={true} />);
