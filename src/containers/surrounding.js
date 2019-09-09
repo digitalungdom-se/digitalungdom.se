@@ -40,26 +40,30 @@ export default ({ hypagora = "general", children }) => {
 				lg={{ span: 18 }}
 				xl={{ span: 16 }}>
 					<Row
-					style={{width: "100%"}}
-					type = "flex"
-					justify="space-between">
+					type="flex"
+          justify="space-between"
+          style={{
+                alignItems: 'stretch',
+								width: "100%"
+          }}>
+
+						<Col
+						xs={{span: 22}}
+						sm={{span: 22}}
+						md={{span: 7}}
+						lg={{span: 7}}
+						justify="end">
+							<Widgets />
+						</Col>
 
 						<Col
 						xs={{ span: 22 }}
 						sm={{ span: 22 }}
 						md={{ span: 16 }}
-						lg={{ span: 16 }}>
+						lg={{ span: 16 }}
+						justify="start">
 							{children}
 						</Col>
-
-            <Col
-            xs={{span: 0}}
-            sm={{span: 0}}
-            md={{span: 7}}
-            lg={{span: 7}}
-            type = "flex" justify="center">
-              <Widgets />
-            </Col>
 
 					</Row>
 				</Col>
