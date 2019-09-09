@@ -55,8 +55,8 @@ function Authentication({ t }) {
 		>
 			<Col>
 				<Link
+					linkType="navigation"
 					to={"/" + t("links-login")}
-					style={{color: "grey"}}
 				>
 					{t("Log in")}
 				</Link>
@@ -64,9 +64,10 @@ function Authentication({ t }) {
 
 			<Col>
 				<Link
+					linkType="navigation"
 					to={"/" + t("links-register")}
 					type="primary"
-					style={{fontWeight: "bold"}}
+					style={{fontWeight: "bold", color: "rgb(30,110,232)"}}
 				>
 					{t("Register")}
 				</Link>

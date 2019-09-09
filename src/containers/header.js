@@ -39,58 +39,58 @@ const gutter = {
 export default withTranslation()(
 	withRouter(({ t, location }) => {
 		return (
-			<Row
-				type="flex"
-				justify="space-between"
-				style={{height: 60}}
-			>
-				<Col>
-					<LogoLink />
-				</Col>
+  			<Row
+  				type="flex"
+  				justify="space-between"
+  				style={{height: 60}}
+  			>
+  				<Col>
+  					<LogoLink />
+  				</Col>
 
-				<Row
-					type='flex'
-					gutter={gutter}
-					justify="start"
-				>
-					<Col>
-						<Row
-							type="flex"
-							justify="start"
-							gutter={gutter}
-						>
-							<Col >
-								<Link
-									to={"/" + t("about")}
-									style={{color: "grey"}}
-								>
-									{t("Om oss")}
-								</Link>
-							</Col>
+  				<Row
+  					type='flex'
+  					gutter={gutter}
+  					justify="start"
+  				>
+  					<Col>
+  						<Row
+  							type="flex"
+  							justify="start"
+  							gutter={gutter}
+  						>
+  							<Col >
+  								<Link
+                    linkType="navigation"
+  									to={"/" + t("about")}
+  								>
+  									{t("Om oss")}
+  								</Link>
+  							</Col>
 
-							<Col >
-								<Link
-									to={"/" + t("agora")}
-									style={{color: "grey"}}
-								>
-									{t("Agora")}
-								</Link>
-							</Col>
+  							<Col >
+  								<Link
+                    linkType="navigation"
+  									to={"/" + t("agora")}
+  								>
+  									{t("Agora")}
+  								</Link>
+  							</Col>
 
-						</Row>
+  						</Row>
 
-					</Col>
+  					</Col>
 
-					<Col>
-						<Authentication/>
-					</Col>
-				</Row>
-			</Row>
+  					<Col>
+  						<Authentication/>
+  					</Col>
+  				</Row>
+  			</Row>
 		)
 	})
 )
 
-/* Kommenterar bort för tillfället tills dess att headern fungera som vi diskuterade! :)
+/* Kommenterar bort för tillfället tills dess att headern fungera som vi diskuterade, (Detta är sök/navigation-baren)
 	<Col
 		xs={{span: 9, offset: 0}}
 		sm={{span: 8, offset: 0}}
