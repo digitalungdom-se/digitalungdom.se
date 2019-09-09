@@ -11,6 +11,7 @@ function Widgets({ hypagora }) {
 				background: "white",
 				border:'1px solid rgba(0,0,0,0.1)',
 				borderRadius: 8,
+				marginBottom: 20,
 			}}
 		>
 			<div
