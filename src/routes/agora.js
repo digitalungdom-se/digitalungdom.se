@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom'
 import Hypagora from 'containers/hypagora'
 import Surrounding from 'containers/surrounding'
-import { agorizePost } from 'containers/agorize'
+import Agorize from 'containers/agorize'
 import Overlay from 'containers/Overlay'
 // import {
 // 	Hypagora,
@@ -104,9 +104,10 @@ export default connect(mapStateToProps)(({ fetchedSeveral }) => (
 		<Switch>
 			<Route path="/agora/h/:hypagora/(publicera|submit)" render={(props) => (
 				<Surrounding hypagora={props.match.params.hypagora} >
-					<agorizePost
+					<Agorize
 						hypagora={props.match.params.hypagora}
 						agoragramType="post"
+						onAgorized={() => props.history.push('/')}
 					/>
 				</Surrounding>
 			)} />
