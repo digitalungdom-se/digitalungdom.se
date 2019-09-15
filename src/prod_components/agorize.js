@@ -1,6 +1,7 @@
 import  React from 'react'
 import { Row, Col, Select, Input, Button, Form } from 'antd'
 import { Redirect } from 'react-router-dom'
+import Card from '@components/Card'
 
 function Agorize({
 	agorize,
@@ -63,17 +64,23 @@ function Agorize({
 			onSubmit={(e) => handleForm(e)}
 			// {...formItemLayout}
 		>
-			<div
-				style={
-					agoragramType==="post" ?
-					{background: "white", border: "1px solid #e8e8e8", padding: 30}
-					: {}
+			<Card
+				// style={
+				// 	agoragramType==="post" ?
+				// 	{background: "white", border: "1px solid #e8e8e8", padding: 30}
+				// 	: {}
+				// }
+				titleAlign="left"
+				title={
+					agoragramType === "post" ?
+						"Publicera inlägg"
+						:
+						null
 				}
 			>
 				{
 					agoragramType === "post" &&
 					<React.Fragment>
-						<h2>Publicera inlägg</h2>
 						<Form.Item>
 							{getFieldDecorator('type', {
 								rules: [
@@ -122,7 +129,7 @@ function Agorize({
 			>
 				<Button loading={agorizing && (!agorized)} type="primary" htmlType="submit">Publicera</Button>
 			</Form.Item>
-			</div>
+			</Card>
 		</Form>
 	)
 }
