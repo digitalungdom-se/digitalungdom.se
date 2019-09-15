@@ -45,6 +45,8 @@ class PostContainer extends React.Component {
 				loading={loading}
 				post={post}
 				asteri={this.props.asteri}
+				report={this.props.report}
+				delete={this.props.anti_agorize}
 				link={loading ? null : "/agora/h/" + post.hypagora + "/comments/" + post.shortID + '/' + makeTitle(post.title)}
 				showComments={this.props.showComments}
 				isAuthor={this.props.isAuthor}

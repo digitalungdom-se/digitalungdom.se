@@ -3,7 +3,7 @@ import Agorize from '@components/agorize'
 import { agorizePost as agorize_post } from 'actions/agora'
 import { useSelector, useDispatch } from 'react-redux'
 
-export function agorizePost({ hypagora = "general", id, ...props }){
+export default function AgorizeContainer({ onAgorized = () => true, hypagora = "general", id, ...props }){
 
 	const dispatch = useDispatch()
 	const me = useSelector(state => state.Auth.profile.details._id)
@@ -11,6 +11,7 @@ export function agorizePost({ hypagora = "general", id, ...props }){
 	const availableHypagoras = useSelector(state => state.Agora.availableHypagoras)
 	const agorizing = useSelector(state => state.Agora.agorizing.indexOf(id) !== -1)
 	const agorized = useSelector(state => state.Agora.agorized.indexOf(id) !== -1)
+	if(agorized) onAgorized()
 
 	return (
 		<Agorize

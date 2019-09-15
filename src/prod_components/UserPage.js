@@ -78,13 +78,13 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   if ( editing === false ) {
     return (
       <div>
-    		<p
-        style={{
-          marginTop: 8,
-          marginBottom: 24,
-          color: 'rgba(0,0,0,0.9)',
-          fontSize: 18
-        }}
+    	<p
+	        style={{
+	          marginTop: 8,
+	          marginBottom: 24,
+	          color: 'rgba(0,0,0,0.9)',
+	          fontSize: 18
+	        }}
         >
 					{user.profile.bio}
         </p>

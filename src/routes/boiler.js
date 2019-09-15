@@ -44,7 +44,7 @@ function App() {
 						/>
 						<Route
 							path="/(logga-in|login)"
-							render={props => <Login {...props}/>}
+							render={props => <Login onAuthorized={(username) => props.history.push('/@' + username)} {...props}/>}
 						/>
 						<Route
 							path="/(bli-medlem|register)"
