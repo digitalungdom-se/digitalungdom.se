@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { Row, Col, Card, Button } from 'antd'
+import { Row, Col, Button } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { register, checkEmail, checkUsername } from 'actions/register.js'
 import RegisterForm from '@components/RegisterForm'
+import Card from '@components/Card'
+
 
 function renderSlides(currentSlide, changeSlide){
 	const dispatch = useDispatch()
@@ -44,7 +46,7 @@ function renderSlides(currentSlide, changeSlide){
 						Logga in på din email och tryck på verifierings-länken som är bifogad i vårt email. Ifall du inte hittar mailet kan den ha hamnat i skräpposten, så glöm inte att dubbelkolla!
 					</p>
 					<p>
-						När du tryckt på länken kan du komma tillbaka hit och njuta av digitalungdom.se som medlem!🌟
+						När du tryckt på länken kommer en ny flik öppnas där du är inloggad som medlem i digitalungdom.se!🌟
 					</p>
 					<Button
 					style={{width: '100%'}}
@@ -85,18 +87,11 @@ function Register() {
 				}}
 			>
 				<Card
+					title="Bli medlem"
 					style={{
-						marginTop: 24
+						marginTop: 24,
 					}}
 				>
-					<h2
-					style={{
-						fontSize: 20,
-						color: "rgb(30,110,232)",
-						textAlign: 'center'
-					}}>
-						Bli medlem
-					</h2>
 
 					{renderSlides(currentSlide, changeSlide)}
 
