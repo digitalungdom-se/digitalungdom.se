@@ -314,7 +314,7 @@ class RegistrationForm extends React.Component {
             )}
           </Form.Item>
 
-          <Form.Item style={{marginBottom: 14}}>
+          <Form.Item style={{marginBottom: 0}}>
             {getFieldDecorator('agreement', {
               rules: [{
                 required: true, message: 'För att bli medlem behöver du acceptera Digital Ungdoms användarvillkor'
