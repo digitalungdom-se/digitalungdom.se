@@ -32,7 +32,7 @@ function App() {
 				<Header />
 			</Wrapper.Header>
 			<Wrapper.Content>
-				<Suspense fallback={<Loading spin card />}>
+				<Suspense fallback={<Loading spin />}>
 					<Switch>
 						<Route
 							path="/" exact
