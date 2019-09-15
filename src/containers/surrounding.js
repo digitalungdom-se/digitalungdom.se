@@ -47,34 +47,25 @@ export default ({ hypagora = "general", children }) => {
 								width: "100%"
           }}>
 
+
 						<Col
-						xs={{span: 22}}
-						sm={{span: 22}}
-						md={{span: 7}}
-						lg={{span: 7}}
-						justify="end">
+							xs={{
+								span: 24
+							}}
+							md={{span: 7, push: 17}}
+							lg={{span: 7}}
+							justify="end"
+						>
 							<Widgets />
 						</Col>
 
 						<Col
-						xs={{ span: 22 }}
-						sm={{ span: 22 }}
-						md={{ span: 16 }}
+						xs={{ span: 24 }}
+						md={{ span: 16, pull: 8 }}
 						lg={{ span: 16 }}
-						// pull={1}
 						>
 							{children}
 						</Col>
-
-            <Col
-            xs={{span: 0}}
-            sm={{span: 0}}
-            md={{span: 7}}
-            lg={{span: 7}}
-            // push={2}
-            type = "flex" justify="center">
-              <Widgets />
-            </Col>
 
 					</Row>
 				</Col>
@@ -82,3 +73,15 @@ export default ({ hypagora = "general", children }) => {
 		</React.Fragment>
 	)
 }
+
+/*
+<Col
+xs={{span: 0}}
+sm={{span: 0}}
+md={{span: 7}}
+lg={{span: 7}}
+// push={2}
+type = "flex" justify="center">
+  <Widgets />
+</Col>
+*/
