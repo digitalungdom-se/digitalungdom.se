@@ -48,7 +48,9 @@ export default ({ hypagora = "general", children }) => {
 						xs={{ span: 22 }}
 						sm={{ span: 22 }}
 						md={{ span: 16 }}
-						lg={{ span: 16 }}>
+						lg={{ span: 16 }}
+						// pull={1}
+						>
 							{children}
 						</Col>
 
@@ -57,6 +59,7 @@ export default ({ hypagora = "general", children }) => {
             sm={{span: 0}}
             md={{span: 7}}
             lg={{span: 7}}
+            // push={2}
             type = "flex" justify="center">
               <Widgets />
             </Col>

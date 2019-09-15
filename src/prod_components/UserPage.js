@@ -87,7 +87,7 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
           }}
         >
 					{user.profile.bio}
-				</div>
+				</p>
 
 				<div style={{fontSize: 13, margin: "6px 0px"}}>
 					<a
