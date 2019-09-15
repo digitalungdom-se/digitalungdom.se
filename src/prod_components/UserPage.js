@@ -21,7 +21,7 @@ const menu = (
 );
 
 function editingButton( setEditing, canEdit ) {
-  if ( !canEdit ) {
+  if ( canEdit ) {
     return (
       <Button
   			ghost
@@ -38,7 +38,7 @@ function editingButton( setEditing, canEdit ) {
 }
 
 function editPictureButton( setEditing, canEdit ) {
-  if ( !canEdit ) {
+  if ( canEdit ) {
     return (
       <a
         style={{
@@ -78,16 +78,16 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   if ( editing === false ) {
     return (
       <div>
-		<p
-          style={{
-            marginTop: 8,
-            marginBottom: 24,
-            color: 'rgba(0,0,0,0.9)',
-            fontSize: 18
-          }}
+    	<p
+	        style={{
+	          marginTop: 8,
+	          marginBottom: 24,
+	          color: 'rgba(0,0,0,0.9)',
+	          fontSize: 18
+	        }}
         >
 					{user.profile.bio}
-				</p>
+        </p>
 
 				<div style={{fontSize: 13, margin: "6px 0px"}}>
 					<a
