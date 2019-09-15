@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 // import { Auth as actions } from 'actions'
 // import actions from 'actions/auth'
 // import { Login } from '@components'
@@ -16,10 +16,15 @@ import { login } from 'actions/auth'
 // })
 
 export default withTranslation()(
-	({ t }) => {
+	({ t, onAuthorized = () => true }) => {
 
 		const dispatch = useDispatch()
 		const dispatchLogin = info => dispatch(login(info))
+
+		const { authorized, username } = useSelector(state => ({ authorized: state.Auth.authorized, username: state.Auth.profile.details.username }))
+		if(authorized) {
+			onAuthorized(username)
+		}
 
     return (
 			<Login

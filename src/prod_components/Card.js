@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Card({ title, children, ...props }) {
+function Card({ title, titleAlign = "center", children, ...props }) {
 	return (
 		<div
 			{...props}
@@ -16,7 +16,6 @@ function Card({ title, children, ...props }) {
 				// paddingLeft: 76,
 				// paddingRight: 76,
 				// margin: 30,
-				borderRadius: 8,
 				border:'1px solid rgba(0,0,0,0.1)',
 				...props.style
 			}}
@@ -26,7 +25,7 @@ function Card({ title, children, ...props }) {
 				<h1
 					style={{
 						marginBottom: 20,
-						textAlign: 'center',
+						textAlign: titleAlign,
 						color: 'var(--du-blue)',
 						// color: 'rgba(1,45,213,0.6)',
 						fontSize: 20,

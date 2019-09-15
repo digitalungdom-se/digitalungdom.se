@@ -45,21 +45,36 @@ export default ({ hypagora = "general", children }) => {
 					gutter={16}
           >
 
+
 						<Col
+<<<<<<< HEAD
 						xs={{span: 16}}
 						sm={{span: 12}}
 						md={{span: 8, push: 16}}
 						lg={{span: 8}}
 						justify="end">
+=======
+							xs={{
+								span: 24
+							}}
+							md={{span: 7, push: 17}}
+							lg={{span: 7}}
+							justify="end"
+						>
+>>>>>>> 6b4f8c5cca9726b24e1531a6a7deec7bcd9d3379
 							<Widgets />
 						</Col>
 
 						<Col
+<<<<<<< HEAD
 						xs={{ span: 22 }}
 						sm={{ span: 22 }}
+=======
+						xs={{ span: 24 }}
+>>>>>>> 6b4f8c5cca9726b24e1531a6a7deec7bcd9d3379
 						md={{ span: 16, pull: 8 }}
 						lg={{ span: 16 }}
-						justify="start">
+						>
 							{children}
 						</Col>
 
@@ -69,3 +84,15 @@ export default ({ hypagora = "general", children }) => {
 		</React.Fragment>
 	)
 }
+
+/*
+<Col
+xs={{span: 0}}
+sm={{span: 0}}
+md={{span: 7}}
+lg={{span: 7}}
+// push={2}
+type = "flex" justify="center">
+  <Widgets />
+</Col>
+*/

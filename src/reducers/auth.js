@@ -67,6 +67,9 @@ export default (state = {
 			const { newState, ...profile } = state
 			return {
 				...newState,
+				profile: {
+					details: {}
+				},
 				loggingOut: false,
 				authorized: false
 			}

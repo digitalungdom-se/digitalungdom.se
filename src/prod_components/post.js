@@ -106,7 +106,8 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 			}
 
 		}else{
-			return <p> Loading... </p>
+			// Should this say loading?
+			return null
 		}
 	}
 
