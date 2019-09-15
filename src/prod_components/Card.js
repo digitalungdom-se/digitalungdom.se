@@ -16,7 +16,7 @@ function Card({ title, children, ...props }) {
 				// paddingLeft: 76,
 				// paddingRight: 76,
 				// margin: 30,
-				borderRadius: 4,
+				borderRadius: 8,
 				border:'1px solid rgba(0,0,0,0.1)',
 				...props.style
 			}}
@@ -25,11 +25,11 @@ function Card({ title, children, ...props }) {
 				title &&
 				<h1
 					style={{
-						marginBottom: 24,
+						marginBottom: 20,
 						textAlign: 'center',
 						color: 'var(--du-blue)',
 						// color: 'rgba(1,45,213,0.6)',
-						fontSize: 24
+						fontSize: 20,
 					}}
 				>
 					{title}
