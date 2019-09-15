@@ -1,7 +1,4 @@
-.asteriButton:hover{
-  color:#FFD700;
-  transition: 0.1s;
-}
+
 
 .asteriButton:hover{
   color:#FFD700;
@@ -12,19 +9,12 @@
   color:rgba(0,0,0,0.6);
 }
 
-.commentButton:hover{
+.optionButton:hover{
   transition: 0.1s;
   color: #4287f5;
-}
-.commentButton{
-  color:rgba(0,0,0,0.6);
 }
 
-.shareButton:hover{
-  transition: 0.1s;
-  color: #4287f5;
-}
-.shareButton{
+.optionButton{
   color:rgba(0,0,0,0.6);
 }
 

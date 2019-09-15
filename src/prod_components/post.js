@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Avatar, Button, Divider, Empty, Row, Col, Rate, Card, Skeleton, Icon, Tag, Input } from 'antd'
+import { Avatar, Button, Dropdown, Divider, Empty, Row, Col, Rate, Card, Menu, Skeleton, Icon, Tag, Input } from 'antd'
 import Link from 'containers/Link'
 import { Redirect } from 'react-router'
 import { Route } from 'react-router-dom'
@@ -11,7 +11,29 @@ import './post.css'
 import ReactMarkdown from 'react-markdown'
 import Comments from 'containers/comments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComment, faShare, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faComment, faShare, faStar, faPen, faFlag, faCopy, faEllipsisH, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+
+
+const shareMenu = (
+  <Menu>
+    <Menu.Item>
+      <span>
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faCopy} /> Copy post link
+      </span>
+    </Menu.Item>
+  </Menu>
+);
+
+const moreMenu = (
+  <Menu>
+    <Menu.Item>
+      <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Flag post
+    </Menu.Item>
+    <Menu.Item>
+      <FontAwesomeIcon style={{marginRight: 4}} icon={faEyeSlash} /> Hide post
+    </Menu.Item>
+  </Menu>
+);
 
 function Post({ empty, post, loading, children, link, asteri, showComments, starred, showProfilePicture, user, redirect }) {
 
@@ -92,7 +114,10 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 	const [isStarClicked, clickStar] = useState(starred)
 
 	function click(e) {
-		if(e.target.nodeName !== 'A') redirect(link)
+    console.log(e.target.nodeName)
+		if(e.target.nodeName === 'DIV' || e.target.nodeName === 'P') {
+      redirect(link)
+    }
 	}
 
 	return (
@@ -100,13 +125,13 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 			<Card
 				className="agora-post"
 				bodyStyle={{padding: 8, paddingRight: "5%" }}
+        onClick={click}
 	      // style={!showComments ? {marginBottom: 12} : {marginTop: "5%"}}
 	      style={{
 	      	marginBottom: 16
 	      }}
 	    >
 				<span
-					onClick={click}
 					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
 				>
 					<Col
@@ -163,9 +188,9 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 						</Row>
 
 
-						<Row gutter={20} style={{fontSize: 16, marginBottom: 10}}>
+						<Row gutter={16} style={{fontSize: 16, marginBottom: 10}}>
 
-							<Col span={5}>
+							<Col span={4}>
 								<span
 								className="asteriButton"
 								onClick={() => {
@@ -176,19 +201,33 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 								</span>
 							</Col>
 
-							<Col span={5}>
-								<Link to={link}>
-									<span className="commentButton">
-										<FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
-									</span>
-								</Link>
-							</Col>
-
-							<Col span={5}>
-								<span className="shareButton">
-									<FontAwesomeIcon icon={faShare} />
+							<Col span={4}>
+								<span className="optionButton">
+									<FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
 								</span>
 							</Col>
+
+							<Col span={4}>
+								<span className="optionButton">
+                  <Dropdown overlay={shareMenu}>
+                    <FontAwesomeIcon style={{marginLeft: 8}} icon={faShare} />
+                  </Dropdown>
+								</span>
+							</Col>
+
+              <Col span={4}>
+                <span className="optionButton">
+                  <Dropdown overlay={moreMenu}>
+                    <FontAwesomeIcon icon={faEllipsisH} />
+                  </Dropdown>
+                </span>
+              </Col>
+
+              <Col span={4}>
+                <span className="optionButton">
+                  <FontAwesomeIcon icon={faPen} />
+                </span>
+              </Col>
 
 						</Row>
 					</div>
