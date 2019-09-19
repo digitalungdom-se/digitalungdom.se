@@ -8,14 +8,13 @@ import Filter from 'containers/Filter'
 export default ({ hypagora = "general", children }) => {
 
 	const CenterWrapper = ({ children }) => (
-		<Col type = "flex" justify="center" span={20} style={{backgroundColor: 'pink'}}>
+		<Col type = "flex" justify="center" span={20}>
 			<Row
 			type = "flex"
 			justify="center"
 			style={{
 			background: hypagoraInfo ? hypagoraInfo.background : "transparent",
-			marginTop: 16,
-			backgroundColor: 'pink'}}>
+			marginTop: 16}}>
 				{children}
 			</Row>
 		</Col>
@@ -39,7 +38,7 @@ export default ({ hypagora = "general", children }) => {
 				md={{ span: 20 }}
 				lg={{ span: 18 }}
 				xl={{ span: 16 }}>
-				
+
 					<Row
 					type="flex"
           justify="center"
