@@ -3,6 +3,8 @@ import React from 'react'
 import Post from '@components/post'
 // import { Agora, Users } from 'actions'
 import Agora, { antiAgorize, reportAgoragram, asteri, getAgoragram } from 'actions/agora'
+import { useDispatch, useSelector } from 'react-redux'
+import { set } from 'actions/set'
 import Users, { getUser } from 'actions/users'
 import { connect } from 'react-redux'
 // import { makeTitle, epochToRelativeTime } from 'utils'
@@ -46,12 +48,12 @@ class PostContainer extends React.Component {
 				post={post}
 				asteri={this.props.asteri}
 				report={this.props.report}
+				hide={()=> this.setState({hidePost: true})}
 				delete={this.props.anti_agorize}
 				link={loading ? null : "/agora/h/" + post.hypagora + "/comments/" + post.shortID + '/' + makeTitle(post.title)}
 				showComments={this.props.showComments}
 				isAuthor={this.props.isAuthor}
 				defaultBody={loading ? null : post.body}
-				report={this.props.report}
 				starred={this.props.starred}
         showProfilePicture={true}
         redirect={(link) => this.props.history.push(link)}
@@ -64,6 +66,7 @@ const mapStateToProps = (state, props) => {
 	let isAuthor
 	let id = props.id
 	let shortID = props.id
+	let hidePost = false
 	if(props.id && props.id.length !== 24) {
 		shortID = props.id
 		if(state.Agora.fullIds[props.id]) id = state.Agora.fullIds[props.id]

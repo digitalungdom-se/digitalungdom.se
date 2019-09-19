@@ -11,31 +11,67 @@ import './post.css'
 import ReactMarkdown from 'react-markdown'
 import Comments from 'containers/comments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComment, faShare, faStar, faPen, faFlag, faCopy, faEllipsisH, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { faComment, faShare, faStar, faPen, faFlag, faCopy, faEllipsisH, faEyeSlash, faTrash, faWrench } from '@fortawesome/free-solid-svg-icons'
 
-
-const shareMenu = (
+const shareMenu = (link) => (
   <Menu>
     <Menu.Item>
-      <span>
+      <span onClick={()=>copyPostLinkToClipBoard(link)}>
         <FontAwesomeIcon style={{marginRight: 4}} icon={faCopy} /> Copy post link
+      </span>
+    </Menu.Item>
+  </Menu>
+)
+
+const moreMenu = (reportPost, hidePost) => (
+  <Menu>
+    <Menu.Item>
+      <span onClick={()=>console.log('report')}>
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Report post
+      </span>
+    </Menu.Item>
+    <Menu.Item>
+      <span onClick={()=>console.log('hide')}>
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faEyeSlash} /> Hide post
       </span>
     </Menu.Item>
   </Menu>
 );
 
-const moreMenu = (
+const editMenu = (
   <Menu>
     <Menu.Item>
-      <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Flag post
+      <FontAwesomeIcon style={{marginRight: 4}} icon={faWrench} /> Edit post
     </Menu.Item>
     <Menu.Item>
-      <FontAwesomeIcon style={{marginRight: 4}} icon={faEyeSlash} /> Hide post
+      <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Delete post
     </Menu.Item>
   </Menu>
 );
 
-function Post({ empty, post, loading, children, link, asteri, showComments, starred, showProfilePicture, user, redirect }) {
+//Takes post redux link and merges it with window href to create a post link, which is copied to the clipboard
+function copyPostLinkToClipBoard(link) {
+  const el = document.createElement('input');
+  //TODO: maybe not the cleanest solution, fix this later
+  var currentURL = window.location.href
+  el.value = currentURL.substring(0,currentURL.indexOf("/agora")) + link;
+  el.id = "url-input";
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand("copy");
+  el.remove();
+}
+
+function Post({ empty, post, loading, children, link, asteri, report, showComments, isAuthor, starred, showProfilePicture, user, redirect }) {
+  //Hook describing if a post is stared or not
+  const [isStarClicked, clickStar] = useState(starred)
+
+  //Function that allows whole post to be pressed excluding buttons such as share and edit.
+	function click(e) {
+		if(e.target.nodeName === 'DIV' || e.target.nodeName === 'P') {
+      redirect(link)
+    }
+	}
 
 	if(empty) return (
 		<Card>
@@ -64,7 +100,7 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 	//Renders post body
   const Body = () => {
 
-		//For some reason you must wait, this the if statment
+		//For some reason you must wait
 		if(post.body) {
 
 			//If the post is a link, render this
@@ -109,16 +145,6 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 			// Should this say loading?
 			return null
 		}
-	}
-
-
-	const [isStarClicked, clickStar] = useState(starred)
-
-	function click(e) {
-    console.log(e.target.nodeName)
-		if(e.target.nodeName === 'DIV' || e.target.nodeName === 'P') {
-      redirect(link)
-    }
 	}
 
 	return (
@@ -189,7 +215,7 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 						</Row>
 
 
-						<Row gutter={16} style={{fontSize: 16, marginBottom: 10}}>
+						<Row style={{fontSize: 16, marginBottom: 10}}>
 
 							<Col span={4}>
 								<span
@@ -203,32 +229,42 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 							</Col>
 
 							<Col span={4}>
-								<span className="optionButton">
-									<FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
-								</span>
+                <div style={{ width: 50, paddingLeft: 10}} className="optionButton">
+                  <FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
+                </div>
 							</Col>
 
 							<Col span={4}>
-								<span className="optionButton">
-                  <Dropdown overlay={shareMenu}>
-                    <FontAwesomeIcon style={{marginLeft: 8}} icon={faShare} />
-                  </Dropdown>
-								</span>
+                <Dropdown overlay={shareMenu(link)}>
+  								<div style={{ width: 50, paddingLeft: 14}} className="optionButton">
+                      <FontAwesomeIcon style={{marginLeft: 8}} icon={faShare} />
+  								</div>
+                </Dropdown>
 							</Col>
 
-              <Col span={4}>
-                <span className="optionButton">
-                  <Dropdown overlay={moreMenu}>
-                    <FontAwesomeIcon icon={faEllipsisH} />
-                  </Dropdown>
-                </span>
-              </Col>
 
               <Col span={4}>
-                <span className="optionButton">
-                  <FontAwesomeIcon icon={faPen} />
-                </span>
+                <Dropdown overlay={moreMenu(report)}>
+                  <div style={{ width: 50, paddingLeft: 18}} className="optionButton">
+                    <FontAwesomeIcon icon={faEllipsisH} />
+  								</div>
+                </Dropdown>
               </Col>
+
+              {
+                isAuthor?
+                (
+                  <Col span={4}>
+                    <Dropdown overlay={editMenu}>
+                      <div style={{ width: 50, paddingLeft: 18}} className="optionButton">
+                        <FontAwesomeIcon icon={faPen} />
+      								</div>
+                    </Dropdown>
+                  </Col>
+                )
+                :
+                null
+              }
 
 						</Row>
 					</div>
