@@ -2,7 +2,7 @@ import React from 'react'
 // import { Post } from '@components'
 import Post from '@components/post'
 // import { Agora, Users } from 'actions'
-import Agora, { antiAgorize, reportAgoragram, asteri, getAgoragram } from 'actions/agora'
+import Agora, { antiAgorize, reportAgoragram, asteri, getAgoragram, addPostToHiddenPosts } from 'actions/agora'
 import { useDispatch, useSelector } from 'react-redux'
 import { set } from 'actions/set'
 import Users, { getUser } from 'actions/users'
@@ -42,13 +42,15 @@ class PostContainer extends React.Component {
 		}
 		let time = epochToRelativeTime(post._id)
 
+		if(this.props.hidden === true ) return null
+
 		return (
 			<Post
 				loading={loading}
 				post={post}
 				asteri={this.props.asteri}
 				report={this.props.report}
-				hide={()=> this.setState({hidePost: true})}
+				hidePost={() => this.props.hidePost(post._id)}
 				delete={this.props.anti_agorize}
 				link={loading ? null : "/agora/h/" + post.hypagora + "/comments/" + post.shortID + '/' + makeTitle(post.title)}
 				showComments={this.props.showComments}
@@ -66,11 +68,18 @@ const mapStateToProps = (state, props) => {
 	let isAuthor
 	let id = props.id
 	let shortID = props.id
-	let hidePost = false
+	let hidden = false
+
 	if(props.id && props.id.length !== 24) {
 		shortID = props.id
 		if(state.Agora.fullIds[props.id]) id = state.Agora.fullIds[props.id]
 	}
+
+	if(state.Agora.hiddenPosts.indexOf(id) !== -1) hidden = true
+	// state.Agora.hiddenPosts.forEach(hiddenPostId => {
+	// 	if(hiddenPostId === id) hidden = true;
+	// })
+
 	let post = state.Agora.agoragrams[id]
 	let starred = state.Agora.starredAgoragrams.indexOf(id) !== -1
 	if(post) {
@@ -82,7 +91,8 @@ const mapStateToProps = (state, props) => {
 		shortID,
 		post,
 		isAuthor,
-		starred
+		starred,
+		hidden
 	};
 }
 
@@ -92,7 +102,8 @@ const mapDispatchToProps = dispatch => ({
 	asteri: id => dispatch(asteri(id)),
 	anti_agorize(id) {dispatch(antiAgorize(id))},
 	report(id) {dispatch(reportAgoragram(id))},
-	getUser: (userArray, type) => dispatch(getUser(userArray, type))
+	getUser: (userArray, type) => dispatch(getUser(userArray, type)),
+	hidePost: id => dispatch(addPostToHiddenPosts(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PostContainer))

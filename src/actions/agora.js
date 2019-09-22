@@ -218,5 +218,11 @@ export function reportAgoragram( id, reason ) {
   }
 }
 
+export function addPostToHiddenPosts(postId){
+  return {
+    type: "ADD_HIDDEN_POST",
+    postId
+  }
+}
 
 export default Agora

@@ -26,12 +26,12 @@ const shareMenu = (link) => (
 const moreMenu = (reportPost, hidePost) => (
   <Menu>
     <Menu.Item>
-      <span onClick={()=>console.log('report')}>
+      <span onClick={reportPost}>
         <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Report post
       </span>
     </Menu.Item>
     <Menu.Item>
-      <span onClick={()=>console.log('hide')}>
+      <span onClick={hidePost}>
         <FontAwesomeIcon style={{marginRight: 4}} icon={faEyeSlash} /> Hide post
       </span>
     </Menu.Item>
@@ -62,7 +62,7 @@ function copyPostLinkToClipBoard(link) {
   el.remove();
 }
 
-function Post({ empty, post, loading, children, link, asteri, report, showComments, isAuthor, starred, showProfilePicture, user, redirect }) {
+function Post({ empty, post, loading, children, link, asteri, report, hidePost, showComments, isAuthor, starred, showProfilePicture, user, redirect }) {
   //Hook describing if a post is stared or not
   const [isStarClicked, clickStar] = useState(starred)
 
@@ -235,7 +235,12 @@ function Post({ empty, post, loading, children, link, asteri, report, showCommen
 							</Col>
 
 							<Col span={4}>
-                <Dropdown overlay={shareMenu(link)}>
+
+                <Dropdown
+                overlay={shareMenu(link)}
+                trigger={['click']}
+                >
+
   								<div style={{ width: 50, paddingLeft: 14}} className="optionButton">
                       <FontAwesomeIcon style={{marginLeft: 8}} icon={faShare} />
   								</div>
@@ -244,10 +249,16 @@ function Post({ empty, post, loading, children, link, asteri, report, showCommen
 
 
               <Col span={4}>
-                <Dropdown overlay={moreMenu(report)}>
+
+                <Dropdown
+                overlay={moreMenu(report, hidePost)}
+                trigger={['click']}
+                >
+
                   <div style={{ width: 50, paddingLeft: 18}} className="optionButton">
                     <FontAwesomeIcon icon={faEllipsisH} />
   								</div>
+
                 </Dropdown>
               </Col>
 
@@ -255,10 +266,16 @@ function Post({ empty, post, loading, children, link, asteri, report, showCommen
                 isAuthor?
                 (
                   <Col span={4}>
-                    <Dropdown overlay={editMenu}>
+
+                    <Dropdown
+                    overlay={editMenu}
+                    trigger={['click']}
+                    >
+
                       <div style={{ width: 50, paddingLeft: 18}} className="optionButton">
                         <FontAwesomeIcon icon={faPen} />
       								</div>
+                      
                     </Dropdown>
                   </Col>
                 )

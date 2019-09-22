@@ -3,6 +3,7 @@
 .asteriButton:hover{
   color:#FFD700;
   transition: 0.1s;
+  cursor: pointer;
 }
 
 .asteriButton{
@@ -12,6 +13,7 @@
 .optionButton:hover{
   transition: 0.1s;
   color: #4287f5;
+  cursor: pointer;
 }
 
 .optionButton{
