@@ -26,6 +26,8 @@ function UserContainer( { username } ) {
     edit = ( info, userID ) => dispatch( set( info, userID ) )
   }
 
+  //let report = report(id) {dispatch(reportUser(user._id))}
+
   let agoragrams = useSelector(state => state.Agora.lists[username])
 
   return (

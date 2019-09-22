@@ -36,7 +36,8 @@ export default ( state = {
     dateAfter: ( Math.floor( ( Date.now() / 1000 - 30 * 24 * 3600 ) ) ).toString( 16 ),
     dateBefore: ( Math.floor( ( Date.now() / 1000 ) ) ).toString( 16 )
   },
-  lists: {}
+  lists: {},
+  hiddenPosts: []
 }, action ) => {
   switch ( action.type ) {
   case 'UPDATE_AGORA_FILTER':
@@ -248,6 +249,11 @@ export default ( state = {
             return {
               ...state,
               viewingComments: true
+            }
+          case 'ADD_HIDDEN_POST':
+            return {
+              ...state,
+              hiddenPosts: [...state.hiddenPosts, action.postId]
             }
             default:
               return state
