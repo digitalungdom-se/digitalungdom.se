@@ -68,7 +68,8 @@ function Post({ empty, post, loading, children, link, asteri, report, hidePost, 
 
   //Function that allows whole post to be pressed excluding buttons such as share and edit.
 	function click(e) {
-		if(e.target.nodeName === 'DIV' || e.target.nodeName === 'P') {
+    console.log(e.target.className)
+		if(e.target.nodeName === "DIV" || e.target.nodeName === "P" && e.target.className !== "WillNotOpenPostDiv") {
       redirect(link)
     }
 	}
@@ -217,45 +218,60 @@ function Post({ empty, post, loading, children, link, asteri, report, hidePost, 
 
 						<Row style={{fontSize: 16, marginBottom: 10}}>
 
-							<Col span={4}>
-								<span
-								className="asteriButton"
-								onClick={() => {
-									clickStar(!isStarClicked)
-									asteri(post._id)
-								}}>
+							<Col
+              span={4}
+              style={{textAlign: 'center', height: 30}}
+              className="asteriButton"
+              onClick={() => {
+                clickStar(!isStarClicked)
+                asteri(post._id)
+              }}
+              >
+								<div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2}}>
 									<FontAwesomeIcon style={{marginRight: 4}} color={isStarClicked ? "gold" : ""} icon={faStar} /> {post.stars}
-								</span>
+								</div>
 							</Col>
 
-							<Col span={4}>
-                <div style={{ width: 50, paddingLeft: 10}} className="optionButton">
+							<Col
+              span={4}
+              style={{ textAlign: 'center', height: 30, paddingLeft: 8}}
+              className="optionButton"
+              >
+                <div style={{width: "100%", height: "100%", paddingTop: 2, }}>
                   <FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
                 </div>
 							</Col>
 
-							<Col span={4}>
+              <Col
+              span={4}
+              style={{ textAlign: 'center', height: 30}}
+              className="optionButton"
+              >
 
                 <Dropdown
                 overlay={shareMenu(link)}
                 trigger={['click']}
                 >
 
-  								<div style={{ width: 50, paddingLeft: 14}} className="optionButton">
+                  <div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2, }}>
                       <FontAwesomeIcon style={{marginLeft: 8}} icon={faShare} />
   								</div>
                 </Dropdown>
 							</Col>
 
 
-              <Col span={4}>
+              <Col
+              span={4}
+              style={{ textAlign: 'center', height: 30}}
+              className="optionButton"
+              >
 
                 <Dropdown
                 overlay={moreMenu(report, hidePost)}
                 trigger={['click']}
                 >
 
-                  <div style={{ width: 50, paddingLeft: 18}} className="optionButton">
+                  <div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2, }}>
                     <FontAwesomeIcon icon={faEllipsisH} />
   								</div>
 
@@ -265,17 +281,21 @@ function Post({ empty, post, loading, children, link, asteri, report, hidePost, 
               {
                 isAuthor?
                 (
-                  <Col span={4}>
+                  <Col
+                  span={4}
+                  style={{ textAlign: 'center', height: 30}}
+                  className="optionButton"
+                  >
 
                     <Dropdown
                     overlay={editMenu}
                     trigger={['click']}
                     >
 
-                      <div style={{ width: 50, paddingLeft: 18}} className="optionButton">
+                      <div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2, }}>
                         <FontAwesomeIcon icon={faPen} />
       								</div>
-                      
+
                     </Dropdown>
                   </Col>
                 )

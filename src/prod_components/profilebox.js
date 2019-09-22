@@ -6,7 +6,7 @@ import Link from '@components/link'
 import ProfilePicture from 'containers/ProfilePicture'
 
 const menu = (profile, logout) => (
-  <Menu style={{marginLeft: -28}}>
+  <Menu style={{marginLeft: -28, marginTop: -24}}>
     <Menu.Item >
       <Link
       loading = { profile.authing }
@@ -33,6 +33,7 @@ export default ( { profile, logout, translations } ) => (
 
     <Dropdown
     overlay = { () => menu(profile, logout) }
+    trigger={['click']}
     >
       <Link
       loading = { profile.authing }
@@ -43,7 +44,7 @@ export default ( { profile, logout, translations } ) => (
         type="flex"
         justify="center"
         align="middle"
-        style={{marginTop: 14}}
+        style={{ marginTop: 14 }}
         >
           <ProfilePicture
           style={{marginRight: 4, marginLeft: 4}}
