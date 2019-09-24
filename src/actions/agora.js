@@ -153,7 +153,7 @@ export function antiAgorize( agoragramID ) {
     ],
     callAPI: () =>
       fetch( "/api/agora/anti_agorize", {
-        method: 'post',
+        method: 'delete',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'

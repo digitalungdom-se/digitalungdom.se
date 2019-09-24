@@ -38,13 +38,19 @@ const moreMenu = (reportPost, hidePost) => (
   </Menu>
 );
 
-const editMenu = (
+const editMenu = (antiAgorize, deleteTemp, userId) => (
   <Menu>
     <Menu.Item>
       <FontAwesomeIcon style={{marginRight: 4}} icon={faWrench} /> Edit post
     </Menu.Item>
     <Menu.Item>
-      <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Delete post
+      <span
+      onClick={()=> {
+        antiAgorize(userId)
+        deleteTemp(true)
+      }}>
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Delete post
+      </span>
     </Menu.Item>
   </Menu>
 );
@@ -62,15 +68,18 @@ function copyPostLinkToClipBoard(link) {
   el.remove();
 }
 
-function Post({ empty, post, loading, children, link, asteri, report, hidePost, showComments, isAuthor, starred, showProfilePicture, user, redirect }) {
+function Post({ empty, post, loading, children, link, asteri, report, antiAgorize, hidePost, showComments, isAuthor, starred, showProfilePicture, userId, redirect }) {
   //Hook describing if a post is stared or not
   const [isStarClicked, clickStar] = useState(starred)
+  const [tempDeleted, deleteTemp] = useState(false)
 
   //Function that allows whole post to be pressed excluding buttons such as share and edit.
 	function click(e) {
-    console.log(e.target.className)
-		if(e.target.nodeName === "DIV" || e.target.nodeName === "P" && e.target.className !== "WillNotOpenPostDiv") {
-      redirect(link)
+    //Check if target is not button in post
+		if(typeof e.target.className === "string") {
+      if(!e.target.className.includes("WillNotOpenPostDiv") && e.target.tagName !== "SPAN" && e.target.tagName !== "svg" && e.target.tagName !== "UL" && e.target.tagName !== "LI" ){
+          redirect(link)
+      }
     }
 	}
 
@@ -102,7 +111,7 @@ function Post({ empty, post, loading, children, link, asteri, report, hidePost, 
   const Body = () => {
 
 		//For some reason you must wait
-		if(post.body) {
+		if(post.body ) {
 
 			//If the post is a link, render this
 			if( post.type === 'link'){
@@ -148,6 +157,11 @@ function Post({ empty, post, loading, children, link, asteri, report, hidePost, 
 		}
 	}
 
+  //If the post is deleted it will disappear from the current user
+  if(tempDeleted){
+    return null
+  }
+
 	return (
 		<React.Fragment>
 			<Card
@@ -186,6 +200,7 @@ function Post({ empty, post, loading, children, link, asteri, report, hidePost, 
 								<Link
 									linkType="user"
 									id={post.author}
+                  className="WillNotOpenPostDiv"
 								/>
 							</Col>
 							<Col>
@@ -271,7 +286,7 @@ function Post({ empty, post, loading, children, link, asteri, report, hidePost, 
                 trigger={['click']}
                 >
 
-                  <div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2, }}>
+                  <div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2 }}>
                     <FontAwesomeIcon icon={faEllipsisH} />
   								</div>
 
@@ -288,7 +303,7 @@ function Post({ empty, post, loading, children, link, asteri, report, hidePost, 
                   >
 
                     <Dropdown
-                    overlay={editMenu}
+                    overlay={editMenu(antiAgorize, deleteTemp, userId)}
                     trigger={['click']}
                     >
 
