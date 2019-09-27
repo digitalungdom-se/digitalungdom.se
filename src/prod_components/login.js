@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import {
-  Form, Icon, Input, Row, Col, Button,
+  Alert, Form, Icon, Input, Row, Col, Button,
 } from 'antd';
 import Card from '@components/Card'
 
-function Register({ login, Auth, translations, form }) {
+function Register({ loggingInError, login, Auth, translations, form }) {
 	const { getFieldDecorator } = form
 	return (
 		<Row
@@ -33,6 +33,10 @@ function Register({ login, Auth, translations, form }) {
 					  })
 					}}
 				>
+				{
+					loggingInError &&
+					<Alert message="Fel lösenord eller användarnamn." type="error" showIcon />
+				}
 					<Form.Item>
 						{getFieldDecorator('username', {
 							rules: [{

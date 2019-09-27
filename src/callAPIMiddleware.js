@@ -31,6 +31,13 @@ function callAPIMiddleware({ dispatch, getState }) {
       })
     )
 
+    function createAndDispatch(type, response, payload) {
+      return dispatch(Object.assign({}, {payload}, {
+        response,
+        type
+      }))
+    }
+
     return callAPI()
     .then(
       response => {
@@ -38,32 +45,18 @@ function callAPIMiddleware({ dispatch, getState }) {
           response.json()
           .then(response =>
             {
-              dispatch(
-                Object.assign({}, {payload}, {
-                  response,
-                  type: successType
+              if(response.type === "fail") createAndDispatch(failureType, response, payload)
+              else {
+                createAndDispatch(successType, response, payload)
+                callbacks.forEach(callback => {
+                  dispatch(callback(response, payload))
                 })
-              )
-              callbacks.forEach(callback => {
-                dispatch(callback(response, payload))
-              })
+              }
               return response
             })
-        } else {
-          dispatch(
-            Object.assign({}, {payload}, {
-              error: response,
-              type: failureType
-            })
-          )
-        }
+        } else createAndDispatch(failureType, response, payload)
       },
-      error => dispatch(
-        Object.assign({}, {payload}, {
-          error,
-          type: failureType
-        })
-      )
+      error => createAndDispatch(failureType, error, payload)
     )
   }
 }
