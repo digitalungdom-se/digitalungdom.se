@@ -22,6 +22,7 @@ export default withTranslation()(
 		const dispatchLogin = info => dispatch(login(info))
 
 		const { authorized, username } = useSelector(state => ({ authorized: state.Auth.authorized, username: state.Auth.profile.details.username }))
+		const loggingInError = useSelector(state => state.Auth.loggingInError)
 		if(authorized) {
 			onAuthorized(username)
 		}
@@ -37,6 +38,7 @@ export default withTranslation()(
 					"E-mail": t("lowercased_noun", {noun: t("E-mail")}),
 				}}
 				login={dispatchLogin}
+				loggingInError={loggingInError}
 				// Auth={Auth}
 			/>
 		)
