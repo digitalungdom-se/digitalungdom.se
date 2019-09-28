@@ -41,6 +41,11 @@ Fields: {
   replyTo
 }
 */
+
+export const redirected = () => ({
+  type: 'REDIRECT_TO_POST'
+})
+
 export function agorizePost( info, me ) {
   return {
     types: [
@@ -138,6 +143,7 @@ export function getAgoragram( agoragramShortID ) {
         response
       } )
     ],
+    shouldCallAPI: state => state.Agora.agoragrams[agoragramShortID] !== false,
     payload: {
       agoragramShortID,
     }
@@ -153,7 +159,7 @@ export function antiAgorize( agoragramID ) {
     ],
     callAPI: () =>
       fetch( "/api/agora/anti_agorize", {
-        method: 'post',
+        method: 'delete',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -184,6 +190,7 @@ export function asteri( agoragramID ) {
           agoragramID
         } )
       } ),
+    shouldCallAPI: state => state.Auth.authorized,
     payload: {
       agoragramID
     }
@@ -218,5 +225,11 @@ export function reportAgoragram( id, reason ) {
   }
 }
 
+export function addPostToHiddenPosts(postId){
+  return {
+    type: "ADD_HIDDEN_POST",
+    postId
+  }
+}
 
 export default Agora
