@@ -2,7 +2,9 @@ import React from 'react'
 // import { Post } from '@components'
 import Post from '@components/post'
 // import { Agora, Users } from 'actions'
-import Agora, { antiAgorize, reportAgoragram, asteri, getAgoragram } from 'actions/agora'
+import Agora, { antiAgorize, reportAgoragram, asteri, getAgoragram, addPostToHiddenPosts } from 'actions/agora'
+import { useDispatch, useSelector } from 'react-redux'
+import { set } from 'actions/users'
 import Users, { getUser } from 'actions/users'
 import { connect } from 'react-redux'
 // import { makeTitle, epochToRelativeTime } from 'utils'
@@ -40,20 +42,23 @@ class PostContainer extends React.Component {
 		}
 		let time = epochToRelativeTime(post._id)
 
+		if(this.props.hidden === true ) return null
+
 		return (
 			<Post
 				loading={loading}
 				post={post}
 				asteri={this.props.asteri}
 				report={this.props.report}
-				delete={this.props.anti_agorize}
+				antiAgorize={this.props.antiAgorize}
+				hidePost={() => this.props.hidePost(post._id)}
 				link={loading ? null : "/agora/h/" + post.hypagora + "/comments/" + post.shortID + '/' + makeTitle(post.title)}
 				showComments={this.props.showComments}
 				isAuthor={this.props.isAuthor}
 				defaultBody={loading ? null : post.body}
-				report={this.props.report}
 				starred={this.props.starred}
         showProfilePicture={true}
+				userId={this.props.id}
         redirect={(link) => this.props.history.push(link)}
 			/>
 		)
@@ -64,10 +69,18 @@ const mapStateToProps = (state, props) => {
 	let isAuthor
 	let id = props.id
 	let shortID = props.id
+	let hidden = false
+
 	if(props.id && props.id.length !== 24) {
 		shortID = props.id
 		if(state.Agora.fullIds[props.id]) id = state.Agora.fullIds[props.id]
 	}
+
+	if(state.Agora.hiddenPosts.indexOf(id) !== -1) hidden = true
+	// state.Agora.hiddenPosts.forEach(hiddenPostId => {
+	// 	if(hiddenPostId === id) hidden = true;
+	// })
+
 	let post = state.Agora.agoragrams[id]
 	let starred = state.Agora.starredAgoragrams.indexOf(id) !== -1
 	if(post) {
@@ -79,7 +92,8 @@ const mapStateToProps = (state, props) => {
 		shortID,
 		post,
 		isAuthor,
-		starred
+		starred,
+		hidden
 	};
 }
 
@@ -87,9 +101,10 @@ const mapDispatchToProps = dispatch => ({
 	get_user: id => dispatch(Users.get_user(id)),
 	getAgoragram: id => dispatch(getAgoragram(id)),
 	asteri: id => dispatch(asteri(id)),
-	anti_agorize(id) {dispatch(antiAgorize(id))},
+	antiAgorize(id) {dispatch(antiAgorize(id)); console.log(id)},
 	report(id) {dispatch(reportAgoragram(id))},
-	getUser: (userArray, type) => dispatch(getUser(userArray, type))
+	getUser: (userArray, type) => dispatch(getUser(userArray, type)),
+	hidePost: id => dispatch(addPostToHiddenPosts(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PostContainer))

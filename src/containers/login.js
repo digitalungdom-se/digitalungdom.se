@@ -26,6 +26,7 @@ export default withTranslation()(
 		if(authorized) {
 			onAuthorized(username)
 		}
+		const authorizing = useSelector(state => state.Auth.authorizing)
 
     return (
 			<Login
@@ -39,6 +40,7 @@ export default withTranslation()(
 				}}
 				login={dispatchLogin}
 				loggingInError={loggingInError}
+				loggingIn={authorizing}
 				// Auth={Auth}
 			/>
 		)

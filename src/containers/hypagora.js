@@ -5,12 +5,12 @@ import Post from 'containers/post'
 import FilterAndPosts from 'containers/filterandposts'
 import Posts from 'containers/posts'
 
-const Hypagora = ({ route, filter, hypagora = "general" }) => {
+const Hypagora = ({ route, id, hypagora = "general" }) => {
 	let inner
 
 	switch(route) {
 		case "comments":
-			inner = <Post showComments id={filter.id} />
+			inner = <Post showComments id={id} />
 			break
 		case "wiki":
 			inner = <Wiki hypagora={hypagora} />

@@ -47,6 +47,7 @@ export default (state = {
 				...state,
 				authorizing: false,
 				authorized: true,
+				loggingInError: false,
 				profile: {
 					details: action.response.details
 				}
@@ -56,7 +57,7 @@ export default (state = {
 				...state,
 				authorizing: false,
 				authorized: false,
-				loggingInError: true
+				loggingInError: action.response.errors[0].msg
 			}
 		case 'LOGOUT_REQUEST':
 			return {

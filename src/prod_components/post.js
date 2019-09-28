@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Avatar, Button, Divider, Empty, Row, Col, Rate, Card, Skeleton, Icon, Tag, Input } from 'antd'
+import { Avatar, Button, Dropdown, Divider, Empty, Row, Col, Rate, Card, Menu, Skeleton, Icon, Tag, Input } from 'antd'
 import Link from 'containers/Link'
 import { Redirect } from 'react-router'
 import { Route } from 'react-router-dom'
@@ -11,9 +11,77 @@ import './post.css'
 import ReactMarkdown from 'react-markdown'
 import Comments from 'containers/comments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComment, faShare, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faComment, faShare, faStar, faPen, faFlag, faCopy, faEllipsisH, faEyeSlash, faTrash, faWrench } from '@fortawesome/free-solid-svg-icons'
 
-function Post({ empty, post, loading, children, link, asteri, showComments, starred, showProfilePicture, user, redirect }) {
+const shareMenu = (link) => (
+  <Menu>
+    <Menu.Item>
+      <span onClick={()=>copyPostLinkToClipBoard(link)}>
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faCopy} /> Copy post link
+      </span>
+    </Menu.Item>
+  </Menu>
+)
+
+const moreMenu = (reportPost, hidePost) => (
+  <Menu>
+    <Menu.Item>
+      <span onClick={reportPost}>
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Report post
+      </span>
+    </Menu.Item>
+    <Menu.Item>
+      <span onClick={hidePost}>
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faEyeSlash} /> Hide post
+      </span>
+    </Menu.Item>
+  </Menu>
+);
+
+const editMenu = (antiAgorize, deleteTemp, userId) => (
+  <Menu>
+    <Menu.Item>
+      <FontAwesomeIcon style={{marginRight: 4}} icon={faWrench} /> Edit post
+    </Menu.Item>
+    <Menu.Item>
+      <span
+      onClick={()=> {
+        antiAgorize(userId)
+        deleteTemp(true)
+      }}>
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Delete post
+      </span>
+    </Menu.Item>
+  </Menu>
+);
+
+//Takes post redux link and merges it with window href to create a post link, which is copied to the clipboard
+function copyPostLinkToClipBoard(link) {
+  const el = document.createElement('input');
+  //TODO: maybe not the cleanest solution, fix this later
+  var currentURL = window.location.href
+  el.value = currentURL.substring(0,currentURL.indexOf("/agora")) + link;
+  el.id = "url-input";
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand("copy");
+  el.remove();
+}
+
+function Post({ empty, post, loading, children, link, asteri, report, antiAgorize, hidePost, showComments, isAuthor, starred, showProfilePicture, userId, redirect }) {
+  //Hook describing if a post is stared or not
+  const [isStarClicked, clickStar] = useState(starred)
+  const [tempDeleted, deleteTemp] = useState(false)
+
+  //Function that allows whole post to be pressed excluding buttons such as share and edit.
+	function click(e) {
+    //Check if target is not button in post
+		if(typeof e.target.className === "string") {
+      if(!e.target.className.includes("WillNotOpenPostDiv") && e.target.tagName !== "SPAN" && e.target.tagName !== "svg" && e.target.tagName !== "UL" && e.target.tagName !== "LI" ){
+          redirect(link)
+      }
+    }
+	}
 
 	if(empty) return (
 		<Card>
@@ -42,8 +110,8 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 	//Renders post body
   const Body = () => {
 
-		//For some reason you must wait, this the if statment
-		if(post.body) {
+		//For some reason you must wait
+		if(post.body ) {
 
 			//If the post is a link, render this
 			if( post.type === 'link'){
@@ -89,25 +157,23 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 		}
 	}
 
-
-	const [isStarClicked, clickStar] = useState(starred)
-
-	function click(e) {
-		if(e.target.nodeName !== 'A') redirect(link)
-	}
+  //If the post is deleted it will disappear from the current user
+  if(tempDeleted){
+    return null
+  }
 
 	return (
 		<React.Fragment>
 			<Card
 				className="agora-post"
 				bodyStyle={{padding: 8, paddingRight: "5%" }}
+        onClick={click}
 	      // style={!showComments ? {marginBottom: 12} : {marginTop: "5%"}}
 	      style={{
 	      	marginBottom: 16
 	      }}
 	    >
 				<span
-					onClick={click}
 					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
 				>
 					<Col
@@ -134,6 +200,7 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 								<Link
 									linkType="user"
 									id={post.author}
+                  className="WillNotOpenPostDiv"
 								/>
 							</Col>
 							<Col>
@@ -164,32 +231,92 @@ function Post({ empty, post, loading, children, link, asteri, showComments, star
 						</Row>
 
 
-						<Row gutter={20} style={{fontSize: 16, marginBottom: 10}}>
+						<Row style={{fontSize: 16, marginBottom: 10}}>
 
-							<Col span={5}>
-								<span
-								className="asteriButton"
-								onClick={() => {
-									clickStar(!isStarClicked)
-									asteri(post._id)
-								}}>
+							<Col
+              span={4}
+              style={{textAlign: 'center', height: 30}}
+              className="asteriButton"
+              onClick={() => {
+                clickStar(!isStarClicked)
+                asteri(post._id)
+              }}
+              >
+								<div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2}}>
 									<FontAwesomeIcon style={{marginRight: 4}} color={isStarClicked ? "gold" : ""} icon={faStar} /> {post.stars}
-								</span>
+								</div>
 							</Col>
 
-							<Col span={5}>
-								<Link to={link}>
-									<span className="commentButton">
-										<FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
-									</span>
-								</Link>
+							<Col
+              span={4}
+              style={{ textAlign: 'center', height: 30, paddingLeft: 8}}
+              className="optionButton"
+              >
+                <div style={{width: "100%", height: "100%", paddingTop: 2, }}>
+                  <FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
+                </div>
 							</Col>
 
-							<Col span={5}>
-								<span className="shareButton">
-									<FontAwesomeIcon icon={faShare} />
-								</span>
+              <Col
+              span={4}
+              style={{ textAlign: 'center', height: 30}}
+              className="optionButton"
+              >
+
+                <Dropdown
+                overlay={shareMenu(link)}
+                trigger={['click']}
+                >
+
+                  <div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2, }}>
+                      <FontAwesomeIcon style={{marginLeft: 8}} icon={faShare} />
+  								</div>
+                </Dropdown>
 							</Col>
+
+
+              <Col
+              span={4}
+              style={{ textAlign: 'center', height: 30}}
+              className="optionButton"
+              >
+
+                <Dropdown
+                overlay={moreMenu(report, hidePost)}
+                trigger={['click']}
+                >
+
+                  <div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2 }}>
+                    <FontAwesomeIcon icon={faEllipsisH} />
+  								</div>
+
+                </Dropdown>
+              </Col>
+
+              {
+                isAuthor?
+                (
+                  <Col
+                  span={4}
+                  style={{ textAlign: 'center', height: 30}}
+                  className="optionButton"
+                  >
+
+                    <Dropdown
+                    overlay={editMenu(antiAgorize, deleteTemp, userId)}
+                    trigger={['click']}
+                    >
+
+                      <div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2, }}>
+                        <FontAwesomeIcon icon={faPen} />
+      								</div>
+
+                    </Dropdown>
+                  </Col>
+                )
+                :
+                null
+              }
 
 						</Row>
 					</div>

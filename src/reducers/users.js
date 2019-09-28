@@ -1,9 +1,21 @@
 export default ( state = {
   users: {},
-  usernames: {}
+  usernames: {},
+  whoami: undefined
 }, action ) => {
   let users, usernames
   switch ( action.type ) {
+    case "SET_REQUEST":
+      console.log(action)
+      return state
+      return {
+        ...state,
+        users: {
+          [state.whoami]: {
+
+          }
+        }
+      }
   case 'REQUEST_GET_USER':
     users = {}
     action.request.userArray.forEach( id => users[ id ] = false )
@@ -34,7 +46,9 @@ export default ( state = {
     case "GET_USER_SUCCESS":
       users = {}
       usernames = {}
-      action.response.users.forEach( user => {
+      let whoami
+      action.response.users.forEach( (user, index) => {
+        if(action.isMe && index === 0) whoami = {whoami: user._id}
         users[ user._id ] = user
         usernames[ user.details.username ] = user
       } )
@@ -47,7 +61,8 @@ export default ( state = {
           usernames: {
             ...state.usernames,
             ...usernames
-          }
+          },
+          ...whoami
       }
       // users = {}
       // if(action.url === "/api/auth") {

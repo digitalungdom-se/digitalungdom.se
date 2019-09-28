@@ -5,6 +5,8 @@ import UserEditingForm from '@components/userEditingForm'
 import FileSelector from '@components/fileSelector'
 import ProfilePicture from 'containers/ProfilePicture'
 import ProfilePictureViewer from '@components/profilePictureViewer'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFlag } from '@fortawesome/free-solid-svg-icons'
 
 import { useDispatch } from 'react-redux'
 
@@ -16,6 +18,16 @@ const menu = (
     </Menu.Item>
     <Menu.Item>
       Ta bort nuvarande profilbild
+    </Menu.Item>
+  </Menu>
+);
+
+const moreUserMenu = (userId) => (
+  <Menu>
+    <Menu.Item>
+      <span onClick={()=> console.log("Reporting " + userId)}>
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Report user
+      </span>
     </Menu.Item>
   </Menu>
 );
@@ -231,7 +243,7 @@ function UserPage( { user, loading, canEdit, edit, posts } ) {
 
 								<Row
 									type="flex"
-									justify="start"
+									justify="space-between"
                   className="du-background"
 									style={{
 										background: userColour,
@@ -257,6 +269,21 @@ function UserPage( { user, loading, canEdit, edit, posts } ) {
                     id={user._id}
                     />
 									</Col>
+
+                  <Col>
+
+                    <Dropdown
+                    trigger={['click']}
+                    overlay={moreUserMenu(user._id)}
+                    >
+
+                      <Icon
+                      type="ellipsis"
+                      style={{ color: "rgba(0,0,0,0.6)", fontSize: 26, marginRight: 20, marginTop: 16 }}
+                      />
+
+                    </Dropdown>
+                  </Col>
 								</Row>
 
 								<div
