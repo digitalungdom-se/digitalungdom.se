@@ -1,5 +1,7 @@
 import React from 'react';
 
+import 'resources/variables.css'
+
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
@@ -8,6 +10,7 @@ import { Welcome } from '@storybook/react/demo';
 import Button from "prod_components/button";
 
 import './Agora/index.js'
+import './Auth/index.js'
 import './miscellaneous.js'
 import './Menu.js'
 

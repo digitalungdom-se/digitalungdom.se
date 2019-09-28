@@ -221,19 +221,21 @@ function UserPage( { user, loading, canEdit, edit, posts } ) {
 						style={{width: "100%"}}
 						type = "flex"
 						justify="space-between"
+            gutter={16}
 					>
 
 						<Col
 							xs={{span: 22}}
 							sm={{span: 22}}
 							md={{span: 9}}
-							lg={{span: 8}}
+							lg={{span: 9}}
 							type = "flex"
 							justify="center"
             >
 
 							<Col
 								style={{
+                  padding: 0,
 									background: "white",
 									border:'1px solid rgba(0,0,0,0.1)',
 									borderRadius: 8,
@@ -247,6 +249,7 @@ function UserPage( { user, loading, canEdit, edit, posts } ) {
                   className="du-background"
 									style={{
 										background: userColour,
+                    margin: 0,
 										padding: 10,
 										borderTopRightRadius: 8,
 										borderTopLeftRadius: 8,
@@ -255,6 +258,7 @@ function UserPage( { user, loading, canEdit, edit, posts } ) {
 										marginBottom: 20,
 										paddingTop: 20,
 										paddingLeft: 30,
+
 									}}
                 >
 									<Col>
@@ -289,7 +293,7 @@ function UserPage( { user, loading, canEdit, edit, posts } ) {
 								<div
 									style={{
                     padding: "16px 30px",
-                    fontSize: 14
+                    fontSize: 14,
                   }}
 								>
 
@@ -302,15 +306,17 @@ function UserPage( { user, loading, canEdit, edit, posts } ) {
 										{user.details.name}
 									</h2>
 
-									<p
-										style={{fontSize:16, marginTop: -4}}
-									>
-										<span
-                      className="du-colour"
-                      style={{color:userColour}}>
-                      @{user.details.username}
-                    </span>
-                      <span>{user.profile.status ? ` - ${user.profile.status}` : ''}</span>
+                  <span
+                    className="du-colour"
+                    style={{ color:userColour }}>
+                    @{user.details.username}
+                  </span>
+
+									<p style={{fontSize:16, marginTop: -4}}>
+
+
+
+                    <span>{user.profile.status ? ` - ${user.profile.status}` : ''}</span>
 									</p>
 									{
 										renderProfile(user, canEdit, edit,userColour, setUserColour)
@@ -323,7 +329,7 @@ function UserPage( { user, loading, canEdit, edit, posts } ) {
             <Col
             xs={{ span: 22 }}
             sm={{ span: 22 }}
-            md={{ span: 14 }}
+            md={{ span: 15 }}
             lg={{ span: 15 }}>
 
              {posts}
