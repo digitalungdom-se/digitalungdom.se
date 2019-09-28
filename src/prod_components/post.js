@@ -38,7 +38,7 @@ const moreMenu = (reportPost, hidePost) => (
   </Menu>
 );
 
-const editMenu = (antiAgorize, deleteTemp, userId) => (
+const editMenu = (antiAgorize, deleteTemp ) => (
   <Menu>
     <Menu.Item>
       <FontAwesomeIcon style={{marginRight: 4}} icon={faWrench} /> Edit post
@@ -46,7 +46,7 @@ const editMenu = (antiAgorize, deleteTemp, userId) => (
     <Menu.Item>
       <span
       onClick={()=> {
-        antiAgorize(userId)
+        antiAgorize()
         deleteTemp(true)
       }}>
         <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Delete post
@@ -68,7 +68,7 @@ function copyPostLinkToClipBoard(link) {
   el.remove();
 }
 
-function Post({ empty, post, loading, children, link, asteri, report, antiAgorize, hidePost, showComments, isAuthor, starred, showProfilePicture, userId, redirect }) {
+function Post({ empty, post, loading, children, link, asteri, report, antiAgorize, hidePost, showComments, isAuthor, starred, showProfilePicture, redirect }) {
   //Hook describing if a post is stared or not
   const [isStarClicked, clickStar] = useState(starred)
   const [tempDeleted, deleteTemp] = useState(false)
@@ -303,7 +303,7 @@ function Post({ empty, post, loading, children, link, asteri, report, antiAgoriz
                   >
 
                     <Dropdown
-                    overlay={editMenu(antiAgorize, deleteTemp, userId)}
+                    overlay={editMenu(antiAgorize, deleteTemp, )}
                     trigger={['click']}
                     >
 

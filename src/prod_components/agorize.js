@@ -21,6 +21,12 @@ function Agorize({
 		form.validateFieldsAndScroll((err, values) => {
 	    if (!err) {
 	    	if(agoragramType === "post") {
+					if(values.tags === null){
+						values.tags = ""
+					}
+					if(values.text === null){
+						values.text = ""
+					}
 	    		agorize({
 	    			type: values.type,
 	    			title: values.title,
@@ -83,9 +89,10 @@ function Agorize({
 					<React.Fragment>
 						<Form.Item>
 							{getFieldDecorator('type', {
-								rules: [
-									{required: true}
-								]
+								rules: [{
+									required: true,
+									message: "Ange inläggstyp "
+									}]
 		          })(
 		          	<Select
 		          		placeholder="Välj inläggstyp"
@@ -95,10 +102,11 @@ function Agorize({
 		          	</Select>
 		          )}
 						</Form.Item>
-						<Form.Item validateStatus={titleError ? 'error' : ''} help={titleError || ''}>
+						<Form.Item>
 							{getFieldDecorator('title', {
 								rules: [{
-									required: true
+									required: true,
+									message: "Ange en titel "
 								}]
 							})(
 		          	<Input placeholder="Titel" type="text" />
@@ -113,7 +121,7 @@ function Agorize({
 		          	/>
 		          )}
 						</Form.Item>
-					</React.Fragment>	
+					</React.Fragment>
 				}
 			<Form.Item>
 				{getFieldDecorator('text')(

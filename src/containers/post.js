@@ -50,7 +50,7 @@ class PostContainer extends React.Component {
 				post={post}
 				asteri={this.props.asteri}
 				report={this.props.report}
-				antiAgorize={this.props.antiAgorize}
+				antiAgorize={() => this.props.antiAgorize(post._id)}
 				hidePost={() => this.props.hidePost(post._id)}
 				link={loading ? null : "/agora/h/" + post.hypagora + "/comments/" + post.shortID + '/' + makeTitle(post.title)}
 				showComments={this.props.showComments}
@@ -101,7 +101,7 @@ const mapDispatchToProps = dispatch => ({
 	get_user: id => dispatch(Users.get_user(id)),
 	getAgoragram: id => dispatch(getAgoragram(id)),
 	asteri: id => dispatch(asteri(id)),
-	antiAgorize(id) {dispatch(antiAgorize(id)); console.log(id)},
+	antiAgorize(id) {dispatch(antiAgorize(id))},
 	report(id) {dispatch(reportAgoragram(id))},
 	getUser: (userArray, type) => dispatch(getUser(userArray, type)),
 	hidePost: id => dispatch(addPostToHiddenPosts(id))
