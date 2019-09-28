@@ -6,16 +6,37 @@ export default ( state = {
   let users, usernames
   switch ( action.type ) {
     case "SET_REQUEST":
-      console.log(action)
-      return state
+      let me = state.users[state.whoami].profile
+      action.payload.updates.forEach(update => {
+        me = Object.assign({}, me, update[1])
+      // //   let split = update[0].split('.')
+      // //   function recursive(tree, list, index, value) {
+      // //     if(index === list.length - 1) {
+      // //       tree[list[index]] = value
+      // //     } else recursive(tree, list, index + 1, value)
+      // //   }
+      })
+      // console.log(state.whoami)
+      // console.log(me)
+      // console.log(state.whoami, me)
       return {
         ...state,
         users: {
+          ...state.users,
           [state.whoami]: {
-
+            ...state.users[state.whoami],
+            profile: me
           }
         }
       }
+      // return {
+      //   ...state,
+      //   users: {
+      //     [state.whoami]: {
+
+      //     }
+      //   }
+      // }
   case 'REQUEST_GET_USER':
     users = {}
     action.request.userArray.forEach( id => users[ id ] = false )
@@ -50,7 +71,7 @@ export default ( state = {
       action.response.users.forEach( (user, index) => {
         if(action.isMe && index === 0) whoami = {whoami: user._id}
         users[ user._id ] = user
-        usernames[ user.details.username ] = user
+        usernames[ user.details.username ] = user._id
       } )
       return {
         ...state,

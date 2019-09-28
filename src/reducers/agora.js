@@ -105,7 +105,7 @@ export default ( state = {
       },
       fullIds: {
         ...state.fullIds,
-        fullIds
+        ...fullIds
       },
       posts: {
         ...state.posts,
