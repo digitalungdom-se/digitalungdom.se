@@ -68,7 +68,7 @@ function copyPostLinkToClipBoard(link) {
   el.remove();
 }
 
-function Post({ empty, post, loading, children, link, asteri, report, antiAgorize, hidePost, showComments, isAuthor, starred, showProfilePicture, redirect }) {
+function Post({ authorized, empty, post, loading, children, link, asteri, report, antiAgorize, hidePost, showComments, isAuthor, starred, showProfilePicture, redirect }) {
   //Hook describing if a post is stared or not
   const [isStarClicked, clickStar] = useState(starred)
   const [tempDeleted, deleteTemp] = useState(false)

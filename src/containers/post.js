@@ -48,6 +48,8 @@ function PostContainer({
 
 	const starred = useSelector(state => state.Agora.starredAgoragrams.indexOf(id) !== -1)
 
+	const authorized = useSelector(state => state.Auth.authorized)
+
 	if(empty) return <Post empty />;
 
 	return (
@@ -71,6 +73,8 @@ function PostContainer({
       showProfilePicture={true}
 			userId={id}
       redirect={(link) => history.push(link)}
+
+      authorized={authorized}
 		/>
 	)
 }
