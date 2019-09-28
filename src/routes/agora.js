@@ -53,7 +53,7 @@ class Inner extends React.Component {
 					<Hypagora
 						route="comments"
 						hypagora={hypagora}
-						id={filter.id}
+						id={params.timeOrId}
 					/>
 				)
 			} else if(params.commentsOrSortOrOther === "wiki") {
@@ -92,7 +92,7 @@ export default connect(mapStateToProps)(({ fetchedSeveral }) => (
 					<Agorize
 						hypagora={props.match.params.hypagora}
 						agoragramType="post"
-						onAgorized={(redirect) => props.history.push('/agora/' + '/h/' + redirect.hypagora + '/comments/' + redirect.shortID + 'title')}
+						onAgorized={(redirect) => props.history.push(redirect)}
 					/>
 				</Surrounding>
 			)} />

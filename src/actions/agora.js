@@ -46,6 +46,33 @@ export const redirected = () => ({
   type: 'REDIRECT_TO_POST'
 })
 
+export function agorize( info, me, type ) {
+  console.log(info, me, type)
+  return {
+    types: [
+      'AGORIZE_REQUEST',
+      'AGORIZE_SUCCESS',
+      'AGORIZE_FAILURE'
+    ],
+    callAPI: () =>
+      fetch( "/api/agora/agorize/" + type, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( {
+          ...info,
+          hypagora: "general"
+        } )
+      } ),
+    payload: {
+      ...info,
+      me
+    }
+  }
+}
+
 export function agorizePost( info, me ) {
   return {
     types: [

@@ -1,5 +1,6 @@
 import { flatTree } from 'utils'
 import { timeToHex } from 'utils/time'
+import { makeTitle } from 'utils/agora'
 
 const generateRandom = ( length ) => {
   let string = ""
@@ -118,6 +119,7 @@ export default ( state = {
       },
       starredAgoragrams: state.starredAgoragrams.concat( action.response.starredAgoragrams ),
       lists: {
+        ...state.lists,
         [ listQuery ]: list
       }
       // starredAgoragrams: [
@@ -205,10 +207,14 @@ case 'AGORIZE_SUCCESS':
   return {
     ...state,
     agorized: state.agorized.concat( action.payload.replyTo ),
-    redirect: action.payload.type === "comment" ? action.response.agoragram : false,
+    redirect: action.payload.type === "comment" ? action.response.agoragram : "/agora/h/general/comments/" + action.response.agoragram.shortID + "/" + makeTitle(action.payload.title),
     agoragrams: {
       ...state.agoragrams,
       ...agoragrams
+    },
+    fullIds: {
+      ...state.fullIds,
+      [action.response.agoragram.shortID]: action.response.agoragram._id
     }
   }
   case 'AGORIZE_FAILURE':

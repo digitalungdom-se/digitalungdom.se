@@ -21,18 +21,12 @@ function Agorize({
 		form.validateFieldsAndScroll((err, values) => {
 	    if (!err) {
 	    	if(agoragramType === "post") {
-					if(values.tags === null){
-						values.tags = ""
-					}
-					if(values.text === null){
-						values.text = ""
-					}
 	    		agorize({
 	    			type: values.type,
 	    			title: values.title,
-	    			tags: values.tags,
-	    			body: values.text
-	    		})
+	    			tags: values.tags ? values.tags : [],
+	    			body: values.text ?values.text : "" 
+	    		}, null, "post")
 	    	}
 	    	else agorize({
 	    		type: "comment",
