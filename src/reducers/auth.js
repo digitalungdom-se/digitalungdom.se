@@ -1,9 +1,41 @@
 export default (state = {
 	profile: {
 		details: {}
-	}
+	},
+	verified: undefined,
+	resettingPassword: undefined,
 }, action) => {
 	switch(action.type) {
+		case 'VERIFYACCOUNT_REQUEST':
+			return {
+				...state,
+				verified: "requested"
+			}
+		case 'VERIFYACCOUNT_SUCCESS':
+			return {
+				...state,
+				verified: true
+			}
+		case 'VERIFYACCOUNT_FAILURE':
+			return {
+				...state,
+				verified: false
+			}
+		case 'RESETPASSWORD_REQUEST':
+			return {
+				...state,
+				resettingPassword: "requested"
+			}
+		case 'RESETPASSWORD_SUCCESS':
+			return {
+				...state,
+				resettingPassword: true
+			}
+		case 'RESETPASSWORD_FAILURE':
+			return {
+				...state,
+				resettingPassword: false
+			}
 		case 'AUTH_REQUEST':
 			return {
 				...state,
