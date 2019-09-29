@@ -36,6 +36,7 @@ export default ({ hypagora = "general", children, noSurrounding = false }) => {
 			type="flex"
 			justify="center"
 			style={{marginTop: 30}}>
+
 				<Col
 				xs={{ span: 22 }}
 				sm={{ span: 22 }}
@@ -52,6 +53,7 @@ export default ({ hypagora = "general", children, noSurrounding = false }) => {
 	            alignItems: 'stretch',
 							width: "100%"
 	          }}
+						gutter={16}
 	        >
 
 						<Col
@@ -75,7 +77,7 @@ export default ({ hypagora = "general", children, noSurrounding = false }) => {
 				}
 				{
 					noSurrounding &&
-					children	
+					children
 				}
 				</Col>
 			</Row>
