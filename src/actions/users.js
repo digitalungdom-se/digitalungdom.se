@@ -40,7 +40,7 @@ export function getUser( { username, dateAfter, dateBefore, sort, hypagora, id }
     // Types of actions to emit before and after
     types: [ 'GET_USER_REQUEST', 'GET_USER_SUCCESS', 'GET_USER_FAILURE' ],
     // Check the cache (optional):
-    shouldCallAPI: state => state.Users.usernames[username] === undefined || state.Users.usernames[username] === undefined,
+    shouldCallAPI: state => state.Users.usernames[username] === undefined  || state.Users.agoraList.indexOf(username) === -1,
     // Perform the fetching:
     callAPI: () => fetch( "/api/agora/get/user?" + query( { username, dateAfter, dateBefore, sort, hypagora } ) ),
     callbacks: [

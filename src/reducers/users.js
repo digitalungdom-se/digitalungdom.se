@@ -1,7 +1,8 @@
 export default ( state = {
   users: {},
   usernames: {},
-  whoami: undefined
+  whoami: undefined,
+  agoraList: []
 }, action ) => {
   let users, usernames
   switch ( action.type ) {
@@ -55,13 +56,14 @@ export default ( state = {
       return {
         ...state,
         users: {
-            ...state.users,
-            ...users
-          },
-          usernames: {
-            ...state.usernames,
-            ...usernames
-          }
+          ...state.users,
+          ...users
+        },
+        usernames: {
+          ...state.usernames,
+          ...usernames
+        },
+        agoraList: state.agoraList.concat(action.payload.username)
       }
       return state
     case "GET_USER_SUCCESS":
