@@ -8,6 +8,7 @@ import { linkTo } from '@storybook/addon-links';
 
 import { Welcome } from '@storybook/react/demo';
 import Button from "prod_components/button";
+import ResetPassword from 'prod_components/ResetPassword'
 
 import './Agora/index.js'
 import './Auth/index.js'
@@ -25,3 +26,17 @@ storiesOf('Button', module)
       </span>
     </Button>
   ));
+
+storiesOf('Reset', module)
+	.add('Reset password', () => 
+		<ResetPassword />
+	)
+	.add('Simon Sondén', () => 
+		<div
+			style={{width: 400}}
+		>
+			<ResetPassword
+				color="blue"
+			/>
+		</div>
+	)

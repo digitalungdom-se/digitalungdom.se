@@ -4,7 +4,7 @@ import Post from '@components/post'
 // import { Agora, Users } from 'actions'
 import Agora, { antiAgorize, reportAgoragram, asteri, getAgoragram, addPostToHiddenPosts } from 'actions/agora'
 import { useDispatch, useSelector } from 'react-redux'
-import { set } from 'actions/set'
+import { set } from 'actions/users'
 import Users, { getUser } from 'actions/users'
 import { connect } from 'react-redux'
 // import { makeTitle, epochToRelativeTime } from 'utils'
@@ -14,97 +14,65 @@ import { epochToRelativeTime } from 'utils/time'
 import Actions from 'containers/actions'
 import { withRouter } from 'react-router-dom'
 
-class PostContainer extends React.Component {
+function PostContainer({
+	showComments,
+	loading,
+	isAuthor,
+	history,
+	id = false,
+	empty
+}) {
 
-	componentWillMount() {
-		if(this.props.loading === undefined) {
-			this.props.getAgoragram(this.props.shortID)
-			// .then(res => {
-			// 	if(res) {
-			// 		if(res.response.type === "success") {
-			// 			// if(this.props.post) this.props.get_user({type: "objectid", userArray: [this.props.post.users]});
-			// 			// if(this.props.post) this.props.getUser(this.props.post.users, "objectid")
-			// 		}
-			// 	}
-			// })
-			// .catch(err => {
-			// 	console.error(err)
-			// })
-		}
+	const dispatch = useDispatch()
+
+	if(showComments) dispatch(getAgoragram(id));
+	if(id && id.length !== 24) {
+		id = useSelector(state => {
+			return state.Agora.fullIds[id]
+		})
+	}
+	let isThereAPost = useSelector(state => state.Agora.agoragrams[id])
+	if(!isThereAPost) loading = true;
+	let post = isThereAPost ? isThereAPost : {
+		_id: "0"
 	}
 
-	render() {
-		if(this.props.empty) return <Post empty={true}/>;
+	const hidden = useSelector(state => state.Agora.hiddenPosts.indexOf(id) !== -1)
+	if(hidden) return null
 
-		let loading = this.props.loading || !this.props.post
-		let post = this.props.post ? this.props.post : {
-			_id: "0"
-		}
-		let time = epochToRelativeTime(post._id)
+	const star = (id) => dispatch(asteri(id))
+	const report = (id) => dispatch(report(id))
+	const hidePost = (id) => dispatch(addPostToHiddenPosts(id))
 
-		if(this.props.hidden === true ) return null
+	const antiAgorize = (id) => dispatch(antiAgorize(id))
 
-		return (
-			<Post
-				loading={loading}
-				post={post}
-				asteri={this.props.asteri}
-				report={this.props.report}
-				antiAgorize={() => this.props.antiAgorize(post._id)}
-				hidePost={() => this.props.hidePost(post._id)}
-				link={loading ? null : "/agora/h/" + post.hypagora + "/comments/" + post.shortID + '/' + makeTitle(post.title)}
-				showComments={this.props.showComments}
-				isAuthor={this.props.isAuthor}
-				defaultBody={loading ? null : post.body}
-				starred={this.props.starred}
-        showProfilePicture={true}
-				userId={this.props.id}
-        redirect={(link) => this.props.history.push(link)}
-			/>
-		)
-	}
+	const starred = useSelector(state => state.Agora.starredAgoragrams.indexOf(id) !== -1)
+
+	if(empty) return <Post empty />;
+
+	return (
+		<Post
+			loading={loading}
+			post={post}
+			
+			asteri={star}
+			report={report}
+			antiAgorize={antiAgorize}
+
+			hidePost={() => hidePost(post._id)}
+
+			link={loading ? null : "/agora/h/" + post.hypagora + "/comments/" + post.shortID + "/" + makeTitle(post.title)}
+			showComments={showComments}
+
+			isAuthor={isAuthor}
+
+			defaultBody={loading ? null : post.body}
+			starred={starred}
+      showProfilePicture={true}
+			userId={id}
+      redirect={(link) => history.push(link)}
+		/>
+	)
 }
 
-const mapStateToProps = (state, props) => {
-	let isAuthor
-	let id = props.id
-	let shortID = props.id
-	let hidden = false
-
-	if(props.id && props.id.length !== 24) {
-		shortID = props.id
-		if(state.Agora.fullIds[props.id]) id = state.Agora.fullIds[props.id]
-	}
-
-	if(state.Agora.hiddenPosts.indexOf(id) !== -1) hidden = true
-	// state.Agora.hiddenPosts.forEach(hiddenPostId => {
-	// 	if(hiddenPostId === id) hidden = true;
-	// })
-
-	let post = state.Agora.agoragrams[id]
-	let starred = state.Agora.starredAgoragrams.indexOf(id) !== -1
-	if(post) {
-    if(state.Auth.authorized) isAuthor = post.author === state.Auth.profile.details._id;
-    else isAuthor = false;
-	}
-	return {
-		id,
-		shortID,
-		post,
-		isAuthor,
-		starred,
-		hidden
-	};
-}
-
-const mapDispatchToProps = dispatch => ({
-	get_user: id => dispatch(Users.get_user(id)),
-	getAgoragram: id => dispatch(getAgoragram(id)),
-	asteri: id => dispatch(asteri(id)),
-	antiAgorize(id) {dispatch(antiAgorize(id))},
-	report(id) {dispatch(reportAgoragram(id))},
-	getUser: (userArray, type) => dispatch(getUser(userArray, type)),
-	hidePost: id => dispatch(addPostToHiddenPosts(id))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PostContainer))
+export default withRouter(PostContainer)

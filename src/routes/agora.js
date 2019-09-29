@@ -18,9 +18,9 @@ import 'resources/agora.css'
 import { Row, Col } from '@components/grid'
 
 class Inner extends React.Component {
-	shouldComponentUpdate() {
-		return !(this.props.fetchedSeveral)
-	}
+	// shouldComponentUpdate() {
+	// 	return !(this.props.fetchedSeveral)
+	// }
 	render() {
 		const { params } = this.props.match
 		let time, sort, hypagora
@@ -53,7 +53,7 @@ class Inner extends React.Component {
 					<Hypagora
 						route="comments"
 						hypagora={hypagora}
-						filter={filter}
+						id={filter.id}
 					/>
 				)
 			} else if(params.commentsOrSortOrOther === "wiki") {
@@ -86,34 +86,20 @@ export default connect(mapStateToProps)(({ fetchedSeveral }) => (
 	<div
 		className="agora"
 	>
-		{fetchedSeveral &&
-			<Route
-				path="/agora/h/:hypagora/(kommentarer|comments)/:id/:title"
-				render={(props) =>
-					<Row
-					>
-						<Col
-							span={20}
-						>
-							<Overlay id={props.match.params.id}/>
-						</Col>
-					</Row>
-				}
-				/>
-		}
 		<Switch>
 			<Route path="/agora/h/:hypagora/(publicera|submit)" render={(props) => (
 				<Surrounding hypagora={props.match.params.hypagora} >
 					<Agorize
 						hypagora={props.match.params.hypagora}
 						agoragramType="post"
-						onAgorized={() => props.history.push('/')}
+						onAgorized={(redirect) => props.history.push('/agora/' + '/h/' + redirect.hypagora + '/comments/' + redirect.shortID + 'title')}
 					/>
 				</Surrounding>
 			)} />
 			<Route path="/agora/:hOrSort?/:hypagoraOrTime?/:commentsOrSortOrOther?/:timeOrId?" render={props => (
 				<Surrounding
 					hypagora={props.match.params.hypagoraOrTime}
+					noSurrounding={["comments", "kommentarer"].indexOf(props.match.params.commentsOrSortOrOther) !== -1}
 				>
 					<SubOrPos
 						{...props}
@@ -123,3 +109,21 @@ export default connect(mapStateToProps)(({ fetchedSeveral }) => (
 		</Switch>
 	</div>
 ))
+
+/*
+{fetchedSeveral &&
+	<Route
+		path="/agora/h/:hypagora/(kommentarer|comments)/:id/:title"
+		render={(props) =>
+			<Row
+			>
+				<Col
+					span={20}
+				>
+					<Overlay id={props.match.params.id}/>
+				</Col>
+			</Row>
+		}
+		/>
+}
+*/

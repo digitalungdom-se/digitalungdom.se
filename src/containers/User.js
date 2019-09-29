@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from 'actions/users'
-import { set } from 'actions/set'
+import { set } from 'actions/users'
 import UserPage from '@components/UserPage'
 import { Row, Col } from '@components/grid'
 import Posts from 'containers/posts'
@@ -9,7 +9,8 @@ import Posts from 'containers/posts'
 function UserContainer( { username } ) {
   const dispatch = useDispatch()
 
-  const user = useSelector( state => state.Users.usernames[ username ] );
+  const userId = useSelector( state => state.Users.usernames[ username ] );
+  const user = useSelector( state => state.Users.users[ userId ] );
   dispatch(getUser({ username }))
   // if ( !user ) dispatch( getUser( { username } ) );
 

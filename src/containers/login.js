@@ -15,7 +15,7 @@ import { login, forgotPassword } from 'actions/auth'
 // const mapStateToProps = state => ({
 // 	Auth: state.Auth
 // })
-function renderSlides(currentSlide, changeSlide, dispatchLogin, dispatchForgotPassword, t){
+function renderSlides(currentSlide, changeSlide, dispatchLogin, dispatchForgotPassword, loggingInError, loggingIn, t){
 	switch (currentSlide) {
 		case 0:
 			return(
@@ -30,6 +30,8 @@ function renderSlides(currentSlide, changeSlide, dispatchLogin, dispatchForgotPa
 					}}
 					login={dispatchLogin}
 					forgotPassword={()=> changeSlide(1)}
+					loggingInError={loggingInError}
+					loggingIn={loggingIn}
 					// Auth={Auth}
 				/>
 			)
@@ -52,13 +54,17 @@ export default withTranslation()(
 		const dispatchForgotPassword = info => {dispatch(forgotPassword(info.email))}
 
 		const { authorized, username } = useSelector(state => ({ authorized: state.Auth.authorized, username: state.Auth.profile.details.username }))
+		const loggingInError = useSelector(state => state.Auth.loggingInError)
+		const loggingIn = useSelector(state => state.Auth.loggingIn)
+
 		if(authorized) {
 			onAuthorized(username)
 		}
+		const authorizing = useSelector(state => state.Auth.authorizing)
 
     return (
 			<div>
-				{renderSlides(currentSlide, changeSlide, dispatchLogin, dispatchForgotPassword, t)}
+				{renderSlides(currentSlide, changeSlide, dispatchLogin, dispatchForgotPassword, loggingInError, loggingIn, t)}
 			</div>
 		)
 	}

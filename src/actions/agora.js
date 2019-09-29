@@ -41,6 +41,11 @@ Fields: {
   replyTo
 }
 */
+
+export const redirected = () => ({
+  type: 'REDIRECT_TO_POST'
+})
+
 export function agorizePost( info, me ) {
   return {
     types: [
@@ -138,6 +143,7 @@ export function getAgoragram( agoragramShortID ) {
         response
       } )
     ],
+    shouldCallAPI: state => state.Agora.agoragrams[agoragramShortID] !== false,
     payload: {
       agoragramShortID,
     }
@@ -184,6 +190,7 @@ export function asteri( agoragramID ) {
           agoragramID
         } )
       } ),
+    shouldCallAPI: state => state.Auth.authorized,
     payload: {
       agoragramID
     }

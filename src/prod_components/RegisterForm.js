@@ -62,6 +62,12 @@ class RegistrationForm extends React.Component {
     }
   }
 
+  // takenName = (rule, value, callback) => {
+  //   console.log(this.props.usernameAvailable)
+  //   if(!this.props.usernameAvailable) callback("Taken dude");
+  //   else callback()
+  // }
+
   checkUsername = async (rule, value, callback) => {
     //TODO: finns nog ett snyggare sätt att göra detta på både här och i validate email
     if(value){
@@ -83,21 +89,27 @@ class RegistrationForm extends React.Component {
     //   // }
     }
     else callback()
+    // callback();
     // else callback()
+  }
+
+  validator = (rule, value, callback) => {
+    console.log(rule, value, callback)
+    callback()
   }
 
   checkEmail = async (rule, value, callback) => {
     if(value){
       if(value.indexOf('@') !== -1) {
         const response = await this.props.checkEmail(value)
-        if(this.props.emailAvailable === false) {
-          this.props.form.setFields({
-            email: {
-              value,
-              errors: [new Error('Det finns redan en medlem med den e-posten')],
-            },
-          })
-        }
+        // if(this.props.emailAvailable === false) {
+        //   // this.props.form.setFields({
+        //   //   email: {
+        //   //     value,
+        //   //     errors: [new Error('Det finns redan en medlem med den e-posten')],
+        //   //   },
+        //   // })
+        // }
       }
       // const response = await this.checkEmail({email: value})
       // if(response.email) {
@@ -122,6 +134,7 @@ class RegistrationForm extends React.Component {
   }
 
   render() {
+    // console.log(this.props.checkingUsername)
 
     if(this.props.username) return <Redirect to='min-profil' />
 
@@ -179,6 +192,7 @@ class RegistrationForm extends React.Component {
           </Form.Item>
 
           <Form.Item
+          required
             validateStatus={
               this.props.checkingUsername !== undefined ?
                 this.props.checkingUsername === true ?
@@ -193,8 +207,7 @@ class RegistrationForm extends React.Component {
                 :
                 null
             }
-            // help={this.props.usernameAvailable === false && "Användarnamnet är taget"}
-            required
+            // help={this.props.checkingUsername !== undefined && this.props.usernameAvailable === false ? "Användarnamnet är taget" : null}
             hasFeedback
           >
             {getFieldDecorator('username', {
@@ -204,6 +217,9 @@ class RegistrationForm extends React.Component {
               },
               {
                 validator: this.checkUsername
+              },
+              {
+                validator: this.takenName
               },
               {
                 min: 3, max: 24, message: 'Användarnamnet måste vara mellan 3 och 24 karaktärer'
@@ -245,6 +261,7 @@ class RegistrationForm extends React.Component {
                 :
                 null
             }
+            help={this.props.checkingEmail !== undefined && !this.props.emailAvailable ? "Det finns redan en medlem med den e-posten" : null}
             hasFeedback
           >
             {getFieldDecorator('email', {

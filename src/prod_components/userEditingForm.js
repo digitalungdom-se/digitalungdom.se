@@ -27,7 +27,6 @@ class UserEditingForm extends React.Component {
       if ( !err ) {
         //Parse object to array type
         let userProfile = []
-        console.log( values );
         const update = values.profile
 
         Object.keys( update ).forEach( ( item, index ) => {

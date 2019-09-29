@@ -1,4 +1,7 @@
-const Register = (state = {}, action) => {
+const Register = (state = {
+	checkingUsername: undefined,
+	checkingEmail: undefined
+}, action) => {
 	switch(action.type) {
 		case 'CHECK_USERNAME_REQUEST':
 			return {

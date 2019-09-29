@@ -5,7 +5,7 @@ import { Row, Col } from '@components/grid'
 // import { Surrounding as Wrapper } from '@wrappers'
 import Filter from 'containers/Filter'
 
-export default ({ hypagora = "general", children }) => {
+export default ({ hypagora = "general", children, noSurrounding = false }) => {
 
 	const CenterWrapper = ({ children }) => (
 		<Col type = "flex" justify="center" span={20}>
@@ -24,9 +24,13 @@ export default ({ hypagora = "general", children }) => {
 
 	return (
 		<React.Fragment>
-			<Row>
-				<Filter />
-			</Row>
+			{
+				!noSurrounding
+				&&
+				<Row>
+					<Filter />
+				</Row>
+			}
 
 			<Row
 			type="flex"
@@ -38,12 +42,17 @@ export default ({ hypagora = "general", children }) => {
 				md={{ span: 20 }}
 				lg={{ span: 18 }}
 				xl={{ span: 16 }}>
-
+				{
+					!noSurrounding
+					&&
 					<Row
-					type="flex"
-          justify="center"
-					gutter={16}
-          >
+						type="flex"
+	          justify="space-between"
+	          style={{
+	            alignItems: 'stretch',
+							width: "100%"
+	          }}
+	        >
 
 						<Col
 						xs={{span: 16}}
@@ -55,15 +64,19 @@ export default ({ hypagora = "general", children }) => {
 						</Col>
 
 						<Col
-						xs={{ span: 22 }}
-						sm={{ span: 22 }}
-						md={{ span: 16, pull: 8 }}
-						lg={{ span: 16 }}
+							xs={{ span: 24 }}
+							md={{ span: 16, pull: 8 }}
+							lg={{ span: 16 }}
 						>
 							{children}
 						</Col>
 
 					</Row>
+				}
+				{
+					noSurrounding &&
+					children	
+				}
 				</Col>
 			</Row>
 		</React.Fragment>
