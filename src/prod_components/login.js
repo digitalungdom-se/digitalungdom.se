@@ -1,12 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import {
-  Form, Icon, Input, Row, Col, Button,
+  Alert, Form, Icon, Input, Row, Col, Button,
 } from 'antd';
 import Card from '@components/Card'
 
-function Register({ login, Auth, translations, form, forgotPassword }) {
+function Register({ loggingIn, loggingInError, forgotPassword, login, Auth, translations, form }) {
 	const { getFieldDecorator } = form
+
+	const errorsAccount = {
+		"no account": "Det finns inget sådant konto.",
+		"not verified": "Du måste verifiera din e-mail innan du kan logga in."
+	}
+
+
 	return (
 		<Row
 			type="flex"
@@ -33,7 +40,11 @@ function Register({ login, Auth, translations, form, forgotPassword }) {
 					  })
 					}}
 				>
-					<Form.Item>
+					<Form.Item
+						hasFeedback={loggingInError === "no account"}
+						validateStatus={["no account", "not verified"].indexOf(loggingInError) !== -1 ? "error" : null}
+						help={errorsAccount[loggingInError]}
+					>
 						{getFieldDecorator('username', {
 							rules: [{
 								required: true,
@@ -47,7 +58,11 @@ function Register({ login, Auth, translations, form, forgotPassword }) {
 	          )}
 					</Form.Item>
 
-					<Form.Item>
+					<Form.Item
+						hasFeedback={loggingInError === "incorrect password"}
+						validateStatus={loggingInError === "incorrect password" ? "error" : null}
+						help={loggingInError === "incorrect password" ? "Fel lösenord." : null}
+					>
 						{getFieldDecorator('password', {
 							rules: [{
 								required: true,
@@ -64,9 +79,11 @@ function Register({ login, Auth, translations, form, forgotPassword }) {
 
 					<Form.Item style={{marginBottom: 2}}>
 						<Button
-						style={{width: '100%', marginBottom: 0}}
-						type="primary"
-						htmlType="submit">
+							style={{width: '100%', marginBottom: 0}}
+							type="primary"
+							htmlType="submit"
+							loading={loggingIn}
+						>
 							{translations["Log in"]}
 						</Button>
 					</Form.Item>

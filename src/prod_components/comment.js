@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import Link from '@components/link'
+import Link from 'containers/Link'
 import Star from '@components/star'
 import Actions from 'containers/actions'
 import './comment.css'

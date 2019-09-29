@@ -1,18 +1,21 @@
-import { applyMiddleware, createStore } from 'redux'
+import { applyMiddleware, createStore, combineReducers } from 'redux'
 import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
 import thunkMiddleware from 'redux-thunk'
-import reducer from 'reducers'
+import reducer from 'reducers/index.js'
 import callAPIMiddleware from './callAPIMiddleware'
 import { composeWithDevTools } from 'redux-devtools-extension';
+import authReducer from 'reducers/auth'
+import persistedReducer from 'reducers'
 
-const persistConfig = {
-  key: 'root',
-  storage,
-  whitelist: [ 'Auth', 'State', 'Settings' ]
-}
+// const rootReducer = combineReducers(
+// 	reducer,
+// 	{
+// 		Auth: persistReducer(authPersistConfig, authReducer)
+// 	}
+// )
 
-const persistedReducer = persistReducer( persistConfig, reducer )
+// const persistedReducer = persistReducer( persistConfig, reducer )
+// export default persistReducer(persistConfig, rootReducer)
 
 export default () => {
   let store = createStore( persistedReducer, composeWithDevTools(

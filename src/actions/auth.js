@@ -6,7 +6,8 @@ const addMeToUsers = ( me, payload ) => ( {
   response: {
     users: [ { _id: me.details._id, details: me.details } ]
   },
-  payload
+  payload,
+  isMe: true
 } )
 
 export function auth( form ) {
