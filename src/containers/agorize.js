@@ -7,7 +7,7 @@ export default function AgorizeContainer({ onAgorized = () => true, hypagora = "
 
 	const dispatch = useDispatch()
 	const me = useSelector(state => state.Auth.profile.details._id)
-	const dispatchAgorize = (info, me, type) => dispatch(agorize(info, me, type))
+	const dispatchAgorize = (info, type) => dispatch(agorize(info, me, type))
 	const availableHypagoras = useSelector(state => state.Agora.availableHypagoras)
 	const agorizing = useSelector(state => state.Agora.agorizing.indexOf(id) !== -1)
 	const agorized = useSelector(state => state.Agora.agorized.indexOf(id) !== -1)

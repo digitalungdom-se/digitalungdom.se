@@ -6,7 +6,7 @@ import { Route } from 'react-router-dom'
 import Star from '@components/star'
 import Time from '@components/Time'
  import ProfilePicture from 'containers/ProfilePicture'
-import {agorizeComment} from 'containers/agorize'
+import Agorize from 'containers/agorize'
 import './post.css'
 import ReactMarkdown from 'react-markdown'
 import Comments from 'containers/comments'
@@ -221,14 +221,14 @@ function Post({ authorized, empty, post, loading, children, link, asteri, report
 	            <Body/>
 	          </Row>
 
-						<Row style={{paddingBottom: 8}}>
+						<div style={{paddingBottom: 8}}>
 							{
 								showComments
 							}
 							{
 								!loading && post.tags.map(tag => <Tag style={{opacity: 0.6}}key={tag}>{tag}</Tag>)
 							}
-						</Row>
+						</div>
 
 
 						<Row style={{fontSize: 16, marginBottom: 10}}>
@@ -327,7 +327,7 @@ function Post({ authorized, empty, post, loading, children, link, asteri, report
         		<Col
         			// pull={3}
         		>
-        			<agorizeComment
+        			<Agorize
         				id={post._id}
         				agoragramType="comment"
         			/>

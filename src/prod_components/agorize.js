@@ -26,13 +26,13 @@ function Agorize({
 	    			title: values.title,
 	    			tags: values.tags ? values.tags : [],
 	    			body: values.text ?values.text : "" 
-	    		}, null, "post")
+	    		}, "post")
 	    	}
 	    	else agorize({
 	    		type: "comment",
 	    		body: values.text,
 	    		replyTo: id
-	    	})
+	    	}, "comment")
 	    }
 	  });
 	}
@@ -77,6 +77,9 @@ function Agorize({
 						:
 						null
 				}
+				style={{
+					border: 0
+				}}
 			>
 				{
 					agoragramType === "post" &&
