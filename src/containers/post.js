@@ -52,6 +52,8 @@ function PostContainer({
 
 	if(empty) return <Post empty />;
 
+	const link = loading ? null : "/agora/h/" + post.hypagora + "/comments/" + post.shortID + "/" + makeTitle(post.title)
+
 	return (
 		<Post
 			loading={loading}
@@ -63,7 +65,7 @@ function PostContainer({
 
 			hidePost={() => hidePost(post._id)}
 
-			link={loading ? null : "/agora/h/" + post.hypagora + "/comments/" + post.shortID + "/" + makeTitle(post.title)}
+			link={link}
 			showComments={showComments}
 
 			isAuthor={isAuthor}
@@ -72,7 +74,7 @@ function PostContainer({
 			starred={starred}
       showProfilePicture={true}
 			userId={id}
-      redirect={(link) => history.push(link)}
+      redirect={() => history.push(link)}
 
       authorized={authorized}
 		/>

@@ -22,7 +22,10 @@ const Comment = ({ comment, comments, children, level, asteri }) => {
 			style={level === 0 ? {marginBottom: 16} : {}}
 		>
 			<Col
-				span={1}
+				xs={{span: 2}}
+				sm={{span: 1}}
+				// span={2}
+				// offset={1}
 				style={{textAlign: "center"}}
 			>
 				{
@@ -55,7 +58,8 @@ const Comment = ({ comment, comments, children, level, asteri }) => {
 				}
 			</Col>
 			<Col
-				span={23}
+				xs={{span: 22}}
+				sm={{span: 23}}
 			>
 				<div>
 					<Link linkType="user" id={comment.author}></Link>

@@ -78,7 +78,8 @@ function Agorize({
 						null
 				}
 				style={{
-					border: 0
+					border: 0,
+					paddingBottom: 0
 				}}
 			>
 				{

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Button, Divider, Icon } from 'antd'
 import Link from '@components/link'
 import Reply from 'containers/Reply'
-import { agorizeComment } from 'containers/agorize'
+import Agorize from 'containers/agorize'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faComment, faTrashAlt, faFlag } from '@fortawesome/free-solid-svg-icons'
 
@@ -38,7 +38,7 @@ function Actions({ dispatch, remove, report, id, link, isAuthor, like, replied, 
 						onClick={e => remove(id)}
 			    	style={{cursor: "pointer"}}
 			    >
-			    	<FontAwesomeIcon color="lightgrey" icon={faTrashAlt} /> Ta bort
+			    	<FontAwesomeIcon color="lightgrey" icon={faTrashAlt} />
 			    </span>
 				</React.Fragment>
 			}
@@ -50,11 +50,11 @@ function Actions({ dispatch, remove, report, id, link, isAuthor, like, replied, 
 				}}
 	    	style={{cursor: "pointer"}}
 	    >
-	    	<FontAwesomeIcon color="lightgrey" icon={faFlag} /> Anmäl
+	    	<FontAwesomeIcon color="lightgrey" icon={faFlag} />
 	    </span>
 			{
 				(isReplying && !replied)&&
-				<agorizeComment
+				<Agorize
 					id={id}
 					agoragramType="comment"
 					onCancel={() => reply(false)}
