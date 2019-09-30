@@ -6,7 +6,7 @@ import Comment from '@components/comment'
 import { useSelector, useDispatch } from 'react-redux'
 import { asteri } from 'actions/agora'
 
-const CommentContainer = ({ level, id }) => {
+const CommentContainer = ({ level, id, child}) => {
 	const comment = useSelector(state => state.Agora.agoragrams[id])
 	const author = useSelector(state => state.Auth.profile.details._id)
 	const dispatch = useDispatch()

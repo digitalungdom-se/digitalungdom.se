@@ -200,13 +200,17 @@ case 'AGORIZE_SUCCESS':
       },
       [ action.payload.replyTo ]: {
         ...state.agoragrams[ action.payload.replyTo ],
-        children: state.agoragrams[ action.payload.replyTo ].children.concat( { id: _id, stars: 0 } )
+        children: state.agoragrams[ action.payload.replyTo ].children.concat( _id )
       }
     }
   }
+  const agorizing = state.agorizing
+  const index = agorizing.indexOf(action.payload.replyTo)
+  if(index > -1) agorizing.splice(index, 1)
   return {
     ...state,
     agorized: state.agorized.concat( action.payload.replyTo ),
+    agorizing,
     redirect: action.payload.type === "comment" ? action.response.agoragram : "/agora/h/general/comments/" + action.response.agoragram.shortID + "/" + makeTitle(action.payload.title),
     agoragrams: {
       ...state.agoragrams,

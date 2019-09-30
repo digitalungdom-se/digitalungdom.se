@@ -47,7 +47,6 @@ export const redirected = () => ({
 })
 
 export function agorize( info, me, type ) {
-  console.log(info, me, type)
   return {
     types: [
       'AGORIZE_REQUEST',
