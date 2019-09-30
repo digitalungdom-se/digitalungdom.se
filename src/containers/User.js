@@ -7,10 +7,13 @@ import { Row, Col } from '@components/grid'
 import Posts from 'containers/posts'
 
 function UserContainer( { username } ) {
+
+  username = username.toLowerCase()
+
   const dispatch = useDispatch()
 
-  const userId = useSelector( state => state.Users.usernames[ username ] );
-  const user = useSelector( state => state.Users.users[ userId ] );
+  const userId = useSelector( state => state.Users.usernames[ username ]);
+  const user = useSelector( state => state.Users.users[ userId ]);
   dispatch(getUser({ username }))
   // if ( !user ) dispatch( getUser( { username } ) );
 
