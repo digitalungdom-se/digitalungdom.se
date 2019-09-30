@@ -1,5 +1,7 @@
 import React from 'react';
 
+import 'resources/variables.css'
+
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
@@ -9,6 +11,7 @@ import Button from "prod_components/button";
 import ResetPassword from 'prod_components/ResetPassword'
 
 import './Agora/index.js'
+import './Auth/index.js'
 import './miscellaneous.js'
 import './Menu.js'
 

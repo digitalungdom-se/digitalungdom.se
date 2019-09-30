@@ -42,18 +42,12 @@ function renderSlides(currentSlide, changeSlide){
 					<h2 style={{fontSize: 18, color: "rgba(0,0,0,0.8)"}}>
 						Nu har vi skickat ett verifieringsmail till dig!
 					</h2>
-					<p >
+					<p>
 						Logga in på din email och tryck på verifierings-länken som är bifogad i vårt email. Ifall du inte hittar mailet kan den ha hamnat i skräpposten, så glöm inte att dubbelkolla!
 					</p>
 					<p>
 						När du tryckt på länken kommer en ny flik öppnas där du är inloggad som medlem i digitalungdom.se!🌟
 					</p>
-					<Button
-					style={{width: '100%'}}
-					onClick={()=> changeSlide(1)}
-					>
-						Tillbaka till registreringen
-					</Button>
 				</div>
 			)
 	}

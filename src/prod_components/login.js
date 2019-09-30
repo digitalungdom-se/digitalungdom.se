@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import Card from '@components/Card'
 
-function Register({ loggingIn, loggingInError, login, Auth, translations, form }) {
+function Register({ loggingIn, loggingInError, forgotPassword, login, Auth, translations, form }) {
 	const { getFieldDecorator } = form
 
 	const errorsAccount = {
@@ -77,9 +77,9 @@ function Register({ loggingIn, loggingInError, login, Auth, translations, form }
 	          )}
 					</Form.Item>
 
-					<Form.Item>
+					<Form.Item style={{marginBottom: 2}}>
 						<Button
-							style={{width: '100%'}}
+							style={{width: '100%', marginBottom: 0}}
 							type="primary"
 							htmlType="submit"
 							loading={loggingIn}
@@ -89,6 +89,12 @@ function Register({ loggingIn, loggingInError, login, Auth, translations, form }
 					</Form.Item>
 
 					<Row>
+            <Col style={{marginBottom: 16}}>
+              <a style={{fontSize: 12}} onClick={forgotPassword}>
+                Glömt lösenord?
+              </a>
+            </Col>
+
 						<Col>
 							<div>
 								Saknar du ett konto?

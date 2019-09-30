@@ -18,6 +18,8 @@ const Home = lazy(() => import('@components/home.js'))
 const About = lazy(() => import('@components/about.js'))
 const Login = lazy(() => import('containers/login.js'))
 const User = lazy(() => import('containers/User'))
+const VerifyAccount = lazy(() => import('@components/VerifyAccount.js'))
+const ForgotPassword = lazy(() => import('@components/ForgotPassword.js'))
 
 const NoMatch = lazy(() => import('@components/pageNotFound'))
 
@@ -53,6 +55,14 @@ function App() {
 						<Route
 							path="/agora"
 							render={props => <Agora {...props} />}
+						/>
+						<Route
+							path="/verify/:token"
+							render={props => <VerifyAccount token={props.match.params.token} />}
+						/>
+						<Route
+							path="/reset/:token"
+							render={props => <ForgotPassword token={props.match.params.token} />}
 						/>
 						<Route
 							path="/@:user"

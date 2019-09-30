@@ -66,6 +66,76 @@ export function logout() {
   }
 }
 
+export function forgotPassword( email ) {
+  return {
+    types: [
+      'RESETPASSWORD_REQUEST',
+      'RESETPASSWORD_SUCCESS',
+      'RESETPASSWORD_FAILURE'
+    ],
+    callAPI: () => fetch( "/api/user/password/forgot", {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+    body: JSON.stringify( {
+      email
+    } )
+  } ),
+    payload: null
+  }
+}
+
+export function verifyAccount( token ){
+  return{
+    types:[
+      'VERIFYACCOUNT_REQUEST',
+      'VERIFYACCOUNT_SUCCESS',
+      'VERIFYACCOUNT_FAILURE'
+    ],
+    callAPI: () => fetch( "/api/user/verify", {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify( {
+        token
+      })
+    }),
+    shouldCallAPI: (state) => state.Auth.verified === undefined,
+    payload: null
+  }
+}
+
+export function resetPassword({ token, password }){
+  console.log(JSON.stringify( {
+    token,
+    password
+  })
+)
+  return{
+    types:[
+      'RESETPASSWORD_REQUEST',
+      'RESETPASSWORD_SUCCESS',
+      'RESETPASSWORD_FAILURE'
+    ],
+    callAPI: () => fetch( "/api/user/password/reset", {
+      method: 'put',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify( {
+        token,
+        password
+      })
+    }),
+    payload: null
+  }
+}
+
 const receiveAuth = ( response ) => ( {
   type: 'RECEIVE_AUTH',
   response,

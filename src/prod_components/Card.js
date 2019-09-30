@@ -10,6 +10,7 @@ function Card({ title, titleAlign = "center", children, ...props }) {
         paddingLeft: 48,
         paddingBottom: 32,
         paddingTop: 24,
+				borderRadius: 8,
 				// width: 520,
 				// top: 80,
 				// paddingTop: 26,
