@@ -93,7 +93,7 @@ export default ( state = {
       action.payload.hypagora !== "" ?
         action.payload.hypagora + "?t=" + action.payload.time + "&s=" + action.payload.sort
         :
-        action.response.user.details.username
+        action.response.user.details.username.toLowerCase()
     )
     return {
       ...state,
@@ -200,7 +200,7 @@ case 'AGORIZE_SUCCESS':
       },
       [ action.payload.replyTo ]: {
         ...state.agoragrams[ action.payload.replyTo ],
-        children: state.agoragrams[ action.payload.replyTo ].children.concat( _id )
+        children: state.agoragrams[ action.payload.replyTo ].children.concat( {_id, stars: 0} )
       }
     }
   }

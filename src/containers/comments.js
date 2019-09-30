@@ -6,7 +6,7 @@ const Comments = ({ children, level = 0 }) => {
 	return children.map(child => (
 		<Comment
 			key={child}
-			id={child}
+			child={child}
 			level={level}
 		/>
 	))

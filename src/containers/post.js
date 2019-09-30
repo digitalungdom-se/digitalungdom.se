@@ -41,7 +41,7 @@ function PostContainer({
 	if(hidden) return null
 
 	const star = (id) => dispatch(asteri(id))
-	const report = (id) => dispatch(report(id))
+	const report = (id) => dispatch(reportAgoragram(id))
 	const hidePost = (id) => dispatch(addPostToHiddenPosts(id))
 
 	const antiAgorize = (id) => dispatch(antiAgorize(id))

@@ -67,23 +67,33 @@ export default ( state = {
       }
       return state
     case "GET_USER_SUCCESS":
+      let user = null, username = null
       users = {}
       usernames = {}
-      let whoami
-      action.response.users.forEach( (user, index) => {
-        if(action.isMe && index === 0) whoami = {whoami: user._id}
-        users[ user._id ] = user
-        usernames[ user.details.username ] = user._id
-      } )
+      let whoami = null, myUser = null, myUsername = null
+      if(action.response.user) {
+        if(action.isMe) whoami = { whoami: action.response.user._id }
+        user = { [ action.response.user._id ]: action.response.user }
+        username = { [action.response.user.details.username.toLowerCase()]: action.response.user._id }
+      }
+      else {
+        action.response.users.forEach( (user, index) => {
+          if(action.isMe && index === 0) whoami = {whoami: user._id}
+          users[ user._id ] = user
+          usernames[ user.details.username.toLowerCase() ] = user._id
+        } )
+      }
       return {
         ...state,
         users: {
             ...state.users,
-            ...users
+            ...users,
+            ...user
           },
           usernames: {
             ...state.usernames,
-            ...usernames
+            ...usernames,
+            ...username
           },
           ...whoami
       }

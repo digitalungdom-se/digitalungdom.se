@@ -4,7 +4,7 @@ import Users from 'actions/users'
 const addMeToUsers = ( me, payload ) => ( {
   type: "GET_USER_SUCCESS",
   response: {
-    users: [ { _id: me.details._id, details: me.details } ]
+    user: { _id: me.details._id, details: me.details }
   },
   payload,
   isMe: true
