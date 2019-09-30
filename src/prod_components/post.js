@@ -77,8 +77,8 @@ function Post({ authorized, empty, post, loading, children, link, asteri, report
 	function click(e) {
     //Check if target is not button in post
 		if(typeof e.target.className === "string") {
-      if(!e.target.className.includes("WillNotOpenPostDiv") && e.target.tagName !== "SPAN" && e.target.tagName !== "svg" && e.target.tagName !== "UL" && e.target.tagName !== "LI" ){
-          redirect(link)
+      if(!e.target.className.includes("WillNotOpenPostDiv") && e.target.tagName !== "SPAN" && e.target.tagName !== "svg" && e.target.tagName !== "UL" && e.target.tagName !== "LI"){
+          // redirect(link)
       }
     }
 	}
@@ -120,7 +120,7 @@ function Post({ authorized, empty, post, loading, children, link, asteri, report
 				//If its a text post with more than characters, render transparent faded div
 				if(post.body.length > wordLimitFadedDisplay){
 					return(
-						<span to={link} style={{color:"rgba(0,0,0,0.7)", fontSize: 14 }}>
+						<Link to={link} style={{color:"rgba(0,0,0,0.7)", fontSize: 14 }}>
 							<div style={{postion: 'relative'}}>
 
 										{
@@ -138,13 +138,13 @@ function Post({ authorized, empty, post, loading, children, link, asteri, report
                     }
 
 							</div>
-						</span>
+						</Link>
 					)
 
 				//For shorter posts
 				}else{
 					return (
-						<Link style={{color:"rgba(0,0,0,0.7)", fontSize: 16 }}>
+						<Link style={{color:"rgba(0,0,0,0.7)", fontSize: 16 }} to={link}>
 							<ReactMarkdown source={post.body} />
 						</Link>
 					)
