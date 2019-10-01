@@ -69,9 +69,9 @@ export function logout() {
 export function forgotPassword( email ) {
   return {
     types: [
-      'RESETPASSWORD_REQUEST',
-      'RESETPASSWORD_SUCCESS',
-      'RESETPASSWORD_FAILURE'
+      'FORGOTPASSWORDEMAIL_REQUEST',
+      'FORGOTPASSWORDEMAIL_SUCCESS',
+      'FORGOTPASSWORDEMAIL_FAILURE'
     ],
     callAPI: () => fetch( "/api/user/password/forgot", {
       method: 'post',

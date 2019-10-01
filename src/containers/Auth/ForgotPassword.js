@@ -7,10 +7,12 @@ function ForgotPasswordContainer(){
 
   const dispatch = useDispatch()
   const dispatchForgotPassword = info => {dispatch(forgotPassword(info.email))}
+  const forgotPasswordEmailSent = useSelector(state => state.Auth.forgotPasswordEmailSent)
 
   return(
     <ForgotPassword
       sendForgottonPasswordMail = {dispatchForgotPassword}
+      forgotPasswordEmailSent = {forgotPasswordEmailSent}
     />
   )
 }

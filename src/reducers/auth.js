@@ -4,6 +4,7 @@ export default (state = {
 	},
 	verified: undefined,
 	resettingPassword: undefined,
+	forgotPasswordEmailSent: undefined
 }, action) => {
 	switch(action.type) {
 		case 'VERIFYACCOUNT_REQUEST':
@@ -35,6 +36,16 @@ export default (state = {
 			return {
 				...state,
 				resettingPassword: false
+			}
+		case 'FORGOTPASSWORDEMAIL_FAILURE':
+			return {
+				...state,
+				forgotPasswordEmailSent: false
+			}
+		case 'FORGOTPASSWORDEMAIL_SUCCESS':
+			return {
+				...state,
+				forgotPasswordEmailSent: true
 			}
 		case 'AUTH_REQUEST':
 			return {

@@ -1,10 +1,26 @@
 import React from "react"
 import { Link } from 'react-router-dom'
-import { Form, Icon, Input, Row, Col, Button } from 'antd';
+import { Form, Icon, Input, Row, Col, Button, notification } from 'antd';
 import Card from '@components/Card'
 
-function ForgotPassword({ form, sendForgottonPasswordMail, }){
+function ForgotPassword({ form, sendForgottonPasswordMail, forgotPasswordEmailSent}){
   const { getFieldDecorator } = form
+
+  const openNotification = (title, icon) => {
+    notification.open({
+      message: title,
+      icon,
+    });
+  };
+
+  //If the email responsable for resetting email has been sent, show notification
+  if(forgotPasswordEmailSent === true){
+    openNotification('Återställnings-email skickat!', <Icon type="check-circle" style={{ color: 'green' }} />)
+  }
+
+  if(forgotPasswordEmailSent === false){
+    openNotification('Något gick fel, försök igen senare.', <Icon type="stop" style={{ color: 'red' }} />)
+  }
 
   return(
     <Row
