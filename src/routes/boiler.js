@@ -19,7 +19,8 @@ const About = lazy(() => import('@components/about.js'))
 const Login = lazy(() => import('containers/login.js'))
 const User = lazy(() => import('containers/User'))
 const VerifyAccount = lazy(() => import('@components/VerifyAccount.js'))
-const ForgotPassword = lazy(() => import('@components/ForgotPassword.js'))
+const ResetPassword = lazy(() => import('containers/Auth/ResetPassword.js'))
+const ForgotPassword = lazy(() => import('containers/Auth/ForgotPassword.js'))
 
 const NoMatch = lazy(() => import('@components/pageNotFound'))
 
@@ -62,7 +63,11 @@ function App() {
 						/>
 						<Route
 							path="/reset/:token"
-							render={props => <ForgotPassword token={props.match.params.token} />}
+							render={props => <ResetPassword token={props.match.params.token} />}
+						/>
+						<Route
+							path="/forgot-password"
+							render={props => <ForgotPassword/>}
 						/>
 						<Route
 							path="/@:user"

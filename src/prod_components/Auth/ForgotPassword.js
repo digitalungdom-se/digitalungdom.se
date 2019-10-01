@@ -1,11 +1,9 @@
 import React from "react"
 import { Link } from 'react-router-dom'
-import {
-  Form, Icon, Input, Row, Col, Button,
-} from 'antd';
+import { Form, Icon, Input, Row, Col, Button } from 'antd';
 import Card from '@components/Card'
 
-function ResetPassword({ form, sendForgottonPasswordMail, backToLogin }){
+function ForgotPassword({ form, sendForgottonPasswordMail, }){
   const { getFieldDecorator } = form
 
   return(
@@ -17,7 +15,7 @@ function ResetPassword({ form, sendForgottonPasswordMail, backToLogin }){
         style={{
           marginTop: 24,
           width: "100%",
-          maxWidth: 400
+          maxWidth: 400,
         }}
         title="Återställ lösenord"
       >
@@ -50,7 +48,7 @@ function ResetPassword({ form, sendForgottonPasswordMail, backToLogin }){
             )}
           </Form.Item>
 
-          <Form.Item>
+          <Form.Item style={{marginBottom: 0}}>
             <Button
             style={{width: '100%'}}
             type="primary"
@@ -58,18 +56,13 @@ function ResetPassword({ form, sendForgottonPasswordMail, backToLogin }){
               Skicka
             </Button>
           </Form.Item>
-
-          <Row>
-            <Col>
-              <a onClick = {backToLogin}>
-                Tillbaka till inloggning
-              </a>
-            </Col>
-          </Row>
+          <Link to="/logga-in" style={{fontSize: 12, marginTop: 4}}>
+            Tillbaka till inloggning
+          </Link>
         </Form>
       </Card>
     </Row>
   )
 }
 
-export default Form.create()(ResetPassword)
+export default Form.create()(ForgotPassword)

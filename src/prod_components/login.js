@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import Card from '@components/Card'
 
-function Register({ loggingIn, loggingInError, forgotPassword, login, Auth, translations, form }) {
+function Register({ loggingIn, loggingInError, login, Auth, translations, form }) {
 	const { getFieldDecorator } = form
 
 	const errorsAccount = {
@@ -90,9 +90,9 @@ function Register({ loggingIn, loggingInError, forgotPassword, login, Auth, tran
 
 					<Row>
             <Col style={{marginBottom: 16}}>
-              <a style={{fontSize: 12}} onClick={forgotPassword}>
+              <Link to="/forgot-password" style={{fontSize: 12}}>
                 Glömt lösenord?
-              </a>
+              </Link>
             </Col>
 
 						<Col>

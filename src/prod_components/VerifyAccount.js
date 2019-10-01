@@ -69,8 +69,6 @@ function renderBody( verified ){
 
 function VerifyAccount({ token }) {
 
-  console.log(token)
-  //api/verify posts
   const dispatch = useDispatch()
   dispatch(verifyAccount(token))
 
