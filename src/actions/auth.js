@@ -110,11 +110,6 @@ export function verifyAccount( token ){
 }
 
 export function resetPassword({ token, password }){
-  console.log(JSON.stringify( {
-    token,
-    password
-  })
-)
   return{
     types:[
       'RESETPASSWORD_REQUEST',

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUser } from 'actions/users'
+import { getUser, deleteUser } from 'actions/users'
 import { set } from 'actions/users'
 import UserPage from '@components/UserPage'
 import { Row, Col } from '@components/grid'
@@ -17,6 +17,7 @@ function UserContainer( { username } ) {
   dispatch(getUser({ username }))
   // if ( !user ) dispatch( getUser( { username } ) );
 
+  const deleteUserFromModal = userID => dispatch(deleteUser({userID}))
 
   const authenticatedUserID = useSelector( state => state.Auth.profile.details._id)
 
@@ -41,6 +42,7 @@ function UserContainer( { username } ) {
       canEdit={canEdit}
       edit={edit}
       posts={<Posts list={agoragrams} />}
+      deleteUserFromModal={deleteUserFromModal}
     />
   )
 }

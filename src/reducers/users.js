@@ -156,6 +156,8 @@ export default ( state = {
             ...users
           }
         }
+        case "DELETEUSER_SUCCESS":
+          console.log("Deleted account")
         default:
           return state
   }

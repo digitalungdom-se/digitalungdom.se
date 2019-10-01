@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Button, Row, Col, Card, Avatar, Skeleton, Icon, Dropdown, Menu } from 'antd'
+import { Button, Row, Col, Card, Avatar, Skeleton, Icon, Dropdown, Menu, Modal } from 'antd'
 import Loading from '@components/Loading'
 import UserEditingForm from '@components/userEditingForm'
 import FileSelector from '@components/fileSelector'
 import ProfilePicture from 'containers/ProfilePicture'
 import ProfilePictureViewer from '@components/profilePictureViewer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFlag } from '@fortawesome/free-solid-svg-icons'
+import { faFlag, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import { useDispatch } from 'react-redux'
 
@@ -22,15 +22,30 @@ const menu = (
   </Menu>
 );
 
-const moreUserMenu = (userId) => (
-  <Menu>
-    <Menu.Item>
-      <span onClick={()=> console.log("Reporting " + userId)}>
-        <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Report user
-      </span>
-    </Menu.Item>
-  </Menu>
-);
+const moreUserMenu = (userId, canEdit, modalVisible, showModal) => {
+  if(canEdit){
+    return(
+
+      <Menu>
+        <Menu.Item>
+          <span onClick={showModal}>
+            <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Delete account
+          </span>
+        </Menu.Item>
+      </Menu>
+    )
+  }else{
+    return(
+      <Menu>
+        <Menu.Item>
+          <span onClick={()=> console.log("Deleting " + userId)}>
+            <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Report user
+          </span>
+        </Menu.Item>
+      </Menu>
+    )
+  }
+}
 
 function editingButton( setEditing, canEdit ) {
   if ( canEdit ) {
@@ -196,9 +211,22 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   }
 }
 
-function UserPage( { user, loading, canEdit, edit, posts } ) {
+function UserPage( { user, loading, canEdit, edit, posts, deleteUserFromModal } ) {
   if ( loading ) return <Loading spin card />
   const [ userColour, setUserColour ] = useState( user.profile.colour ? user.profile.colour : '#83aef2' );
+  const [ modalVisible, setModalVisibility ] = useState(false);
+
+  const showModal = () => {
+    setModalVisibility(true)
+  };
+
+  const handleDelete = () => {
+    deleteUserFromModal(user._id)
+  };
+
+  const handleCancel = () => {
+    setModalVisibility(false)
+  };
 
   return (
     <div>
@@ -278,7 +306,7 @@ function UserPage( { user, loading, canEdit, edit, posts } ) {
 
                     <Dropdown
                     trigger={['click']}
-                    overlay={moreUserMenu(user._id)}
+                    overlay={moreUserMenu(user._id, canEdit, modalVisible, showModal)}
                     >
 
                       <Icon
@@ -338,6 +366,35 @@ function UserPage( { user, loading, canEdit, edit, posts } ) {
 					</Row>
 				</Col>
 			</Row>
+
+        <Modal
+          visible={modalVisible}
+          onCancel={handleCancel}
+          footer={null}
+          style={{textAlign: "center", maxWidth: 300}}
+        >
+          <h1 style={{fontSize: 18, fontWeight: 'bold'}}>Är du säker? 🗑️</h1>
+          <p>Ifall du trycker på "Radera" kommer ditt konto raderas permanent.</p>
+          <Row type="flex" justify="center" gutter={16}>
+            <Col span={12}>
+              <Button
+                style={{width: "100%"}}
+                onClick={handleCancel}
+              >
+                Avbryt
+              </Button>
+            </Col>
+            <Col span={12}>
+              <Button
+                style={{width: "100%"}}
+                type="danger"
+                onClick={handleDelete}
+                >
+                Radera
+              </Button>
+            </Col>
+          </Row>
+        </Modal>
 		</div>
   )
 }

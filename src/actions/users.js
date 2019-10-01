@@ -57,4 +57,26 @@ export function getUser( { username, dateAfter, dateBefore, sort, hypagora, id }
   }
 }
 
+export function deleteUser({ user }){
+
+  return{
+    types:[
+      'DELETEUSER_REQUEST',
+      'DELETEUSER_SUCCESS',
+      'DELETEUSER_FAILURE'
+    ],
+    callAPI: () => fetch( "/api/user/delete", {
+      method: 'delete',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify( {
+        user
+      })
+    }),
+    payload: null
+  }
+}
+
 export default Users
