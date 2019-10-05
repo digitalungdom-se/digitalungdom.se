@@ -12,8 +12,11 @@ function UserContainer( { username } ) {
 
   const dispatch = useDispatch()
 
+  //Find the userId of the current userpage
   const userId = useSelector( state => state.Users.usernames[ username ]);
+  //Find the user from an array of users
   const user = useSelector( state => state.Users.users[ userId ]);
+
   dispatch(getUser({ username }))
   // if ( !user ) dispatch( getUser( { username } ) );
 
@@ -37,7 +40,8 @@ function UserContainer( { username } ) {
 
   return (
     <UserPage
-      loading={user === undefined || user.profile === undefined}
+      loading={user === "loading" || user.profile === undefined}
+      noUser={user === false}
       user={user}
       canEdit={canEdit}
       edit={edit}
