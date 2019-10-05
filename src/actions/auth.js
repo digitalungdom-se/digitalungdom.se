@@ -67,6 +67,8 @@ export function logout() {
 }
 
 export function forgotPassword( email ) {
+  console.log("action")
+  console.log(email)
   return {
     types: [
       'FORGOTPASSWORDEMAIL_REQUEST',
