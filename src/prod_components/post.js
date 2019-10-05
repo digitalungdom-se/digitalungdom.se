@@ -5,7 +5,8 @@ import { Redirect } from 'react-router'
 import { Route } from 'react-router-dom'
 import Star from '@components/star'
 import Time from '@components/Time'
- import ProfilePicture from 'containers/ProfilePicture'
+import Modal from '@components/Modal'
+import ProfilePicture from 'containers/ProfilePicture'
 import Agorize from 'containers/agorize'
 import './post.css'
 import ReactMarkdown from 'react-markdown'
@@ -23,20 +24,84 @@ const shareMenu = (link) => (
   </Menu>
 )
 
-const moreMenu = (reportPost, hidePost) => (
-  <Menu>
-    <Menu.Item>
-      <span onClick={reportPost}>
-        <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Report post
-      </span>
-    </Menu.Item>
-    <Menu.Item>
-      <span onClick={hidePost}>
-        <FontAwesomeIcon style={{marginRight: 4}} icon={faEyeSlash} /> Hide post
-      </span>
-    </Menu.Item>
-  </Menu>
-);
+// class MoreMenu extends React.Component {
+//   constructor(props) {
+//     super(props);
+
+//     this.state = {
+//       modalVisible: false
+//     }
+//   }
+
+//   onConfirm() {
+//     this.setState({})
+//   }
+
+//   onCancel() {
+
+//   }
+
+//   render() {
+
+//     const { modalVisible } = this.state
+
+//     return (
+//       <Menu>
+//         <Menu.Item>
+//           <span onClick={() => showModal(true)}>
+//             <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Report post
+//             <Modal
+//               visible={modalVisible}
+//               title="Anmäl"
+//               description="Skriv en anledning"
+//               handleConfirm={(reason) => reportPost(reason)}
+//               onConfirm={() => onConfirm()}
+//               onCancel={() => onCancel()}
+//               showInput
+//             />
+//           </span>
+//         </Menu.Item>
+//         <Menu.Item>
+//           <span onClick={hidePost}>
+//             <FontAwesomeIcon style={{marginRight: 4}} icon={faEyeSlash} /> Hide post
+//           </span>
+//         </Menu.Item>
+//       </Menu>
+//     )
+//   }
+
+// }
+const moreMenu = (reportPost, hidePost) => {
+
+  const [modalVisible, showModal] = useState(false)
+
+  const onCancel = () => showModal(false)
+  const onConfirm = () => showModal(false)
+
+  return (
+    <Menu>
+      <Menu.Item>
+        <span onClick={() => showModal(true)}>
+          <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Report post
+        </span>
+        <Modal
+          visible={modalVisible}
+          title="Anmäl"
+          description="Skriv en anledning"
+          handleConfirm={(reason) => reportPost(reason)}
+          onConfirm={() => onConfirm()}
+          onCancel={() => onCancel()}
+          showInput
+        />
+      </Menu.Item>
+      <Menu.Item>
+        <span onClick={hidePost}>
+          <FontAwesomeIcon style={{marginRight: 4}} icon={faEyeSlash} /> Hide post
+        </span>
+      </Menu.Item>
+    </Menu>
+  )
+};
 
 const editMenu = (antiAgorize, deleteTemp ) => (
   <Menu>
@@ -68,7 +133,23 @@ function copyPostLinkToClipBoard(link) {
   el.remove();
 }
 
-function Post({ authorized, empty, post, loading, children, link, asteri, report, antiAgorize, hidePost, showComments, isAuthor, starred, showProfilePicture, redirect }) {
+function Post({
+  authorized,
+  empty,
+  post,
+  loading,
+  children,
+  link,
+  asteri,
+  report = () => {},
+  antiAgorize,
+  hidePost,
+  showComments,
+  isAuthor,
+  starred,
+  showProfilePicture,
+  redirect
+}) {
   //Hook describing if a post is stared or not
   const [isStarClicked, clickStar] = useState(starred)
   const [tempDeleted, deleteTemp] = useState(false)
@@ -359,6 +440,33 @@ function Post({ authorized, empty, post, loading, children, link, asteri, report
 	{children}
 </Card>
 */
+
+// export default () => {
+//   const [modalVisible, showModal] = useState(false)
+
+//   const onCancel = () => showModal(false)
+//   const onConfirm = () => showModal(false)
+
+//   return (
+//     <span>
+//       <button
+//         onClick={() => showModal(!modalVisible)}
+//       >
+//         Delete account
+//       </button>
+//       <Modal
+//         title="Är du säker? 🗑️"
+//         description={"Ifall du trycker på \"Radera\" test kommer ditt konto raderas permanent."}
+//         visible={modalVisible}
+//         confirmText="Radera"
+//         cancelText="Avbryt"
+
+//         onCancel={onCancel}
+//         onConfirm={onConfirm}
+//       />
+//     </span>
+//   )
+// }
 
 
 export default Post

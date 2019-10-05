@@ -40,11 +40,11 @@ function PostContainer({
 	const hidden = useSelector(state => state.Agora.hiddenPosts.indexOf(id) !== -1)
 	if(hidden) return null
 
-	const star = (id) => dispatch(asteri(id))
-	const report = (id) => dispatch(reportAgoragram(id))
-	const hidePost = (id) => dispatch(addPostToHiddenPosts(id))
+	const star = () => dispatch(asteri(id))
+	const report = (reason) => dispatch(reportAgoragram(id, reason))
+	const hidePost = () => dispatch(addPostToHiddenPosts(id))
 
-	const antiAgorize = (id) => dispatch(antiAgorize(id))
+	const antiAgorize = () => dispatch(antiAgorize(id))
 
 	const starred = useSelector(state => state.Agora.starredAgoragrams.indexOf(id) !== -1)
 

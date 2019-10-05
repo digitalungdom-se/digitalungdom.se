@@ -14,6 +14,7 @@ function UserContainer( { username } ) {
 
   const userId = useSelector( state => state.Users.usernames[ username ]);
   const user = useSelector( state => state.Users.users[ userId ]);
+
   dispatch(getUser({ username }))
   // if ( !user ) dispatch( getUser( { username } ) );
 
