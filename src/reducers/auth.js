@@ -43,6 +43,8 @@ export default (state = {
 				forgotPasswordEmailSent: false
 			}
 		case 'FORGOTPASSWORDEMAIL_SUCCESS':
+
+			console.log("sent")
 			return {
 				...state,
 				forgotPasswordEmailSent: true
