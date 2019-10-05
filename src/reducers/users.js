@@ -2,7 +2,8 @@ export default ( state = {
   users: {},
   usernames: {},
   whoami: undefined,
-  agoraList: []
+  agoraList: [],
+
 }, action ) => {
   let users, usernames
   switch ( action.type ) {
@@ -37,22 +38,12 @@ export default ( state = {
 
       //     }
       //   }
-      // }
-  case 'REQUEST_GET_USER':
-    users = {}
-    action.request.userArray.forEach( id => users[ id ] = false )
-    return {
-      ...state,
-      users: {
-        ...state.users,
-        ...users
-      }
-    }
+      //
     case "GET_USER_REQUEST":
       users = {}
       usernames = {}
-      if ( action.payload.id ) users[ action.payload.id ] = false
-      else usernames[ action.payload.username ] = false
+      if ( action.payload.id ) users[ action.payload.id ] = "loading"
+      else usernames[ action.payload.username ] = "loading"
       return {
         ...state,
         users: {
@@ -65,7 +56,6 @@ export default ( state = {
         },
         agoraList: state.agoraList.concat(action.payload.username)
       }
-      return state
     case "GET_USER_SUCCESS":
       let user = null, username = null
       users = {}
@@ -96,6 +86,23 @@ export default ( state = {
             ...username
           },
           ...whoami
+      }
+    case "GET_USER_FAILURE":
+      users = {}
+      usernames = {}
+      if ( action.payload.id ) users[ action.payload.id ] = false
+      else usernames[ action.payload.username ] = false
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          ...users
+        },
+        usernames: {
+          ...state.usernames,
+          ...usernames
+        },
+        agoraList: state.agoraList.concat(action.payload.username)
       }
       // users = {}
       // if(action.url === "/api/auth") {
@@ -128,9 +135,6 @@ export default ( state = {
       // 	}
       // }
       // return state
-      case "GET_USER_ERROR":
-        console.log( action )
-        return state
       case "RESPONSE_GET_USER":
         users = {}
         if ( action._url === "/api/auth" ) {
