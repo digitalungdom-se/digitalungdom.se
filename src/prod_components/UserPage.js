@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Row, Col, Card, Avatar, Skeleton, Icon, Dropdown, Menu, Modal } from 'antd'
 import Loading from '@components/Loading'
+import PageNotFound from '@components/pageNotFound'
 import UserEditingForm from '@components/userEditingForm'
 import FileSelector from '@components/fileSelector'
 import ProfilePicture from 'containers/ProfilePicture'
@@ -211,8 +212,10 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   }
 }
 
-function UserPage( { user, loading, canEdit, edit, posts, deleteUserFromModal } ) {
-  if ( loading ) return <Loading spin card />
+function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFromModal } ) {
+  if ( loading || !user.profile ) return <Loading spin card={false} />
+  if ( noUser ) return <PageNotFound />
+
   const [ userColour, setUserColour ] = useState( user.profile.colour ? user.profile.colour : '#83aef2' );
   const [ modalVisible, setModalVisibility ] = useState(false);
 
