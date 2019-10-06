@@ -40,10 +40,72 @@ export default ( state = {
       //   }
       //
     case "GET_USER_REQUEST":
+
+      // if the payload was sent with an id, it was requesting the user with that id
+      if(action.payload.id !== undefined) {
+        return {
+          // spread out state
+          ...state,
+          users: {
+            // spread out state.users, which is done to keep all the users that are currently in this object.
+            ...state.users,
+            // IMPORTANT: Make the user with the requested id to have a state of "LOADING"
+            [ action.payload.id ] : "LOADING"
+          },
+          agoraList: state.agoraList.concat(action.payload.username)
+        }
+      }
+      // if the payload was NOT sent with an id, it was requesting the user with that USERNAME
+      else {
+        return {
+          ...state,
+          usernames: {
+            ...state.usernames,
+            // IMPORTANT: Make the user with the requested username, have a state of "LOADING"
+            [ action.payload.username ] : "LOADING"
+          },
+          // TO-DO: Explain what agoraList does, and perhaps give it a better name
+          agoraList: state.agoraList.concat(action.payload.username)
+        }
+      }
+    case "GET_USER_SUCCESS":
+      // the user is action.response.user
+      const user = action.response.user
+
+      return {
+        // spread out state
+        ...state,
+        users: {
+          // spread out users
+          ...state.users,
+          // TO-DO: Explain this notation.
+          [ user._id ]: user
+        },
+        usernames: {
+          // spread out usernames
+          ...state.usernames,
+          // IMPORTANT: Map the username to the id. For example, it should look like this:
+          /*
+          usernames: { 
+            "Nautman": "507f191e810c19729de860ea",
+            etc...
+          }
+          */
+          // This is used in userPage, where we don't know the user id if we only know the username.
+          [ user.details.username ]: user._id
+        },
+        // if the requested user is me (shown by action.isMe), then set it to the user._id, otherwise, keep it as it was
+        whoami: action.isMe ? user._id : state.whoami
+      }
+    case "GET_SEVERAL_USERS_SUCCESS":
+      // Create users and usernames objects. It will spread in the state, later on.
       users = {}
       usernames = {}
-      if ( action.payload.id ) users[ action.payload.id ] = "loading"
-      else usernames[ action.payload.username ] = "loading"
+      action.response.users.forEach(user => {
+        users[user._id] = user
+        // make the username lowercase, as it is not case-sensitive.
+        usernames[user.details.username.toLowerCase()] = user._id
+      })
       return {
         ...state,
         users: {
@@ -53,40 +115,9 @@ export default ( state = {
         usernames: {
           ...state.usernames,
           ...usernames
-        },
-        agoraList: state.agoraList.concat(action.payload.username)
+        }
       }
-    case "GET_USER_SUCCESS":
-      let user = null, username = null
-      users = {}
-      usernames = {}
-      let whoami = null, myUser = null, myUsername = null
-      if(action.response.user) {
-        if(action.isMe) whoami = { whoami: action.response.user._id }
-        user = { [ action.response.user._id ]: action.response.user }
-        username = { [action.response.user.details.username.toLowerCase()]: action.response.user._id }
-      }
-      else {
-        action.response.users.forEach( (user, index) => {
-          if(action.isMe && index === 0) whoami = {whoami: user._id}
-          users[ user._id ] = user
-          usernames[ user.details.username.toLowerCase() ] = user._id
-        } )
-      }
-      return {
-        ...state,
-        users: {
-            ...state.users,
-            ...users,
-            ...user
-          },
-          usernames: {
-            ...state.usernames,
-            ...usernames,
-            ...username
-          },
-          ...whoami
-      }
+    
     case "GET_USER_FAILURE":
       users = {}
       usernames = {}
