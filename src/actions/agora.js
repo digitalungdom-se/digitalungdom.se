@@ -140,7 +140,7 @@ export function getAgoragrams( filter ) {
       fetch( "/api/agora/get/agoragrams?" + query( filter ) ),
     callbacks: [
       ( response ) => ( {
-        type: "GET_USER_SUCCESS",
+        type: "GET_SEVERAL_USERS_SUCCESS",
         response,
         payload: {
           type: "objectid"
@@ -165,7 +165,7 @@ export function getAgoragram( agoragramShortID ) {
       fetch( "/api/agora/get/agoragram?" + query( { agoragramShortID } ) ),
     callbacks: [
       ( response ) => ( {
-        type: "GET_USER_SUCCESS",
+        type: "GET_SEVERAL_USERS_SUCCESS",
         response
       } )
     ],
