@@ -175,12 +175,19 @@ function Post({
 
   //Function that allows whole post to be pressed excluding buttons such as share and edit.
 	function click(e) {
-    //Check if target is not button in post
-		if(typeof e.target.className === "string") {
-      if(!e.target.className.includes("WillNotOpenPostDiv") && e.target.tagName !== "SPAN" && e.target.tagName !== "svg" && e.target.tagName !== "UL" && e.target.tagName !== "LI"){
-          // redirect(link)
+
+    //Check if pressed component should open the post
+    if(typeof e.target.className === "string") {
+      if(e.target.className.includes("ShouldOpenPost") || e.target.className.includes("ant-card-body")){
+        redirect(link)
       }
     }
+
+    //Silly work around for allowing user to press the comment icon and redirect
+    if(e.target.parentNode.parentNode.className === "ShouldOpenPost" && typeof e.target.parentNode.parentNode.className === "string"){
+      redirect(link)
+    }
+
 	}
 
 	if(empty) return (
@@ -275,9 +282,11 @@ function Post({
 	    >
 				<span
 					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
+          className="ShouldOpenPost"
 				>
 					<Col
 						style={{textAlign: "center", paddingTop: 20, width: "10%", minWidth: 56, maxWidth: 72}}
+            className="ShouldOpenPost"
 					>
 						{
 							showProfilePicture ?
@@ -289,12 +298,15 @@ function Post({
 						}
 					</Col>
 					<div
-						style={{paddingTop: 8, flex: "1"}} span={22}
+						style={{paddingTop: 8, flex: "1"}}
+            span={22}
+            className="ShouldOpenPost"
 					>
 						<Row
 							style={{width: "100%"}}
 							type="flex"
 							justify="space-between"
+              className="ShouldOpenPost"
 						>
 							<Col>
 								<Link
@@ -303,7 +315,9 @@ function Post({
                   className="WillNotOpenPostDiv"
 								/>
 							</Col>
-							<Col>
+							<Col
+              className="ShouldOpenPost"
+              >
 								<Time time={post._id.substring(0, 8)} />
 								<Divider type="vertical"/>
 								<Link to={"/agora/h/" + post.hypagora}>
@@ -317,11 +331,17 @@ function Post({
 							</Link>
 						</Row>
 
-	          <Row style={{width: "100%"}}>
+	          <Row
+            style={{width: "100%"}}
+            className="ShouldOpenPost"
+            >
 	            <Body/>
 	          </Row>
 
-						<div style={{paddingBottom: 8}}>
+						<div
+            style={{paddingBottom: 8}}
+            className="ShouldOpenPost"
+            >
 							{
 								showComments
 							}
@@ -354,7 +374,7 @@ function Post({
               style={{ textAlign: 'center', height: 30, paddingLeft: 8}}
               className="optionButton"
               >
-                <div style={{width: "100%", height: "100%", paddingTop: 2, }}>
+                <div className="ShouldOpenPost" style={{width: "100%", height: "100%", paddingTop: 2, }}>
                   <FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
                 </div>
 							</Col>
