@@ -63,7 +63,7 @@ const Comment = ({ comment, comments, children, level, asteri }) => {
 			>
 				<div>
 					<Link linkType="user" id={comment.author}></Link>
-					<span> {comment.stars} stars</span>
+					<span> {comment.stars === 1 ? "1 stjärna" : comment.stars + " stjärnor"}</span>
 				</div>
 				{
 					!isCollapsed &&

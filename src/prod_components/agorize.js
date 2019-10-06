@@ -125,7 +125,12 @@ function Agorize({
 				{getFieldDecorator('text')(
         	<Input.TextArea
         		name="body"
-        		placeholder="Text (icke-obligatoriskt)"
+        		placeholder={
+        			agoragramType !== "comment" ?
+        				"Text (icke-obligatoriskt)"
+        				:
+        				"Skriv din reaktion"
+						}
         		autosize={{minRows: 4}}
       		/>
         )}
