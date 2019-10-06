@@ -22,7 +22,7 @@ export default ({ children, to = "", linkType, onClick, id, user, ...props}) => 
 						{user.details.name}
 					</Link>
 			);
-			else return <code>{id === undefined ? "[deleted]" : "Loading..."}</code>
+			else return <code>[deleted]</code>
 		case 'navigation':
 			return(
 				<NavLink
