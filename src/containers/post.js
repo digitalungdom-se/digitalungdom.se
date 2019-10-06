@@ -25,28 +25,32 @@ function PostContainer({
 
 	const dispatch = useDispatch()
 
+	let fullId
+
 	if(showComments) dispatch(getAgoragram(id));
 	if(id && id.length !== 24) {
-		id = useSelector(state => {
+		fullId = useSelector(state => {
 			return state.Agora.fullIds[id]
 		})
+	} else {
+		fullId = id
 	}
-	let isThereAPost = useSelector(state => state.Agora.agoragrams[id])
+	let isThereAPost = useSelector(state => state.Agora.agoragrams[fullId])
 	if(!isThereAPost) loading = true;
 	let post = isThereAPost ? isThereAPost : {
 		_id: "0"
 	}
 
-	const hidden = useSelector(state => state.Agora.hiddenPosts.indexOf(id) !== -1)
+	const hidden = useSelector(state => state.Agora.hiddenPosts.indexOf(fullId) !== -1)
 	if(hidden) return null
 
-	const star = () => dispatch(asteri(id))
-	const report = (reason) => dispatch(reportAgoragram(id, reason))
-	const hidePost = () => {dispatch(addPostToHiddenPosts(id)); console.log("m")}
+	const star = () => dispatch(asteri(fullId))
+	const report = (reason) => dispatch(reportAgoragram(fullId, reason))
+	const hidePost = () => {dispatch(addPostToHiddenPosts(fullId)); console.log("m")}
 
-	const antiAgorize = () => dispatch(antiAgorize(id))
+	const antiAgorize = () => dispatch(antiAgorize(fullId))
 
-	const starred = useSelector(state => state.Agora.starredAgoragrams.indexOf(id) !== -1)
+	const starred = useSelector(state => state.Agora.starredAgoragrams.indexOf(fullId) !== -1)
 
 	const authorized = useSelector(state => state.Auth.authorized)
 
@@ -73,7 +77,7 @@ function PostContainer({
 			defaultBody={loading ? null : post.body}
 			starred={starred}
       showProfilePicture={true}
-			userId={id}
+			userId={fullId}
       redirect={() => history.push(link)}
 
       authorized={authorized}
