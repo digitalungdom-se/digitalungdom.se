@@ -30,6 +30,9 @@ function DU_Modal({
         showInput &&
         <Input
           ref={inputRef}
+          style={{
+            marginBottom: 24
+          }}
         />
        }
        <Row type="flex" justify="center" gutter={16}>
