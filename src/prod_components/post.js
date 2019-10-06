@@ -156,11 +156,16 @@ function Post({
 
   //Function that allows whole post to be pressed excluding buttons such as share and edit.
 	function click(e) {
-    //Check if target is not button in post
-		if(typeof e.target.className === "string") {
-      if(!e.target.className.includes("WillNotOpenPostDiv") && e.target.tagName !== "SPAN" && e.target.tagName !== "svg" && e.target.tagName !== "UL" && e.target.tagName !== "LI"){
-          // redirect(link)
+
+    if(typeof e.target.className === "string") {
+      if(e.target.className.includes("ShouldOpenPost") || e.target.className.includes("ant-card-body")){
+        redirect(link)
       }
+    }
+
+    //Silly work around for allowing user to press the comment icon and redirect
+    if(e.target.parentNode.parentNode.className === "ShouldOpenPost" && typeof e.target.parentNode.parentNode.className === "string"){
+      redirect(link)
     }
 	}
 
@@ -247,18 +252,17 @@ function Post({
 		<React.Fragment>
 			<Card
 				className="agora-post"
-				bodyStyle={{padding: 8, paddingRight: "5%" }}
+				bodyStyle={{padding: 8, paddingRight: "5%"}}
         onClick={click}
-	      // style={!showComments ? {marginBottom: 12} : {marginTop: "5%"}}
-	      style={{
-	      	marginBottom: 16
-	      }}
+	      style={{marginBottom: 16}}
 	    >
 				<span
 					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
+          className="ShouldOpenPost"
 				>
 					<Col
 						style={{textAlign: "center", paddingTop: 20, width: "10%", minWidth: 56, maxWidth: 72}}
+            className="ShouldOpenPost"
 					>
 						{
 							showProfilePicture ?
@@ -269,22 +273,25 @@ function Post({
 								/>
 						}
 					</Col>
+
 					<div
-						style={{paddingTop: 8, flex: "1"}} span={22}
+						style={{paddingTop: 8, flex: "1"}}
+            span={22}
+            className="ShouldOpenPost"
 					>
 						<Row
 							style={{width: "100%"}}
 							type="flex"
 							justify="space-between"
+              className="ShouldOpenPost"
 						>
-							<Col>
+							<Col className="ShouldOpenPost">
 								<Link
 									linkType="user"
 									id={post.author}
-                  className="WillNotOpenPostDiv"
 								/>
 							</Col>
-							<Col>
+							<Col className="ShouldOpenPost">
 								<Time time={post._id.substring(0, 8)} />
 								<Divider type="vertical"/>
 								<Link to={"/agora/h/" + post.hypagora}>
@@ -292,17 +299,27 @@ function Post({
 								</Link>
 							</Col>
 						</Row>
-						<Row style={{width: "100%"}}>
+
+						<Row
+            style={{width: "100%"}}
+            className="ShouldOpenPost"
+            >
 							<Link to={link}>
 								<h1>{post.title}</h1>
 							</Link>
 						</Row>
 
-	          <Row style={{width: "100%"}}>
+	          <Row
+            style={{width: "100%"}}
+            className="ShouldOpenPost"
+            >
 	            <Body/>
 	          </Row>
 
-						<div style={{paddingBottom: 8}}>
+						<div
+            style={{paddingBottom: 8}}
+            className="ShouldOpenPost"
+            >
 							{
 								showComments
 							}
@@ -312,7 +329,10 @@ function Post({
 						</div>
 
 
-						<Row style={{fontSize: 16, marginBottom: 10}}>
+						<Row
+            style={{fontSize: 16, marginBottom: 10}}
+            className="ShouldOpenPost"
+            >
 
 							<Col
               span={4}
@@ -323,7 +343,7 @@ function Post({
                 asteri(post._id)
               }}
               >
-								<div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2}}>
+								<div style={{width: "100%", height: "100%", paddingTop: 2}}>
 									<FontAwesomeIcon style={{marginRight: 4}} color={isStarClicked ? "gold" : ""} icon={faStar} /> {post.stars}
 								</div>
 							</Col>
@@ -333,7 +353,7 @@ function Post({
               style={{ textAlign: 'center', height: 30, paddingLeft: 8}}
               className="optionButton"
               >
-                <div style={{width: "100%", height: "100%", paddingTop: 2, }}>
+                <div className = "ShouldOpenPost" style={{width: "100%", height: "100%", paddingTop: 2, }}>
                   <FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
                 </div>
 							</Col>
@@ -349,7 +369,7 @@ function Post({
                 trigger={['click']}
                 >
 
-                  <div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2, }}>
+                  <div style={{width: "100%", height: "100%", paddingTop: 2, }}>
                       <FontAwesomeIcon style={{marginLeft: 8}} icon={faShare} />
   								</div>
                 </Dropdown>
@@ -367,7 +387,7 @@ function Post({
                 trigger={['click']}
                 >
 
-                  <div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2 }}>
+                  <div style={{width: "100%", height: "100%", paddingTop: 2 }}>
                     <FontAwesomeIcon icon={faEllipsisH} />
   								</div>
 
@@ -388,7 +408,7 @@ function Post({
                     trigger={['click']}
                     >
 
-                      <div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2, }}>
+                      <div style={{width: "100%", height: "100%", paddingTop: 2, }}>
                         <FontAwesomeIcon icon={faPen} />
       								</div>
 
