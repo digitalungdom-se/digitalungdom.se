@@ -79,7 +79,7 @@ function Agorize({
 				}
 				style={{
 					border: 0,
-					paddingBottom: 0
+					paddingBottom: agoragramType === "comment" ? 0 : 24
 				}}
 			>
 				{
@@ -133,7 +133,7 @@ function Agorize({
 			<Form.Item
 				// {...tailFormLayout}
 			>
-				<Button loading={agorizing && (!agorized)} type="primary" htmlType="submit">Publicera</Button>
+				<Button loading={agorizing && (!agorized)} type="primary" htmlType="submit">Publicera {agoragramType === "comment" ? "kommentar" : "inlägg"}</Button>
 			</Form.Item>
 			</Card>
 		</Form>

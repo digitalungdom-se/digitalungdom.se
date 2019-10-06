@@ -30,7 +30,7 @@ const moreUserMenu = (userId, canEdit, modalVisible, showModal) => {
       <Menu>
         <Menu.Item>
           <span onClick={showModal}>
-            <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Delete account
+            <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Ta bort konto
           </span>
         </Menu.Item>
       </Menu>
@@ -40,7 +40,7 @@ const moreUserMenu = (userId, canEdit, modalVisible, showModal) => {
       <Menu>
         <Menu.Item>
           <span onClick={()=> console.log("Deleting " + userId)}>
-            <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Report user
+            <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Anmäl användare
           </span>
         </Menu.Item>
       </Menu>
