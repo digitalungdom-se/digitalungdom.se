@@ -3,9 +3,39 @@ import React, { useState } from 'react'
 import { Button, Divider, Icon } from 'antd'
 import Link from '@components/link'
 import Reply from 'containers/Reply'
+import Modal from '@components/Modal'
 import Agorize from 'containers/agorize'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faComment, faTrashAlt, faFlag } from '@fortawesome/free-solid-svg-icons'
+
+const ModalButton = ({ report }) => {
+
+  const [modalVisible, showModal] = useState(false)
+
+  const onCancel = () => {
+    showModal(false);
+  }
+  const onConfirm = () => showModal(false);
+
+  return (
+    <span>
+      <span onClick={() => showModal(true)}>
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} color="lightgrey" />
+      </span>
+      <Modal
+        visible={modalVisible}
+        title="Anmäl"
+        description="Skriv en anledning"
+        confirmText="Anmäl"
+        cancelText="Avbryt"
+        handleConfirm={(reason) => report(reason)}
+        onConfirm={() => onConfirm()}
+        onCancel={() => onCancel()}
+        showInput
+      />
+    </span>
+  )
+}
 
 function Actions({ dispatch, remove, report, id, link, isAuthor, like, replied, likes, liked, replies }) {
 
@@ -43,15 +73,9 @@ function Actions({ dispatch, remove, report, id, link, isAuthor, like, replied, 
 				</React.Fragment>
 			}
 			<Divider type="vertical"/>
-			<span
-				onClick={e => {
-					const reason = prompt('Varför bör denna kommentar granskas?')
-					if(reason) report(id, reason)
-				}}
-	    	style={{cursor: "pointer"}}
-	    >
-	    	<FontAwesomeIcon color="lightgrey" icon={faFlag} />
-	    </span>
+			<ModalButton
+				report={report}
+			/>
 			{
 				(isReplying && !replied)&&
 				<Agorize

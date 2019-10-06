@@ -92,7 +92,7 @@ export default ( state = {
           }
           */
           // This is used in userPage, where we don't know the user id if we only know the username.
-          [ user.details.username ]: user._id
+          [ user.details.username.toLowerCase() ]: user._id
         },
         // if the requested user is me (shown by action.isMe), then set it to the user._id, otherwise, keep it as it was
         whoami: action.isMe ? user._id : state.whoami
@@ -117,7 +117,7 @@ export default ( state = {
           ...usernames
         }
       }
-    
+
     case "GET_USER_FAILURE":
       users = {}
       usernames = {}

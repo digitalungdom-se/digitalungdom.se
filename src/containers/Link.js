@@ -20,7 +20,8 @@ export default ({ linkType, id, user, ...props}) => {
 					{user.details.name}
 				</Link>
 			);
-			else return <code>{id === undefined ? "[deleted]" : "Loading..."}</code>
+			// TO-DO: Add "Loading..." if the id is defined but not loading. Remember to check the case where the account has been deleted.
+			else return <code>[raderad]</code>
 		default:
 			return (
 				<Link
