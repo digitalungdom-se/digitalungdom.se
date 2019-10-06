@@ -63,12 +63,12 @@ const Comment = ({ comment, comments, children, level, asteri }) => {
 			>
 				<div>
 					<Link linkType="user" id={comment.author}></Link>
-					<span> {comment.stars} stars</span>
+					<span> {comment.stars === 1 ? "1 stjärna" : comment.stars + " stjärnor"}</span>
 				</div>
 				{
 					!isCollapsed &&
 					<React.Fragment>
-						<ReactMarkdown source={!comment.deleted ? comment.body : "`[deleted]`"} className="comment"/>
+						<ReactMarkdown source={!comment.deleted ? comment.body : "`[raderad kommentar]`"} className="comment"/>
 						<Actions
 							id={comment._id}
 							author={comment.author}

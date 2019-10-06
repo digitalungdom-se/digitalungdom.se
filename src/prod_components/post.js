@@ -18,59 +18,11 @@ const shareMenu = (link) => (
   <Menu>
     <Menu.Item>
       <span onClick={()=>copyPostLinkToClipBoard(link)}>
-        <FontAwesomeIcon style={{marginRight: 4}} icon={faCopy} /> Copy post link
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faCopy} /> Kopiera länk
       </span>
     </Menu.Item>
   </Menu>
 )
-
-// class MoreMenu extends React.Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       modalVisible: false
-//     }
-//   }
-
-//   onConfirm() {
-//     this.setState({})
-//   }
-
-//   onCancel() {
-
-//   }
-
-//   render() {
-
-//     const { modalVisible } = this.state
-
-//     return (
-//       <Menu>
-//         <Menu.Item>
-//           <span onClick={() => showModal(true)}>
-//             <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Report post
-//             <Modal
-//               visible={modalVisible}
-//               title="Anmäl"
-//               description="Skriv en anledning"
-//               handleConfirm={(reason) => reportPost(reason)}
-//               onConfirm={() => onConfirm()}
-//               onCancel={() => onCancel()}
-//               showInput
-//             />
-//           </span>
-//         </Menu.Item>
-//         <Menu.Item>
-//           <span onClick={hidePost}>
-//             <FontAwesomeIcon style={{marginRight: 4}} icon={faEyeSlash} /> Hide post
-//           </span>
-//         </Menu.Item>
-//       </Menu>
-//     )
-//   }
-
-// }
 
 const ModalButton = ({ reportPost }) => {
 
@@ -84,7 +36,7 @@ const ModalButton = ({ reportPost }) => {
   return (
     <span>
       <span onClick={() => showModal(true)}>
-        <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Report post
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faFlag} /> Anmäl inlägg
       </span>
       <Modal
         visible={modalVisible}
@@ -101,7 +53,7 @@ const ModalButton = ({ reportPost }) => {
   )
 }
 
-const moreMenu = (reportPost, hidePost) => {
+const moreMenu = (reportPost, hidePost, antiAgorize, deleteTemp) => {
 
   return (
     <Menu>
@@ -109,6 +61,15 @@ const moreMenu = (reportPost, hidePost) => {
         <ModalButton
           reportPost={reportPost}
         />
+      </Menu.Item>
+      <Menu.Item>
+        <span
+        onClick={()=> {
+          antiAgorize()
+          deleteTemp(true)
+        }}>
+          <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Ta bort inlägg
+        </span>
       </Menu.Item>
     </Menu>
   )
@@ -133,7 +94,7 @@ const editMenu = (antiAgorize, deleteTemp ) => (
         antiAgorize()
         deleteTemp(true)
       }}>
-        <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Delete post
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Ta bort inlägg
       </span>
     </Menu.Item>
   </Menu>
@@ -266,7 +227,7 @@ function Post({
 
   //If the post is deleted it will disappear from the current user
   if(tempDeleted){
-    return null
+    return <Redirect to="/agora" />
   }
 
 	return (
@@ -406,7 +367,7 @@ function Post({
               >
 
                 <Dropdown
-                overlay={moreMenu(report, hidePost)}
+                overlay={moreMenu(report, hidePost, antiAgorize, deleteTemp)}
                 trigger={['click']}
                 >
 

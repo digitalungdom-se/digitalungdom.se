@@ -121,7 +121,7 @@ export default () => (
         profile(
           "Douglas",
           "Bengtsson",
-          "Tjena! Jag heter Douglas Bengtsson och är 19 år gammal. Som ordförande och grundare av Digital Ungdom är jag ansiktet utåt – men jobbar också med front-end.",
+          "Tjena! Jag är 19 år gammal och studerar datateknik på KTH! Som ordförande och grundare av Digital Ungdom är jag ansiktet utåt – men jobbar också med front-end.",
           "Ordförande",
           "#1e6ee8"
         )
