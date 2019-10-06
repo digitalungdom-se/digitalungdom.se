@@ -44,7 +44,7 @@ export default ( { profile, logout, translations } ) => (
         type="flex"
         justify="center"
         align="middle"
-        style={{ marginTop: 14 }}
+        style={{ marginTop: 16, paddingBottom: 16 }}
         >
           <ProfilePicture
           style={{marginRight: 4, marginLeft: 4}}

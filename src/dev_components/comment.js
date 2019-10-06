@@ -8,10 +8,10 @@ const Comment = ({ comment, children, isAuthor }) => {
 			style={{listStyleType: "none"}}
 		>
 			<Link linkType="user" id={comment.author} />
-			<span> {comment.stars} stars</span>
+			<span> {comment.stars} stjärnor</span>
 			<p>
 				{comment.body}
-				{comment.deleted && "[deleted]"}
+				{comment.deleted && "[raderad]"}
 			</p>
 			<Actions
 				id={comment._id}

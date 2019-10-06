@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux'
 
 const linksMenu = (t, setDropdownVisible) => (
   <Menu
-  style={{marginLeft: -28, marginTop: -24, padding: "0px 12px"}}
+  style={{marginLeft: -28, marginTop: -24, padding: "0px 16px"}}
   >
 
     <ul style={{textAlign: 'center', padding: 0, paddingTop: 4}}>
@@ -106,7 +106,7 @@ function renderNavBar(t, windowWidth, dropdownVisible, setDropdownVisible){
       <Dropdown
       onClick={()=> setDropdownVisible(true)}
       overlay = { () => linksMenu(t, setDropdownVisible) }
-      visible={dropdownVisible}
+      // visible={dropdownVisible}
       trigger={['click']}
       >
         <Link>
