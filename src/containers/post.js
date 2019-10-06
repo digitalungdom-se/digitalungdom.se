@@ -42,7 +42,7 @@ function PostContainer({
 
 	const star = () => dispatch(asteri(id))
 	const report = (reason) => dispatch(reportAgoragram(id, reason))
-	const hidePost = () => dispatch(addPostToHiddenPosts(id))
+	const hidePost = () => {dispatch(addPostToHiddenPosts(id)); console.log("m")}
 
 	const antiAgorize = () => dispatch(antiAgorize(id))
 
@@ -58,7 +58,7 @@ function PostContainer({
 		<Post
 			loading={loading}
 			post={post}
-			
+
 			asteri={star}
 			report={report}
 			antiAgorize={antiAgorize}
