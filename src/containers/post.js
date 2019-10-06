@@ -48,7 +48,7 @@ function PostContainer({
 	const report = (reason) => dispatch(reportAgoragram(fullId, reason))
 	const hidePost = () => {dispatch(addPostToHiddenPosts(fullId)); console.log("m")}
 
-	const antiAgorize = () => dispatch(antiAgorize(fullId))
+	const dispatchAntiAgorize = () => dispatch(antiAgorize(fullId))
 
 	const starred = useSelector(state => state.Agora.starredAgoragrams.indexOf(fullId) !== -1)
 
@@ -65,7 +65,7 @@ function PostContainer({
 
 			asteri={star}
 			report={report}
-			antiAgorize={antiAgorize}
+			antiAgorize={dispatchAntiAgorize}
 
 			hidePost={() => hidePost(post._id)}
 
