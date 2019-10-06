@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { withTranslation } from 'react-i18next'
 import { withRouter, Link } from 'react-router-dom'
 import { Col, Row, Button } from 'antd'
@@ -16,6 +16,22 @@ const CenterWrapper = ({ children }) => (
 export default withTranslation() (
 	withRouter(({ t, location }) => {
 
+		// With hook determine width of window
+		const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+		useEffect(() => {
+	    function handleResize() {
+	      setWindowWidth(window.innerWidth);
+	    }
+
+	    window.addEventListener('resize', handleResize);
+	    return () => window.removeEventListener('resize', handleResize);
+	  }, []);
+
+		let titleSize = windowWidth > 400 ? 40 : 30;
+		let subtitleSize = windowWidth > 400 ? 30 : 20;
+		let descSize = windowWidth > 400 ? 18 : 12;
+		let buttonSize = windowWidth > 400 ? 16 : 10;
+
     return(
 	<Col type="flex" justify="space-between">
 		<Row style={{background: "#05379c", paddingTop: 60, paddingBottom: 50, width: "100%"}}>
@@ -32,18 +48,18 @@ export default withTranslation() (
 					</Col>
 
 					<Col
-						xs={{span: 20, offset: 1}}
-						sm={{span: 24, offset: 1}}
-						md={{span: 24, offset: 1}}
-						lg={{span: 10, offset: 1}}
+						xs={{span: 24}}
+						sm={{span: 24}}
+						md={{span: 24}}
+						lg={{span: 10}}
 					>
 						<div>
 
-							<h1 style={{fontSize: 40, marginBottom: 10, color: 'white', fontWeight: 'bold'}}> Programmering är roligt! </h1>
+							<h1 style={{fontSize: titleSize, marginBottom: 10, color: 'white', fontWeight: 'bold'}}> Programmering är roligt! </h1>
 
-							<h3 style={{fontSize: 30, color: "rgba(255,255,255,0.85)", fontWeight: 'bold'}}>Här kan du lära dig, <br/> dela med dig av och hjälpa<br/> andra med programmering. </h3>
+							<h3 style={{fontSize: subtitleSize, color: "rgba(255,255,255,0.85)", fontWeight: 'bold'}}>Här kan du lära dig, <br/> dela med dig av och hjälpa<br/> andra med programmering. </h3>
 
-							<p style={{fontSize: 18, marginBottom: 40, color: "rgba(255,255,255,0.85)"}}>
+							<p style={{fontSize: descSize, marginBottom: 40, color: "rgba(255,255,255,0.85)"}}>
 								Vi är ett svenskt ideellt ungdomsförbund för programmerings- och teknikintresserade ungdomar. Bli medlem och ta del av vår community! 🌟
 							</p>
 
@@ -51,7 +67,7 @@ export default withTranslation() (
 								<Col span={8}>
 									<Link to={"/" + t("links-register")}>
 										<Button
-										style={{ width: '90%'}}
+										style={{ fontSize: buttonSize, width: '90%'}}
 										size="large"
 										type="primary">
 											Bli medlem!
@@ -61,7 +77,10 @@ export default withTranslation() (
 
 								<Col span={8}>
 									<Link to={"/" + t("links-login")}>
-										<Button ghost size="large" style={{color: "rgba(255,255,255,0.9)", width: '90%', border: "2px solid #cccccc"}}>
+										<Button
+										ghost
+										size="large"
+										style={{fontSize: buttonSize, color: "rgba(255,255,255,0.9)", width: '90%', border: "2px solid #cccccc"}}>
 											Logga in
 										</Button>
 									</Link>
@@ -69,19 +88,22 @@ export default withTranslation() (
 
 								<Col span={8}>
 									<Link to={"/" + t("about")}>
-										<Button ghost size="large" style={{color: "rgba(255,255,255,0.9)",width: '90%', border: "2px solid #cccccc"}}>
+										<Button
+										ghost
+										size="large"
+										style={{fontSize: buttonSize, color: "rgba(255,255,255,0.9)",width: '90%', border: "2px solid #cccccc"}}>
 											Om oss
 										</Button>
 									</Link>
 								</Col>
 							</Row>
-
 						</div>
 					</Col>
 				</Row>
 			</CenterWrapper>
 		</Row>
-		<div style={{background: "#05379c", borderBottomLeftRadius: "50%", borderBottomRightRadius: "50%", height: 20, width: "100%"}}/>
+
+		<div style={{background: "#05379c", borderBottomLeftRadius: "50%", borderBottomRightRadius: "50%", height: 20, width: "100%", marginTop: -2}}/>
 
 		<Row type="flex" justify="center" style={{flex: 1}}>
 			<Row type="flex" justify="center" style={{paddingTop: 140, paddingBottom: 80}}>
@@ -103,12 +125,12 @@ export default withTranslation() (
 
 						<p style={{fontSize: 16, marginBottom: 10, color: "#434343"}}>
 							För tillfället kan ni njuta av Agora (vårt forum) och
-							faktumet att ni kan skapa i princip vilket användarnamn som helst! 😎
+							faktumet att ni kan ha i princip vilket användarnamn som helst! 😎
 						</p>
 
 						<Row style={{marginTop: 30}}>
 								<Link to={"/" + t("links-register")}>
-									<Button type="primary" size="large" style={{ borderRadius: 10 }}>
+									<Button type="primary" size="large" style={{ borderRadius: 10, fontSize: buttonSize }}>
 										Skapa ett konto
 									</Button>
 								</Link>

@@ -335,7 +335,8 @@ function Post({
             >
 
 							<Col
-              span={4}
+              xs={{span: 6}}
+  						sm={{span: 4}}
               style={{textAlign: 'center', height: 30}}
               className="asteriButton"
               onClick={() => {
@@ -349,7 +350,8 @@ function Post({
 							</Col>
 
 							<Col
-              span={4}
+              xs={{span: 6}}
+  						sm={{span: 4}}
               style={{ textAlign: 'center', height: 30, paddingLeft: 8}}
               className="optionButton"
               >
@@ -359,7 +361,8 @@ function Post({
 							</Col>
 
               <Col
-              span={4}
+              xs={{span: 6}}
+  						sm={{span: 4}}
               style={{ textAlign: 'center', height: 30}}
               className="optionButton"
               >
@@ -377,7 +380,8 @@ function Post({
 
 
               <Col
-              span={4}
+              xs={{span: 6}}
+  						sm={{span: 4}}
               style={{ textAlign: 'center', height: 30}}
               className="optionButton"
               >
@@ -398,7 +402,8 @@ function Post({
                 isAuthor?
                 (
                   <Col
-                  span={4}
+                  xs={{span: 6}}
+      						sm={{span: 4}}
                   style={{ textAlign: 'center', height: 30}}
                   className="optionButton"
                   >
