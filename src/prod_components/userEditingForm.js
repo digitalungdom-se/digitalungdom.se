@@ -72,11 +72,11 @@ class UserEditingForm extends React.Component {
       >
 
       <Form.Item style={formStyle}>
-        {getFieldDecorator('profile.status',
-          {
-            min: 3, max: 16, message: 'Din status måste vara mellan 3 och 24 karaktärer.'
-          }
-        )(
+        {getFieldDecorator('profile.status', {
+          rules:[{
+            max: 24, message: 'Din status får max vara 24 karaktärer.'
+          }]
+        })(
           <Input
           prefix={<Icon type="clock-circle" style={{ color: 'rgba(0,0,0,.25)' }} />}
           placeholder="Status - vad händer?"
@@ -94,11 +94,11 @@ class UserEditingForm extends React.Component {
       </Form.Item>
 
         <Form.Item style={formStyle}>
-          {getFieldDecorator('profile.bio',
-            {
+          {getFieldDecorator('profile.bio',{
+            rules:[{
               max: 200, message: 'Din bio får max vara 200 karaktärer.'
-            }
-          )(
+            }]
+          })(
             <Input.TextArea
               value="this.props.user.profile.bio"
               placeholder="Bio"

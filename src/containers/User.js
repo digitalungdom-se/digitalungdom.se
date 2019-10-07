@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getUser, deleteUser } from 'actions/users'
 import { set } from 'actions/users'
 import UserPage from '@components/UserPage'
+import PageNotFound from '@components/pageNotFound'
 import Loading from '@components/Loading'
 import { Row, Col } from '@components/grid'
 import Posts from 'containers/posts'
@@ -65,12 +66,12 @@ function UserContainer( { username } ) {
 
   let agoragrams = useSelector(state => state.Agora.lists[username])
 
-  if(loading) {
-    return <Loading spin card />
+  if(userId === false) {
+    return <PageNotFound type="noUser"/>
   }
 
-  if(userId === false) {
-    return <div>No such user</div>
+  if(loading || !user.profile ) {
+    return <Loading spin card={false} />
   }
 
   /*
