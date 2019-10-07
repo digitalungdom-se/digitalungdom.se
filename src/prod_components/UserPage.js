@@ -1,7 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Row, Col, Card, Avatar, Skeleton, Icon, Dropdown, Menu, Modal } from 'antd'
-import Loading from '@components/Loading'
-import PageNotFound from '@components/pageNotFound'
 import UserEditingForm from '@components/userEditingForm'
 import FileSelector from '@components/fileSelector'
 import ProfilePicture from 'containers/ProfilePicture'
@@ -103,6 +101,26 @@ function editPictureButton( setEditing, canEdit ) {
 function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   const [ editing, setEditing ] = useState( false );
 
+  // With hook determine width of window
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setWindowWidth(window.innerWidth);
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  let renderURLText = user.profile.url
+  if(user.profile.url.length > 32){
+    if(windowWidth < 730){
+      renderURLText = user.profile.url.substring(0, 50) + '...';
+    }else{
+      renderURLText = user.profile.url.substring(0, 32) + '...';
+    }
+  }
+
   if ( editing === false ) {
     return (
       <div>
@@ -110,14 +128,14 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
 	        style={{
 	          marginTop: 8,
 	          marginBottom: 24,
-	          color: 'rgba(0,0,0,0.9)',
-	          fontSize: 18
+	          color: 'rgba(0,0,0,0.7)',
+	          fontSize: 14
 	        }}
         >
 					{user.profile.bio}
         </p>
 
-				<div style={{fontSize: 13, margin: "6px 0px"}}>
+				<div style={{fontSize: 13, margin: "-8px 0px"}}>
 					<a
 					href={user.profile.url}
 					target="_blank"
@@ -125,65 +143,42 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
 						{
 							user.profile.url?
 							(
-								<Row
-								type="flex"
-
-								gutter={6}
-								>
-									<Col>
+								<p>
 										<Icon
 										type="paper-clip"
-										style={{ color: 'rgba(0,0,0,.25)' }}
+										style={{ color: 'rgba(0,0,0,.25)', marginRight: 6 }}
 										/>
-									</Col>
-									<Col>
-									{user.profile.url}
-									</Col>
-								</Row>
+  									{renderURLText}
+								</p>
 							):
 							null
 						}
 					</a>
 				</div>
 
-				<div style={{fontSize: 13, margin: "6px 0px"}}>
+				<div style={{fontSize: 13, margin: "-8px 0px"}}>
 					{
 						user.details.email?
 						(
-							<Row
-							type="flex"
-							gutter={6}
-							>
-								<Col>
+							<p>
 									<Icon
 									type="mail"
-									style={{ color: 'rgba(0,0,0,.25)' }}
+									style={{ color: 'rgba(0,0,0,.25)', marginRight: 6  }}
 									/>
-								</Col>
-								<Col>
 								{user.details.email}
-								</Col>
-							</Row>
+							</p>
 						):
 						null
 					}
 				</div>
 
-				<Row
-				style={{fontSize: 13, margin: "6px 0px"}}
-				type="flex"
-				gutter={6}
-				>
-					<Col>
+				<p style={{fontSize: 13, margin: "-8px 0px"}}>
 						<Icon
 						type="clock-circle"
-						style={{ color: 'rgba(0,0,0,.25)', marginLeft: -3}}
+						style={{ color: 'rgba(0,0,0,.25)', marginRight: 6 }}
 						/>
-					</Col>
-					<Col>
 						Medlem sedan {(new Date(parseInt(user._id.substring(0, 8), 16) * 1000)).toISOString().substring(0, 10)}
-					</Col>
-				</Row>
+				</p>
 
         {editingButton(setEditing, canEdit)}
 
@@ -212,9 +207,8 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   }
 }
 
+//
 function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFromModal } ) {
-  if ( loading || !user.profile ) return <Loading spin card={false} />
-  if ( noUser ) return <PageNotFound />
 
   const [ userColour, setUserColour ] = useState( user.profile.colour ? user.profile.colour : '#83aef2' );
   const [ modalVisible, setModalVisibility ] = useState(false);
@@ -258,8 +252,8 @@ function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFrom
 						<Col
 							xs={{span: 22}}
 							sm={{span: 22}}
-							md={{span: 9}}
-							lg={{span: 9}}
+							md={{span: 11}}
+							lg={{span: 10}}
 							type = "flex"
 							justify="center"
             >
@@ -337,18 +331,16 @@ function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFrom
 										{user.details.name}
 									</h2>
 
-                  <span
-                    className="du-colour"
-                    style={{ color:userColour }}>
-                    @{user.details.username}
-                  </span>
 
-									<p style={{fontSize:16, marginTop: -4}}>
+  									<p style={{fontSize:14, marginTop: 0, color: "rgba(0,0,0,0.7)"}}>
+                      <span
+                        className="du-colour"
+                        style={{ color: userColour }}>
+                        @{user.details.username}
+                      </span>
+                      <span>{user.profile.status ? ` - ${user.profile.status}` : ''}</span>
+  									</p>
 
-
-
-                    <span>{user.profile.status ? ` - ${user.profile.status}` : ''}</span>
-									</p>
 									{
 										renderProfile(user, canEdit, edit,userColour, setUserColour)
 									}
@@ -360,8 +352,8 @@ function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFrom
             <Col
             xs={{ span: 22 }}
             sm={{ span: 22 }}
-            md={{ span: 15 }}
-            lg={{ span: 15 }}>
+            md={{ span: 13 }}
+            lg={{ span: 14 }}>
 
              {posts}
 
