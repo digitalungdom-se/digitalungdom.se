@@ -141,7 +141,7 @@ export default () => (
           "Sondén",
           "Hej! Jag heter Simon Sondén och jobbar bland annat med arkitekturen och algoritmerna bakom våra projekt. För övrigt älskar jag att bygga robotar.",
           "Vice ordförande",
-          "#f5222d"
+          "#bf3728"
         )
       }
       {

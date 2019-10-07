@@ -265,6 +265,7 @@ function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFrom
 									border:'1px solid rgba(0,0,0,0.1)',
 									borderRadius: 8,
 									marginBottom: 16,
+                  paddingBottom: 10
 								}}
 							>
 
