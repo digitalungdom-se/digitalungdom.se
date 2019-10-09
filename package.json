@@ -70,6 +70,8 @@
     "redux-thunk": "^2.3.0",
     "validator": "^10.11.0"
   },
+  "main": "src/App.js",
+  "homepage": "https://digitalungdom.se/",
   "scripts": {
     "start": "react-app-rewired start",
     "start-dev": "NODE_ENV=development react-app-rewired start",
