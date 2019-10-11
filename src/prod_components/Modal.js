@@ -12,7 +12,8 @@ function DU_Modal({
   showInput = false,
   handleInput = () => {},
   onCancel = () => {},
-  onConfirm = () => {}
+  onConfirm = () => {},
+  showCancelButtonOnly = false
 }) {
 
   const inputRef = createRef()
@@ -22,7 +23,7 @@ function DU_Modal({
        visible={visible}
        onCancel={onCancel}
        footer={null}
-       style={{textAlign: "center", maxWidth: 300}}
+       style={{textAlign: "center", maxWidth: 380}}
      >
        <h1 style={{fontSize: 18, fontWeight: 'bold'}}>{title}</h1>
        <p>{description}</p>
@@ -35,33 +36,55 @@ function DU_Modal({
           }}
         />
        }
-       <Row type="flex" justify="center" gutter={16}>
-         <Col span={12}>
-           <Button
-             style={{width: "100%"}}
-             onClick={() => {
-              onCancel()
-              handleCancel()
-            }}
-           >
-             {cancelText}
-           </Button>
-         </Col>
-         <Col span={12}>
-           <Button
-             style={{width: "100%"}}
-             type="danger"
-             onClick={() =>
-               {
-                onConfirm()
-                if(showInput) handleConfirm(inputRef.current.input.value);
-                else handleConfirm();
-               }
-             }>
-             {confirmText}
-           </Button>
-         </Col>
-       </Row>
+
+       {
+         showCancelButtonOnly?
+         (
+           <Row type="flex" justify="end">
+             <Col>
+               <Button
+                 style={{width: "100%"}}
+                 onClick={() => {
+                  onConfirm()
+                }}
+               >
+                 {confirmText}
+               </Button>
+             </Col>
+           </Row>
+         )
+         :
+         (
+           <Row type="flex" justify="center" gutter={16}>
+             <Col span={12}>
+               <Button
+                 style={{width: "100%"}}
+                 onClick={() => {
+                  onCancel()
+                  handleCancel()
+                }}
+               >
+                 {cancelText}
+               </Button>
+             </Col>
+
+             <Col span={12}>
+               <Button
+                 style={{width: "100%"}}
+                 type="danger"
+                 onClick={() =>
+                   {
+                    onConfirm()
+                    if(showInput) handleConfirm(inputRef.current.input.value);
+                    else handleConfirm();
+                   }
+                 }>
+                 {confirmText}
+               </Button>
+             </Col>
+           </Row>
+         )
+     }
      </Modal>
   )
 }

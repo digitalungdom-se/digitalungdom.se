@@ -1,7 +1,54 @@
-import  React from 'react'
-import { Row, Col, Select, Input, Button, Form } from 'antd'
+import  React, {useState} from 'react'
+import { Row, Col, Select, Input, Button, Form, Icon } from 'antd'
 import { Redirect } from 'react-router-dom'
 import Card from '@components/Card'
+import Modal from '@components/Modal'
+
+const Description = () => (
+	<div>
+		<p>
+			Skriv <i>kursivt</i> genom att omringa text med *
+			<br/>
+			*Text* = <i>Text</i>
+		</p>
+		<p>
+			Skriv <b>fet stil</b> genom att omringa text med **
+			<br/>
+			**Text** = <b>Text</b>
+		</p>
+		<p>
+			Skriv <code>kod-stil</code> genom att omringa text med ```
+			<br/>
+			```Text``` = <code>Text</code>
+		</p>
+	</div>
+)
+
+const GuideModal = () => {
+
+  const [modalVisible, showModal] = useState(false)
+
+  const onCancel = () => showModal(false);
+  const onConfirm = () => showModal(false);
+
+  return (
+    <div>
+			<a style={{position: "absolute", right: 0, top: -6}} onClick = {()=> {showModal(true)}}>
+				<Icon style={{fontSize: 14, marginRight: 10}} type="question-circle" />
+			</a>
+      <Modal
+        visible={modalVisible}
+        title="Markdown guide"
+				description = {<Description/>}
+        confirmText="Klar"
+				showCancelButtonOnly={true}
+        handleConfirm={() => onConfirm()}
+        onConfirm={() => onConfirm()}
+        onCancel={() => onCancel()}
+      />
+    </div>
+  )
+}
 
 function Agorize({
 	agorize,
@@ -25,7 +72,7 @@ function Agorize({
 	    			type: values.type,
 	    			title: values.title,
 	    			tags: values.tags ? values.tags : [],
-	    			body: values.text ?values.text : "" 
+	    			body: values.text ?values.text : ""
 	    		}, "post")
 	    	}
 	    	else agorize({
@@ -123,16 +170,19 @@ function Agorize({
 				}
 			<Form.Item>
 				{getFieldDecorator('text')(
-        	<Input.TextArea
-        		name="body"
-        		placeholder={
-        			agoragramType !== "comment" ?
-        				"Text (icke-obligatoriskt)"
-        				:
-        				"Skriv din reaktion"
-						}
-        		autosize={{minRows: 4}}
-      		/>
+					<div style={{position: 'relative'}}>
+	        	<Input.TextArea
+	        		name="body"
+	        		placeholder={
+	        			agoragramType !== "comment" ?
+	        				"Text (icke-obligatoriskt)\nDetta är markdown, tryck på frågetecknet för mer information. "
+	        				:
+	        				"Skriv din reaktion"
+							}
+	        		autosize={{minRows: 4}}
+	      		/>
+						<GuideModal/>
+					</div>
         )}
 			</Form.Item>
 			<Form.Item

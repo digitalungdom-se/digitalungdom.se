@@ -59,7 +59,7 @@ function UserContainer( { username } ) {
     canEdit = true;
     const userID = user._id;
 
-    edit = ( info, userID ) => dispatch( set( info, userID ) )
+    edit = ( info, userID ) => {dispatch( set( info, userID )); console.log(info)}
   }
 
   //let report = report(id) {dispatch(reportUser(user._id))}
