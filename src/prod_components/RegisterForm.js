@@ -25,8 +25,6 @@ class RegistrationForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-
         //Switch to email verification slide
         this.props.incrementSlide()
 
