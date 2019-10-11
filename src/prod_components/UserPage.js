@@ -128,8 +128,9 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
 	        style={{
 	          marginTop: 8,
 	          marginBottom: 24,
-	          color: 'rgba(0,0,0,0.7)',
-	          fontSize: 14
+	          color: 'rgba(0,0,0,0.9)',
+	          fontSize: 14,
+            whiteSpace: "pre-wrap"
 	        }}
         >
 					{user.profile.bio}

@@ -68,7 +68,10 @@ const Comment = ({ comment, comments, children, level, asteri }) => {
 				{
 					!isCollapsed &&
 					<React.Fragment>
-						<ReactMarkdown source={!comment.deleted ? comment.body : "`[raderad kommentar]`"} className="comment"/>
+						<ReactMarkdown
+						source={!comment.deleted ? comment.body : "`[raderad kommentar]`"}
+						className="comment"
+						/>
 						<Actions
 							id={comment._id}
 							author={comment.author}
