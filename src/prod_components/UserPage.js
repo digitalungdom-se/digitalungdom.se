@@ -113,11 +113,13 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   }, []);
 
   let renderURLText = user.profile.url
-  if(user.profile.url.length > 32){
-    if(windowWidth < 730){
-      renderURLText = user.profile.url.substring(0, 50) + '...';
-    }else{
-      renderURLText = user.profile.url.substring(0, 32) + '...';
+  if(user.profile.url){
+    if(user.profile.url.length > 32){
+      if(windowWidth < 730){
+        renderURLText = user.profile.url.substring(0, 50) + '...';
+      }else{
+        renderURLText = user.profile.url.substring(0, 32) + '...';
+      }
     }
   }
 
