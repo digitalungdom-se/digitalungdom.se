@@ -14,7 +14,7 @@ import Comments from 'containers/comments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment, faShare, faStar, faPen, faFlag, faCopy, faEllipsisH, faEyeSlash, faTrash, faWrench } from '@fortawesome/free-solid-svg-icons'
 
-const shareMenu = (link) => (
+const shareMenu = ( link ) => (
   <Menu>
     <Menu.Item>
       <span onClick={()=>copyPostLinkToClipBoard(link)}>
@@ -24,14 +24,14 @@ const shareMenu = (link) => (
   </Menu>
 )
 
-const ModalButton = ({ reportPost }) => {
+const ModalButton = ( { reportPost } ) => {
 
-  const [modalVisible, showModal] = useState(false)
+  const [ modalVisible, showModal ] = useState( false )
 
   const onCancel = () => {
-    showModal(false);
+    showModal( false );
   }
-  const onConfirm = () => showModal(false);
+  const onConfirm = () => showModal( false );
 
   return (
     <span>
@@ -53,7 +53,7 @@ const ModalButton = ({ reportPost }) => {
   )
 }
 
-const moreMenu = (reportPost, hidePost, antiAgorize, deleteTemp) => {
+const moreMenu = ( reportPost, hidePost, antiAgorize, deleteTemp ) => {
 
   return (
     <Menu>
@@ -83,7 +83,7 @@ const moreMenu = (reportPost, hidePost, antiAgorize, deleteTemp) => {
   */
 };
 
-const editMenu = (antiAgorize, deleteTemp ) => (
+const editMenu = ( antiAgorize, deleteTemp ) => (
   <Menu>
     <Menu.Item>
       <FontAwesomeIcon style={{marginRight: 4}} icon={faWrench} /> Edit post
@@ -101,19 +101,19 @@ const editMenu = (antiAgorize, deleteTemp ) => (
 );
 
 //Takes post redux link and merges it with window href to create a post link, which is copied to the clipboard
-function copyPostLinkToClipBoard(link) {
-  const el = document.createElement('input');
+function copyPostLinkToClipBoard( link ) {
+  const el = document.createElement( 'input' );
   //TODO: maybe not the cleanest solution, fix this later
   var currentURL = window.location.href
-  el.value = currentURL.substring(0,currentURL.indexOf("/agora")) + link;
+  el.value = currentURL.substring( 0, currentURL.indexOf( "/agora" ) ) + link;
   el.id = "url-input";
-  document.body.appendChild(el);
+  document.body.appendChild( el );
   el.select();
-  document.execCommand("copy");
+  document.execCommand( "copy" );
   el.remove();
 }
 
-function Post({
+function Post( {
   authorized,
   empty,
   post,
@@ -129,30 +129,30 @@ function Post({
   starred,
   showProfilePicture,
   redirect
-}) {
+} ) {
   //Hook describing if a post is stared or not
-  const [isStarClicked, clickStar] = useState(starred)
-  const [tempDeleted, deleteTemp] = useState(false)
+  const [ isStarClicked, clickStar ] = useState( starred )
+  const [ tempDeleted, deleteTemp ] = useState( false )
 
   //Function that allows whole post to be pressed excluding buttons such as share and edit.
-	function click(e) {
+  function click( e ) {
 
     //Check if pressed component should open the post
-    if(typeof e.target.className === "string") {
-      if(e.target.className.includes("ShouldOpenPost") || e.target.className.includes("ant-card-body")){
-        redirect(link)
+    if ( typeof e.target.className === "string" ) {
+      if ( e.target.className.includes( "ShouldOpenPost" ) || e.target.className.includes( "ant-card-body" ) ) {
+        redirect( link )
       }
     }
 
     //Silly work around for allowing user to press the comment icon and redirect
-    if(e.target.parentNode.parentNode.className === "ShouldOpenPost" && typeof e.target.parentNode.parentNode.className === "string"){
-      redirect(link)
+    if ( e.target.parentNode.parentNode.className === "ShouldOpenPost" && typeof e.target.parentNode.parentNode.className === "string" ) {
+      redirect( link )
     }
 
-	}
+  }
 
-	if(empty) return (
-		<Card>
+  if ( empty ) return (
+    <Card>
 			<Empty
 				style={{marginTop: 32}}
 				description={
@@ -162,33 +162,33 @@ function Post({
 				}
 			/>
 		</Card>
-	);
+  );
 
-	if(loading) return (
-		<div>
+  if ( loading ) return (
+    <div>
 			<Card>
 			   <Skeleton active avatar paragraph={{ rows: 2 }} />
 			</Card>
 		</div>
-	)
-	const deleted = post.deleted
+  )
+  const deleted = post.deleted
 
-	let wordLimitFadedDisplay = 400;
+  let wordLimitFadedDisplay = 400;
 
-	//Renders post body
+  //Renders post body
   const Body = () => {
 
-		//For some reason you must wait
-		if(post.body ) {
+    //For some reason you must wait
+    if ( post.body ) {
 
-			//If the post is a link, render this
-			if( post.type === 'link'){
-	      return (<p><a href={post.body} style={{fontSize: 16}} target="_blank"> {post.body} </a></p>)
-	    }else{
-				//If its a text post with more than characters, render transparent faded div
-				if(post.body.length > wordLimitFadedDisplay){
-					return(
-						<Link to={link} style={{color:"rgba(0,0,0,0.7)", fontSize: 14 }}>
+      //If the post is a link, render this
+      if ( post.type === 'link' ) {
+        return ( <p><a href={post.body} style={{fontSize: 16}} target="_blank"> {post.body} </a></p> )
+      } else {
+        //If its a text post with more than characters, render transparent faded div
+        if ( post.body.length > wordLimitFadedDisplay ) {
+          return (
+            <Link to={link} style={{color:"rgba(0,0,0,0.7)", fontSize: 14 }}>
 							<div style={{postion: 'relative'}}>
 
 										{
@@ -207,31 +207,31 @@ function Post({
 
 							</div>
 						</Link>
-					)
+          )
 
-				//For shorter posts
-				}else{
-					return (
-						<Link style={{color:"rgba(0,0,0,0.7)", fontSize: 16 }} to={link}>
+          //For shorter posts
+        } else {
+          return (
+            <Link style={{color:"rgba(0,0,0,0.7)", fontSize: 16 }} to={link}>
 							<ReactMarkdown source={post.body} />
 						</Link>
-					)
-				}
-			}
+          )
+        }
+      }
 
-		}else{
-			// Should this say loading?
-			return null
-		}
-	}
+    } else {
+      // Should this say loading?
+      return null
+    }
+  }
 
   //If the post is deleted it will disappear from the current user
-  if(tempDeleted){
+  if ( tempDeleted ) {
     return <Redirect to="/agora" />
   }
 
-	return (
-		<React.Fragment>
+  return (
+    <React.Fragment>
 			<Card
 				className="agora-post"
 				bodyStyle={{padding: 8, paddingRight: "5%" }}
@@ -427,8 +427,8 @@ function Post({
         }
 			</Card>
 		</React.Fragment>
-		)
-	/*<div>Author: {(!deleted && author !== "deleted") ? ((post.display.type === "user") ? author.details.username : author.details.name) : "deleted"}</div>*/
+  )
+  /*<div>Author: {(!deleted && author !== "deleted") ? ((post.display.type === "user") ? author.details.username : author.details.name) : "deleted"}</div>*/
 }
 
 /*
