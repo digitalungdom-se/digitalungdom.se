@@ -62,15 +62,6 @@ const moreMenu = ( reportPost, hidePost, antiAgorize, deleteTemp ) => {
           reportPost={reportPost}
         />
       </Menu.Item>
-      <Menu.Item>
-        <span
-        onClick={()=> {
-          antiAgorize()
-          deleteTemp(true)
-        }}>
-          <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Ta bort inlägg
-        </span>
-      </Menu.Item>
     </Menu>
   )
   // TO-DO: Add hide post button.

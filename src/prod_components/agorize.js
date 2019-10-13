@@ -25,9 +25,7 @@ const Description = () => (
 )
 
 const GuideModal = () => {
-
   const [modalVisible, showModal] = useState(false)
-
   const onCancel = () => showModal(false);
   const onConfirm = () => showModal(false);
 
@@ -41,7 +39,7 @@ const GuideModal = () => {
         title="Markdown guide"
 				description = {<Description/>}
         confirmText="Klar"
-				showCancelButtonOnly={true}
+				modalType="confirmOnly"
         handleConfirm={() => onConfirm()}
         onConfirm={() => onConfirm()}
         onCancel={() => onCancel()}
@@ -52,6 +50,7 @@ const GuideModal = () => {
 
 function Agorize({
 	agorize,
+	authorized,
 	hypagora = "general",
 	agoragramType,
 	id = "",
@@ -61,50 +60,43 @@ function Agorize({
 	agorized
 }) {
 
+	const [modalVisible, showModal] = useState(false)
+	const onCancel = () => showModal(false);
+  const onConfirm = () => showModal(false);
+
 	const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form
 
 	function handleForm(e) {
 		e.preventDefault()
-		form.validateFieldsAndScroll((err, values) => {
-	    if (!err) {
-	    	if(agoragramType === "post") {
-	    		agorize({
-	    			type: values.type,
-	    			title: values.title,
-	    			tags: values.tags ? values.tags : [],
-	    			body: values.text ?values.text : ""
-	    		}, "post")
-	    	}
-	    	else agorize({
-	    		type: "comment",
-	    		body: values.text,
-	    		replyTo: id
-	    	}, "comment")
-	    }
-	  });
-	}
 
-	// const formItemLayout = agoragramType==="post" ? {
-	// 	labelCol: {
-	// 		xs: {span: 6}
-	// 	},
-	// 	wrapperCol: {
-	// 		xs: {span: 16}
-	// 	}
-	// } : {}
-	// const tailFormLayout = agoragramType==="post" ? {
-	// 	wrapperCol: {
-	// 		xs: {
-	// 			offset: 0
-	// 		},
-	// 		sm: {
-	// 			offset: 6
-	// 		}
-	// 	}
-	// } : {}
+		if(authorized){
+			form.validateFieldsAndScroll((err, values) => {
+		    if (!err) {
+		    	if(agoragramType === "post") {
+		    		agorize({
+		    			type: values.type,
+		    			title: values.title,
+		    			tags: values.tags ? values.tags : [],
+		    			body: values.text ?values.text : ""
+		    		}, "post")
+		    	}
+		    	else agorize({
+		    		type: "comment",
+		    		body: values.text,
+		    		replyTo: id
+		    	}, "comment")
+		    }
+		  });
+		}else{
+			showModal(true)
+		}
+	}
 
 	const titleError = isFieldTouched('titleError') && getFieldError('titleError');
 	if(agoragramType!=="comment" && agorized) return <Redirect to="/agora" />
+
+	let postTypeForModal = "ett inlägg"
+	if(agoragramType=="comment") postTypeForModal = "en kommentar"
 
 	return (
 		<Form
@@ -191,6 +183,17 @@ function Agorize({
 				<Button loading={agorizing && (!agorized)} type="primary" htmlType="submit">Publicera {agoragramType === "comment" ? "kommentar" : "inlägg"}</Button>
 			</Form.Item>
 			</Card>
+
+			<Modal
+				visible={modalVisible}
+				title="Logga in eller bli medlem!"
+				description={"Du måste vara inloggad för att skriva " + postTypeForModal + "."}
+				modalType="mustAuthenticate"
+				handleConfirm={() => onConfirm()}
+        onConfirm={() => onConfirm()}
+        onCancel={() => onCancel()}
+			/>
+
 		</Form>
 	)
 }

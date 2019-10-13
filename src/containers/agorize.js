@@ -17,9 +17,12 @@ export default function AgorizeContainer({ onAgorized = () => true, hypagora = "
 		dispatch(redirected(id))
 	}
 
+	const authorized = useSelector(state => state.Auth.authorized)
+
 	return (
 		<Agorize
 			agorize={dispatchAgorize}
+			authorized={authorized}
 			hypagora={hypagora}
 			availableHypagoras={availableHypagoras}
 			id={id}
