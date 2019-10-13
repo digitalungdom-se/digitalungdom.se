@@ -4,7 +4,8 @@ export default (state = {
 	},
 	verified: undefined,
 	resettingPassword: undefined,
-	forgotPasswordEmailSent: undefined
+	forgotPasswordEmailSent: undefined,
+	authorized: undefined,
 }, action) => {
 	switch(action.type) {
 		case 'VERIFYACCOUNT_REQUEST':

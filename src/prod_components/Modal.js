@@ -1,4 +1,5 @@
 import React, { createRef } from 'react'
+import Link from 'containers/Link'
 import { Modal, Col, Row, Button, Input } from 'antd'
 
 function DU_Modal({
@@ -13,7 +14,7 @@ function DU_Modal({
   handleInput = () => {},
   onCancel = () => {},
   onConfirm = () => {},
-  showCancelButtonOnly = false
+  modalType
 }) {
 
   const inputRef = createRef()
@@ -23,7 +24,7 @@ function DU_Modal({
        visible={visible}
        onCancel={onCancel}
        footer={null}
-       style={{textAlign: "center", maxWidth: 380}}
+       style={{textAlign: "center", maxWidth: 300}}
      >
        <h1 style={{fontSize: 18, fontWeight: 'bold'}}>{title}</h1>
        <p>{description}</p>
@@ -38,7 +39,7 @@ function DU_Modal({
        }
 
        {
-         showCancelButtonOnly?
+         modalType == "confirmOnly"?
          (
            <Row type="flex" justify="end">
              <Col>
@@ -54,6 +55,39 @@ function DU_Modal({
            </Row>
          )
          :
+         modalType == "mustAuthenticate"?
+         (
+           <Row type="flex" justify="center">
+             <Col span={24}>
+              <Link to={"/bli-medlem"}>
+               <Button
+                 style={{width: "100%", marginBottom: 8}}
+                 type="primary"
+                 onClick={() => {
+                  handleConfirm()
+                }}
+               >
+                 Bli medlem!
+               </Button>
+              </Link>
+             </Col>
+
+             <Col span={24}>
+              <Link to={"/logga-in"}>
+               <Button
+                 style={{width: "100%"}}
+                 onClick={() =>
+                   {
+                    handleConfirm()
+                   }
+                 }>
+                 Logga in
+               </Button>
+              </Link>
+             </Col>
+           </Row>
+         )
+         :
          (
            <Row type="flex" justify="center" gutter={16}>
              <Col span={12}>
@@ -61,7 +95,7 @@ function DU_Modal({
                  style={{width: "100%"}}
                  onClick={() => {
                   onCancel()
-                  handleCancel()
+                  onConfirm()
                 }}
                >
                  {cancelText}
