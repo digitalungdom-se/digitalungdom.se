@@ -17,7 +17,6 @@ import { withRouter } from 'react-router-dom'
 function PostContainer({
 	showComments,
 	loading,
-	isAuthor,
 	history,
 	id = false,
 	empty
@@ -46,13 +45,20 @@ function PostContainer({
 
 	const star = () => dispatch(asteri(fullId))
 	const report = (reason) => dispatch(reportAgoragram(fullId, reason))
-	const hidePost = () => {dispatch(addPostToHiddenPosts(fullId)); console.log("m")}
+	const hidePost = () => dispatch(addPostToHiddenPosts(fullId))
 
 	const dispatchAntiAgorize = () => dispatch(antiAgorize(fullId))
 
 	const starred = useSelector(state => state.Agora.starredAgoragrams.indexOf(fullId) !== -1)
 
 	const authorized = useSelector(state => state.Auth.authorized)
+	const currentUserId = useSelector(state => state.Auth.profile.details._id)
+
+	let isAuthor = false
+	if(post) {
+		if(authorized) isAuthor = post.author === currentUserId;
+		else isAuthor = false;
+	}
 
 	if(empty) return <Post empty />;
 

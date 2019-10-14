@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Button, Row, Col, Card, Avatar, Skeleton, Icon, Dropdown, Menu, Modal } from 'antd'
 import UserEditingForm from '@components/userEditingForm'
 import FileSelector from '@components/fileSelector'
+import PhotoEditor from '@components/PhotoEditor'
 import ProfilePicture from 'containers/ProfilePicture'
 import ProfilePictureViewer from '@components/profilePictureViewer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,11 +10,10 @@ import { faFlag, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import { useDispatch } from 'react-redux'
 
-
-const menu = (
+const menu = (photoEditorRef) => (
   <Menu>
     <Menu.Item>
-      <FileSelector/>
+      <FileSelector handleImgSrc={ (imgSrc) => photoEditorRef.current.openCropperModal(imgSrc) }/>
     </Menu.Item>
     <Menu.Item>
       Ta bort nuvarande profilbild
@@ -63,7 +63,7 @@ function editingButton( setEditing, canEdit ) {
   }
 }
 
-function editPictureButton( setEditing, canEdit ) {
+function editPictureButton( setEditing, canEdit, photoEditorRef ) {
   if ( canEdit ) {
     return (
       <a
@@ -74,7 +74,7 @@ function editPictureButton( setEditing, canEdit ) {
         }}
       >
         <Dropdown
-          overlay={menu}
+          overlay={menu(photoEditorRef)}
         >
           <Row
             type="flex"
@@ -98,7 +98,7 @@ function editPictureButton( setEditing, canEdit ) {
 }
 
 
-function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
+function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEditorRef ) {
   const [ editing, setEditing ] = useState( false );
 
   // With hook determine width of window
@@ -190,7 +190,7 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour ) {
   } else {
     return (
       <div>
-        {editPictureButton(setEditing, canEdit)}
+        {editPictureButton(setEditing, canEdit, photoEditorRef)}
 
         <UserEditingForm
   				user={user}
@@ -215,6 +215,8 @@ function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFrom
 
   const [ userColour, setUserColour ] = useState( user.profile.colour ? user.profile.colour : '#83aef2' );
   const [ modalVisible, setModalVisibility ] = useState(false);
+
+  const photoEditorRef = useRef();
 
   const showModal = () => {
     setModalVisibility(true)
@@ -346,7 +348,7 @@ function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFrom
   									</p>
 
 									{
-										renderProfile(user, canEdit, edit,userColour, setUserColour)
+										renderProfile(user, canEdit, edit,userColour, setUserColour, photoEditorRef)
 									}
 
 								</div>
@@ -394,6 +396,7 @@ function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFrom
             </Col>
           </Row>
         </Modal>
+        <PhotoEditor ref={photoEditorRef}/>
 		</div>
   )
 }

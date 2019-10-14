@@ -1,15 +1,23 @@
 import React from 'react'
 
 class FileSelector extends React.Component {
+  constructor(props){
+    super(props)
+  }
+
+  verifyImageFile(){
+
+  }
 
   onChangeFile(event) {
     event.stopPropagation();
     event.preventDefault();
     var file = event.target.files[0];
-    console.log(file);
-    //var form = new FormData();
-    //form.append('file', this.state.file);
-    //YourAjaxLib.doUpload('/yourEndpoint/',form).then(result=> console.log(result));
+    const reader = new FileReader()
+    reader.addEventListener("load", () => {
+      this.props.handleImgSrc(reader.result)
+    }, false)
+    reader.readAsDataURL(file)
   }
 
   render(){
