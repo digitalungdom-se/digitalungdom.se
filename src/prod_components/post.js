@@ -77,9 +77,6 @@ const moreMenu = ( reportPost, hidePost, antiAgorize, deleteTemp ) => {
 const editMenu = ( antiAgorize, deleteTemp ) => (
   <Menu>
     <Menu.Item>
-      <FontAwesomeIcon style={{marginRight: 4}} icon={faWrench} /> Edit post
-    </Menu.Item>
-    <Menu.Item>
       <span
       onClick={()=> {
         antiAgorize()
@@ -90,6 +87,12 @@ const editMenu = ( antiAgorize, deleteTemp ) => (
     </Menu.Item>
   </Menu>
 );
+// TO-DO: Add edit post.
+/*
+<Menu.Item>
+  <FontAwesomeIcon style={{marginRight: 4}} icon={faWrench} /> Edit post
+</Menu.Item>
+*/
 
 //Takes post redux link and merges it with window href to create a post link, which is copied to the clipboard
 function copyPostLinkToClipBoard( link ) {
@@ -127,19 +130,16 @@ function Post( {
 
   //Function that allows whole post to be pressed excluding buttons such as share and edit.
   function click( e ) {
-
     //Check if pressed component should open the post
     if ( typeof e.target.className === "string" ) {
       if ( e.target.className.includes( "ShouldOpenPost" ) || e.target.className.includes( "ant-card-body" ) ) {
         redirect( link )
       }
     }
-
     //Silly work around for allowing user to press the comment icon and redirect
     if ( e.target.parentNode.parentNode.className === "ShouldOpenPost" && typeof e.target.parentNode.parentNode.className === "string" ) {
       redirect( link )
     }
-
   }
 
   if ( empty ) return (
