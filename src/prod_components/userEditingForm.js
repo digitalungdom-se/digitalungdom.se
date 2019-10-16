@@ -60,15 +60,15 @@ class UserEditingForm extends React.Component {
 
     var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
 
-    if(luma < 60 || luma > 100){
+    if(luma < 40){
+      console.log("no")
       return false
     }
 
-    return true
   }
 
   handlecolourChange = value => {
-    this.props.form.setFieldsValue({ 'profile.colour': value.hex })
+      this.props.form.setFieldsValue({ 'profile.colour': value.hex })
   }
 
   handleClick = () => {
@@ -205,7 +205,7 @@ const WrappedUserEditingForm = Form.create( {
         value: props.user.profile.bio
       } ),
       'profile.colour': Form.createFormField( {
-        value: props.user.profile.colour
+        value: props.user.profile.colour ? props.user.profile.colour : '#83aef2'
       } ),
     };
   },
