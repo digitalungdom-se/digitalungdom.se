@@ -37,6 +37,7 @@ class UserEditingForm extends React.Component {
           }
         } );
 
+        console.log(userProfile)
         if ( userProfile.length > 0 ) {
           this.props.edit( {
             updates: userProfile
@@ -50,17 +51,33 @@ class UserEditingForm extends React.Component {
     } );
   }
 
+  checkColorBrightness = c => {
+    var c = c.substring(1);      // strip #
+    var rgb = parseInt(c, 16);   // convert rrggbb to decimal
+    var r = (rgb >> 16) & 0xff;  // extract red
+    var g = (rgb >>  8) & 0xff;  // extract green
+    var b = (rgb >>  0) & 0xff;  // extract blue
+
+    var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
+
+    if(luma < 60 || luma > 100){
+      return false
+    }
+
+    return true
+  }
+
   handlecolourChange = value => {
-    this.props.setUserColour( value.hex );
-  };
+    this.props.form.setFieldsValue({ 'profile.colour': value.hex })
+  }
 
   handleClick = () => {
     this.setState( { displayColorPicker: !this.state.displayColorPicker } )
-  };
+  }
 
   handleClose = () => {
     this.setState( { displayColorPicker: false } )
-  };
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -124,7 +141,7 @@ class UserEditingForm extends React.Component {
               {getFieldDecorator('profile.colour')(
                 <div style={{}}>
                     <div
-                      style={{height:"20px",borderRadius: '2px',background: this.props.userColour}}
+                      style={{height:"20px",borderRadius: '2px',background: this.props.form.getFieldValue('profile.colour') }}
                       onClick={ this.handleClick }
                       />
                   { this.state.displayColorPicker ? <div style={{position: 'absolute',zIndex: '2'}}>
@@ -133,7 +150,7 @@ class UserEditingForm extends React.Component {
                     onClick={ this.handleClose }
                     />
                   <SketchPicker
-                    color={ this.props.userColour }
+                    color={ this.props.form.getFieldValue('profile.colour') }
                     onChange={ this.handlecolourChange }
                     disableAlpha={ true }
                     presetColors={[]}

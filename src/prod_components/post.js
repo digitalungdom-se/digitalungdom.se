@@ -82,7 +82,7 @@ const editMenu = ( antiAgorize, deleteTemp ) => (
         antiAgorize()
         deleteTemp(true)
       }}>
-        <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Ta bort inlägg
+        <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Radera inlägg
       </span>
     </Menu.Item>
   </Menu>
