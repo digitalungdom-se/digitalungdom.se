@@ -5,10 +5,9 @@ import FileSelector from '@components/fileSelector'
 import PhotoEditor from '@components/PhotoEditor'
 import ProfilePicture from 'containers/ProfilePicture'
 import ProfilePictureViewer from '@components/profilePictureViewer'
+import ReactMarkdown from 'react-markdown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFlag, faTrash } from '@fortawesome/free-solid-svg-icons'
-
-import { useDispatch } from 'react-redux'
 
 const menu = (photoEditorRef) => (
   <Menu>
@@ -28,7 +27,7 @@ const moreUserMenu = (userId, canEdit, modalVisible, showModal) => {
       <Menu>
         <Menu.Item>
           <span onClick={showModal}>
-            <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Ta bort konto
+            <FontAwesomeIcon style={{marginRight: 4}} icon={faTrash} /> Radera konto
           </span>
         </Menu.Item>
       </Menu>
@@ -101,6 +100,8 @@ function editPictureButton( setEditing, canEdit, photoEditorRef ) {
 function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEditorRef ) {
   const [ editing, setEditing ] = useState( false );
 
+  const newRootAdress = (user.profile.url.includes("//"))? "" : "//"
+
   // With hook determine width of window
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -117,8 +118,10 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEdi
     if(user.profile.url.length > 32){
       if(windowWidth < 730){
         renderURLText = user.profile.url.substring(0, 50) + '...';
-      }else{
+      }else if(windowWidth < 300){
         renderURLText = user.profile.url.substring(0, 32) + '...';
+      }else{
+        renderURLText = user.profile.url.substring(0, 26) + '...';
       }
     }
   }
@@ -140,7 +143,7 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEdi
 
 				<div style={{fontSize: 13, margin: "-8px 0px"}}>
 					<a
-					href={user.profile.url}
+					href={newRootAdress + user.profile.url}
 					target="_blank"
 					>
 						{
@@ -348,7 +351,7 @@ function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFrom
   									</p>
 
 									{
-										renderProfile(user, canEdit, edit,userColour, setUserColour, photoEditorRef)
+										renderProfile(user, canEdit, edit, userColour, setUserColour, photoEditorRef)
 									}
 
 								</div>
