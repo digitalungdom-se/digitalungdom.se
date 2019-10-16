@@ -100,7 +100,11 @@ function editPictureButton( setEditing, canEdit, photoEditorRef ) {
 function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEditorRef ) {
   const [ editing, setEditing ] = useState( false );
 
-  const newRootAdress = (user.profile.url.includes("//"))? "" : "//"
+  let hrefAdress = user.profile.url
+  if(user.profile.url){
+    const newRootAdress = (user.profile.url.includes("//"))? "" : "//"
+    hrefAdress = newRootAdress + user.profile.url
+  }
 
   // With hook determine width of window
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -143,7 +147,7 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEdi
 
 				<div style={{fontSize: 13, margin: "-8px 0px"}}>
 					<a
-					href={newRootAdress + user.profile.url}
+					href={hrefAdress}
 					target="_blank"
 					>
 						{
