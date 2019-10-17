@@ -9,7 +9,7 @@ import ReactMarkdown from 'react-markdown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFlag, faTrash } from '@fortawesome/free-solid-svg-icons'
 
-const menu = (photoEditorRef) => (
+const menu = ( photoEditorRef ) => (
   <Menu>
     <Menu.Item>
       <FileSelector handleImgSrc={ (imgSrc) => photoEditorRef.current.openCropperModal(imgSrc) }/>
@@ -20,9 +20,9 @@ const menu = (photoEditorRef) => (
   </Menu>
 );
 
-const moreUserMenu = (userId, canEdit, modalVisible, showModal) => {
-  if(canEdit){
-    return(
+const moreUserMenu = ( userId, canEdit, modalVisible, showModal ) => {
+  if ( canEdit ) {
+    return (
 
       <Menu>
         <Menu.Item>
@@ -32,8 +32,8 @@ const moreUserMenu = (userId, canEdit, modalVisible, showModal) => {
         </Menu.Item>
       </Menu>
     )
-  }else{
-    return(
+  } else {
+    return (
       <Menu>
         <Menu.Item>
           <span onClick={()=> console.log("Deleting " + userId)}>
@@ -101,31 +101,31 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEdi
   const [ editing, setEditing ] = useState( false );
 
   let hrefAdress = user.profile.url
-  if(user.profile.url){
-    const newRootAdress = (user.profile.url.includes("//"))? "" : "//"
+  if ( user.profile.url ) {
+    const newRootAdress = ( user.profile.url.includes( "//" ) ) ? "" : "//"
     hrefAdress = newRootAdress + user.profile.url
   }
 
   // With hook determine width of window
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  useEffect(() => {
+  const [ windowWidth, setWindowWidth ] = useState( window.innerWidth );
+  useEffect( () => {
     function handleResize() {
-      setWindowWidth(window.innerWidth);
+      setWindowWidth( window.innerWidth );
     }
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    window.addEventListener( 'resize', handleResize );
+    return () => window.removeEventListener( 'resize', handleResize );
+  }, [] );
 
   let renderURLText = user.profile.url
-  if(user.profile.url){
-    if(user.profile.url.length > 32){
-      if(windowWidth < 730){
-        renderURLText = user.profile.url.substring(0, 50) + '...';
-      }else if(windowWidth < 300){
-        renderURLText = user.profile.url.substring(0, 32) + '...';
-      }else{
-        renderURLText = user.profile.url.substring(0, 26) + '...';
+  if ( user.profile.url ) {
+    if ( user.profile.url.length > 32 ) {
+      if ( windowWidth < 730 ) {
+        renderURLText = user.profile.url.substring( 0, 50 ) + '...';
+      } else if ( windowWidth < 300 ) {
+        renderURLText = user.profile.url.substring( 0, 32 ) + '...';
+      } else {
+        renderURLText = user.profile.url.substring( 0, 26 ) + '...';
       }
     }
   }
@@ -203,7 +203,7 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEdi
   				user={user}
   				cancel={()=> {
   					setEditing(false);
-  					setUserColour(user.profile.colour)
+  					setUserColour(userColour)
   				}}
           submit={()=> {
             setEditing(false);
@@ -221,20 +221,20 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEdi
 function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFromModal } ) {
 
   const [ userColour, setUserColour ] = useState( user.profile.colour ? user.profile.colour : '#83aef2' );
-  const [ modalVisible, setModalVisibility ] = useState(false);
+  const [ modalVisible, setModalVisibility ] = useState( false );
 
   const photoEditorRef = useRef();
 
   const showModal = () => {
-    setModalVisibility(true)
+    setModalVisibility( true )
   };
 
   const handleDelete = () => {
-    deleteUserFromModal(user._id)
+    deleteUserFromModal( user._id )
   };
 
   const handleCancel = () => {
-    setModalVisibility(false)
+    setModalVisibility( false )
   };
 
   return (
