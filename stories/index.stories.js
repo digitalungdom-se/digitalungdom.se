@@ -14,6 +14,7 @@ import './Agora/index.js'
 import './Auth/index.js'
 import './miscellaneous.js'
 import './Menu.js'
+import './Filter.js'
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
