@@ -130,7 +130,7 @@ export const filterAgora = ( filter, edge ) => ( {
   ...filter
 } )
 
-export function getAgoragrams( filter ) {
+export function getAgoragrams( filter, edge ) {
   const listQuery = (
     filter.hypagora !== "" ?
       filter.hypagora + "?t=" + filter.time + "&s=" + filter.sort
@@ -155,7 +155,7 @@ export function getAgoragrams( filter ) {
         }
       } )
     ],
-    shouldCallAPI: state => state.Agora.lists[listQuery] !== false,
+    shouldCallAPI: state => (edge || state.Agora.lists[listQuery] === undefined),
     payload: {
       ...filter,
       query: query( filter )
