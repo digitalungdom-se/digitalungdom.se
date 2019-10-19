@@ -38,7 +38,8 @@ export default ( state = {
     dateBefore: ( Math.floor( ( Date.now() / 1000 ) ) ).toString( 16 )
   },
   lists: {},
-  hiddenPosts: []
+  hiddenPosts: [],
+  edges: {}
 }, action ) => {
   switch ( action.type ) {
   case 'UPDATE_AGORA_FILTER':
@@ -64,37 +65,52 @@ export default ( state = {
       }
     }
   case 'GET_AGORAGRAMS_REQUEST':
-    return {
-      ...state,
-      ...action._requestTime,
-        posts: {
-          ...state.posts,
-          [ action.query ]: false,
-          fetchedSeveral: true
-        },
-        fetchingAgoragrams: true,
-        query: action.query
-    }
-  case 'GET_AGORAGRAMS_SUCCESS':
-  if ( action.response.type === "success" ) {
-    const agoragrams = {}
-    const users = []
-    const fullIds = {}
-    const list = action.response.agoragrams.map( agoragram => {
-      agoragrams[ agoragram._id ] = {
-        ...agoragram,
-        users: [ agoragram.author ]
-      }
-      users.push( agoragram.author )
-      fullIds[agoragram.shortID] = agoragram._id
-      return agoragram._id
-    } )
     const listQuery = (
       action.payload.hypagora !== "" ?
         action.payload.hypagora + "?t=" + action.payload.time + "&s=" + action.payload.sort
         :
         action.response.user.details.username.toLowerCase()
     )
+    return {
+      ...state,
+      ...action._requestTime,
+      posts: {
+        ...state.posts,
+        [ action.query ]: false,
+        fetchedSeveral: true
+      },
+      fetchingAgoragrams: true,
+      query: action.query,
+      lists: {
+        ...state.lists,
+        [ listQuery ]: state.lists[listQuery] ? state.lists[listQuery] : false
+      }
+    }
+  case 'GET_AGORAGRAMS_SUCCESS':
+  if ( action.response.type === "success" ) {
+    const agoragrams = {}
+    const users = []
+    const fullIds = {}
+    // let edge = false
+    const list = action.response.agoragrams.map( agoragram => {
+      agoragrams[ agoragram._id ] = {
+        ...agoragram,
+        users: [ agoragram.author ]
+      }
+      // let time = parseInt(agoragram._id.substring(0,8), 16)
+      // if(!edge || time < edge) edge = time;
+      users.push( agoragram.author )
+      fullIds[agoragram.shortID] = agoragram._id
+      return agoragram._id
+    } )
+    // if(edge) edge = edge.toString(16);
+    const listQuery = (
+      action.payload.hypagora !== "" ?
+        action.payload.hypagora + "?t=" + action.payload.time + "&s=" + action.payload.sort
+        :
+        action.response.user.details.username.toLowerCase()
+    )
+    const newList = state.lists[listQuery] ? state.lists[listQuery] : []
     return {
       ...state,
       ...action._responseTime,
@@ -120,7 +136,11 @@ export default ( state = {
       starredAgoragrams: state.starredAgoragrams.concat( action.response.starredAgoragrams ),
       lists: {
         ...state.lists,
-        [ listQuery ]: list
+        [ listQuery ]: [...newList, ...list]
+      },
+      edges: {
+        ...state.edges,
+        [listQuery]: action.response.agoragrams.length === 0 ? false : action.response.agoragrams[action.response.agoragrams.length - 1]._id.substring(0,8)
       }
       // starredAgoragrams: [
       // 	...state.starredAgoragrams,

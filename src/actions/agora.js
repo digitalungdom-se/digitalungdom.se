@@ -124,12 +124,20 @@ export function agorizeComment( info, me ) {
   }
 }
 
-export const filterAgora = ( filter ) => ( {
+export const filterAgora = ( filter, edge ) => ( {
   type: "UPDATE_AGORA_FILTER",
+  edge,
   ...filter
 } )
 
 export function getAgoragrams( filter ) {
+  const listQuery = (
+    filter.hypagora !== "" ?
+      filter.hypagora + "?t=" + filter.time + "&s=" + filter.sort
+      :
+      undefined
+  )
+
   return {
     types: [
       'GET_AGORAGRAMS_REQUEST',
@@ -147,6 +155,7 @@ export function getAgoragrams( filter ) {
         }
       } )
     ],
+    shouldCallAPI: state => state.Agora.lists[listQuery] !== false,
     payload: {
       ...filter,
       query: query( filter )
