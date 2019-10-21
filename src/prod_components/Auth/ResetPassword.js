@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import {Row, Col, Button, Form, Input, Icon} from 'antd';
-import { Link } from 'react-router-dom'
+import { Row, Col, Button, Form, Input, Icon } from 'antd';
 import Card from "@components/Card"
 
 function renderButton( resettingPassword ){

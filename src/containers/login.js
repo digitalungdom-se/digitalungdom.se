@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Login from '@components/login'
 import { withTranslation } from 'react-i18next'
@@ -7,7 +7,6 @@ import { login } from 'actions/auth'
 
 export default withTranslation()(
 	({ t, onAuthorized = () => true }) => {
-		const [ currentSlide, changeSlide ] = useState(0)
 
 		const dispatch = useDispatch()
 		const dispatchLogin = info => dispatch(login(info))
@@ -19,7 +18,6 @@ export default withTranslation()(
 		if(authorized) {
 			onAuthorized(username)
 		}
-		const authorizing = useSelector(state => state.Auth.authorizing)
 
     return (
 			<Login
@@ -32,7 +30,6 @@ export default withTranslation()(
 					"E-mail": t("lowercased_noun", {noun: t("E-mail")}),
 				}}
 				login={dispatchLogin}
-				forgotPassword={()=> changeSlide(1)}
 				loggingInError={loggingInError}
 				loggingIn={loggingIn}
 			/>

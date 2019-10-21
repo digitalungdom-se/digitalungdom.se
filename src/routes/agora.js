@@ -6,7 +6,6 @@ import {
 import Hypagora from 'containers/hypagora'
 import Surrounding from 'containers/surrounding'
 import Agorize from 'containers/agorize'
-import Overlay from 'containers/Overlay'
 // import {
 // 	Hypagora,
 // 	Post,
@@ -15,7 +14,6 @@ import Overlay from 'containers/Overlay'
 // } from 'containers'
 import { connect } from 'react-redux'
 import 'resources/agora.css'
-import { Row, Col } from '@components/grid'
 
 class Inner extends React.Component {
 	// shouldComponentUpdate() {

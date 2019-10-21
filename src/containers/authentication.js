@@ -9,7 +9,6 @@ import { withTranslation } from 'react-i18next'
 import Link from '@components/link'
 import ProfileBox from '@components/profilebox'
 import { Row, Col } from '@components/grid'
-import { Menu } from "antd"
 import { auth, logout } from 'actions/auth'
 
 // const mapStateToProps = (state) => ({

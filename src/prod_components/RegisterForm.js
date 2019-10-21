@@ -5,7 +5,6 @@ import {
 import { Redirect, Link } from 'react-router-dom'
 import GDPR from './GDPR.js'
 import debounce from 'lodash/debounce'
-import Card from '@components/Card'
 
 class RegistrationForm extends React.Component {
 
@@ -70,7 +69,6 @@ class RegistrationForm extends React.Component {
     //TODO: finns nog ett snyggare sätt att göra detta på både här och i validate email
     if(value){
       if(value.length > 2 && value.length < 25) {
-        const response = await this.props.checkUsername(value)
         if(this.props.usernameAvailable === false) {
           this.props.form.setFields({
             username: {
@@ -99,7 +97,6 @@ class RegistrationForm extends React.Component {
   checkEmail = async (rule, value, callback) => {
     if(value){
       if(value.indexOf('@') !== -1) {
-        const response = await this.props.checkEmail(value)
         // if(this.props.emailAvailable === false) {
         //   // this.props.form.setFields({
         //   //   email: {
@@ -137,19 +134,6 @@ class RegistrationForm extends React.Component {
     if(this.props.username) return <Redirect to='min-profil' />
 
     const { getFieldDecorator } = this.props.form;
-
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 10,
-          offset: 0,
-        },
-        sm: {
-          span: 15,
-          offset: 7,
-        },
-      },
-    };
 
     const validateStatusEmail = this.props.checkingEmail ? {
       validateStatus: 'validating'

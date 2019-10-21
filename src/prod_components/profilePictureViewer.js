@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import ProfilePicture from 'containers/ProfilePicture'
 
 function ProfilePictureViewer({ userID }) {
-  const [ visible, setVisibility ] = useState( false );
+  // TO-DO: Add setVisible
+  const [ visible ] = useState( false );
 
 	return (
     visible?

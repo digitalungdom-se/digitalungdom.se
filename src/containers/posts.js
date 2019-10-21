@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import Empty from '@components/Empty'
 import Post from 'containers/post'
 // import { Users } from 'actions'
-import Users from 'actions/users'
 import { getAgoragrams } from 'actions/agora'
 import InfiniteScroll from 'react-infinite-scroller'
 

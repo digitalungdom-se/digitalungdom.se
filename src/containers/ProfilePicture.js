@@ -1,6 +1,7 @@
 import React from 'react'
-import Avatar from '@components/Avatar'
-import { getProfilePictureByUsername, getProfilePictureByID, getProfilePicture } from 'actions/profilePicture'
+import { Avatar } from 'antd'
+// TO-DO: Lägg till dessa getProfilePictureByUsername, getProfilePictureByID
+import { getProfilePicture } from 'actions/profilePicture'
 import { useDispatch, useSelector } from 'react-redux'
 
 function ProfilePicture({ size, username, id }) {

@@ -75,7 +75,7 @@ const PhotoEditor = forwardRef((props, ref) => {
     }
     const fileExtension = imgSrc.substring("data:image/".length, imgSrc.indexOf(";base64"))
     var dataURL = canvas.toDataURL("image/" + fileExtension);
-    console.log(canvas)
+    console.log(dataURL)
   }
 
   const onCancel = () => {
@@ -90,7 +90,7 @@ const PhotoEditor = forwardRef((props, ref) => {
       style={{textAlign: "center"}}
     >
       <h3 style={{color: "rgba(0,0,0,0.7)", marginTop: -8}}>
-        Klicka och dra för att redigera din bild 👤
+        Klicka och dra för att redigera din bild <span role="img" aria-label="profile">👤</span>
       </h3>
       <div style={{flex: 1, top: 0}}>
         <ReactCrop

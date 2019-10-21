@@ -3,7 +3,6 @@ import { withTranslation } from 'react-i18next'
 import { withRouter, Link } from 'react-router-dom'
 import { Col, Row, Button } from 'antd'
 import "./home.css"
-import FrontPageTitle from './FrontPageTitle'
 
 const CenterWrapper = ({ children }) => (
 	<Row type = "flex" justify="center">
@@ -43,7 +42,7 @@ export default withTranslation() (
 						lg={{span: 13}}
 					>
 						<div>
-							<img src={require("resources/images/FrontPage.png")}  style={{width: "100%"}}/>
+							<img src={require("resources/images/FrontPage.png")} alt="frontPage" style={{width: "100%"}}/>
 						</div>
 					</Col>
 
@@ -60,7 +59,7 @@ export default withTranslation() (
 							<h3 style={{fontSize: subtitleSize, color: "rgba(255,255,255,0.85)", fontWeight: 'bold'}}>Här kan du lära dig, <br/> dela med dig av och hjälpa<br/> andra med programmering. </h3>
 
 							<p style={{fontSize: descSize, marginBottom: 40, color: "rgba(255,255,255,0.85)"}}>
-								Vi är ett svenskt ideellt ungdomsförbund för programmerings- och teknikintresserade ungdomar. Bli medlem och ta del av vår community! 🌟
+								Vi är ett svenskt ideellt ungdomsförbund för programmerings- och teknikintresserade ungdomar. Bli medlem och ta del av vår community! <span role="img" aria-label="star">🌟</span>
 							</p>
 
 							<Row>
@@ -109,7 +108,7 @@ export default withTranslation() (
 			<Row type="flex" justify="center" style={{paddingTop: 140, paddingBottom: 80}}>
 				<Col type="flex" justify="center"  md={{span: 4}}>
 					<div>
-						<img src={require("resources/images/underConstruction.png")} style={{height: 330, marginTop: -50}}/>
+						<img src={require("resources/images/underConstruction.png")} alt="underConstruction" style={{height: 330, marginTop: -50}}/>
 					</div>
 				</Col>
 
@@ -125,7 +124,7 @@ export default withTranslation() (
 
 						<p style={{fontSize: 16, marginBottom: 10, color: "#434343"}}>
 							För tillfället kan ni njuta av Agora (vårt forum) och
-							faktumet att ni kan ha i princip vilket användarnamn som helst! 😎
+							faktumet att ni kan ha i princip vilket användarnamn som helst! <span role="img" aria-label="cool">😎</span>
 						</p>
 
 						<Row style={{marginTop: 30}}>
