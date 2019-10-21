@@ -7,21 +7,6 @@ import Filter from 'containers/Filter'
 
 export default ({ hypagora = "general", children, noSurrounding = false }) => {
 
-	const CenterWrapper = ({ children }) => (
-		<Col type = "flex" justify="center" span={20}>
-			<Row
-			type = "flex"
-			justify="center"
-			style={{
-			background: hypagoraInfo ? hypagoraInfo.background : "transparent",
-			marginTop: 16}}>
-				{children}
-			</Row>
-		</Col>
-	)
-
-	const hypagoraInfo = useSelector(state => state.Agora.hypagora_infos[hypagora])
-
 	return (
 		<React.Fragment>
 			{

@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from '@components/link'
-import { Card, Col, Divider } from 'antd'
+import { Col } from 'antd'
 
 const hypagoraColor = "#1051c2"
 

@@ -2,7 +2,6 @@ import React from 'react'
 // import { FilterAndPosts, Post, Wiki } from 'containers'
 import Wiki from 'containers/wiki'
 import Post from 'containers/post'
-import FilterAndPosts from 'containers/filterandposts'
 import Posts from 'containers/posts'
 
 const Hypagora = ({ route, id, hypagora = "general" }) => {

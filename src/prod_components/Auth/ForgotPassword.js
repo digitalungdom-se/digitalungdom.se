@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Link } from 'react-router-dom'
-import { Form, Icon, Input, Row, Col, Button, notification } from 'antd';
+import { Form, Icon, Input, Row, Button, notification } from 'antd';
 import Card from '@components/Card'
 
 function ForgotPassword({ form, sendForgottonPasswordMail, forgotPasswordEmailSent}){
@@ -46,7 +46,7 @@ function ForgotPassword({ form, sendForgottonPasswordMail, forgotPasswordEmailSe
           }}
         >
           <p style={{marginTop: -8, marginBottom: 30}}>
-            Ange in din email nedanför så skickar vi ett mail till dig som du kan återställa ditt lösenord med!😊
+            Ange in din email nedanför så skickar vi ett mail till dig som du kan återställa ditt lösenord med! <span role="img" aria-label="smile">😊</span>
           </p>
           <Form.Item>
             {getFieldDecorator('email', {

@@ -1,10 +1,6 @@
 import React from 'react'
 
 class FileSelector extends React.Component {
-  constructor(props){
-    super(props)
-  }
-
   verifyImageFile(){
 
   }

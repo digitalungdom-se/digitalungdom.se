@@ -7,7 +7,7 @@ require('./overlay.css')
 function Overlay({ id, history }) {
 	ReactModal.setAppElement('#root')
 
-  const [isOpen, openModal] = useState(true)
+  const [isOpen] = useState(true)
 
 	return (
 		<ReactModal

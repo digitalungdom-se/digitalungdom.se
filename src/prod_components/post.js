@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
-import { Avatar, Button, Dropdown, Divider, Empty, Row, Col, Rate, Card, Menu, Skeleton, Icon, Tag, Input } from 'antd'
+import { Avatar, Dropdown, Divider, Empty, Row, Col, Card, Menu, Skeleton, Tag } from 'antd'
 import Link from 'containers/Link'
 import { Redirect } from 'react-router'
-import { Route } from 'react-router-dom'
-import Star from '@components/star'
 import Time from '@components/Time'
 import Modal from '@components/Modal'
 import ProfilePicture from 'containers/ProfilePicture'
@@ -12,7 +10,7 @@ import './post.css'
 import ReactMarkdown from 'react-markdown'
 import Comments from 'containers/comments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComment, faShare, faStar, faPen, faFlag, faCopy, faEllipsisH, faEyeSlash, faTrash, faWrench } from '@fortawesome/free-solid-svg-icons'
+import { faComment, faShare, faStar, faPen, faFlag, faCopy, faEllipsisH, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const shareMenu = ( link ) => (
   <Menu>
@@ -162,7 +160,6 @@ function Post( {
 			</Card>
 		</div>
   )
-  const deleted = post.deleted
 
   let wordLimitFadedDisplay = 400;
 
@@ -174,7 +171,7 @@ function Post( {
 
       //If the post is a link, render this
       if ( post.type === 'link' ) {
-        return ( <p><a href={post.body} style={{fontSize: 16}} target="_blank"> {post.body} </a></p> )
+        return ( <p><a href={post.body} rel="noopener noreferrer" style={{fontSize: 16}} target="_blank"> {post.body} </a></p> )
       } else {
         //If its a text post with more than characters, render transparent faded div
         if ( post.body.length > wordLimitFadedDisplay ) {

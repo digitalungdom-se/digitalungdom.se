@@ -39,7 +39,7 @@ function DU_Modal({
        }
 
        {
-         modalType == "confirmOnly"?
+         modalType === "confirmOnly"?
          (
            <Row type="flex" justify="end">
              <Col>
@@ -55,7 +55,7 @@ function DU_Modal({
            </Row>
          )
          :
-         modalType == "mustAuthenticate"?
+         modalType === "mustAuthenticate"?
          (
            <Row type="flex" justify="center">
              <Col span={24}>

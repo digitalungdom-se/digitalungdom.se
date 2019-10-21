@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 // import { Authentication, Settings } from 'containers'
-import Settings from 'containers/settings'
 import Authentication from 'containers/authentication'
 // import { Header as Wrapper } from '@wrappers'
 // import { Dropdown } from '@components'

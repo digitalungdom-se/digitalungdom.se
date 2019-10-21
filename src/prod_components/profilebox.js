@@ -1,7 +1,7 @@
 import React from 'react'
 // import { Button } from '@components'
 // import Button from '@components/button'
-import { Menu, Dropdown, Button, Row, Icon } from 'antd'
+import { Menu, Dropdown, Row, Icon } from 'antd'
 import Link from '@components/link'
 import ProfilePicture from 'containers/ProfilePicture'
 

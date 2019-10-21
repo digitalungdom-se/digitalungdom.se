@@ -1,8 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import {
-  Alert, Form, Icon, Input, Row, Col, Button,
-} from 'antd';
+import { Form, Icon, Input, Row, Col, Button } from 'antd';
 import Card from '@components/Card'
 
 function Register({ loggingIn, loggingInError, login, Auth, translations, form }) {

@@ -3,7 +3,7 @@ import Link from 'containers/Link'
 import Star from '@components/star'
 import Actions from 'containers/actions'
 import './comment.css'
-import { Divider, Row, Col, Rate, Icon } from 'antd'
+import { Divider, Row, Col } from 'antd'
 import ReactMarkdown from 'react-markdown'
 import { useSelector } from 'react-redux'
 require('./comment.css')
@@ -12,7 +12,6 @@ require('./comment.css')
 const Comment = ({ comment, comments, children, level, asteri }) => {
 
 	const [isCollapsed, collapse] = useState(false)
-	const [isClicked, click] = useState(false)
 	const isAuthor = useSelector(state => state.Auth.profile.details._id === comment.author)
 
 	return (

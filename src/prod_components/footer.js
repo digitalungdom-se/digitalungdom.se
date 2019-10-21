@@ -1,8 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Col, Row, Icon } from 'antd'
-import { withTranslation } from 'react-i18next'
-import { withRouter, NavLink } from 'react-router-dom'
+import { Col, Row } from 'antd'
 import './footer.css'
 
 export default () => {
