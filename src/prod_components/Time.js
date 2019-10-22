@@ -5,8 +5,9 @@ function Time({ time }) {
 	const relativeTime = epochToRelativeTime(time)
 
 	// If the relativeTime is greater than one, add a "er" or "ar" to indicate multiple days, hours, etc.
+	// plural[0] = seconds, plural[0] = hours, plural[0] = days,
 	let plural = ["", "e", ""]
-	if(relativeTime[1] > 1){
+	if(Math.round(relativeTime[1]) > 1){
 		plural[0] = "er"
 		plural[1] = "ar"
 		plural[2] = "ar"

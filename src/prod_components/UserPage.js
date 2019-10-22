@@ -96,7 +96,6 @@ function editPictureButton( setEditing, canEdit, photoEditorRef ) {
   }
 }
 
-
 function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEditorRef ) {
   const [ editing, setEditing ] = useState( false );
 
@@ -210,7 +209,6 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEdi
             setEditing(false);
           }}
   				setUserColour={setUserColour}
-  				userColour={userColour}
           edit={edit}
   			/>
       </div>
