@@ -17,8 +17,7 @@ const User = lazy(() => import('containers/User'))
 const VerifyAccount = lazy(() => import('@components/VerifyAccount.js'))
 const ResetPassword = lazy(() => import('containers/Auth/ResetPassword.js'))
 const ForgotPassword = lazy(() => import('containers/Auth/ForgotPassword.js'))
-
-const NoMatch = lazy(() => import('@components/pageNotFound'))
+const PageNotFound = lazy(() => import('@components/pageNotFound'))
 
 
 function App() {
@@ -73,7 +72,7 @@ function App() {
 							path="/state/:create?"
 							render={props => <State {...props}/>}
 						/>
-						<Route render={props => <NoMatch {...props} />} />
+						<Route render={props => <PageNotFound {...props} />} />
 					</Switch>
 				</Suspense>
 			</Wrapper.Content>

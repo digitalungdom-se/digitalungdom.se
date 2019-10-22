@@ -17,15 +17,16 @@ class UserEditingForm extends React.Component {
     }
   }
 
-  componentWillMount() {
-    this.setState( { colour: this.props.user.profile.colour } )
-  }
-
   handleSubmit = ( e ) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll( ( err, values ) => {
       if ( !err ) {
-        //Parse object to array type
+
+        // Change userColour frontend
+        const userColour = this.props.form.getFieldValue('profile.colour')
+        this.props.setUserColour(userColour)
+
+        // Parse object to array type
         let userProfile = []
         const update = values.profile
 
@@ -60,16 +61,17 @@ class UserEditingForm extends React.Component {
 
     var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
 
-    if ( luma < 40 ) {
+    if ( luma < 40 || luma > 180 ) {
       console.log( "no" )
       return false
     }
 
+    return true
   }
 
-  handlecolourChange = value => {
-    this.props.setUserColour( value.hex )
-    this.props.form.setFieldsValue( { 'profile.colour': value.hex } )
+  handleColourChange = color => {
+    //this.props.setUserColour( color.hex )
+    this.props.form.setFieldsValue( { 'profile.colour': color.hex } )
   }
 
   handleClick = () => {
@@ -114,7 +116,7 @@ class UserEditingForm extends React.Component {
         <Form.Item style={formStyle}>
           {getFieldDecorator('profile.bio',{
             rules:[{
-              max: 200, message: 'Din bio får max vara 200 karaktärer.'
+              max: 1000, message: 'Din bio får max vara 1000 karaktärer.'
             }]
           })(
             <Input.TextArea
@@ -152,7 +154,8 @@ class UserEditingForm extends React.Component {
                     />
                   <SketchPicker
                     color={ this.props.form.getFieldValue('profile.colour') }
-                    onChange={ this.handlecolourChange }
+                    onChange={ this.handleColourChange }
+                    onChangeComplete={ this.handleChangeComplete }
                     disableAlpha={ true }
                     presetColors={[]}
                     />
