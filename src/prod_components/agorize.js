@@ -1,5 +1,5 @@
 import  React, {useState} from 'react'
-import { Row, Col, Select, Input, Button, Form, Icon } from 'antd'
+import { Select, Input, Button, Form, Icon } from 'antd'
 import { Redirect } from 'react-router-dom'
 import Card from '@components/Card'
 import Modal from '@components/Modal'
@@ -31,9 +31,9 @@ const GuideModal = () => {
 
   return (
     <div>
-			<a style={{position: "absolute", right: 0, top: -6}} onClick = {()=> {showModal(true)}}>
+			<span className="highlightable" style={{position: "absolute", right: 0, top: -6}} onClick = {()=> {showModal(true)}}>
 				<Icon style={{fontSize: 14, marginRight: 10}} type="question-circle" />
-			</a>
+			</span>
       <Modal
         visible={modalVisible}
         title="Markdown guide"
@@ -64,7 +64,8 @@ function Agorize({
 	const onCancel = () => showModal(false);
   const onConfirm = () => showModal(false);
 
-	const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form
+	// TO-DO: add getFieldError, isFieldTouched
+	const { getFieldDecorator } = form
 
 	function handleForm(e) {
 		e.preventDefault()
@@ -92,11 +93,12 @@ function Agorize({
 		}
 	}
 
-	const titleError = isFieldTouched('titleError') && getFieldError('titleError');
+	// TO-DO: add title error
+	//const titleError = isFieldTouched('titleError') && getFieldError('titleError');
 	if(agoragramType!=="comment" && agorized) return <Redirect to="/agora" />
 
 	let postTypeForModal = "ett inlägg"
-	if(agoragramType=="comment") postTypeForModal = "en kommentar"
+	if(agoragramType==="comment") postTypeForModal = "en kommentar"
 
 	return (
 		<Form

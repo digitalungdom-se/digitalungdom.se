@@ -1,5 +1,3 @@
-import createAsyncFunction from './createAsyncFunction.js'
-import Users from 'actions/users'
 
 const addMeToUsers = ( me, payload ) => ( {
   type: "GET_USER_SUCCESS",
@@ -133,11 +131,13 @@ export function resetPassword({ token, password }){
   }
 }
 
+/*
 const receiveAuth = ( response ) => ( {
   type: 'RECEIVE_AUTH',
   response,
   receivedAt: Date.now()
 } )
+*/
 
 // const fakeResponse = 0 ? {
 //   "type": "success",

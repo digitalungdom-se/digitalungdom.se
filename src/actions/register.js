@@ -1,4 +1,4 @@
-import createAsyncFunction, { query } from './createAsyncFunction.js'
+import { query } from './createAsyncFunction.js'
 
 // export const Register = {
 //   ...createAsyncFunction( 'register', { method: 'POST', route: '/api/register' }, [ Auth.receiveAuth ], fakeResponse ),

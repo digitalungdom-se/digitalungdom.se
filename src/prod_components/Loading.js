@@ -1,5 +1,5 @@
 import React from 'react'
-import { Spin, Icon, Card } from 'antd'
+import { Spin, Icon } from 'antd'
 import Logo from '@components/Logo'
 
 const Center = ({ style, vertically, horizontally, children, ...props }) => (

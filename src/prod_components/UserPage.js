@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Button, Row, Col, Card, Avatar, Skeleton, Icon, Dropdown, Menu, Modal } from 'antd'
+import { Button, Row, Col, Icon, Dropdown, Menu, Modal } from 'antd'
 import UserEditingForm from '@components/userEditingForm'
 import FileSelector from '@components/fileSelector'
 import PhotoEditor from '@components/PhotoEditor'
 import ProfilePicture from 'containers/ProfilePicture'
 import ProfilePictureViewer from '@components/profilePictureViewer'
-import ReactMarkdown from 'react-markdown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFlag, faTrash } from '@fortawesome/free-solid-svg-icons'
 
@@ -65,7 +64,8 @@ function editingButton( setEditing, canEdit ) {
 function editPictureButton( setEditing, canEdit, photoEditorRef ) {
   if ( canEdit ) {
     return (
-      <a
+      <span
+        className="highlightable"
         style={{
           color: "rgba(0,0,0,0.6)",
           position: 'absolute',
@@ -91,7 +91,7 @@ function editPictureButton( setEditing, canEdit, photoEditorRef ) {
             </Col>
           </Row>
         </Dropdown>
-      </a>
+      </span>
     )
   }
 }
@@ -149,6 +149,7 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEdi
 					<a
 					href={hrefAdress}
 					target="_blank"
+          rel="noopener noreferrer"
 					>
 						{
 							user.profile.url?
@@ -217,7 +218,6 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEdi
   }
 }
 
-//
 function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFromModal } ) {
 
   const [ userColour, setUserColour ] = useState( user.profile.colour ? user.profile.colour : '#83aef2' );
@@ -300,13 +300,13 @@ function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFrom
 									}}
                 >
 									<Col>
-                    <a>
+                    <span className="highlightable">
   										<ProfilePicture
   											style={{position: 'absolute'}}
   											id={user._id}
                         size={80}
   										/>
-                    </a>
+                    </span>
                     <ProfilePictureViewer
                     id={user._id}
                     />
@@ -381,7 +381,7 @@ function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFrom
           footer={null}
           style={{textAlign: "center", maxWidth: 300}}
         >
-          <h1 style={{fontSize: 18, fontWeight: 'bold'}}>Är du säker? 🗑️</h1>
+          <h1 style={{fontSize: 18, fontWeight: 'bold'}}> Är du säker? <span role="img" aria-label="trash">🗑</span> </h1>
           <p>Ifall du trycker på "Radera" kommer ditt konto raderas permanent.</p>
           <Row type="flex" justify="center" gutter={16}>
             <Col span={12}>

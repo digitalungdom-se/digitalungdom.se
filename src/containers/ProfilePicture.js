@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 function ProfilePicture({ size, username, id }) {
   let src = "";
-  let res;
   let profilePicture = useSelector(state => state.ProfilePictures[username ? username : id])
   if(username || id) useDispatch()(getProfilePicture({ [id ? "id" : "username"] : id ? id : username }, size));
 

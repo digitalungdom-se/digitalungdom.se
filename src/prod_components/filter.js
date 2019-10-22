@@ -1,8 +1,6 @@
 import React from 'react'
-import { Row, Col, Radio, Select, Card } from 'antd'
+import { Row, Col, Select } from 'antd'
 import { timeToHex } from 'utils/time'
-
-/**/
 
 function Filter({ updateFilter, time = 31, sort = "new" }) {
 
@@ -48,7 +46,7 @@ function Filter({ updateFilter, time = 31, sort = "new" }) {
 		 						}[stringValue]
 		 						let date = (new Date(Date.now() - value*1000*3600*24))
 		 						let string = date.toISOString().substring(0, 10)
-		 						if(value == 0) string = (new Date(0)).toISOString().substring(0, 10)
+		 						if(value === 0) string = (new Date(0)).toISOString().substring(0, 10)
 		 						updateFilter({
 		 							dateAfter: timeToHex(string).hex,
 		 							dateBefore: timeToHex(Date.now()).hex,

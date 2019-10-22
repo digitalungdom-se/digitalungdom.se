@@ -129,12 +129,12 @@ class RegistrationForm extends React.Component {
   }
 
   render() {
-    // console.log(this.props.checkingUsername)
 
     if(this.props.username) return <Redirect to='min-profil' />
 
     const { getFieldDecorator } = this.props.form;
 
+    /*
     const validateStatusEmail = this.props.checkingEmail ? {
       validateStatus: 'validating'
     } : {}
@@ -142,9 +142,10 @@ class RegistrationForm extends React.Component {
     if(this.props.usernameAvailable === false) validateStatusUsername = 'error'
     if(this.props.usernameAvailable === true) validateStatusUsername = 'success'
     if(this.props.checkingUsername) validateStatusUsername = 'validating'
-    // const validateStatusUsername = this.props.Register.checkingUsername ? {
-    //   validateStatus: 'validating'
-    // } : (this.props.Register.username ? (this.props.Register.username && this.props.Register.username !== undefined ? {} : {validateStatus: 'error'}) : {validateStatus}
+    const validateStatusUsername = this.props.Register.checkingUsername ? {
+      validateStatus: 'validating'
+    } : (this.props.Register.username ? (this.props.Register.username && this.props.Register.username !== undefined ? {} : {validateStatus: 'error'}) : {validateStatus}
+    */
 
     return (
       <div>
@@ -163,6 +164,8 @@ class RegistrationForm extends React.Component {
                 pattern:/^((.+)\s)((.+)\s*){1,}$/, message: 'Du måste uppge för- och efternamn'
               },
               {
+                // TO-DO: Fix regex
+                // eslint-disable-next-line
                 pattern: /^(([A-Za-zÀ-ÖØ-öø-ÿ\-\'\,\.\ ]+))$/, message: 'Otillåtna karaktärer'
               }],
             })(

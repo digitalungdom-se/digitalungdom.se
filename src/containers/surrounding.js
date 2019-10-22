@@ -1,5 +1,4 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import Widgets from 'containers/widgets'
 import { Row, Col } from '@components/grid'
 // import { Surrounding as Wrapper } from '@wrappers'

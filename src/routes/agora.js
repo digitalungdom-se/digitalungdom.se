@@ -1,8 +1,5 @@
 import React from 'react'
-import {
-	Route,
-	Switch
-} from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import Hypagora from 'containers/hypagora'
 import Surrounding from 'containers/surrounding'
 import Agorize from 'containers/agorize'

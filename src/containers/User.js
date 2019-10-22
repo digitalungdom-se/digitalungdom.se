@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser, deleteUser } from 'actions/users'
 import { set } from 'actions/users'
 import UserPage from '@components/UserPage'
 import PageNotFound from '@components/pageNotFound'
 import Loading from '@components/Loading'
-import { Row, Col } from '@components/grid'
 import Posts from 'containers/posts'
 
 function UserContainer( { username } ) {
@@ -44,7 +43,7 @@ function UserContainer( { username } ) {
   const user = useSelector( state => state.Users.users[ userId ]);
 
   // if the userId is "LOADING" or undefined, then there is no available information on that user!
-  const loading = (userId === undefined || userId == "LOADING")
+  const loading = (userId === undefined || userId === "LOADING")
 
   // If the userId IS defined, then there is information on that user!
 
@@ -57,7 +56,6 @@ function UserContainer( { username } ) {
 
   if ( user && authenticatedUserID && user._id === authenticatedUserID ) {
     canEdit = true;
-    const userID = user._id;
 
     edit = ( info, userID ) => {
       dispatch( set( info, userID ))
