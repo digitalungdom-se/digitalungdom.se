@@ -86,7 +86,7 @@ export default ( state = {
           ...state.usernames,
           // IMPORTANT: Map the username to the id. For example, it should look like this:
           /*
-          usernames: { 
+          usernames: {
             "Nautman": "507f191e810c19729de860ea",
             etc...
           }
@@ -193,6 +193,7 @@ export default ( state = {
         }
         case "DELETEUSER_SUCCESS":
           console.log("Deleted account")
+          break;
         default:
           return state
   }

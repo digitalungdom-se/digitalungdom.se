@@ -44,7 +44,6 @@ export default ( state = {
           ...usernames
         }
       }
-      return state
     case "GET_PROFILE_PICTURE_SUCCESS":
       profilePictures = {}
       usernames = {}

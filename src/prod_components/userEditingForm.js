@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Icon, Row, Col, Select, Input, TextArea, Button, Option, Popover } from 'antd'
+import { Form, Icon, Row, Col, Input, Button } from 'antd'
 import { SketchPicker } from 'react-color'
 
 const formStyle = {
@@ -51,8 +51,8 @@ class UserEditingForm extends React.Component {
     } );
   }
 
-  checkColorBrightness = c => {
-    var c = c.substring( 1 ); // strip #
+  checkColorBrightness = color => {
+    var c = color.substring( 1 ); // strip #
     var rgb = parseInt( c, 16 ); // convert rrggbb to decimal
     var r = ( rgb >> 16 ) & 0xff; // extract red
     var g = ( rgb >> 8 ) & 0xff; // extract green

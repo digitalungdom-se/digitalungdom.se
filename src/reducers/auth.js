@@ -111,7 +111,7 @@ export default (state = {
 				loggingOut: true
 			}
 		case 'LOGOUT_SUCCESS':
-			const { newState, ...profile } = state
+			const { newState } = state
 			return {
 				...newState,
 				profile: {

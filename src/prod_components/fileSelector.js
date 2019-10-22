@@ -19,12 +19,13 @@ class FileSelector extends React.Component {
   render(){
     return (
       <div>
-        <a
+        <span
+          className="highlightable"
           style={{color: "rgba(0,0,0,0.6)"}}
           onClick={()=>{this.upload.click()}}
         >
           Ladda upp ny profilbild
-        </a>
+        </span>
 
         <input
           id="fileInput"

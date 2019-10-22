@@ -1,7 +1,8 @@
 import { flatTree } from 'utils'
-import { timeToHex } from 'utils/time'
 import { makeTitle } from 'utils/agora'
 
+
+/* TO-DO: implement
 const generateRandom = ( length ) => {
   let string = ""
   const chars = "0123456789abcdef"
@@ -10,6 +11,7 @@ const generateRandom = ( length ) => {
   }
   return string
 }
+*/
 
 export default ( state = {
   viewingComments: false,
@@ -191,14 +193,6 @@ case 'ASTERI_REQUEST':
       }
     }
   }
-  // return {
-  // 	...state,
-  // 	agoragrams: {
-  // 		...state.agoragrams,
-  // 		// [action.payload.agoragramID]:
-  // 	}
-  // }
-  return state
 case 'AGORIZE_REQUEST':
   if ( action.payload.type === "comment" ) return {
     ...state,

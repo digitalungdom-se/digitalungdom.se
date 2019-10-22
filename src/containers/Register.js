@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Row, Col, Button } from 'antd'
+import { Row, Col } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { register, checkEmail, checkUsername } from 'actions/register.js'
 import RegisterForm from '@components/RegisterForm'
@@ -43,10 +43,12 @@ function renderSlides(currentSlide, changeSlide){
 						Nu har vi skickat ett verifieringsmail till dig!
 					</h2>
 					<p>
-						Logga in på din email och tryck på verifierings-länken som är bifogad i vårt email. Ifall du inte hittar mailet kan den ha hamnat i skräpposten, så glöm inte att dubbelkolla! 🌟
+						Logga in på din email och tryck på verifierings-länken som är bifogad i vårt email. Ifall du inte hittar mailet kan den ha hamnat i skräpposten, så glöm inte att dubbelkolla! <span role="img" aria-label="star">🌟</span>
 					</p>
 				</div>
 			)
+		default:
+			return null
 	}
 }
 

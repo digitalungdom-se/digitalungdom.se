@@ -1,10 +1,8 @@
-import { applyMiddleware, createStore, combineReducers } from 'redux'
-import { persistStore, persistReducer } from 'redux-persist'
+import { applyMiddleware, createStore } from 'redux'
+import { persistStore } from 'redux-persist'
 import thunkMiddleware from 'redux-thunk'
-import reducer from 'reducers/index.js'
 import callAPIMiddleware from './callAPIMiddleware'
 import { composeWithDevTools } from 'redux-devtools-extension';
-import authReducer from 'reducers/auth'
 import persistedReducer from 'reducers'
 
 // const rootReducer = combineReducers(
