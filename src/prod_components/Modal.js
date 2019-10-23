@@ -26,7 +26,7 @@ function DU_Modal({
        footer={null}
        style={{textAlign: "center", maxWidth: 300}}
      >
-       <h1 style={{fontSize: 18, fontWeight: 'bold'}}>{title}</h1>
+       <h1 style={{fontSize: 18, fontWeight: 'bold', marginTop: -8}}>{title}</h1>
        <p>{description}</p>
        {
         showInput &&

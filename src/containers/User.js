@@ -48,6 +48,7 @@ function UserContainer( { username } ) {
   // If the userId IS defined, then there is information on that user!
 
   const deleteUserFromModal = userID => dispatch(deleteUser({userID}))
+  const dispatchImageData64 = imageData64 => (console.log(imageData64))
 
   const authenticatedUserID = useSelector( state => state.Auth.profile.details._id)
 
@@ -84,6 +85,7 @@ function UserContainer( { username } ) {
       edit={edit}
       posts={<Posts list={agoragrams} />}
       deleteUserFromModal={deleteUserFromModal}
+      dispatchImageData64={dispatchImageData64}
     />
   )
 }
