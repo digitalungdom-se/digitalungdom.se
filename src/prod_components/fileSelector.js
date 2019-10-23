@@ -8,17 +8,21 @@ class FileSelector extends React.Component {
   onChangeFile(event) {
     event.stopPropagation();
     event.preventDefault();
+    // Get the file
     var file = event.target.files[0];
+    // Create our file reader
     const reader = new FileReader()
+    // Add a listener to handleImgSrc when loaded
     reader.addEventListener("load", () => {
-      this.props.handleImgSrc(reader.result)
+      this.props.handleImgSrc(file, reader.result)
     }, false)
+    // Load the file as dataURL
     reader.readAsDataURL(file)
   }
 
   render(){
     return (
-      <div>
+      <div style={{width: "100%", height: "100%"}}>
         <span
           className="highlightable"
           style={{color: "rgba(0,0,0,0.6)"}}
@@ -31,7 +35,7 @@ class FileSelector extends React.Component {
           id="fileInput"
           type="file"
           ref={(ref) => this.upload = ref}
-          style={{display: 'none'}}
+          style={{display: 'none', background: 'red'}}
           onChange={this.onChangeFile.bind(this)}
         />
       </div>

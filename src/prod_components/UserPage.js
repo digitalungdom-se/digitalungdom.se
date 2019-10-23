@@ -11,7 +11,7 @@ import { faFlag, faTrash } from '@fortawesome/free-solid-svg-icons'
 const menu = ( photoEditorRef ) => (
   <Menu>
     <Menu.Item>
-      <FileSelector handleImgSrc={ (imgSrc) => photoEditorRef.current.openCropperModal(imgSrc) }/>
+      <FileSelector handleImgSrc={ (file, imgSrc) => photoEditorRef.current.openCropperModal(file, imgSrc) }/>
     </Menu.Item>
     <Menu.Item>
       Ta bort nuvarande profilbild
@@ -74,6 +74,7 @@ function editPictureButton( setEditing, canEdit, photoEditorRef ) {
       >
         <Dropdown
           overlay={menu(photoEditorRef)}
+          trigger={["click"]}
         >
           <Row
             type="flex"
@@ -216,7 +217,7 @@ function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEdi
   }
 }
 
-function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFromModal } ) {
+function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFromModal, dispatchImageData64 } ) {
 
   const [ userColour, setUserColour ] = useState( user.profile.colour ? user.profile.colour : '#83aef2' );
   const [ modalVisible, setModalVisibility ] = useState( false );
@@ -373,35 +374,35 @@ function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFrom
 				</Col>
 			</Row>
 
-        <Modal
-          visible={modalVisible}
-          onCancel={handleCancel}
-          footer={null}
-          style={{textAlign: "center", maxWidth: 300}}
-        >
-          <h1 style={{fontSize: 18, fontWeight: 'bold'}}> Är du säker? <span role="img" aria-label="trash">🗑</span> </h1>
-          <p>Ifall du trycker på "Radera" kommer ditt konto raderas permanent.</p>
-          <Row type="flex" justify="center" gutter={16}>
-            <Col span={12}>
-              <Button
-                style={{width: "100%"}}
-                onClick={handleCancel}
+      <Modal
+        visible={modalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        style={{textAlign: "center", maxWidth: 300}}
+      >
+        <h1 style={{fontSize: 18, fontWeight: 'bold'}}> Är du säker? <span role="img" aria-label="trash">🗑</span> </h1>
+        <p>Ifall du trycker på "Radera" kommer ditt konto raderas permanent.</p>
+        <Row type="flex" justify="center" gutter={16}>
+          <Col span={12}>
+            <Button
+              style={{width: "100%"}}
+              onClick={handleCancel}
+            >
+              Avbryt
+            </Button>
+          </Col>
+          <Col span={12}>
+            <Button
+              style={{width: "100%"}}
+              type="danger"
+              onClick={handleDelete}
               >
-                Avbryt
-              </Button>
-            </Col>
-            <Col span={12}>
-              <Button
-                style={{width: "100%"}}
-                type="danger"
-                onClick={handleDelete}
-                >
-                Radera
-              </Button>
-            </Col>
-          </Row>
-        </Modal>
-        <PhotoEditor ref={photoEditorRef}/>
+              Radera
+            </Button>
+          </Col>
+        </Row>
+      </Modal>
+      <PhotoEditor dispatchImageData64={dispatchImageData64} ref={photoEditorRef}/>
 		</div>
   )
 }
