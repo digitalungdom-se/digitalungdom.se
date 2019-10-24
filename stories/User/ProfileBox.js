@@ -2,12 +2,12 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { MemoryRouter } from 'react-router-dom'
 
-import ProfileBox from '@components/profileBox'
+import ProfileBox from '@components/profilebox'
 
-storiesOf('Agora/ProfileBox', module)
+storiesOf('User', module)
 	.addDecorator(story => (
 	    <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
 	))
-  .add('Post', () => (
+  .add('ProfileBox', () => (
     <ProfileBox/>
   ))

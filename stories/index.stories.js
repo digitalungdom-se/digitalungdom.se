@@ -10,8 +10,9 @@ import { Welcome } from '@storybook/react/demo';
 import Button from "prod_components/button";
 import ResetPassword from 'prod_components/Auth/ResetPassword'
 
-import './Agora/index.js'
+// import './Agora/index.js'
 import './Auth/index.js'
+import './User'
 import './miscellaneous.js'
 import './Menu.js'
 import './Filter.js'
@@ -28,16 +29,16 @@ storiesOf('Button', module)
     </Button>
   ));
 
-storiesOf('Reset', module)
-	.add('Reset password', () =>
-		<ResetPassword />
-	)
-	.add('Simon Sondén', () =>
-		<div
-			style={{width: 400}}
-		>
-			<ResetPassword
-				color="blue"
-			/>
-		</div>
-	)
+// storiesOf('Reset', module)
+// 	.add('Reset password', () =>
+// 		<ResetPassword />
+// 	)
+// 	.add('Simon Sondén', () =>
+// 		<div
+// 			style={{width: 400}}
+// 		>
+// 			<ResetPassword
+// 				color="blue"
+// 			/>
+// 		</div>
+// 	)
