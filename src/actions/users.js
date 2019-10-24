@@ -21,11 +21,11 @@ export function setProfile( form ) {
     callAPI: () =>
       fetch( "api/user/set/profile_picture", {
         method: 'PUT',
-        headers: {
-        //   Accept: 'application/json',
-        //   // 'Content-Type': 'application/json'
-          'Content-Type': "multipart/form-data"
-        },
+        // headers: {
+        // //   Accept: 'application/json',
+        // //   // 'Content-Type': 'application/json'
+        //   // 'Content-Type': "multipart/form-data"
+        // },
         body: form
       } ),
     payload: { ...form }
