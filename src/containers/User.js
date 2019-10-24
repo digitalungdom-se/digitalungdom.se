@@ -58,16 +58,15 @@ function UserContainer( { username } ) {
         upload(file)
       })
       
-    function upload(file) {
-      const fd = new FormData();
-      fd.append('updates', [["profilePicture"]])
-      fd.append('profilePicture', file)
-
-      dispatch( setProfile(fd))
-    }
   }
+  function upload(file) {
+    const fd = new FormData();
+    // console.log(file)
+    // fd.append('updates', [["profilePicture"]])
+    fd.append('profilePicture', file)
 
-  dispatchImageData64(image.base64)
+    dispatch( setProfile(fd))
+  }
 
   const authenticatedUserID = useSelector( state => state.Auth.profile.details._id)
 
@@ -104,19 +103,21 @@ function UserContainer( { username } ) {
   // )
   // return (
   //   <form
-  //     id='uploadForm' 
-  //     action='/api/user/set' 
-  //     method='post' 
-  //     encType="multipart/form-data"
+  //     // id='uploadForm' 
+  //     // action='/api/user/set/profile_picture' 
+  //     // method='post' 
+  //     // encType="multipart/form-data"
   //     onSubmit={(e) => {
-  //       console.log(e)
+  //       e.preventDefault()
+  //       upload(e.target.profilePicture.files[0])
   //     }}
   //   >
   //       <input type="file" name="profilePicture" />
-  //       <input name="updates" value={[["profilePicture"]]}/>
   //       <input type='submit' value='Upload!' />
   //   </form>
   // )
+
+  // return <button onClick={() => dispatchImageData64(image.base64)}>Submit</button>
   return (
     <UserPage
       user={user}
