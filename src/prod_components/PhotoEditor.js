@@ -93,19 +93,21 @@ const PhotoEditor = forwardRef((props, ref) => {
     const image = new Image()
     image.src = image64
     image.onload = function () {
-      ctx.drawImage(
-        image,
-        // Source image (our crop but modified)
-        crop.x * imageWidthModificationCoefficient,
-        crop.y * imageHeightModificationCoefficient,
-        crop.width * imageWidthModificationCoefficient,
-        crop.height * imageHeightModificationCoefficient,
-        // Destination image
-        0,
-        0,
-        crop.width,
-        crop.height
-      )
+      if(crop.width !== 0) {
+        ctx.drawImage(
+          image,
+          // Source image (our crop but modified)
+          crop.x * imageWidthModificationCoefficient,
+          crop.y * imageHeightModificationCoefficient,
+          crop.width * imageWidthModificationCoefficient,
+          crop.height * imageHeightModificationCoefficient,
+          // Destination image
+          0,
+          0,
+          crop.width,
+          crop.height
+        )
+      }
     }
   }
 

@@ -11,6 +11,27 @@ const Users = {
   ...createAsyncFunction( 'get_user', { method: 'GET', route: '/api/agora/get/profile_picture' }, [] ),
 }
 
+export function setProfile( form ) {
+  return {
+    types: [
+      'SET_REQUEST',
+      'SET_SUCCESS',
+      'SET_FAILURE'
+    ],
+    callAPI: () =>
+      fetch( "api/user/set/profile_picture", {
+        method: 'PUT',
+        headers: {
+        //   Accept: 'application/json',
+        //   // 'Content-Type': 'application/json'
+          'Content-Type': "multipart/form-data"
+        },
+        body: form
+      } ),
+    payload: { ...form }
+  }
+}
+
 export function set( form, userID ) {
   return {
     types: [
@@ -23,7 +44,8 @@ export function set( form, userID ) {
         method: 'put',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
+          // 'Content-Type': 'application/json'
+          // 'Content-Type': "multipart/form-data"
         },
         body: JSON.stringify( form )
       } ),

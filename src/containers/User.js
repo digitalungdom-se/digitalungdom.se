@@ -1,11 +1,12 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser, deleteUser } from 'actions/users'
-import { set } from 'actions/users'
+import { set, setProfile } from 'actions/users'
 import UserPage from '@components/UserPage'
 import PageNotFound from '@components/pageNotFound'
 import Loading from '@components/Loading'
 import Posts from 'containers/posts'
+const image = require('./image.json')
 
 function UserContainer( { username } ) {
 
@@ -48,7 +49,25 @@ function UserContainer( { username } ) {
   // If the userId IS defined, then there is information on that user!
 
   const deleteUserFromModal = userID => dispatch(deleteUser({userID}))
-  const dispatchImageData64 = imageData64 => (console.log(imageData64))
+  const dispatchImageData64 = base64 => {
+    // console.log(base64)
+    fetch(base64)
+      .then(res => res.blob())
+      .then(blob => {
+        const file = new File([blob], "profilePicture.png")
+        upload(file)
+      })
+      
+    function upload(file) {
+      const fd = new FormData();
+      fd.append('updates', [["profilePicture"]])
+      fd.append('profilePicture', file)
+
+      dispatch( setProfile(fd))
+    }
+  }
+
+  dispatchImageData64(image.base64)
 
   const authenticatedUserID = useSelector( state => state.Auth.profile.details._id)
 
@@ -78,6 +97,26 @@ function UserContainer( { username } ) {
   /*
     TO-DO: Make a special loading page for the user by using a <Skeleton> from antd.
   */
+  // return (
+  //   <button onClick={() => dispatchImageData64(image.base64)}>
+  //     Send her to the ranch
+  //   </button>
+  // )
+  // return (
+  //   <form
+  //     id='uploadForm' 
+  //     action='/api/user/set' 
+  //     method='post' 
+  //     encType="multipart/form-data"
+  //     onSubmit={(e) => {
+  //       console.log(e)
+  //     }}
+  //   >
+  //       <input type="file" name="profilePicture" />
+  //       <input name="updates" value={[["profilePicture"]]}/>
+  //       <input type='submit' value='Upload!' />
+  //   </form>
+  // )
   return (
     <UserPage
       user={user}
