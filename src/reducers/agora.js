@@ -113,6 +113,14 @@ export default ( state = {
         action.response.user.details.username.toLowerCase()
     )
     const newList = state.lists[listQuery] ? state.lists[listQuery] : []
+    const length = action.response.agoragrams.length
+    const edge = action.response.agoragrams.length === 0 ? false : (
+      action.payload.sort === "top" ?
+        (state.edges[listQuery] ? state.edges[listQuery] + length : length)
+        :
+        action.response.agoragrams[length - 1]._id.substring(0,8)
+    )
+    console.log(edge)
     return {
       ...state,
       ...action._responseTime,
@@ -142,7 +150,7 @@ export default ( state = {
       },
       edges: {
         ...state.edges,
-        [listQuery]: action.response.agoragrams.length === 0 ? false : action.response.agoragrams[action.response.agoragrams.length - 1]._id.substring(0,8)
+        [listQuery]: edge
       }
       // starredAgoragrams: [
       // 	...state.starredAgoragrams,

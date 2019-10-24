@@ -24,7 +24,12 @@ function Posts({ hypagora, list }) {
 			<InfiniteScroll
 				pageStart={0}
 				loadMore={() => {
-					if(edge && !list) dispatch(getAgoragrams({ dateAfter, dateBefore: edge, hypagora, sort, time }, true))
+					if(edge && !list) {
+						if(sort === "top") {
+							dispatch(getAgoragrams({ dateAfter, dateBefore, hypagora, sort, time, topIndex: edge }, true));
+						}
+						else dispatch(getAgoragrams({ dateAfter, dateBefore: edge, hypagora, sort, time }, true));
+					}
 				}}
 				hasMore={edge}
 				loader={
