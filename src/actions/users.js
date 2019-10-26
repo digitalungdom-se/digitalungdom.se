@@ -11,12 +11,12 @@ const Users = {
   ...createAsyncFunction( 'get_user', { method: 'GET', route: '/api/agora/get/profile_picture' }, [] ),
 }
 
-export function setProfile( form ) {
+export function setProfile( form, base64 ) {
   return {
     types: [
-      'SET_REQUEST',
-      'SET_SUCCESS',
-      'SET_FAILURE'
+      'SET_PROFILE_PICTURE_REQUEST',
+      'SET_PROFILE_PICTURE_SUCCESS',
+      'SET_PROFILE_PICTURE_FAILURE'
     ],
     callAPI: () =>
       fetch( "api/user/set/profile_picture", {
@@ -28,7 +28,7 @@ export function setProfile( form ) {
         // },
         body: form
       } ),
-    payload: { ...form }
+    payload: { base64 }
   }
 }
 
@@ -44,7 +44,7 @@ export function set( form, userID ) {
         method: 'put',
         headers: {
           Accept: 'application/json',
-          // 'Content-Type': 'application/json'
+          'Content-Type': 'application/json'
           // 'Content-Type': "multipart/form-data"
         },
         body: JSON.stringify( form )

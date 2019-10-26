@@ -33,8 +33,8 @@ class UserEditingForm extends React.Component {
         Object.keys( update ).forEach( ( item, index ) => {
           if ( this.props.user.profile[ item ] !== update[ item ] ) {
             userProfile.push( [ `profile.${item}`, {
-              [ item ]: update[ item ]
-            } ] )
+              [ item ]: update[item]
+            }] )
           }
         } );
 
@@ -70,7 +70,7 @@ class UserEditingForm extends React.Component {
   }
 
   handleColourChange = color => {
-    //this.props.setUserColour( color.hex )
+    this.props.setUserColour( color.hex )
     this.props.form.setFieldsValue( { 'profile.colour': color.hex } )
   }
 
