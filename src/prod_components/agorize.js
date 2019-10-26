@@ -60,9 +60,9 @@ function Agorize({
 	agorized
 }) {
 
-	const [modalVisible, showModal] = useState(false)
-	const onCancel = () => showModal(false);
-  const onConfirm = () => showModal(false);
+	const [mustAuthModalVisible, showMustAuthModal] = useState(false)
+	const onCancel = () => showMustAuthModal(false);
+  const onConfirm = () => showMustAuthModal(false);
 
 	// TO-DO: add getFieldError, isFieldTouched
 	const { getFieldDecorator } = form
@@ -88,8 +88,6 @@ function Agorize({
 		    	}, "comment")
 		    }
 		  });
-		}else{
-			showModal(true)
 		}
 	}
 
@@ -100,9 +98,17 @@ function Agorize({
 	let postTypeForModal = "ett inlägg"
 	if(agoragramType==="comment") postTypeForModal = "en kommentar"
 
+	// Different placeholder for comment depending on if the user is authenticated or not.
+	let commentPlaceholder = "Skriv din reaktion"
+	if(!authorized){
+		commentPlaceholder = "Du måste logga in eller skapa ett konto för att skriva en kommentar"
+	}
+
 	return (
 		<Form
 			onSubmit={(e) => handleForm(e)}
+			disabled={authorized}
+
 			// {...formItemLayout}
 		>
 			<Card
@@ -164,14 +170,22 @@ function Agorize({
 				}
 			<Form.Item>
 				{getFieldDecorator('text')(
-					<div style={{position: 'relative'}}>
+					<div
+						style={{position: 'relative'}}
+						onClick={()=> {
+							if(!authorized){
+								showMustAuthModal(true)
+							}
+						}}
+					>
 	        	<Input.TextArea
 	        		name="body"
+							disabled={!authorized}
 	        		placeholder={
 	        			agoragramType !== "comment" ?
 	        				"Text (icke-obligatoriskt)\nDetta är markdown, tryck på frågetecknet för mer information. "
 	        				:
-	        				"Skriv din reaktion"
+	        				commentPlaceholder
 							}
 	        		autosize={{minRows: 4}}
 	      		/>
@@ -182,12 +196,19 @@ function Agorize({
 			<Form.Item
 				// {...tailFormLayout}
 			>
-				<Button loading={agorizing && (!agorized)} type="primary" htmlType="submit">Publicera {agoragramType === "comment" ? "kommentar" : "inlägg"}</Button>
+				<Button
+				loading={agorizing && (!agorized)}
+				type="primary"
+				htmlType="submit"
+				disabled={!authorized}
+				>
+					Publicera {agoragramType === "comment" ? "kommentar" : "inlägg"}
+				</Button>
 			</Form.Item>
 			</Card>
 
 			<Modal
-				visible={modalVisible}
+				visible={mustAuthModalVisible}
 				title="Logga in eller bli medlem!"
 				description={"Du måste vara inloggad för att skriva " + postTypeForModal + "."}
 				modalType="mustAuthenticate"
