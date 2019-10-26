@@ -163,7 +163,13 @@ function Agorize({
 					</React.Fragment>
 				}
 			<Form.Item>
-				{getFieldDecorator('text')(
+				{getFieldDecorator('text', {
+					rules: [
+					{
+						max: 10000, message: "Texten kan inte vara längre än 10000 karaktärer lång."
+					}
+					]
+				})(
 					<div style={{position: 'relative'}}>
 	        	<Input.TextArea
 	        		name="body"
