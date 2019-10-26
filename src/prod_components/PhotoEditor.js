@@ -38,7 +38,6 @@ const PhotoEditor = forwardRef((props, ref) => {
       }
       img.src = _imgSrc
 
-
       // Check if file type is accepted
       if(getFileTypeAccepted(file)){
         setImgSrc(_imgSrc)
@@ -84,8 +83,10 @@ const PhotoEditor = forwardRef((props, ref) => {
   // Base64 Image to Canvas with a Crop
   const image64toCanvasRef = (canvasRef, image64, crop) => {
     const divRef = reactCropRef.current
-    const imageWidthModificationCoefficient = orginalImageSizeWidth / divRef.clientWidth
-    const imageHeightModificationCoefficient = orginalImageSizeHeight / divRef.clientHeight
+    const width = divRef.childNodes[0].childNodes[0].clientWidth
+    const height = divRef.childNodes[0].childNodes[0].clientHeight
+    const imageWidthModificationCoefficient = orginalImageSizeWidth / width
+    const imageHeightModificationCoefficient = orginalImageSizeHeight / height
     const canvas = canvasRef
     canvas.width = crop.width
     canvas.height = crop.height
