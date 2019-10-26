@@ -14,6 +14,11 @@ const Comment = ({ comment, comments, children, level, asteri }) => {
 	const [isCollapsed, collapse] = useState(false)
 	const isAuthor = useSelector(state => state.Auth.profile.details._id === comment.author)
 
+	// Must authenticate modal
+	const [mustAuthModalVisible, showMustAuthModal] = useState(false)
+	const onMustAuthCancel = () => showMustAuthModal(false);
+	const onMustAuthConfirm = () => showMustAuthModal(false);
+
 	return (
 		<Row
 			type="flex"
