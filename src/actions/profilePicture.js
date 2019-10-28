@@ -18,6 +18,15 @@ export function getProfilePicture( id, size ) {
   }
 }
 
+// api/ user/ set [["profilePicture"]]
+// put request , form-data
+/*
+body: JSON.stringify( {
+  ...info,
+  hypagora: "general"
+} )
+*/
+
 export function getProfilePictureByID( id, size ) {
   size = 100;
   return {
