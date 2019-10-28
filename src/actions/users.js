@@ -11,7 +11,13 @@ const Users = {
   ...createAsyncFunction( 'get_user', { method: 'GET', route: '/api/agora/get/profile_picture' }, [] ),
 }
 
-export function setProfile( form, base64 ) {
+export function setProfile( form, base64, id, username ) {
+  const index = base64.indexOf(',')
+  const image = base64.substring(index + 1)
+  const imageType = {
+    mime: base64.substring("data:".length, index),
+    ext: base64.substring(base64.indexOf("/"), index + 1)
+  }
   return {
     types: [
       'SET_PROFILE_PICTURE_REQUEST',
@@ -28,6 +34,21 @@ export function setProfile( form, base64 ) {
         // },
         body: form
       } ),
+    callbacks: [
+      () => ({
+        type: "GET_PROFILE_PICTURE_SUCCESS",
+        response: {
+          id,
+          username,
+          image,
+          imageType
+        },
+        payload: {
+          id,
+          username
+        }
+      })
+    ],
     payload: { base64 }
   }
 }

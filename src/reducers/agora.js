@@ -58,6 +58,18 @@ export default ( state = {
       ...state,
       agorized: []
     }
+  case 'ANTI_AGORIZE_SUCCESS':
+    return {
+      ...state,
+      agoragrams: {
+        ...state.agoragrams,
+        [ action.payload.agoragramID ]: {
+          ...state.agoragrams[ action.payload.agoragramID ],
+          deleted: true,
+          author: null
+        }
+      }
+    }
   case 'GET_AGORAGRAM_REQUEST':
     return {
       ...state,

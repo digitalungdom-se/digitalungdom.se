@@ -6,6 +6,7 @@ import UserPage from '@components/UserPage'
 import PageNotFound from '@components/pageNotFound'
 import Loading from '@components/Loading'
 import Posts from 'containers/posts'
+import Cropper from '@components/Cropper'
 const image = require('./image.json')
 
 function UserContainer( { username } ) {
@@ -55,17 +56,14 @@ function UserContainer( { username } ) {
       .then(res => res.blob())
       .then(blob => {
         const file = new File([blob], "profilePicture.png")
-        upload(file)
+        const fd = new FormData();
+        // console.log(file)
+        // fd.append('updates', [["profilePicture"]])
+        fd.append('profilePicture', file)
+
+        dispatch( setProfile(fd, base64, userId, username))
       })
       
-  }
-  function upload(file) {
-    const fd = new FormData();
-    // console.log(file)
-    // fd.append('updates', [["profilePicture"]])
-    fd.append('profilePicture', file)
-
-    dispatch( setProfile(fd))
   }
 
   const authenticatedUserID = useSelector( state => state.Auth.profile.details._id)
@@ -92,6 +90,12 @@ function UserContainer( { username } ) {
   if(loading || !user.profile ) {
     return <Loading spin card={false} />
   }
+
+  // return (
+  //   <Cropper
+  //     image={require('containers/image.json').base64}
+  //   />
+  // )
 
   /*
     TO-DO: Make a special loading page for the user by using a <Skeleton> from antd.
