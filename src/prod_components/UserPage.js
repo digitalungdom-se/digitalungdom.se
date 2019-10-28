@@ -97,7 +97,7 @@ function editPictureButton( setEditing, canEdit, photoEditorRef ) {
   }
 }
 
-function renderProfile( user, canEdit, edit, userColour, setUserColour, photoEditorRef ) {
+function RenderProfile({ user, canEdit, edit, userColour, setUserColour, photoEditorRef }) {
   const [ editing, setEditing ] = useState( false );
 
   let hrefAdress = user.profile.url
@@ -353,9 +353,14 @@ function UserPage( { user, loading, noUser, canEdit, edit, posts, deleteUserFrom
                       <span>{user.profile.status ? ` - ${user.profile.status}` : ''}</span>
   									</p>
 
-									{
-										renderProfile(user, canEdit, edit, userColour, setUserColour, photoEditorRef)
-									}
+									<RenderProfile
+                    user={user}
+                    canEdit={canEdit}
+                    edit={edit}
+                    userColour={userColour}
+                    setUserColour={setUserColour}
+                    photoEditorRef={photoEditorRef}
+                  />
 
 								</div>
 							</Col>

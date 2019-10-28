@@ -19,16 +19,19 @@ function PostContainer({
 
 	const dispatch = useDispatch()
 
-	let fullId
+	let fullId = fullId = useSelector(state => {
+		return state.Agora.fullIds[id]
+	})
 
 	if(showComments) dispatch(getAgoragram(id));
-	if(id && id.length !== 24) {
-		fullId = useSelector(state => {
-			return state.Agora.fullIds[id]
-		})
-	} else {
-		fullId = id
-	}
+	if(!(id && id.length !== 24)) fullId = id
+	// if(id && id.length !== 24) {
+	// 	fullId = useSelector(state => {
+	// 		return state.Agora.fullIds[id]
+	// 	})
+	// } else {
+	// 	fullId = id
+	// }
 	let isThereAPost = useSelector(state => state.Agora.agoragrams[fullId])
 	if(!isThereAPost) loading = true;
 	let post = isThereAPost ? isThereAPost : {
@@ -36,7 +39,6 @@ function PostContainer({
 	}
 
 	const hidden = useSelector(state => state.Agora.hiddenPosts.indexOf(fullId) !== -1)
-	if(hidden) return null
 
 	const star = () => dispatch(asteri(fullId))
 	const report = (reason) => dispatch(reportAgoragram(fullId, reason))
@@ -54,6 +56,8 @@ function PostContainer({
 		if(authorized) isAuthor = post.author === currentUserId;
 		else isAuthor = false;
 	}
+
+	if(hidden) return null
 
 	if(empty) return <Post empty />;
 
