@@ -5,7 +5,8 @@ module.exports = async ({ config, mode }) => {
   config.resolve = {
     ...config.resolve,
     alias: {
-      "@components": path.resolve(__dirname, "./../src/prod_components")
+      "@components": path.resolve(__dirname, "./../src/prod_components"),
+      "containers": path.resolve(__dirname, "./../src/containers")
     }
   }
 
