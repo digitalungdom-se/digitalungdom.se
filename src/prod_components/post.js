@@ -122,13 +122,18 @@ function Post( {
   showProfilePicture,
   redirect
 } ) {
-  //Hook describing if a post is stared or not
+  // Hook describing if a post is stared or not
   const [ isStarClicked, clickStar ] = useState( starred )
   const [ tempDeleted, deleteTemp ] = useState( false )
 
-  //Function that allows whole post to be pressed excluding buttons such as share and edit.
+  // Must authenticate modal
+  const [mustAuthModalVisible, showMustAuthModal] = useState(false)
+  const onMustAuthCancel = () => showMustAuthModal(false);
+  const onMustAuthConfirm = () => showMustAuthModal(false);
+
+  // Function that allows whole post to be pressed excluding buttons such as share and edit.
   function click( e ) {
-    //Check if pressed component should open the post
+    // Check if pressed component should open the post
     if ( typeof e.target.className === "string" ) {
       if ( e.target.className.includes( "ShouldOpenPost" ) || e.target.className.includes( "ant-card-body" ) ) {
         redirect( link )
@@ -308,8 +313,12 @@ function Post( {
               style={{textAlign: 'center', height: 30}}
               className="asteriButton"
               onClick={() => {
-                clickStar(!isStarClicked)
-                asteri(post._id)
+                if(authorized){
+                  clickStar(!isStarClicked)
+                  asteri(post._id)
+                }else{
+                  showMustAuthModal(true)
+                }
               }}
               >
 								<div className = "WillNotOpenPostDiv" style={{width: "100%", height: "100%", paddingTop: 2}}>
@@ -414,6 +423,17 @@ function Post( {
       		</React.Fragment>
         }
 			</Card>
+
+      <Modal
+        visible={mustAuthModalVisible}
+        title="Logga in eller bli medlem!"
+        description={"Du måste vara inloggad för att skriva gilla ett inlägg."}
+        modalType="mustAuthenticate"
+        handleConfirm={() => onMustAuthConfirm()}
+        onConfirm={() => onMustAuthConfirm()}
+        onCancel={() => onMustAuthCancel()}
+      />
+
 		</React.Fragment>
   )
   /*<div>Author: {(!deleted && author !== "deleted") ? ((post.display.type === "user") ? author.details.username : author.details.name) : "deleted"}</div>*/
