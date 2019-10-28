@@ -176,7 +176,7 @@ function Post( {
 
       //If the post is a link, render this
       if ( post.type === 'link' ) {
-        return ( <p><a href={post.body} rel="noopener noreferrer" style={{fontSize: 16}} target="_blank"> {post.body} </a></p> )
+        return ( <p><a href={(post.body.indexOf("https://") === -1 && post.body.indexOf("http://") === -1 ) ? "https://" + post.body : post.body} rel="noopener noreferrer" style={{fontSize: 16}} target="_blank"> {post.body} </a></p> )
       } else {
         //If its a text post with more than characters, render transparent faded div
         if ( post.body.length > wordLimitFadedDisplay ) {

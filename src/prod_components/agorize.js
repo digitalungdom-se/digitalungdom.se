@@ -78,7 +78,7 @@ function Agorize({
 		    			type: values.type,
 		    			title: values.title,
 		    			tags: values.tags ? values.tags : [],
-		    			body: values.text ?values.text : ""
+		    			body: postType !== "link" ? (values.text ? values.text : "") : values.website
 		    		}, "post")
 		    	}
 		    	else agorize({
@@ -103,6 +103,8 @@ function Agorize({
 	if(!authorized){
 		commentPlaceholder = "Du måste logga in eller skapa ett konto för att skriva en kommentar"
 	}
+
+	const postType = form.getFieldValue("type")
 
 	return (
 		<Form
@@ -169,34 +171,39 @@ function Agorize({
 					</React.Fragment>
 				}
 			<Form.Item>
-				{getFieldDecorator('text', {
+				{getFieldDecorator(postType !== "link" ? 'text' : "website", {
 					rules: [
 					{
 						max: 10000, message: "Texten kan inte vara längre än 10000 karaktärer lång."
 					}
 					]
 				})(
-					<div
-						style={{position: 'relative'}}
-						onClick={()=> {
-							if(!authorized){
-								showMustAuthModal(true)
-							}
-						}}
-					>
-	        	<Input.TextArea
-	        		name="body"
-							disabled={!authorized}
-	        		placeholder={
-	        			agoragramType !== "comment" ?
-	        				"Text (icke-obligatoriskt)\nDetta är markdown, tryck på frågetecknet för mer information. "
-	        				:
-	        				commentPlaceholder
-							}
-	        		autosize={{minRows: 4}}
-	      		/>
-						<GuideModal/>
-					</div>
+						postType !== "link" ?
+						<div
+							style={{position: 'relative'}}
+							onClick={()=> {
+								if(!authorized){
+									showMustAuthModal(true)
+								}
+							}}
+						>
+		        	<Input.TextArea
+		        		name="body"
+								disabled={!authorized}
+		        		placeholder={
+		        			agoragramType !== "comment" ?
+		        				"Text (icke-obligatoriskt)\nDetta är markdown, tryck på frågetecknet för mer information. "
+		        				:
+		        				commentPlaceholder
+								}
+		        		autosize={{minRows: 4}}
+		      		/>
+							<GuideModal/>
+						</div>
+						:
+						<Input
+							placeholder="https://www.digitalungdom.se"
+						/>
         )}
 			</Form.Item>
 			<Form.Item

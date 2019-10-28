@@ -6,7 +6,7 @@ import RegisterForm from '@components/RegisterForm'
 import Card from '@components/Card'
 
 
-function renderSlides(currentSlide, changeSlide){
+function RenderSlides({ currentSlide, changeSlide }){
 	const dispatch = useDispatch()
 	const dispatchCheckUsername = username => dispatch(checkUsername(username))
 	const dispatchCheckEmail = email => dispatch(checkEmail(email))
@@ -86,7 +86,10 @@ function Register() {
 					}}
 				>
 
-					{renderSlides(currentSlide, changeSlide)}
+					<RenderSlides
+						currentSlide={currentSlide}
+						changeSlide={changeSlide}
+					/>
 
 				</Card>
 			</Col>
