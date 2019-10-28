@@ -58,6 +58,7 @@
     "react": "^16.7.0",
     "react-color": "^2.17.3",
     "react-dom": "^16.7.0",
+    "react-easy-crop": "^1.16.1",
     "react-hot-loader": "^4.12.15",
     "react-i18next": "^10.8.1",
     "react-image-crop": "^8.3.1",
