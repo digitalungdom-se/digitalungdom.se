@@ -104,7 +104,12 @@ class UserEditingForm extends React.Component {
       </Form.Item>
 
       <Form.Item style={formStyle}>
-        {getFieldDecorator('profile.url')(
+        {getFieldDecorator('profile.url', {
+          rules: [{
+            pattern: /^((?:http(?:s)?\:\/\/)?[a-zA-Z0-9_-]+(?:.[a-zA-Z0-9_-]+)*.[a-zA-Z]{2,4}(?:\/[a-zA-Z0-9_]+)*(?:\/[a-zA-Z0-9_]+.[a-zA-Z]{2,4}(?:\?[a-zA-Z0-9_]+\=[a-zA-Z0-9_]+)?)?(?:\&[a-zA-Z0-9_]+\=[a-zA-Z0-9_]+)*)$/,
+            message: "Ogiltigt format för länk."
+          }]
+        })(
           <Input
           prefix={<Icon type="paper-clip" style={{ color: 'rgba(0,0,0,.25)' }} />}
           placeholder="URL"
