@@ -6,7 +6,6 @@ const query = params => Object.keys( params )
 export function getProfilePicture( id, size ) {
   size = 100;
   let identifier = id.username ? id.username : id.id
-  console.log(identifier)
   return {
     // Types of actions to emit before and after
     types: [ 'GET_PROFILE_PICTURE_REQUEST', 'GET_PROFILE_PICTURE_SUCCESS', 'GET_PROFILE_PICTURE_FAILURE' ],
