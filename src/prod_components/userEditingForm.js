@@ -38,7 +38,6 @@ class UserEditingForm extends React.Component {
           }
         } );
 
-        console.log( userProfile )
         if ( userProfile.length > 0 ) {
           this.props.edit( {
             updates: userProfile

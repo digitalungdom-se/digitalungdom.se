@@ -7,29 +7,11 @@ export default ( state = {
 }, action ) => {
   let users, usernames
   switch ( action.type ) {
-    // case "SET_PROFILE_PICTURE_REQUEST":
-    //   return {
-    //     ...state,
-    //     users: {
-    //       ...state.users,
-    //       [state.whoami]: 
-    //     }
-    //   }
     case "SET_REQUEST":
-      return state
       let me = state.users[state.whoami].profile
       action.payload.updates.forEach(update => {
         me = Object.assign({}, me, update[1])
-      // //   let split = update[0].split('.')
-      // //   function recursive(tree, list, index, value) {
-      // //     if(index === list.length - 1) {
-      // //       tree[list[index]] = value
-      // //     } else recursive(tree, list, index + 1, value)
-      // //   }
       })
-      // console.log(state.whoami)
-      // console.log(me)
-      // console.log(state.whoami, me)
       return {
         ...state,
         users: {
@@ -40,13 +22,6 @@ export default ( state = {
           }
         }
       }
-      // return {
-      //   ...state,
-      //   users: {
-      //     [state.whoami]: {
-
-      //     }
-      //   }
       
     case "GET_USER_REQUEST":
 
