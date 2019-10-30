@@ -172,13 +172,15 @@ function Agorize({
 				}
 			<Form.Item>
 				{getFieldDecorator(postType !== "link" ? 'text' : "website", {
-					rules: [
-					{
+					rules: postType !== "link" ? [{
 						max: 10000, message: "Texten kan inte vara längre än 10000 karaktärer lång."
-					}
-					]
+					}]
+					:
+					[{
+						pattern: /^((?:http(?:s)?\:\/\/)?[a-zA-Z0-9_-]+(?:.[a-zA-Z0-9_-]+)*.[a-zA-Z]{2,4}(?:\/[a-zA-Z0-9_]+)*(?:\/[a-zA-Z0-9_]+.[a-zA-Z]{2,4}(?:\?[a-zA-Z0-9_]+\=[a-zA-Z0-9_]+)?)?(?:\&[a-zA-Z0-9_]+\=[a-zA-Z0-9_]+)*)$/,
+						message: "Ogiltigt format för länk."
+					}]
 				})(
-						postType !== "link" ?
 						<div
 							style={{position: 'relative'}}
 							onClick={()=> {
@@ -187,23 +189,29 @@ function Agorize({
 								}
 							}}
 						>
-		        	<Input.TextArea
-		        		name="body"
-								disabled={!authorized}
-		        		placeholder={
-		        			agoragramType !== "comment" ?
-		        				"Text (icke-obligatoriskt)\nDetta är markdown, tryck på frågetecknet för mer information. "
-		        				:
-		        				commentPlaceholder
-								}
-		        		autosize={{minRows: 4}}
-		      		/>
-							<GuideModal/>
+							{
+								postType !== "link" ?
+								<div>
+				        	<Input.TextArea
+				        		name="body"
+										disabled={!authorized}
+				        		placeholder={
+				        			agoragramType !== "comment" ?
+				        				"Text (icke-obligatoriskt)\nDetta är markdown, tryck på frågetecknet för mer information. "
+				        				:
+				        				commentPlaceholder
+										}
+				        		autosize={{minRows: 4}}
+				      		/>
+				      		<GuideModal/>
+			      		</div>
+								:
+								<Input
+									placeholder="https://www.digitalungdom.se"
+									disabled={!authorized}
+								/>
+							}
 						</div>
-						:
-						<Input
-							placeholder="https://www.digitalungdom.se"
-						/>
         )}
 			</Form.Item>
 			<Form.Item
