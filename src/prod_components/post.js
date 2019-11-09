@@ -248,6 +248,8 @@ function Post( {
 							:
 								<Avatar
 									size={40}
+                  src={require("resources/images/noProfilePicture.png")}
+                  alt="No Profile Picture"
 								/>
 						}
 					</Col>
