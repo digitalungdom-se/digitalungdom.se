@@ -6,7 +6,12 @@ import Link from '@components/link'
 import ProfilePicture from 'containers/ProfilePicture'
 
 const menu = (profile, logout) => (
-  <Menu style={{marginLeft: -28, marginTop: -38}}>
+  <Menu
+    style={{
+      marginLeft: -28,
+      marginTop: -22,
+    }}
+  >
     <Menu.Item >
       <Link
       loading = { profile.authing }
