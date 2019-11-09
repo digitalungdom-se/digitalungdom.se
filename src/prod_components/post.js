@@ -105,6 +105,32 @@ function copyPostLinkToClipBoard( link ) {
   el.remove();
 }
 
+function Markdown({ source }) {
+  return (
+    <ReactMarkdown
+      source={source}
+      renderers={{
+        heading: props => {
+          switch(props.level) {
+            case 1:
+              return <h1>{props.children}</h1>;
+            case 2:
+              return <h2>{props.children}</h2>;
+            case 3:
+              return <h3 style={{color: "black"}}>{props.children}</h3>;
+            case 4:
+              return <h4>{props.children}</h4>;
+            case 5:
+              return <h5>{props.children}</h5>;
+            case 6:
+              return <h6>{props.children}</h6>;
+          }
+        }
+      }}
+    />
+  )
+}
+
 function Post( {
   authorized,
   empty,
@@ -187,11 +213,11 @@ function Post( {
 										{
                       //Post is open if the comments are showing
                       showComments?
-                      (<p>{post.body}</p>)
+                      (<Markdown source={post.body} />)
                       :
                       (
                         <div>
-                        <p>{post.body.slice(0, wordLimitFadedDisplay) + "..."}</p>
+                        <Markdown source={post.body.slice(0, wordLimitFadedDisplay) + "..."} />
                         <div style={{position: 'absolute', bottom: 0, height: 100, width: "100%", backgroundImage: "linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1))"}}/>
                         </div>
                       )
@@ -206,7 +232,7 @@ function Post( {
         } else {
           return (
             <Link style={{color:"rgba(0,0,0,0.7)", fontSize: 16 }} to={link}>
-							<ReactMarkdown source={post.body} />
+							<Markdown source={post.body} />
 						</Link>
           )
         }
