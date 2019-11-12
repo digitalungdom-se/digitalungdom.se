@@ -195,13 +195,13 @@ function Agorize({
 				        	<Input.TextArea
 				        		name="body"
 										disabled={!authorized}
+										autosize={{minRows: 4}}
 				        		placeholder={
 				        			agoragramType !== "comment" ?
-				        				"Text (icke-obligatoriskt)\nDetta är markdown, tryck på frågetecknet för mer information. "
+				        				"Text (icke-obligatoriskt)\nDetta är react-markdown, tryck på frågetecknet för mer information. "
 				        				:
 				        				commentPlaceholder
 										}
-				        		autosize={{minRows: 4}}
 				      		/>
 				      		<GuideModal/>
 			      		</div>

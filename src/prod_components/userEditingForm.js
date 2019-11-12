@@ -69,7 +69,8 @@ class UserEditingForm extends React.Component {
   }
 
   handleColourChange = color => {
-    this.props.setUserColour( color.hex )
+    // Removing live colour update for the moment since it cause issues
+    // this.props.setUserColour( color.hex )
     this.props.form.setFieldsValue( { 'profile.colour': color.hex } )
   }
 
