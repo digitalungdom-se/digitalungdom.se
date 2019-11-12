@@ -14,7 +14,16 @@ const PhotoEditor = forwardRef((props, ref) => {
   const [errorVisible, setErrorVisible] = useState(false)
 
   const [imgSrc, setImgSrc] = useState(null)
-  const [crop, setCrop] = useState({ aspect: 1 / 1, maxWidth: 1000, minWidth: 60})
+  const [crop, setCrop] = useState({
+    aspect: 1 / 1,
+    unit: '%',
+    width: 80,
+    height: 80,
+    x: 10,
+    y: 10,
+    maxWidth: 1000,
+    minWidth: 60
+  })
 
   // Image size for calculating correct crop
   const [orginalImageSizeWidth, setOrginalImageSizeWidth] = useState(0)
