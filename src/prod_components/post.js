@@ -192,7 +192,7 @@ function Post( {
 		</div>
   )
 
-  let wordLimitFadedDisplay = 400;
+  let wordLimitFadedDisplay = 500;
 
   //Renders post body
   const Body = () => {
