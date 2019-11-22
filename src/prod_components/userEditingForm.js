@@ -1,13 +1,13 @@
 import React from 'react'
 import { Form, Icon, Row, Col, Input, Button } from 'antd'
 import { SketchPicker } from 'react-color'
+import isURL from 'validator/lib/isURL'
 
 const formStyle = {
   marginBottom: 6
 }
 
 class UserEditingForm extends React.Component {
-
   constructor( props ) {
     super( props )
     this.state = {
@@ -50,6 +50,19 @@ class UserEditingForm extends React.Component {
       }
     } );
   }
+
+  // This function validates a input's link.
+	checkValidLink = async (rule, value, callback) => {
+    if(value){
+      if(!isURL(value)) {
+				callback("Felaktigt länk-format")
+    	}else{
+				callback()
+			}
+  	}else{
+			callback()
+		}
+	}
 
   checkColorBrightness = color => {
     var c = color.substring( 1 ); // strip #
@@ -107,8 +120,7 @@ class UserEditingForm extends React.Component {
       <Form.Item style={formStyle}>
         {getFieldDecorator('profile.url', {
           rules: [{
-            pattern: /^((?:http(?:s)?\:\/\/)?[a-zA-Z0-9_-]+(?:.[a-zA-Z0-9_-]+)*.[a-zA-Z]{2,4}(?:\/[a-zA-Z0-9_]+)*(?:\/[a-zA-Z0-9_]+.[a-zA-Z]{2,4}(?:\?[a-zA-Z0-9_]+\=[a-zA-Z0-9_]+)?)?(?:\&[a-zA-Z0-9_]+\=[a-zA-Z0-9_]+)*)$/,
-            message: "Ogiltigt format för länk."
+            validator: this.checkValidLink
           }]
         })(
           <Input
@@ -175,8 +187,9 @@ class UserEditingForm extends React.Component {
           <Col span={12}>
             <Form.Item style={{marginBottom: 0}}>
               <Button
-                style={{width: '100%'}} type="primary" htmlType="submit"
-                onClick={this.handleSubmit}
+                style={{width: '100%'}}
+                type="primary"
+                htmlType="submit"
               >
                 Spara
               </Button>
