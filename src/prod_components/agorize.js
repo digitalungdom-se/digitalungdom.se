@@ -1,52 +1,10 @@
 import  React, {useState} from 'react'
-import { Select, Input, Button, Form, Icon } from 'antd'
+import { Select, Input, Button, Form } from 'antd'
+import Modal from '@components/Modal'
+import MarkdownGuideModal from '@components/MarkdownGuideModal'
 import { Redirect } from 'react-router-dom'
 import Card from '@components/Card'
-import Modal from '@components/Modal'
-
-const Description = () => (
-	<div>
-		<p>
-			Skriv <i>kursivt</i> genom att omringa text med *
-			<br/>
-			*Text* = <i>Text</i>
-		</p>
-		<p>
-			Skriv <b>fet stil</b> genom att omringa text med **
-			<br/>
-			**Text** = <b>Text</b>
-		</p>
-		<p>
-			Skriv <code>kod-stil</code> genom att omringa text med ```
-			<br/>
-			```Text``` = <code>Text</code>
-		</p>
-	</div>
-)
-
-const GuideModal = () => {
-  const [modalVisible, showModal] = useState(false)
-  const onCancel = () => showModal(false);
-  const onConfirm = () => showModal(false);
-
-  return (
-    <div>
-			<span className="highlightable" style={{position: "absolute", right: 0, top: -6}} onClick = {()=> {showModal(true)}}>
-				<Icon style={{fontSize: 14, marginRight: 10}} type="question-circle" />
-			</span>
-      <Modal
-        visible={modalVisible}
-        title="Markdown guide"
-				description = {<Description/>}
-        confirmText="Klar"
-				modalType="confirmOnly"
-        handleConfirm={() => onConfirm()}
-        onConfirm={() => onConfirm()}
-        onCancel={() => onCancel()}
-      />
-    </div>
-  )
-}
+import isURL from 'validator/lib/isURL'
 
 function Agorize({
 	agorize,
@@ -60,12 +18,16 @@ function Agorize({
 	agorized
 }) {
 
+	// Must auth modal
 	const [mustAuthModalVisible, showMustAuthModal] = useState(false)
 	const onCancel = () => showMustAuthModal(false);
   const onConfirm = () => showMustAuthModal(false);
 
+	// Form values
+	const [formUrlIsValid, setUrlValid] = useState(null)
+
 	// TO-DO: add getFieldError, isFieldTouched
-	const { getFieldDecorator } = form
+	const { getFieldDecorator, setFields } = form
 
 	function handleForm(e) {
 		e.preventDefault()
@@ -91,6 +53,19 @@ function Agorize({
 		}
 	}
 
+	// This function validates a input's link.
+	const checkValidLink = async (rule, value, callback) => {
+    if(value){
+      if(!isURL(value)) {
+				callback("Felaktigt länk-format")
+    	}else{
+				callback()
+			}
+  	}else{
+			callback()
+		}
+	}
+
 	// TO-DO: add title error
 	//const titleError = isFieldTouched('titleError') && getFieldError('titleError');
 	if(agoragramType!=="comment" && agorized) return <Redirect to="/agora" />
@@ -110,15 +85,8 @@ function Agorize({
 		<Form
 			onSubmit={(e) => handleForm(e)}
 			disabled={authorized}
-
-			// {...formItemLayout}
 		>
 			<Card
-				// style={
-				// 	agoragramType==="post" ?
-				// 	{background: "white", border: "1px solid #e8e8e8", padding: 30}
-				// 	: {}
-				// }
 				titleAlign="left"
 				title={
 					agoragramType === "post" ?
@@ -172,13 +140,17 @@ function Agorize({
 				}
 			<Form.Item>
 				{getFieldDecorator(postType !== "link" ? 'text' : "website", {
+
 					rules: postType !== "link" ? [{
-						max: 10000, message: "Texten kan inte vara längre än 10000 karaktärer lång."
+						max: 10000,
+						message: "Texten kan inte vara längre än 10000 karaktärer lång."
 					}]
 					:
 					[{
-						pattern: /^((?:http(?:s)?\:\/\/)?[a-zA-Z0-9_-]+(?:.[a-zA-Z0-9_-]+)*.[a-zA-Z]{2,4}(?:\/[a-zA-Z0-9_]+)*(?:\/[a-zA-Z0-9_]+.[a-zA-Z]{2,4}(?:\?[a-zA-Z0-9_]+\=[a-zA-Z0-9_]+)?)?(?:\&[a-zA-Z0-9_]+\=[a-zA-Z0-9_]+)*)$/,
-						message: "Ogiltigt format för länk."
+						validator: checkValidLink
+					}, {
+						required: true,
+						message: "Ange en länk"
 					}]
 				})(
 						<div
@@ -203,7 +175,7 @@ function Agorize({
 				        				commentPlaceholder
 										}
 				      		/>
-				      		<GuideModal/>
+				      		<MarkdownGuideModal/>
 			      		</div>
 								:
 								<Input

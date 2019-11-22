@@ -97,14 +97,15 @@ class RegistrationForm extends React.Component {
   checkEmail = async (rule, value, callback) => {
     if(value){
       if(value.indexOf('@') !== -1) {
-        // if(this.props.emailAvailable === false) {
-        //   // this.props.form.setFields({
-        //   //   email: {
-        //   //     value,
-        //   //     errors: [new Error('Det finns redan en medlem med den e-posten')],
-        //   //   },
-        //   // })
-        // }
+        if(this.props.emailAvailable === false) {
+          callback("Det finns redan en medlem med den e-posten")
+        }
+          //   // this.props.form.setFields({
+          //   //   email: {
+          //   //     value,
+          //   //     errors: [new Error('Det finns redan en medlem med den e-posten')],
+          //   //   },
+          //   // })
       }
       // const response = await this.checkEmail({email: value})
       // if(response.email) {
@@ -134,19 +135,6 @@ class RegistrationForm extends React.Component {
 
     const { getFieldDecorator } = this.props.form;
 
-    /*
-    const validateStatusEmail = this.props.checkingEmail ? {
-      validateStatus: 'validating'
-    } : {}
-    let validateStatusUsername
-    if(this.props.usernameAvailable === false) validateStatusUsername = 'error'
-    if(this.props.usernameAvailable === true) validateStatusUsername = 'success'
-    if(this.props.checkingUsername) validateStatusUsername = 'validating'
-    const validateStatusUsername = this.props.Register.checkingUsername ? {
-      validateStatus: 'validating'
-    } : (this.props.Register.username ? (this.props.Register.username && this.props.Register.username !== undefined ? {} : {validateStatus: 'error'}) : {validateStatus}
-    */
-
     return (
       <div>
         <Form
@@ -165,7 +153,6 @@ class RegistrationForm extends React.Component {
               },
               {
                 // TO-DO: Fix regex
-                // eslint-disable-next-line
                 pattern: /^(([A-Za-zÀ-ÖØ-öø-ÿ\-\'\,\.\ ]+))$/, message: 'Otillåtna karaktärer'
               }],
             })(
@@ -178,19 +165,19 @@ class RegistrationForm extends React.Component {
 
           <Form.Item
           required
-            validateStatus={
-              this.props.checkingUsername !== undefined ?
-                this.props.checkingUsername === true ?
-                  "validating"
-                  :
-                  (
-                    this.props.usernameAvailable === true ?
-                    "success"
-                    :
-                    "error"
-                  )
+          validateStatus={
+            this.props.checkingUsername !== undefined ?
+              this.props.checkingUsername === true ?
+                "validating"
                 :
-                null
+                (
+                  this.props.usernameAvailable === true ?
+                  "success"
+                  :
+                  "error"
+                )
+              :
+              null
             }
             // help={this.props.checkingUsername !== undefined && this.props.usernameAvailable === false ? "Användarnamnet är taget" : null}
             hasFeedback
