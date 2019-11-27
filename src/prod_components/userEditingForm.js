@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Icon, Row, Col, Input, Button } from 'antd'
 import { SketchPicker } from 'react-color'
-import isURL from 'validator/lib/isURL'
+import { isURL } from 'validator'
 
 const formStyle = {
   marginBottom: 6
@@ -52,17 +52,17 @@ class UserEditingForm extends React.Component {
   }
 
   // This function validates a input's link.
-	checkValidLink = async (rule, value, callback) => {
+  checkValidLink = async (rule, value, callback) => {
     if(value){
       if(!isURL(value)) {
-				callback("Felaktigt länk-format")
-    	}else{
-				callback()
-			}
-  	}else{
-			callback()
-		}
-	}
+      	callback("Felaktigt länk-format")
+      }else{
+      	callback()
+      }
+    }else{
+      callback()
+    }
+  }
 
   checkColorBrightness = color => {
     var c = color.substring( 1 ); // strip #
