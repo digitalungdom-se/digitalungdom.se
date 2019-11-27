@@ -75,8 +75,7 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
-    "validator": "^10.11.0",
-    "validator-js": "^0.2.1"
+    "validator": "^10.11.0"
   },
   "scripts": {
     "start": "react-app-rewired start",

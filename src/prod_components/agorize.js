@@ -4,7 +4,7 @@ import Modal from '@components/Modal'
 import MarkdownGuideModal from '@components/MarkdownGuideModal'
 import { Redirect } from 'react-router-dom'
 import Card from '@components/Card'
-import isURL from 'validator/lib/isURL'
+import { isURL } from 'validator';
 
 function Agorize({
 	agorize,
@@ -55,13 +55,13 @@ function Agorize({
 
 	// This function validates a input's link.
 	const checkValidLink = async (rule, value, callback) => {
-    if(value){
-      if(!isURL(value)) {
+		if(value){
+			if(!isURL(value)) {
 				callback("Felaktigt länk-format")
-    	}else{
+			}else{
 				callback()
 			}
-  	}else{
+		}else{
 			callback()
 		}
 	}
