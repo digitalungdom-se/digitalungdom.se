@@ -1,5 +1,7 @@
 import React from 'react'
-import { Col, Row } from 'antd'
+import { Col, Row, Icon } from 'antd'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDiscord } from '@fortawesome/free-brands-svg-icons'
 import './footer.css'
 
 export default () => {
@@ -31,34 +33,76 @@ export default () => {
           <Col
             {...size}
           >
-            <h3>
+            <h3 style = {{marginBottom: 18}}>
               Om oss
             </h3>
-            <p>
+            <p style={{marginBottom: 6}}>
               Digital Ungdom är ett ideellt ungdomsförbund med syfte att i Sverige utveckla och underhålla ungdomars intresse för och kunskaper om digital teknik och datavetenskap samt hur detta kan användas.
             </p>
           </Col>
           <Col
             {...size}
           >
-            <h3>
+            <h3 style = {{marginBottom: 18}}>
               Kontakt
             </h3>
-            <p>
-              E-post: <a href="mailto:styrelse@digitalungdom.se">styrelse@digitalungdom.se</a>
+            <p style={{marginBottom: 6}}>
+              <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="mailto:styrelse@digitalungdom.se"
+              className="topFooterLink"
+              >
+                <Icon type="mail" style={{marginRight: 6}}/>
+                styrelse@digitalungdom.se
+              </a>
             </p>
-            <p>
-              Telefonnummer: <a href="tel:+45709447003">+46709447003</a>
+            <p style={{marginBottom: 6}}>
+              <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://discord.gg/J4JhCWH"
+              className="topFooterLink"
+              >
+                <FontAwesomeIcon style={{marginRight: 6}} icon={faDiscord} />
+                Discord
+              </a>
             </p>
-            <p>
-              Discord-server: <a href="https://discord.gg/J4JhCWH">https://discord.gg/J4JhCWH</a>
+          </Col>
+          <Col
+            {...size}
+          >
+            <h3 style = {{marginBottom: 18}}>
+              Utveckla
+            </h3>
+            <p style={{marginBottom: 6}}>
+              <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/digitalungdom-se/digitalungdom.se"
+              className="topFooterLink"
+              >
+                <Icon type="github" style={{marginRight: 6}}/>
+                GitHub
+              </a>
+            </p>
+            <p style={{marginBottom: 6}}>
+              <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/digitalungdom-se/digitalungdom.se/issues"
+              className="topFooterLink"
+              >
+                <Icon type="issues-close" style={{marginRight: 6}}/>
+                Issues
+              </a>
             </p>
           </Col>
         </Row>
 
         <Row type='flex' style={{borderTop: '1px solid white', paddingTop: 12, opacity: 0.7, fontSize: 12}}>
          <Col>
-           <p>
+           <p style={{marginBottom: 6}}>
             Digital Ungdom 2019
            </p>
          </Col>
@@ -78,19 +122,19 @@ export default () => {
 //     <Row type="flex" justify="space-between" style ={{marginBottom: 30, textAlign: 'left'}}>
 //       <Col span={8}>
 //         <div className="footerContainer">
-//           <h3>
+//           <h3 style = {{marginBottom: 18}}>
 //             Om oss
 //           </h3>
 
 //           <Row style={{height:12}}/>
 
-//           <p>
+//           <p style={{marginBottom: 6}}>
 //             Digital Ungdom är ett ideellt ungdomsförbund med syfte att i Sverige utveckla och underhålla ungdomars intresse för och kunskaper om digital teknik och datavetenskap, samt hur detta kan användas.
 //           </p>
 //         </div>
 //       </Col>
 //       <Col span={7}>
-//         <h3>
+//         <h3 style = {{marginBottom: 18}}>
 //           Kontakt
 //         </h3>
 //         <Row style={{height:12}}/>
@@ -107,7 +151,7 @@ export default () => {
 //         </Row>
 //       </Col>
 //       <Col span={6}>
-//         <h3>
+//         <h3 style = {{marginBottom: 18}}>
 //           Community
 //         </h3>
 //         <Row style={{height:12}}/>
@@ -138,7 +182,7 @@ export default () => {
 //     </Row>
 //     <Row type='flex' style={{borderTop: '1px solid white', paddingTop: 12, opacity: 0.7, fontSize: 12}}>
 //       <Col>
-//         <p>
+//         <p style={{marginBottom: 6}}>
 //          Digital Ungdom ©2019
 //         </p>
 //       </Col>
