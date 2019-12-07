@@ -11,7 +11,7 @@ function Register({ loggingIn, loggingInError, login, Auth, translations, form }
 		"not verified": "Du måste verifiera din e-mail innan du kan logga in."
 	}
 
-
+ 
 	return (
 		<Row
 			type="flex"
