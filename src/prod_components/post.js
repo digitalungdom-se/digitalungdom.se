@@ -124,7 +124,15 @@ function Markdown({ source }) {
               return <h5>{props.children}</h5>;
             case 6:
               return <h6>{props.children}</h6>;
+            default:
+              return null;
           }
+        },
+        link: props => {
+          const href = (props.href.indexOf("https://") === -1 && props.href.indexOf("http://") === -1 ) ? "https://" + props.href : props.href
+          return (
+            <a href={href}>{props.children}</a>
+          );
         }
       }}
     />
