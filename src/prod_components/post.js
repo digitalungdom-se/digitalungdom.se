@@ -175,7 +175,7 @@ function Post( {
   // Function that allows whole post to be pressed excluding buttons such as share and edit.
   function click( e ) {
     //Silly work around for allowing user to press the comment icon and redirect
-    if ( e.target.parentNode.className.includes("ShouldOpenPost") || (e.target.parentNode.parentNode.className === "ShouldOpenPost" && typeof e.target.parentNode.parentNode.className === "string" )) {
+    if ( e.target.parentNode.className.includes("ShouldOpenPost") ) {
       redirect( link )
     }
   }
@@ -272,7 +272,6 @@ function Post( {
 	    >
 				<div
 					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
-          className="ShouldOpenPost"
 				>
 					<Col
 						style={{textAlign: "center", paddingTop: 20, width: "10%", minWidth: 56, maxWidth: 72}}
@@ -292,7 +291,7 @@ function Post( {
 					<div
 						style={{paddingTop: 8, width: "calc(100% - 56px)"}}
             span={22}
-            className="ShouldOpenPost"
+            className={showComments ? null : "ShouldOpenPost"}
 					>
 						<Row
 							style={{width: "100%"}}
@@ -317,13 +316,12 @@ function Post( {
 								</Link>
 							</Col>
 						</Row>
-						<Row style={{width: "100%"}}>
+						<Row style={{width: "100%"}} className="ShouldOpenPost" >
 								<h1>{post.title}</h1>
 						</Row>
 
 	          <Row
             style={{width: "100%"}}
-            className="ShouldOpenPost"
             >
 	            <Body/>
 	          </Row>
