@@ -159,12 +159,6 @@ function Post( {
 
   // Function that allows whole post to be pressed excluding buttons such as share and edit.
   function click( e ) {
-    // Check if pressed component should open the post
-    if ( typeof e.target.className === "string" ) {
-      if ( e.target.className.includes( "ShouldOpenPost" ) || e.target.className.includes( "ant-card-body" ) ) {
-        redirect( link )
-      }
-    }
     //Silly work around for allowing user to press the comment icon and redirect
     if ( e.target.parentNode.parentNode.className === "ShouldOpenPost" && typeof e.target.parentNode.parentNode.className === "string" ) {
       redirect( link )
@@ -207,7 +201,6 @@ function Post( {
         //If its a text post with more than characters, render transparent faded div
         if ( post.body.length > wordLimitFadedDisplay ) {
           return (
-            <Link to={link} style={{color:"rgba(0,0,0,0.7)", fontSize: 14 }}>
 							<div style={{postion: 'relative'}}>
 
 										{
@@ -225,15 +218,12 @@ function Post( {
                     }
 
 							</div>
-						</Link>
           )
 
           //For shorter posts
         } else {
           return (
-            <Link style={{color:"rgba(0,0,0,0.7)", fontSize: 16 }} to={link}>
 							<Markdown source={post.body} />
-						</Link>
           )
         }
       }
@@ -308,9 +298,7 @@ function Post( {
 							</Col>
 						</Row>
 						<Row style={{width: "100%"}}>
-							<Link to={link}>
 								<h1>{post.title}</h1>
-							</Link>
 						</Row>
 
 	          <Row
