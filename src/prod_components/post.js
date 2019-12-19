@@ -175,7 +175,7 @@ function Post( {
   // Function that allows whole post to be pressed excluding buttons such as share and edit.
   function click( e ) {
     //Silly work around for allowing user to press the comment icon and redirect
-    if ( e.target.parentNode.className.includes("ShouldOpenPost") ) {
+    if ( e.target.parentNode.className !== undefined && e.target.parentNode.className.includes("ShouldOpenPost") ) {
       redirect( link )
     }
   }
