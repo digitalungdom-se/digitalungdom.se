@@ -133,6 +133,13 @@ function Markdown({ source }) {
           return (
             <a href={href}>{props.children}</a>
           );
+        },
+        paragraph: props => {
+          return (
+            <p style={{wordBreak: "break-word"}}>
+              {props.children}
+            </p>
+          )
         }
       }}
     />
@@ -168,7 +175,7 @@ function Post( {
   // Function that allows whole post to be pressed excluding buttons such as share and edit.
   function click( e ) {
     //Silly work around for allowing user to press the comment icon and redirect
-    if ( e.target.parentNode.parentNode.className === "ShouldOpenPost" && typeof e.target.parentNode.parentNode.className === "string" ) {
+    if ( e.target.parentNode.className.includes("ShouldOpenPost") || (e.target.parentNode.parentNode.className === "ShouldOpenPost" && typeof e.target.parentNode.parentNode.className === "string" )) {
       redirect( link )
     }
   }
@@ -218,23 +225,19 @@ function Post( {
         //If its a text post with more than characters, render transparent faded div
         if ( post.body.length > wordLimitFadedDisplay ) {
           return (
-							<div style={{postion: 'relative'}}>
 
-										{
                       //Post is open if the comments are showing
                       showComments?
                       (<Markdown source={post.body} />)
                       :
                       (
-                        <div>
+                        <div className="ShouldOpenPost" >
                         <Markdown source={post.body.slice(0, wordLimitFadedDisplay) + "..."} />
                         <div style={{position: 'absolute', bottom: 0, height: 100, width: "100%", backgroundImage: "linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1))"}}/>
                         </div>
                       )
 
-                    }
 
-							</div>
           )
 
           //For shorter posts
