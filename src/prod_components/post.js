@@ -204,7 +204,16 @@ function Post( {
 
       //If the post is a link, render this
       if ( post.type === 'link' ) {
-        return ( <p><a href={(post.body.indexOf("https://") === -1 && post.body.indexOf("http://") === -1 ) ? "https://" + post.body : post.body} rel="noopener noreferrer" style={{fontSize: 16}} target="_blank"> {post.body} </a></p> )
+        return (
+            <a
+              href={(post.body.indexOf("https://") === -1 && post.body.indexOf("http://") === -1 ) ? "https://" + post.body : post.body}
+              rel="noopener noreferrer"
+              style={{fontSize: 16, wordWrap: "break-word", display: "block" }}
+              target="_blank"
+            >
+              {post.body}
+            </a>
+          )
       } else {
         //If its a text post with more than characters, render transparent faded div
         if ( post.body.length > wordLimitFadedDisplay ) {
@@ -258,7 +267,7 @@ function Post( {
 	      	marginBottom: 16
 	      }}
 	    >
-				<span
+				<div
 					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
           className="ShouldOpenPost"
 				>
@@ -278,7 +287,7 @@ function Post( {
 						}
 					</Col>
 					<div
-						style={{paddingTop: 8, flex: "1"}}
+						style={{paddingTop: 8, width: "calc(100% - 56px)"}}
             span={22}
             className="ShouldOpenPost"
 					>
@@ -427,7 +436,7 @@ function Post( {
 
 						</Row>
 					</div>
-				</span>
+				</div>
         {
         	!loading && showComments &&
         	<React.Fragment>
