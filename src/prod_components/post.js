@@ -175,7 +175,10 @@ function Post( {
   // Function that allows whole post to be pressed excluding buttons such as share and edit.
   function click( e ) {
     //Silly work around for allowing user to press the comment icon and redirect
-    if ( e.target.parentNode.className !== undefined && e.target.parentNode.className.includes("ShouldOpenPost") ) {
+    if (
+      (e.target.className && e.target.className.includes("ShouldOpenPost")) ||
+      (e.target.parentNode.className !== undefined && e.target.parentNode.className.includes("ShouldOpenPost"))
+    ) {
       redirect( link )
     }
   }
@@ -243,7 +246,9 @@ function Post( {
           //For shorter posts
         } else {
           return (
-							<Markdown source={post.body} />
+							<div className={showComments ? null : "ShouldOpenPost"}>
+                <Markdown source={post.body} />
+              </div>
           )
         }
       }
