@@ -71,7 +71,7 @@
     "babel-plugin-import": "^1.12.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-security": "^1.4.0",
-    "react-app-rewire-aliases": "^0.2.0",
+    "less-loader": "^5.0.0",
     "react-app-rewired": "^2.1.3",
     "redux-devtools-extension": "^2.13.8",
     "safe-regex": "^2.0.1"
