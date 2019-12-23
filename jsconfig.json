@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["prod_components/*"],
+      "@wrappers/*": ["prod_wrappers/*"]
+    }
   }
 }
