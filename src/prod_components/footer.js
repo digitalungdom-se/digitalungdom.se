@@ -103,7 +103,7 @@ export default () => {
         <Row type='flex' style={{borderTop: '1px solid white', paddingTop: 12, opacity: 0.7, fontSize: 12}}>
          <Col>
            <p style={{marginBottom: 6}}>
-            Digital Ungdom 2019
+            Digital Ungdom 2020
            </p>
          </Col>
          <Col style={{marginLeft: 20}}>
