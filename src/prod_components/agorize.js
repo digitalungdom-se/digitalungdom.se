@@ -23,11 +23,9 @@ function Agorize({
 	const onCancel = () => showMustAuthModal(false);
   const onConfirm = () => showMustAuthModal(false);
 
-	// Form values
-	const [formUrlIsValid, setUrlValid] = useState(null)
 
 	// TO-DO: add getFieldError, isFieldTouched
-	const { getFieldDecorator, setFields } = form
+	const { getFieldDecorator } = form
 
 	function handleForm(e) {
 		e.preventDefault()
