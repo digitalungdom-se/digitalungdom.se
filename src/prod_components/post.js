@@ -124,6 +124,8 @@ function Markdown({ source }) {
               return <h5>{props.children}</h5>;
             case 6:
               return <h6>{props.children}</h6>;
+            default:
+              return <h1>{props.children}</h1>;
           }
         }
       }}
@@ -202,7 +204,17 @@ function Post( {
 
       //If the post is a link, render this
       if ( post.type === 'link' ) {
-        return ( <p><a href={(post.body.indexOf("https://") === -1 && post.body.indexOf("http://") === -1 ) ? "https://" + post.body : post.body} rel="noopener noreferrer" style={{fontSize: 16}} target="_blank"> {post.body} </a></p> )
+        return (
+          <p>
+            <a
+              href={(post.body.indexOf("https://") === -1 && post.body.indexOf("http://") === -1 ) ? "https://" + post.body : post.body}
+              rel="noopener noreferrer"
+              style={{fontSize: 16, overflowWrap: "break-word"}}
+              target="_blank"
+            >
+              {post.body}
+            </a>
+          </p> )
       } else {
         //If its a text post with more than characters, render transparent faded div
         if ( post.body.length > wordLimitFadedDisplay ) {
@@ -213,12 +225,17 @@ function Post( {
 										{
                       //Post is open if the comments are showing
                       showComments?
-                      (<Markdown source={post.body} />)
+
+                      (
+                        <div style={{maxWidth: "100%", overflowWrap: "break-word"}}>
+                          <Markdown source={post.body} />
+                        </div>
+                      )
                       :
                       (
-                        <div>
-                        <Markdown source={post.body.slice(0, wordLimitFadedDisplay) + "..."} />
-                        <div style={{position: 'absolute', bottom: 0, height: 100, width: "100%", backgroundImage: "linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1))"}}/>
+                        <div style={{maxHeight: 200, maxWidth: "100%", overflow: "hidden", overflowWrap: "break-word"}}>
+                          <Markdown source={post.body}/>
+                          <div style={{position: 'absolute', bottom: 0, height: 100, width: "100%", backgroundImage: "linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1))"}}/>
                         </div>
                       )
 
@@ -253,19 +270,21 @@ function Post( {
     <React.Fragment>
 			<Card
 				className="agora-post"
-				bodyStyle={{padding: 8, paddingRight: "5%" }}
+				bodyStyle={{padding: 8}}
         onClick={click}
-	      // style={!showComments ? {marginBottom: 12} : {marginTop: "5%"}}
 	      style={{
 	      	marginBottom: 16
 	      }}
 	    >
-				<span
-					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
+				<Row
+          type="flex"
           className="ShouldOpenPost"
+          span={24}
+          style={{marginRight: "3%"}}
 				>
 					<Col
-						style={{textAlign: "center", paddingTop: 20, width: "10%", minWidth: 56, maxWidth: 72}}
+            span={3}
+						style={{textAlign: "center", paddingTop: 20}}
             className="ShouldOpenPost"
 					>
 						{
@@ -279,9 +298,10 @@ function Post( {
 								/>
 						}
 					</Col>
-					<div
-						style={{paddingTop: 8, flex: "1"}}
-            span={22}
+
+					<Col
+						style={{paddingTop: 8}}
+            span={21}
             className="ShouldOpenPost"
 					>
 						<Row
@@ -297,9 +317,7 @@ function Post( {
                   className="WillNotOpenPostDiv"
 								/>
 							</Col>
-							<Col
-              className="ShouldOpenPost"
-              >
+							<Col className="ShouldOpenPost">
 								<Time time={post._id.substring(0, 8)} />
 								<Divider type="vertical"/>
 								<Link to={"/agora/h/" + post.hypagora}>
@@ -307,6 +325,7 @@ function Post( {
 								</Link>
 							</Col>
 						</Row>
+
 						<Row style={{width: "100%"}}>
 							<Link to={link}>
 								<h1>{post.title}</h1>
@@ -333,7 +352,7 @@ function Post( {
 						</div>
 
 
-						<Row style={{fontSize: 16, marginBottom: 10}}>
+						<Row style={{fontSize: 16, marginBottom: 10, marginLeft: "-5%"}}>
 
 							<Col
               xs={{span: 6}}
@@ -414,7 +433,7 @@ function Post( {
                   >
 
                     <Dropdown
-                    overlay={editMenu(antiAgorize, deleteTemp, )}
+                    overlay={editMenu(antiAgorize, deleteTemp)}
                     trigger={['click']}
                     >
 
@@ -430,8 +449,8 @@ function Post( {
               }
 
 						</Row>
-					</div>
-				</span>
+					</Col>
+				</Row>
         {
         	!loading && showComments &&
         	<React.Fragment>
