@@ -1,37 +1,6 @@
 import React from 'react'
 import { Col, Row, Icon } from 'antd'
 
-/*
-<Row type="flex" justify="center" style={{paddingTop: 80}}>
-
-  <Col span={11}>
-    <div style={{paddingRight: 50}}>
-
-      <h3 style={{fontSize: 24, color: "#434343", fontWeight: 'bold'}}>Vår story</h3>
-
-      <p style={{fontSize: 15, marginBottom: 40, color: "#434343", textAlign:"justify"}}>
-      Digital Ungdom har startat på initiativ från Douglas Bengtsson som är förbundsstyrelsens ordförande.
-      Douglas har länge inspirerats av det nationella förbundet Astronomisk Ungdom, och har saknat en
-      motsvarighet för teknik- och programmeringsintresserade ungdomar. Sommaren 2018 deltog Douglas
-      i den svenska sommarforskarskolan Rays, där han fick träffa andra likasinnade och engagerade ungdomar.
-      Under Rays träffade han bland andra de två engagerade eleverna Simon Sondén och Kelvin Szolnoky.
-      Simon Sondén som är vice ordförande i styrelsen bor i Umeå och har bland annat deltagit i Robocup
-      Junior VM. Kelvin Szolnoky som är vice ordförande i styrelsen bor i Göteborg och har bland annat
-      varit mycket aktiv inom Astronomisk Ungdoms verksamhet.
-      </p>
-
-    </div>
-  </Col>
-
-  <Col span={13}>
-    <div style={{ backgroundColor: 'pink', position: 'relative', height: 400, textAlign: 'center', paddingTop: 160}}>
-      <h1>Mer bilder här på teamet kanske</h1>
-    </div>
-  </Col>
-
-</Row>
-*/
-
 const CenterWrapper = ({ children }) => (
 	<Row type = "flex" justify="center">
 		<Col type = "flex" justify="center" span={20}>
@@ -120,7 +89,7 @@ export default () => (
         profile(
           "Douglas",
           "Bengtsson",
-          "Tjena! Jag är 19 år gammal och studerar datateknik på KTH! Som ordförande och grundare av Digital Ungdom är jag ansiktet utåt – men jobbar också med front-end.",
+          "Tjena! Jag är 20 år gammal och studerar datateknik på KTH! Som ordförande och grundare av Digital Ungdom är jag ansiktet utåt – men jobbar också med front-end.",
           "Ordförande",
           "#1e6ee8"
         )
@@ -147,7 +116,7 @@ export default () => (
         profile(
           "Charles",
           "Maddock",
-          "Hej! Mitt namn är Charles, jag är 19 år och ansvarar mest för design här på digitalungdom.se! Det är även jag som har ritat bilderna som ni ser på hemsidan.",
+          "Hej! Mitt namn är Charles och jag ansvarar mest för design här på digitalungdom.se! Det är även jag som har ritat bilderna som ni ser på hemsidan.",
           "Styrelseledamot",
           "lightGreen"
         )
@@ -155,3 +124,14 @@ export default () => (
     </CenterWrapper>
   </div>
 )
+
+/*
+      Digital Ungdom har startat på initiativ från Douglas Bengtsson som är förbundsstyrelsens ordförande.
+      Douglas har länge inspirerats av det nationella förbundet Astronomisk Ungdom, och har saknat en
+      motsvarighet för teknik- och programmeringsintresserade ungdomar. Sommaren 2018 deltog Douglas
+      i den svenska sommarforskarskolan Rays, där han fick träffa andra likasinnade och engagerade ungdomar.
+      Under Rays träffade han bland andra de två engagerade eleverna Simon Sondén och Kelvin Szolnoky.
+      Simon Sondén som är vice ordförande i styrelsen bor i Umeå och har bland annat deltagit i Robocup
+      Junior VM. Kelvin Szolnoky som är vice ordförande i styrelsen bor i Göteborg och har bland annat
+      varit mycket aktiv inom Astronomisk Ungdoms verksamhet.
+*/
