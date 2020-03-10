@@ -125,7 +125,7 @@ function Markdown({ source }) {
             case 6:
               return <h6>{props.children}</h6>;
             default:
-              return null;
+              return <h1>{props.children}</h1>;
           }
         },
         link: props => {
@@ -231,12 +231,17 @@ function Post( {
 
                       //Post is open if the comments are showing
                       showComments?
-                      (<Markdown source={post.body} />)
+
+                      (
+                        <div style={{maxWidth: "100%", overflowWrap: "break-word"}}>
+                          <Markdown source={post.body} />
+                        </div>
+                      )
                       :
                       (
-                        <div className="ShouldOpenPost" >
-                        <Markdown source={post.body.slice(0, wordLimitFadedDisplay) + "..."} />
-                        <div style={{position: 'absolute', bottom: 0, height: 100, width: "100%", backgroundImage: "linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1))"}}/>
+                        <div style={{maxHeight: 200, maxWidth: "100%", overflow: "hidden", overflowWrap: "break-word"}}>
+                          <Markdown source={post.body}/>
+                          <div style={{position: 'absolute', bottom: 0, height: 100, width: "100%", backgroundImage: "linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1))"}}/>
                         </div>
                       )
 
@@ -268,9 +273,8 @@ function Post( {
     <React.Fragment>
 			<Card
 				className="agora-post"
-				bodyStyle={{padding: 8, paddingRight: "5%" }}
+				bodyStyle={{padding: 8}}
         onClick={click}
-	      // style={!showComments ? {marginBottom: 12} : {marginTop: "5%"}}
 	      style={{
 	      	marginBottom: 16
 	      }}
@@ -279,7 +283,8 @@ function Post( {
 					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
 				>
 					<Col
-						style={{textAlign: "center", paddingTop: 20, width: "10%", minWidth: 56, maxWidth: 72}}
+            span={3}
+						style={{textAlign: "center", paddingTop: 20}}
             className="ShouldOpenPost"
 					>
 						{
@@ -311,9 +316,7 @@ function Post( {
                   className="WillNotOpenPostDiv"
 								/>
 							</Col>
-							<Col
-              className="ShouldOpenPost"
-              >
+							<Col className="ShouldOpenPost">
 								<Time time={post._id.substring(0, 8)} />
 								<Divider type="vertical"/>
 								<Link to={"/agora/h/" + post.hypagora}>
@@ -344,7 +347,7 @@ function Post( {
 						</div>
 
 
-						<Row style={{fontSize: 16, marginBottom: 10}}>
+						<Row style={{fontSize: 16, marginBottom: 10, marginLeft: "-5%"}}>
 
 							<Col
               xs={{span: 6}}
@@ -425,7 +428,7 @@ function Post( {
                   >
 
                     <Dropdown
-                    overlay={editMenu(antiAgorize, deleteTemp, )}
+                    overlay={editMenu(antiAgorize, deleteTemp)}
                     trigger={['click']}
                     >
 
