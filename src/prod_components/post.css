@@ -1,7 +1,3 @@
-.ShouldOpenPost:hover{
-  cursor: pointer;
-}
-
 .asteriButton:hover{
   color:#FFD700;
   transition: 0.1s;
