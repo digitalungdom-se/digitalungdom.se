@@ -35,8 +35,8 @@ export default ( state = {
   agorized: [],
   filter: {
     sort: "new",
-    time: "month",
-    dateAfter: ( Math.floor( ( Date.now() / 1000 - 30 * 24 * 3600 ) ) ).toString( 16 ),
+    time: "ever",
+    dateAfter: "0",
     dateBefore: ( Math.floor( ( Date.now() / 1000 ) ) ).toString( 16 )
   },
   lists: {},

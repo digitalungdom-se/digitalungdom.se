@@ -12,6 +12,8 @@ import Comments from 'containers/comments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment, faShare, faStar, faPen, faFlag, faCopy, faEllipsisH, faTrash } from '@fortawesome/free-solid-svg-icons'
 
+// link is redirected by https://stackoverflow.com/questions/9882916/are-you-allowed-to-nest-a-link-inside-of-a-link
+
 const shareMenu = ( link ) => (
   <Menu>
     <Menu.Item>
@@ -172,17 +174,6 @@ function Post( {
   const onMustAuthCancel = () => showMustAuthModal(false);
   const onMustAuthConfirm = () => showMustAuthModal(false);
 
-  // Function that allows whole post to be pressed excluding buttons such as share and edit.
-  function click( e ) {
-    //Silly work around for allowing user to press the comment icon and redirect
-    if (
-      (e.target.className && e.target.className.includes("ShouldOpenPost")) ||
-      (e.target.parentNode.className !== undefined && e.target.parentNode.className.includes("ShouldOpenPost"))
-    ) {
-      redirect( link )
-    }
-  }
-
   if ( empty ) return (
     <Card>
 			<Empty
@@ -274,13 +265,26 @@ function Post( {
 			<Card
 				className="agora-post"
 				bodyStyle={{padding: 8}}
-        onClick={click}
 	      style={{
-	      	marginBottom: 16
+          marginBottom: 16,
 	      }}
 	    >
+        <div style={{position: "relative"}}>
+        {!showComments && <Link to={link} style={{
+          position: "absolute",
+          left:0, top:0, bottom:0, right:0,          
+        }} />}
 				<div
-					style={{color: "rgba(0,0,0,0.6)", display: "flex"}}
+          style={showComments ? {
+            color: "rgba(0,0,0,0.6)", display: "flex",
+            position:"relative",
+        } : {
+          color: "rgba(0,0,0,0.6)", display: "flex",
+          position:"relative",
+          pointerEvents: "none",
+          zIndex: 1
+        }
+      }
 				>
 					<Col
             span={3}
@@ -347,7 +351,7 @@ function Post( {
 						</div>
 
 
-						<Row style={{fontSize: 16, marginBottom: 10, marginLeft: "-5%"}}>
+						<Row style={{fontSize: 16, marginBottom: 10, marginLeft: "-5%", zIndex: 2, pointerEvents: "all"}}>
 
 							<Col
               xs={{span: 6}}
@@ -374,9 +378,11 @@ function Post( {
               style={{ textAlign: 'center', height: 30, paddingLeft: 8}}
               className="optionButton"
               >
-                <div className="ShouldOpenPost" style={{width: "100%", height: "100%", paddingTop: 2, }}>
-                  <FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
-                </div>
+                <Link to={link} style={{color: "inherit"}}>
+                  <div className="ShouldOpenPost" style={{width: "100%", height: "100%", paddingTop: 2, }}>
+                    <FontAwesomeIcon style={{marginRight: 4}} icon={faComment} /> {post.commentAmount}
+                  </div>
+                </Link>
 							</Col>
 
               <Col
@@ -464,6 +470,7 @@ function Post( {
         		</Col>
       		</React.Fragment>
         }
+        </div>
 			</Card>
 
       <Modal
