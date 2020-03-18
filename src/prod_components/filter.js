@@ -45,8 +45,8 @@ function Filter({ updateFilter, time = 31, sort = "new" }) {
 		 							ever: 0
 		 						}[stringValue]
 		 						let date = (new Date(Date.now() - value*1000*3600*24))
-		 						let string = date.toISOString().substring(0, 10)
-		 						if(value === 0) string = (new Date(0)).toISOString().substring(0, 10)
+								let string = date.toISOString().substring(0, 10)
+								if(value === 0) string = (new Date(0)).toISOString().substring(0, 10)
 		 						updateFilter({
 		 							dateAfter: timeToHex(string).hex,
 		 							dateBefore: timeToHex(Date.now()).hex,

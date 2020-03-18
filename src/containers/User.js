@@ -6,8 +6,6 @@ import UserPage from '@components/UserPage'
 import PageNotFound from '@components/pageNotFound'
 import Loading from '@components/Loading'
 import Posts from 'containers/posts'
-import Cropper from '@components/Cropper'
-const image = require('./image.json')
 
 function UserContainer( { username } ) {
 
@@ -63,7 +61,7 @@ function UserContainer( { username } ) {
 
         dispatch( setProfile(fd, base64, userId, username))
       })
-      
+
   }
 
   const authenticatedUserID = useSelector( state => state.Auth.profile.details._id)
@@ -107,9 +105,9 @@ function UserContainer( { username } ) {
   // )
   // return (
   //   <form
-  //     // id='uploadForm' 
-  //     // action='/api/user/set/profile_picture' 
-  //     // method='post' 
+  //     // id='uploadForm'
+  //     // action='/api/user/set/profile_picture'
+  //     // method='post'
   //     // encType="multipart/form-data"
   //     onSubmit={(e) => {
   //       e.preventDefault()
