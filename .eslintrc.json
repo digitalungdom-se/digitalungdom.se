@@ -25,7 +25,16 @@
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
     "import/no-unresolved": 0,
-    "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }]
+    "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": false,
+        "ignoreDeclarationSort": false,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+      }
+    ]
   },
   "settings": {
     "react": {

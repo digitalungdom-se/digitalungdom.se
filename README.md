@@ -1,5 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Required VSCodium extensions
+
+- [sort-imports](https://marketplace.visualstudio.com/items?itemName=amatiasq.sort-imports)
+
 ## Available Scripts
 
 In the project directory, you can run:
