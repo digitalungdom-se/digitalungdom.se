@@ -4,6 +4,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - [sort-imports](https://marketplace.visualstudio.com/items?itemName=amatiasq.sort-imports)
 
+## Required scripts
+
+- [npm-check-updates](https://www.npmjs.com/package/npm-check-updates)
+  - Usage: To update packages `ncu -u`
+
 ## Available Scripts
 
 In the project directory, you can run:
