@@ -28,15 +28,15 @@ function Header() {
   const classes = useStyles();
 
   return (
-    <AppBar className={clsx(classes.root)} position="sticky" color="inherit">
+    <AppBar className={clsx(classes.root)} color="inherit" position="sticky">
       <Toolbar>
-        <Typography variant="h6" className={classes.title}>
+        <Typography className={classes.title} variant="h6">
           Digital Ungdom
         </Typography>
-        <Button variant="contained" disableElevation className={classes.login}>
+        <Button className={classes.login} disableElevation variant="contained">
           Logga in
         </Button>
-        <Button color="primary" variant="contained" disableElevation>
+        <Button color="primary" disableElevation variant="contained">
           Bli medlem
         </Button>
       </Toolbar>

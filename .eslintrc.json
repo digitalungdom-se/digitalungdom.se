@@ -24,6 +24,7 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
+    "react/jsx-sort-props": "error",
     "import/no-unresolved": 0,
     "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
     "sort-imports": [
