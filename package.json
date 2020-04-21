@@ -1,74 +1,55 @@
 {
-  "name": "digital-ungdom",
-  "type": "prod",
+  "name": "du.se-rewrite",
   "version": "0.1.0",
   "private": true,
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Nautman/digitalungdom.se.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Nautman/digitalungdom.se/issues"
-  },
-  "description": "",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.26",
-    "@fortawesome/free-brands-svg-icons": "^5.12.0",
-    "@fortawesome/free-solid-svg-icons": "^5.12.0",
-    "@fortawesome/react-fontawesome": "^0.1.8",
-    "antd": "^3.26.4",
-    "babel-plugin-import": "^1.13.0",
-    "customize-cra": "^0.2.14",
-    "i18next": "^15.0.9",
-    "i18next-browser-languagedetector": "^4.0.1",
-    "i18next-xhr-backend": "^2.0.1",
-    "react": "^16.12.0",
-    "react-color": "^2.17.3",
-    "react-dom": "^16.12.0",
-    "react-easy-crop": "^1.17.0",
-    "react-i18next": "^11.2.7",
-    "react-image-crop": "^8.4.2",
-    "react-infinite-scroller": "^1.2.4",
-    "react-markdown": "^4.2.2",
-    "react-modal": "^3.11.1",
-    "react-redux": "^7.1.3",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "^3.3.0",
-    "redux": "^4.0.1",
-    "redux-persist": "^5.10.0",
-    "redux-thunk": "^2.3.0",
-    "validator": "^10.11.0"
+    "@material-ui/core": "^4.9.11",
+    "@material-ui/icons": "^4.9.1",
+    "@testing-library/jest-dom": "^5.5.0",
+    "@testing-library/react": "^10.0.2",
+    "@testing-library/user-event": "^10.0.2",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.0",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "typescript": "~3.8.3"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "start-dev": "NODE_ENV=development react-app-rewired start",
-    "start-prod": "NODE_ENV=production react-app-rewired start",
-    "dev": "cross-env NODE_PATH=./src npm run start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test --env=jsdom",
-    "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
-  "proxy": "http://localhost:8080",
-  "devDependencies": {
-    "@storybook/addon-actions": "^5.2.8",
-    "@storybook/addon-knobs": "^5.2.8",
-    "@storybook/addon-links": "^5.2.8",
-    "@storybook/react": "^5.2.8",
-    "react-app-rewired": "^2.1.5",
-    "redux-devtools-extension": "^2.13.8"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
-  "engines": {
-    "node": ">=11.10.1"
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.28.0",
+    "@typescript-eslint/parser": "^2.28.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
+    "prettier": "^2.0.4"
   }
 }
