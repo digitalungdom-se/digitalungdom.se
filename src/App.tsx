@@ -1,7 +1,7 @@
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Header from './Header';
+import Header from 'features/Header';
 import React from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
