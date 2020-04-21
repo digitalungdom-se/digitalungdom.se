@@ -1,2 +1,0 @@
-import './Post'
-import './Comments'

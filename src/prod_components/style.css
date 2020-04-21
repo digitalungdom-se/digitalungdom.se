@@ -1,9 +1,0 @@
-html, body {
-	/*padding: none; margin: 0;*/
-	/*font-family: 'Lato', sans-serif;*/
-}
-
-.highlightable:hover{
-  color: blue;
-  cursor: pointer;
-}
