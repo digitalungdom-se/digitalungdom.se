@@ -1,17 +1,18 @@
+import { Field, Form, Formik } from 'formik';
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
+import { TextField } from 'formik-material-ui';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   image: {
-    backgroundImage: 'url(https://digitalungdom.se/static/media/about1.775a517d.png)',
+    backgroundImage: `url(${require('resources/images/about1.png')})`,
     backgroundRepeat: 'no-repeat',
     backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
@@ -41,9 +42,8 @@ export default function Login() {
 
   return (
     <Grid component="main" container>
-      <CssBaseline />
       <Grid className={classes.image} item md={5} sm={4} xs={false} />
-      <Grid md={7} sm={8} xs={12}>
+      <Grid item md={7} sm={8} xs={12}>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -51,52 +51,68 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Logga in
           </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              autoComplete="email"
-              autoFocus
-              fullWidth
-              id="email"
-              label="Email Address"
-              margin="normal"
-              name="email"
-              required
-              variant="outlined"
-            />
-            <TextField
-              autoComplete="current-password"
-              fullWidth
-              id="password"
-              label="Password"
-              margin="normal"
-              name="password"
-              required
-              type="password"
-              variant="outlined"
-            />
-            <Button
-              className={classes.submit}
-              color="primary"
-              disableElevation
-              fullWidth
-              type="submit"
-              variant="contained"
-            >
-              Logga in
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Glömt lösenordet?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Inget konto? Bli medlem!
-                </Link>
-              </Grid>
-            </Grid>
-          </form>
+          <Formik
+            initialValues={{ email: '', password: '' }}
+            onSubmit={(values, { setSubmitting }) => {
+              console.log(values);
+              setTimeout(() => {
+                setSubmitting(false);
+              }, 1000);
+            }}
+          >
+            {({ values, isSubmitting }) => (
+              <Form className={classes.form}>
+                <Field
+                  autoComplete="email"
+                  autoFocus
+                  component={TextField}
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  margin="normal"
+                  name="email"
+                  required
+                  type="email"
+                  variant="outlined"
+                />
+                <Field
+                  autoComplete="current-password"
+                  component={TextField}
+                  fullWidth
+                  id="password"
+                  label="Password"
+                  margin="normal"
+                  name="password"
+                  required
+                  type="password"
+                  variant="outlined"
+                />
+                <Button
+                  className={classes.submit}
+                  color="primary"
+                  disabled={isSubmitting}
+                  disableElevation
+                  fullWidth
+                  type="submit"
+                  variant="contained"
+                >
+                  Logga in
+                </Button>
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="#" variant="body2">
+                      Glömt lösenordet?
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="#" variant="body2">
+                      Inget konto? Bli medlem!
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Form>
+            )}
+          </Formik>
         </div>
       </Grid>
     </Grid>
