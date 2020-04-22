@@ -2,6 +2,7 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 import LoginDialog from 'features/Login/Dialog';
 import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -34,9 +35,19 @@ function Header() {
       <Toolbar>
         <LoginDialog onClose={() => setOpen(false)} open={open} />
         <Typography className={classes.title} variant="h6">
-          Digital Ungdom
+          <Link to="/">Digital Ungdom</Link>
         </Typography>
-        <Button className={classes.login} disableElevation onClick={() => setOpen(true)} variant="contained">
+        <Button
+          className={classes.login}
+          component={Link}
+          disableElevation
+          onClick={(e: React.MouseEvent<HTMLElement>) => {
+            e.preventDefault();
+            setOpen(true);
+          }}
+          to="/login"
+          variant="contained"
+        >
           Logga in
         </Button>
         <Button color="primary" disableElevation variant="contained">

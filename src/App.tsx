@@ -1,8 +1,11 @@
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
+import { BrowserRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Footer from 'features/Footer';
 import Header from 'features/Header';
 import React from 'react';
+import Router from 'router';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const App: React.FC = () => {
@@ -49,19 +52,13 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <div className="App" style={{ minHeight: '100vh' }}>
-        <Header />
-        <div style={{ textAlign: 'center' }}>
-          <p>
-            Edit
-            <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a className="App-link" href="https://reactjs.org" rel="noopener noreferrer" target="_blank">
-            Learn React
-          </a>
+      <BrowserRouter>
+        <div className="App" style={{ minHeight: '100vh' }}>
+          <Header />
+          <Router />
+          <Footer />
         </div>
-        <footer style={{ bottom: 0, position: 'absolute' }}>hej</footer>
-      </div>
+      </BrowserRouter>
     </ThemeProvider>
   );
 };
