@@ -55,9 +55,11 @@ const App: React.FC = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
-          <div className="App" style={{ minHeight: '100vh' }}>
+          <div className="App" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <Header />
-            <Router />
+            <div style={{ flex: 1 }}>
+              <Router />
+            </div>
             <Footer />
           </div>
         </BrowserRouter>

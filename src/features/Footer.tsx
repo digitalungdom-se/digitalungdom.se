@@ -1,3 +1,5 @@
+import { Theme, WithStyles, createStyles, withStyles } from '@material-ui/core/styles';
+
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
@@ -11,10 +13,20 @@ function Copyright() {
   );
 }
 
-export default function Footer() {
-  return (
-    <footer style={{ bottom: 0, position: 'absolute' }}>
-      <Copyright />
-    </footer>
-  );
-}
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      padding: theme.spacing(4, 2),
+    },
+    headline: {
+      textAlign: 'left',
+    },
+  });
+
+const Footer = ({ classes }: WithStyles<typeof styles>) => (
+  <footer className={classes.root}>
+    <Copyright />
+  </footer>
+);
+
+export default withStyles(styles)(Footer);
