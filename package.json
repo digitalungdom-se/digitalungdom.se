@@ -16,6 +16,7 @@
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.4",
     "@types/yup": "^0.26.37",
+    "axios": "^0.19.2",
     "formik": "^2.1.4",
     "formik-material-ui": "^2.0.0-beta.1",
     "react": "^16.13.1",
