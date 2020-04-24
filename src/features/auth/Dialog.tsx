@@ -3,7 +3,6 @@ import { Theme, WithStyles, createStyles, withStyles } from '@material-ui/core/s
 import CloseIcon from '@material-ui/icons/Close';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
-import Login from './index';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import React from 'react';
 
@@ -44,15 +43,14 @@ const DialogContent = withStyles((theme: Theme) => ({
 export interface Props {
   open: boolean;
   onClose: () => void;
+  children: React.ReactNode;
 }
 
-export default function LoginDialog({ open, onClose }: Props) {
+export default function AuthDialog({ open, onClose, children }: Props): React.ReactElement {
   return (
     <Dialog fullWidth maxWidth="md" onClose={onClose} open={open}>
       <CloseButton onClose={onClose} />
-      <DialogContent>
-        <Login />
-      </DialogContent>
+      <DialogContent>{children}</DialogContent>
     </Dialog>
   );
 }

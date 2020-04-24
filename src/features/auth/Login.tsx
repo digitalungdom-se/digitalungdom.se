@@ -1,3 +1,5 @@
+import * as Yup from 'yup';
+
 import { Field, Form, Formik } from 'formik';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -8,7 +10,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import React from 'react';
 import { TextField } from 'formik-material-ui';
 import Typography from '@material-ui/core/Typography';
+import { authorize } from './authSlice';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -37,8 +42,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+interface CodeMap {
+  [index: string]: string;
+}
+
+const ERROR_CODES_MAP: CodeMap = {
+  NO_ACCOUNT: 'identifier',
+  INCORRECT_PASSWORD: 'password',
+};
+
+interface Props {
+  onSuccess: () => void;
+}
+
+export default function Login(props: Props): React.ReactElement {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <Grid component="main" container>
@@ -52,13 +71,33 @@ export default function Login() {
             Logga in
           </Typography>
           <Formik
-            initialValues={{ email: '', password: '' }}
-            onSubmit={(values, { setSubmitting }) => {
-              console.log(values);
-              setTimeout(() => {
-                setSubmitting(false);
-              }, 1000);
+            initialValues={{ identifier: '', password: '' }}
+            onSubmit={(values, { setSubmitting, setErrors }) => {
+              axios
+                .post('/api/user/login', {
+                  username: values.identifier,
+                  password: values.password,
+                })
+                .then((res) => {
+                  setSubmitting(false);
+                  if (res.data.type === 'fail') throw res;
+                  dispatch(authorize(res.data));
+                  props.onSuccess();
+                })
+                .catch((err) => {
+                  if (err.data) {
+                    const errors = err.data.errors;
+                    errors.forEach((error: { message: string }) => {
+                      setErrors({ [ERROR_CODES_MAP[error.message]]: error.message });
+                    });
+                  }
+                  setSubmitting(false);
+                });
             }}
+            validationSchema={Yup.object({
+              identifier: Yup.string().required('Obligatoriskt fält'),
+              password: Yup.string().required('Obligatoriskt fält'),
+            })}
           >
             {({ values, isSubmitting }) => (
               <Form className={classes.form}>
@@ -67,12 +106,11 @@ export default function Login() {
                   autoFocus
                   component={TextField}
                   fullWidth
-                  id="email"
-                  label="Email Address"
+                  id="identifier"
+                  label="Email address or username"
                   margin="normal"
-                  name="email"
+                  name="identifier"
                   required
-                  type="email"
                   variant="outlined"
                 />
                 <Field

@@ -1,5 +1,6 @@
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
+import AuthenticatedLayer from 'features/auth/AuthenticatedLayer';
 import { BrowserRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Footer from 'features/Footer';
@@ -50,16 +51,18 @@ const App: React.FC = () => {
   );
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <div className="App" style={{ minHeight: '100vh' }}>
-          <Header />
-          <Router />
-          <Footer />
-        </div>
-      </BrowserRouter>
-    </ThemeProvider>
+    <AuthenticatedLayer>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <div className="App" style={{ minHeight: '100vh' }}>
+            <Header />
+            <Router />
+            <Footer />
+          </div>
+        </BrowserRouter>
+      </ThemeProvider>
+    </AuthenticatedLayer>
   );
 };
 

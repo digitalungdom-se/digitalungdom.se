@@ -1,14 +1,15 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 
-import Login from 'features/Login';
+import Login from 'features/auth/Login';
 import React from 'react';
 import Startpage from 'pages/Startpage';
 
-function Router() {
+function Router(): React.ReactElement {
+  const history = useHistory();
   return (
     <Switch>
       <Route path="/login">
-        <Login />
+        <Login onSuccess={(): void => history.push('/')} />
       </Route>
       <Route exact path="/">
         <Startpage />

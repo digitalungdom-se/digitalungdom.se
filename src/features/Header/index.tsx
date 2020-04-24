@@ -1,13 +1,16 @@
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
+import AuthDialog from 'features/auth/Dialog';
 import { Link } from 'react-router-dom';
-import LoginDialog from 'features/Login/Dialog';
+import Login from 'features/auth/Login';
+import LogoutHeaderButton from './LogoutHeaderButton';
 import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import clsx from 'clsx';
+import UnauthenticatedHeaderButtons from './UnauthenticatedHeaderButtons';
+import { selectAuthenticated } from 'features/auth/authSlice';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,30 +32,18 @@ const useStyles = makeStyles((theme: Theme) =>
 function Header() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const authenticated = useSelector(selectAuthenticated);
 
   return (
-    <AppBar className={clsx(classes.root)} color="inherit" position="sticky">
+    <AppBar className={classes.root} color="inherit" position="sticky">
       <Toolbar>
-        <LoginDialog onClose={() => setOpen(false)} open={open} />
+        <AuthDialog onClose={(): void => setOpen(false)} open={open}>
+          <Login onSuccess={(): void => setOpen(false)} />
+        </AuthDialog>
         <Typography className={classes.title} variant="h6">
           <Link to="/">Digital Ungdom</Link>
         </Typography>
-        <Button
-          className={classes.login}
-          component={Link}
-          disableElevation
-          onClick={(e: React.MouseEvent<HTMLElement>) => {
-            e.preventDefault();
-            setOpen(true);
-          }}
-          to="/login"
-          variant="contained"
-        >
-          Logga in
-        </Button>
-        <Button color="primary" disableElevation variant="contained">
-          Bli medlem
-        </Button>
+        {!authenticated ? <UnauthenticatedHeaderButtons onOpen={(): void => setOpen(true)} /> : <LogoutHeaderButton />}
       </Toolbar>
     </AppBar>
   );
