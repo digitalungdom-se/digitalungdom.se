@@ -1,9 +1,7 @@
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
-import AuthDialog from 'features/auth/Dialog';
 import { Link } from 'react-router-dom';
-import Login from 'features/auth/Login';
 import LogoutHeaderButton from './LogoutHeaderButton';
 import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -31,19 +29,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function Header() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
   const authenticated = useSelector(selectAuthenticated);
 
   return (
     <AppBar className={classes.root} color="inherit" position="sticky">
       <Toolbar>
-        <AuthDialog onClose={(): void => setOpen(false)} open={open}>
-          <Login onSuccess={(): void => setOpen(false)} />
-        </AuthDialog>
         <Typography className={classes.title} variant="h6">
           <Link to="/">Digital Ungdom</Link>
         </Typography>
-        {!authenticated ? <UnauthenticatedHeaderButtons onOpen={(): void => setOpen(true)} /> : <LogoutHeaderButton />}
+        {!authenticated ? <UnauthenticatedHeaderButtons /> : <LogoutHeaderButton />}
       </Toolbar>
     </AppBar>
   );

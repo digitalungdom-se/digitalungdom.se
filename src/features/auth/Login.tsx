@@ -4,6 +4,7 @@ import { Field, Form, Formik } from 'formik';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -62,7 +63,7 @@ export default function Login(props: Props): React.ReactElement {
   return (
     <Grid component="main" container>
       <Grid className={classes.image} item md={5} sm={4} xs={false} />
-      <Grid item md={7} sm={8} xs={12}>
+      <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -152,7 +153,7 @@ export default function Login(props: Props): React.ReactElement {
             )}
           </Formik>
         </div>
-      </Grid>
+      </Container>
     </Grid>
   );
 }
