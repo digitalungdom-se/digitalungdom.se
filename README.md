@@ -3,6 +3,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Required VSCodium extensions
 
 - [sort-imports](https://marketplace.visualstudio.com/items?itemName=amatiasq.sort-imports)
+- [Sort JS object keys](https://marketplace.visualstudio.com/items?itemName=zengxingxin.sort-js-object-keys)
 
 ## Required scripts
 
