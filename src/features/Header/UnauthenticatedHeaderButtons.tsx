@@ -26,7 +26,7 @@ export default function UnauthenticatedHeaderButtons(): React.ReactElement {
         <Login onSuccess={(): void => setLoginDialogOpen(false)} />
       </AuthDialog>
       <AuthDialog onClose={(): void => setRegisterDialogOpen(false)} open={registerDialogOpen}>
-        <Register onSuccess={(): void => setRegisterDialogOpen(false)} />
+        <Register isDialog onSuccess={(): void => setRegisterDialogOpen(false)} />
       </AuthDialog>
       <Button
         className={classes.login}
