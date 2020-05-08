@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ThemeProvider, createStyles, makeStyles } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import withWidth, { WithWidthProps, isWidthUp } from '@material-ui/core/withWidth';
 
 import Container from '@material-ui/core/Container';
