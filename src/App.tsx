@@ -40,10 +40,10 @@ const App: React.FC = () => {
         palette: {
           type: prefersDarkMode ? 'dark' : 'light',
           primary: {
-            main: '#1e6ee8',
+            main: prefersDarkMode ? '#ffcd00' : '#1e6ee8',
           },
           secondary: {
-            main: '#ffcd00',
+            main: prefersDarkMode ? '#1e6ee8' : '#ffcd00',
           },
         },
       }),
