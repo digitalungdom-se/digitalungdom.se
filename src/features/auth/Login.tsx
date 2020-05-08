@@ -9,7 +9,8 @@ import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import React from 'react';
-import { TextField } from 'formik-material-ui';
+import { TranslatedTextField as TextField } from 'components/TranslatedTextField';
+// import { TextField } from 'formik-material-ui';
 import Typography from '@material-ui/core/Typography';
 import { authorize } from './authSlice';
 import axios from 'axios';
@@ -17,26 +18,26 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
-  image: {
-    backgroundImage: `url(${require('resources/images/about1.png')})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
   avatar: {
-    margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
+    margin: theme.spacing(1),
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+    width: '100%', // Fix IE 11 issue.
+  },
+  image: {
+    backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundImage: `url(${require('resources/images/about1.png')})`,
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '100%',
+  },
+  paper: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    margin: theme.spacing(8, 4),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -48,8 +49,8 @@ interface CodeMap {
 }
 
 const ERROR_CODES_MAP: CodeMap = {
-  NO_ACCOUNT: 'identifier',
   INCORRECT_PASSWORD: 'password',
+  NO_ACCOUNT: 'username',
 };
 
 interface Props {
@@ -72,13 +73,13 @@ export default function Login(props: Props): React.ReactElement {
             Logga in
           </Typography>
           <Formik
-            initialValues={{ identifier: '', password: '' }}
-            onSubmit={(values, { setSubmitting, setErrors }) => {
+            initialValues={{
+              password: '',
+              username: '',
+            }}
+            onSubmit={(values, { setSubmitting, setErrors }): void => {
               axios
-                .post('/api/user/login', {
-                  username: values.identifier,
-                  password: values.password,
-                })
+                .post('/api/user/login', values)
                 .then((res) => {
                   setSubmitting(false);
                   if (res.data.type === 'fail') throw res;
@@ -96,21 +97,22 @@ export default function Login(props: Props): React.ReactElement {
                 });
             }}
             validationSchema={Yup.object({
-              identifier: Yup.string().required('Obligatoriskt fält'),
-              password: Yup.string().required('Obligatoriskt fält'),
+              password: Yup.string().required('Required'),
+              username: Yup.string().required('Required'),
             })}
           >
-            {({ values, isSubmitting }) => (
+            {({ isSubmitting, errors }): React.ReactElement => (
               <Form className={classes.form}>
                 <Field
+                  aria-describedby="birthday-text"
+                  // autoFocus
                   autoComplete="email"
-                  autoFocus
                   component={TextField}
                   fullWidth
-                  id="identifier"
+                  id="username"
                   label="Email address or username"
                   margin="normal"
-                  name="identifier"
+                  name="username"
                   required
                   variant="outlined"
                 />
@@ -140,7 +142,7 @@ export default function Login(props: Props): React.ReactElement {
                 <Grid container>
                   <Grid item xs>
                     <Link href="#" variant="body2">
-                      Glömt lösenordet?
+                      Kan du inte logga in?
                     </Link>
                   </Grid>
                   <Grid item>

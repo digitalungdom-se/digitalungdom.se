@@ -33,7 +33,7 @@ export default function UnauthenticatedHeaderButtons(): React.ReactElement {
         component={Link}
         disableElevation
         onClick={(e: React.MouseEvent<HTMLElement>) => {
-          if (e.metaKey === false) {
+          if (e.metaKey === false && e.altKey === false) {
             e.preventDefault();
             setLoginDialogOpen(true);
           }
@@ -48,7 +48,7 @@ export default function UnauthenticatedHeaderButtons(): React.ReactElement {
         component={Link}
         disableElevation
         onClick={(e: React.MouseEvent<HTMLElement>) => {
-          if (e.metaKey === false) {
+          if (e.metaKey === false && e.altKey === false) {
             e.preventDefault();
             setRegisterDialogOpen(true);
           }

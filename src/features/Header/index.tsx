@@ -34,7 +34,7 @@ function Header() {
   return (
     <AppBar className={classes.root} color="inherit" position="sticky">
       <Toolbar>
-        <Typography className={classes.title} variant="h6">
+        <Typography className={classes.title} component="h1" style={{ color: '#1e6ee8', fontWeight: 600 }} variant="h6">
           <Link to="/">Digital Ungdom</Link>
         </Typography>
         {!authenticated ? <UnauthenticatedHeaderButtons /> : <LogoutHeaderButton />}
