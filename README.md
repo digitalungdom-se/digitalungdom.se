@@ -1,78 +1,41 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# digitalungdom.se
 
-## Required VSCodium extensions
+Welcome to the repository for the [website](https://digitalungdom.se/) of youth organization Digital Ungdom. The website includes a forum, information about us, and is the central for user registration.
+
+## Installation 📥
+
+To start the development website you need to have [Node.js](https://nodejs.org/en/download/) installed.
+
+- Download the project by using `git clone https://github.com/digitalungdom-se/digitalungdom.se.git`
+
+- To install our packages and dependencies use `npm install`
+
+- Finally, start the project by using `npm run start`
+
+Boom, _easy_, **no questions asked**. We at Digital Ungdom like it that way!
+
+## Contribute 🖋️
+
+So you want to contribute? **Good**, the world needs more brave troopers like you.
+
+### But how? 🤔
+
+If you find a typo, bug or want to add a feature, create an [issue](https://github.com/digitalungdom-se/digitalungdom.se/issues) or add a [pull request](https://github.com/digitalungdom-se/digitalungdom.se/pulls) with the code you want to add! We will take a look at what you sent in and reward you with gold and glory (or maybe just some stickers) if you help our noble cause.
+
+### Recommended IDE 💾
+
+[VSCodium](https://vscodium.com/) is the recommended integrated development environment, VSCode will work as well. This is due to the fact that several helpful addons that are used in project’s development are only available to VSCodium and VSCode.
+
+#### VSCodium extensions
 
 - [sort-imports](https://marketplace.visualstudio.com/items?itemName=amatiasq.sort-imports)
 - [Sort JS object keys](https://marketplace.visualstudio.com/items?itemName=zengxingxin.sort-js-object-keys)
 
-## Required scripts
+#### Recommended scripts
 
 - [npm-check-updates](https://www.npmjs.com/package/npm-check-updates)
   - Usage: To update packages `ncu -u`
 
-## Available Scripts
+### License 📝
 
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This repository is [GNU AFFERO GENERAL PUBLIC LICENSE](./LICENSE).
