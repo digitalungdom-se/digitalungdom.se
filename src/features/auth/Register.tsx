@@ -10,6 +10,7 @@ import VerifyEmailPage from './VerifyEmailPage';
 interface Props extends WithWidthProps {
   onSuccess: () => void;
   isDialog?: boolean;
+  redirect?: () => void;
 }
 
 const useStyles = makeStyles(({ spacing, breakpoints, palette }) =>
@@ -24,7 +25,7 @@ const useStyles = makeStyles(({ spacing, breakpoints, palette }) =>
   }),
 );
 
-function Register({ onSuccess, isDialog = false, width = 'xs' }: Props): React.ReactElement {
+function Register({ onSuccess, isDialog = false, width = 'xs', redirect = () => {} }: Props): React.ReactElement {
   const styles = useStyles();
   const [showVerifyEmailPage, setVerifyEmailPage] = useState(false);
   const Wrapper = isDialog ? Container : isWidthUp('sm', width) ? Paper : Container;
@@ -32,7 +33,11 @@ function Register({ onSuccess, isDialog = false, width = 'xs' }: Props): React.R
   return (
     <Container component="main" disableGutters maxWidth={isDialog ? 'xs' : 'sm'}>
       <Wrapper className={styles.root}>
-        {showVerifyEmailPage ? <VerifyEmailPage /> : <RegisterForm onSuccess={(): void => setVerifyEmailPage(true)} />}
+        {showVerifyEmailPage ? (
+          <VerifyEmailPage />
+        ) : (
+          <RegisterForm isDialog={isDialog} onSuccess={(): void => setVerifyEmailPage(true)} redirect={redirect} />
+        )}
       </Wrapper>
     </Container>
   );

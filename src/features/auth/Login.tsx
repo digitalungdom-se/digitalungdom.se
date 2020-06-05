@@ -55,9 +55,11 @@ const ERROR_CODES_MAP: CodeMap = {
 
 interface Props {
   onSuccess: () => void;
+  isDialog?: boolean;
+  redirect?: () => void;
 }
 
-export default function Login(props: Props): React.ReactElement {
+export default function Login({ onSuccess, isDialog = false, redirect = () => {} }: Props): React.ReactElement {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -84,7 +86,7 @@ export default function Login(props: Props): React.ReactElement {
                   setSubmitting(false);
                   if (res.data.type === 'fail') throw res;
                   dispatch(authorize(res.data));
-                  props.onSuccess();
+                  onSuccess();
                 })
                 .catch((err) => {
                   if (err.data) {
@@ -146,7 +148,16 @@ export default function Login(props: Props): React.ReactElement {
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link href="#" variant="body2">
+                    <Link
+                      href="#"
+                      onClick={(e: React.SyntheticEvent): void => {
+                        if (isDialog) {
+                          e.preventDefault();
+                          redirect();
+                        }
+                      }}
+                      variant="body2"
+                    >
                       Inget konto? Bli medlem!
                     </Link>
                   </Grid>

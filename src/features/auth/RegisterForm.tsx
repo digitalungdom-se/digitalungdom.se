@@ -4,8 +4,10 @@ import * as Yup from 'yup';
 
 import { Field, Form, Formik } from 'formik';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { Redirect, Link as RouterLink } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
+import Axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import DateFnsUtils from '@date-io/date-fns';
@@ -15,9 +17,10 @@ import Link from '@material-ui/core/Link';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
+import RegisterGDPRAgreement from './RegisterGDPRAgreement';
 import { TextField } from 'formik-material-ui';
 import Typography from '@material-ui/core/Typography';
-import axios from 'axios';
+import debounce from 'lodash.debounce';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -50,16 +53,56 @@ const validationSchema = Yup.object({
       is: (val) => (val && val.length > 0 ? true : false),
       then: Yup.string().oneOf([Yup.ref('password')], 'Both password need to be the same'),
     }),
-  email: Yup.string().email('Invalid email address').required('Required'),
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Required')
+    .test(
+      'checkDuplEmail',
+      'same email exists',
+      debounce(async function (email) {
+        if (Boolean(email) === false) return;
+        return await Axios.get('/api/user/validate/email', { params: { email } })
+          .then((res) => {
+            return res.data.email;
+          })
+          .catch(() => {
+            // if network fails, return that the email is available
+            return true;
+          });
+      }, 300),
+    ),
   firstName: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
   gender: Yup.string().required('Required'),
   lastName: Yup.string().max(20, 'Must be 20 characters or less').required('Required'),
   password: Yup.string().required('Required'),
-  username: Yup.string().required('Required'),
+  /** Sources for async validation:
+   * https://stackoverflow.com/questions/56277227
+   * https://stackoverflow.com/questions/55811114
+   */
+  username: Yup.string()
+    .required('Required')
+    .min(3)
+    .test(
+      'checkDuplUsername',
+      'same name exists',
+      debounce(async function (username) {
+        if (Boolean(username) === false) return;
+        return await Axios.get('/api/user/validate/username', { params: { username } })
+          .then((res) => {
+            return res.data.username;
+          })
+          .catch(() => {
+            // if network fails, return that the username is available
+            return true;
+          });
+      }, 300),
+    ),
 });
 
 interface Props {
   onSuccess: () => void;
+  isDialog?: boolean;
+  redirect: () => void;
 }
 
 export default function RegisterForm(props: Props): React.ReactElement {
@@ -86,8 +129,7 @@ export default function RegisterForm(props: Props): React.ReactElement {
             username: '',
           }}
           onSubmit={(values, { setErrors, setSubmitting }): void => {
-            axios
-              .post('/api/user/register', values)
+            Axios.post('/api/user/register', values)
               .then((res) => {
                 setSubmitting(false);
                 if (res.data) {
@@ -157,7 +199,6 @@ export default function RegisterForm(props: Props): React.ReactElement {
                 <Grid item xs={12}>
                   <KeyboardDatePicker
                     disabled={isSubmitting}
-                    disableToolbar
                     format="yyyy-MM-dd"
                     fullWidth
                     id="birthday"
@@ -170,7 +211,6 @@ export default function RegisterForm(props: Props): React.ReactElement {
                     placeholder="yyyy-mm-dd"
                     required
                     value={values.birthday}
-                    variant="inline"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -218,7 +258,11 @@ export default function RegisterForm(props: Props): React.ReactElement {
                 <Grid item xs={12}>
                   <FormControlLabel
                     control={<Checkbox color="primary" value="allowExtraEmails" />}
-                    label="I want to receive inspiration, marketing promotions and updates via email."
+                    label={
+                      <span>
+                        I agree to Digital Ungdom&apos;s terms of service. <RegisterGDPRAgreement />
+                      </span>
+                    }
                   />
                 </Grid>
               </Grid>
@@ -234,7 +278,17 @@ export default function RegisterForm(props: Props): React.ReactElement {
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link
+                    component={RouterLink}
+                    onClick={(e: React.SyntheticEvent): void => {
+                      if (props.isDialog) {
+                        e.preventDefault();
+                        props.redirect();
+                      }
+                    }}
+                    to="logga-in"
+                    variant="body2"
+                  >
                     Already have an account? Sign in
                   </Link>
                 </Grid>
