@@ -27,7 +27,7 @@ const useStyles = makeStyles(({ spacing, breakpoints, palette }) =>
 
 function Register({ onSuccess, isDialog = false, width = 'xs', redirect = () => {} }: Props): React.ReactElement {
   const styles = useStyles();
-  const [showVerifyEmailPage, setVerifyEmailPage] = useState(false);
+  const [showVerifyEmailPage, setVerifyEmailPage] = useState(true);
   const Wrapper = isDialog ? Container : isWidthUp('sm', width) ? Paper : Container;
 
   return (

@@ -1,4 +1,5 @@
 import React from 'react';
+import StarButton from 'components/StarButton';
 
 export default function Startpage() {
   return (
@@ -10,6 +11,9 @@ export default function Startpage() {
       <a className="App-link" href="https://reactjs.org" rel="noopener noreferrer" target="_blank">
         Learn React
       </a>
+      <div style={{ padding: 100 }}>
+        <StarButton />
+      </div>
     </div>
   );
 }
