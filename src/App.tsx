@@ -7,6 +7,7 @@ import Footer from 'features/Footer';
 import Header from 'features/Header';
 import React from 'react';
 import Router from 'router';
+import { SnackbarProvider } from 'notistack';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const App: React.FC = () => {
@@ -55,13 +56,15 @@ const App: React.FC = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
-          <div className="App" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <Header />
-            <div style={{ flex: 1 }}>
-              <Router />
+          <SnackbarProvider>
+            <div className="App" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+              <Header />
+              <div style={{ flex: 1 }}>
+                <Router />
+              </div>
+              <Footer />
             </div>
-            <Footer />
-          </div>
+          </SnackbarProvider>
         </BrowserRouter>
       </ThemeProvider>
     </AuthenticatedLayer>

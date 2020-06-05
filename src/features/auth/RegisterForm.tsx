@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 
 import { Field, Form, Formik } from 'formik';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { Redirect, Link as RouterLink } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
 import Axios from 'axios';
@@ -18,10 +17,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
 import RegisterGDPRAgreement from './RegisterGDPRAgreement';
+import { Link as RouterLink } from 'react-router-dom';
 import { TextField } from 'formik-material-ui';
 import Typography from '@material-ui/core/Typography';
 import debounce from 'lodash.debounce';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -108,6 +109,8 @@ interface Props {
 export default function RegisterForm(props: Props): React.ReactElement {
   const classes = useStyles();
 
+  const { enqueueSnackbar } = useSnackbar();
+
   return (
     <div className={classes.paper}>
       <Avatar className={classes.avatar}>
@@ -138,7 +141,7 @@ export default function RegisterForm(props: Props): React.ReactElement {
               })
               .catch((err) => {
                 if (!err.status) {
-                  alert('Network error');
+                  enqueueSnackbar('Network error!', { variant: 'error' });
                 }
               });
           }}
@@ -257,7 +260,7 @@ export default function RegisterForm(props: Props): React.ReactElement {
                 </Grid>
                 <Grid item xs={12}>
                   <FormControlLabel
-                    control={<Checkbox color="primary" value="allowExtraEmails" />}
+                    control={<Checkbox color="primary" required value="allowExtraEmails" />}
                     label={
                       <span>
                         I agree to Digital Ungdom&apos;s terms of service. <RegisterGDPRAgreement />
