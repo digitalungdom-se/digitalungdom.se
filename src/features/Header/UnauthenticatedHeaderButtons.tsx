@@ -19,8 +19,6 @@ const Register = React.lazy(() => import('features/auth/Register'));
 export default function UnauthenticatedHeaderButtons(): React.ReactElement {
   const classes = useStyles();
   const [authDialogState, setAuthDialogState] = React.useState<0 | 1 | 2>(0);
-  const [loginDialogOpen, setLoginDialogOpen] = React.useState(false);
-  const [registerDialogOpen, setRegisterDialogOpen] = React.useState(false);
 
   return (
     <>

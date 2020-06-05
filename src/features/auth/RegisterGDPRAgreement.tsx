@@ -20,12 +20,14 @@ function RegisterGDPRAgreement(): JSX.Element {
   return (
     <span>
       <Link
+        color="primary"
+        href="#"
         onClick={(event: React.SyntheticEvent) => {
           event.preventDefault();
           handleClickOpen();
         }}
       >
-        Read more
+        Read more.
       </Link>
       <Dialog
         aria-describedby="alert-dialog-description"
