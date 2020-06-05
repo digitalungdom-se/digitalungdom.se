@@ -26,6 +26,7 @@
     "formik-material-ui-pickers": "0.0.8",
     "i18next": "^19.4.4",
     "lodash.debounce": "^4.0.8",
+    "notistack": "^0.9.16",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.4.0",
