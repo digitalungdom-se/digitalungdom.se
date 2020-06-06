@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { Field, Form, Formik } from 'formik';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 
+import { AuthViews } from './authViewsTypes';
 import Avatar from '@material-ui/core/Avatar';
 import Axios from 'axios';
 import Button from '@material-ui/core/Button';
@@ -17,6 +18,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
 import RegisterGDPRAgreement from './RegisterGDPRAgreement';
+import { RegisterProps } from './Register';
 import { Link as RouterLink } from 'react-router-dom';
 import { TextField } from 'formik-material-ui';
 import Typography from '@material-ui/core/Typography';
@@ -100,12 +102,6 @@ const validationSchema = Yup.object({
     ),
 });
 
-interface Props {
-  onSuccess: () => void;
-  isDialog?: boolean;
-  redirect: () => void;
-}
-
 interface FormValues {
   birthdate: Date | null;
   confirmPassword: string;
@@ -117,7 +113,7 @@ interface FormValues {
   username: string;
 }
 
-export default function RegisterForm(props: Props): React.ReactElement {
+export default function RegisterForm({ redirect = (s: AuthViews) => {}, ...props }: RegisterProps): React.ReactElement {
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -307,7 +303,7 @@ export default function RegisterForm(props: Props): React.ReactElement {
                     onClick={(e: React.SyntheticEvent): void => {
                       if (props.isDialog) {
                         e.preventDefault();
-                        props.redirect();
+                        redirect('LOGIN');
                       }
                     }}
                     to="logga-in"
