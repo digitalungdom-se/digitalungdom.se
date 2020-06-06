@@ -75,7 +75,6 @@ export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JS
 
   const splittedName = name.split(' ');
   const firstName = splittedName[0];
-  const initial = firstName[0];
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const classes = useStyles({ open: Boolean(anchorEl) });

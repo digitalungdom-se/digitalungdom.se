@@ -51,6 +51,7 @@ interface CodeMap {
 const ERROR_CODES_MAP: CodeMap = {
   INCORRECT_PASSWORD: 'password',
   NO_ACCOUNT: 'username',
+  NOT_VERIFIED: 'username',
 };
 
 interface Props {

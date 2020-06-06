@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const validationSchema = Yup.object({
-  birthday: Yup.date().required('Required'),
+  birthdate: Yup.date().required('Required'),
   // source for confirmPassword:  https://codesandbox.io/s/l2r832l8x7
   confirmPassword: Yup.string()
     .required('Required')
@@ -106,6 +106,17 @@ interface Props {
   redirect: () => void;
 }
 
+interface FormValues {
+  birthdate: Date | null;
+  confirmPassword: string;
+  email: string;
+  firstName: string;
+  gender: '' | 'male' | 'female' | 'other' | 'undisclosed';
+  lastName: string;
+  password: string;
+  username: string;
+}
+
 export default function RegisterForm(props: Props): React.ReactElement {
   const classes = useStyles();
 
@@ -122,7 +133,7 @@ export default function RegisterForm(props: Props): React.ReactElement {
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Formik
           initialValues={{
-            birthday: null,
+            birthdate: null,
             confirmPassword: '',
             email: '',
             firstName: '',
@@ -131,8 +142,17 @@ export default function RegisterForm(props: Props): React.ReactElement {
             password: '',
             username: '',
           }}
-          onSubmit={(values, { setErrors, setSubmitting }): void => {
-            Axios.post('/api/user/register', values)
+          onSubmit={(values: FormValues, { setErrors, setSubmitting }): void => {
+            let birthdate;
+            if (values.birthdate !== null) {
+              birthdate = values.birthdate.toISOString().substring(0, 10);
+            }
+            Axios.post('/api/user/register', {
+              ...values,
+              birthdate,
+              name: values.firstName + ' ' + values.lastName,
+              gender: ['male', 'female', 'other', 'undisclosed'].indexOf(values.gender),
+            })
               .then((res) => {
                 setSubmitting(false);
                 if (res.data) {
@@ -140,6 +160,7 @@ export default function RegisterForm(props: Props): React.ReactElement {
                 }
               })
               .catch((err) => {
+                setSubmitting(false);
                 if (!err.status) {
                   enqueueSnackbar('Network error!', { variant: 'error' });
                 }
@@ -204,16 +225,16 @@ export default function RegisterForm(props: Props): React.ReactElement {
                     disabled={isSubmitting}
                     format="yyyy-MM-dd"
                     fullWidth
-                    id="birthday"
+                    id="birthdate"
                     inputVariant="outlined"
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
-                    label="Birthday"
-                    onChange={(value): void => setFieldValue('birthday', value)}
+                    label="Birthdate"
+                    onChange={(value): void => setFieldValue('birthdate', value)}
                     placeholder="yyyy-mm-dd"
                     required
-                    value={values.birthday}
+                    value={values.birthdate}
                   />
                 </Grid>
                 <Grid item xs={12}>
