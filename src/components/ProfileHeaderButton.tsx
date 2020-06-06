@@ -13,22 +13,26 @@ import SendIcon from '@material-ui/icons/Send';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    large: {
+      height: theme.spacing(7),
+      width: theme.spacing(7),
+    },
     root: {
+      // borderBottom: (props: { open: boolean }): string => (props.open ? '0' : ''),
+      borderBottomLeftRadius: (props: { open: boolean }): string => (props.open ? '0' : ''),
+      borderBottomRightRadius: (props: { open: boolean }): string => (props.open ? '0' : ''),
       //display: 'flex',
       // '& > *': {
       //   margin: theme.spacing(1),
       // },
+      transition: '262ms',
       width: theme.spacing(20),
     },
     small: {
-      width: theme.spacing(3),
+      fontSize: 'inherit',
       height: theme.spacing(3),
       marginRight: theme.spacing(1),
-      fontSize: 'inherit',
-    },
-    large: {
-      width: theme.spacing(7),
-      height: theme.spacing(7),
+      width: theme.spacing(3),
     },
   }),
 );
@@ -36,19 +40,21 @@ const useStyles = makeStyles((theme: Theme) =>
 const StyledMenuItem = withStyles((theme) => ({
   root: {
     '&:focus': {
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: theme.palette.action.selected,
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
+        color: theme.palette.text.primary,
       },
     },
   },
 }))(MenuItem);
 
-const StyledMenu = withStyles(({ spacing }) => ({
+const StyledMenu = withStyles(({ spacing, palette }) => ({
   paper: {
-    border: '1px solid rgba(0, 0, 0, 0.12)',
+    border: '1px solid',
+    borderColor: palette.divider,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
+    borderTop: 0,
     width: spacing(20),
   },
 }))((props: MenuProps) => (
@@ -67,15 +73,15 @@ const StyledMenu = withStyles(({ spacing }) => ({
   />
 ));
 
-export default function ProfileHeaderButton() {
+export default function ProfileHeaderButton({ firstName }: { firstName: string }): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const classes = useStyles();
+  const classes = useStyles({ open: Boolean(anchorEl) });
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setAnchorEl(null);
   };
 
@@ -88,10 +94,10 @@ export default function ProfileHeaderButton() {
         disableElevation
         onClick={handleClick}
         size="large"
-        variant="contained"
+        variant="outlined"
       >
         <Avatar className={classes.small}>B</Avatar>
-        Douglas
+        {firstName}
       </Button>
       <StyledMenu anchorEl={anchorEl} id="customized-menu" keepMounted onClose={handleClose} open={Boolean(anchorEl)}>
         <StyledMenuItem>

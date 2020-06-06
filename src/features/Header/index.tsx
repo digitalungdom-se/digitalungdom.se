@@ -2,7 +2,7 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
 import { Link } from 'react-router-dom';
-import LogoutHeaderButton from './LogoutHeaderButton';
+import ProfileHeaderButton from 'components/ProfileHeaderButton';
 import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -34,10 +34,10 @@ function Header() {
   return (
     <AppBar className={classes.root} color="inherit" position="sticky">
       <Toolbar>
-        <Typography className={classes.title} component="h1" style={{ color: '#1e6ee8', fontWeight: 600 }} variant="h6">
+        <Typography className={classes.title} component="h1" style={{ fontWeight: 600 }} variant="h6">
           <Link to="/">Digital Ungdom</Link>
         </Typography>
-        {!authenticated ? <UnauthenticatedHeaderButtons /> : <LogoutHeaderButton />}
+        {!authenticated ? <UnauthenticatedHeaderButtons /> : <ProfileHeaderButton firstName="Dogge" />}
       </Toolbar>
     </AppBar>
   );
