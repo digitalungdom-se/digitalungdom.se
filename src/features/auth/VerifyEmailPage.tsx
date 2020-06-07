@@ -1,3 +1,4 @@
+import Container from '@material-ui/core/Container';
 import MailIcon from '@material-ui/icons/Mail';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
@@ -22,12 +23,14 @@ const useStyles = makeStyles((theme) => ({
 export default function VerifyEmailPage() {
   const classes = useStyles();
   return (
-    <div className={classes.paper}>
-      <Typography component="h1" variant="h5">
-        Verify e-mail
-      </Typography>
-      <MailIcon fontSize="large" />
-      <Typography>Please verify your e-mail to complete signup.</Typography>
-    </div>
+    <Container component="main" disableGutters maxWidth="xs">
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          Verify e-mail
+        </Typography>
+        <MailIcon fontSize="large" />
+        <Typography>Please verify your e-mail to complete signup.</Typography>
+      </div>
+    </Container>
   );
 }

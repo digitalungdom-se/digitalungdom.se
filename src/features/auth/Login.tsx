@@ -93,6 +93,7 @@ export default function Login({
                     const errors = err.data.errors;
                     errors.forEach((error: { message: string }) => {
                       setErrors({ [ERROR_CODES_MAP[error.message]]: error.message });
+                      if (error.message === 'NOT_VERIFIED') redirect('VERIFY');
                     });
                   }
                   setSubmitting(false);

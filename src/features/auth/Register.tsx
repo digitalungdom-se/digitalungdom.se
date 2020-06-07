@@ -22,7 +22,6 @@ const useStyles = makeStyles(({ spacing, breakpoints, palette }) =>
 export interface RegisterProps extends AuthViewsProps, WithWidthProps {}
 
 function Register({
-  onSuccess,
   isDialog = false,
   width = 'xs',
   redirect = (s: AuthViews): void => {},
