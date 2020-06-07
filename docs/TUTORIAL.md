@@ -2,7 +2,7 @@
 
 Välkommen till en introduktion för att utveckla detta repository. Denna introduktion ämnar till att ge en överblick av relevanta steg i en utvecklingsprocess.
 
-Denna tutorial kommer att vara på svenska, medan koden och dokumentationen kommer att vara på engelska. 
+Denna tutorial kommer att vara på svenska, medan koden och dokumentationen kommer att vara på engelska.
 
 Vi kommer att försöka skapa en Login-sida i denna tutorial.
 
@@ -30,7 +30,7 @@ Vi lägger till en `<Route>` inuti vårt `<Switch>`, och ber den fånga upp allt
     <Route path="/logga-in">
     </Route>
     <Route path="/secret-component">
-        <Secret>
+        <Secret />
     </Route>
 </Switch>
 ```
@@ -63,8 +63,8 @@ function Login() {
     return (
         <Form>
             <TextField
-                label="Användarnamn"
-                name="username"
+                label="E-mail"
+                name="email"
                 type="text"
                 variant="outlined"
             />
@@ -78,12 +78,11 @@ function Login() {
                 Logga in
             </Button>
         </Form>
-        
     )
 }
 ```
 
-### Importering av komponenter
+### Fotnot: Importering av komponenter
 
 För att optimera själva inladdningen av komponenter kommer vi att importera varje komponent för sig. Se koden nedanför.
 
@@ -97,18 +96,57 @@ import Form from '@material-ui/core/Form';
 import TextField from '@material-ui/core/TextField';
 ```
 
-Vi kommer nu att lägga till ett sätt för Form-komponenten att få vad som skickas in när man trycker på knappen.
+---
 
+Vi kommer nu att lägga till ett sätt för Form-komponenten att få vad som skickas in när man trycker på knappen.
+Ändra Form-komponenten till följande.
 
 ```TSX
 <Form onSubmit={(e) => {
     // Skicka inte vidare användaren så att sidan reloadar.
     e.preventDefault();
     // Få ut värdena
-    const { password, username } = e.target.form;
+    const { password, email } = e.target.form;
     // Logga värdena
-    console.log(username, password);
-    
+    console.log(email, password);
 }}>
 ```
 
+## Lägga till Formik
+
+Formik är ett bibliotek för att underlätta hanteringen av formulär i React. Vi använder oss av både [formik](https://jaredpalmer.com/formik) och [formik-material-ui](https://stackworx.github.io/formik-material-ui/) som är ett bibliotek anpassat för användning `material-ui` och `formik`.
+
+Vi kommer att omvandla ovanstående exempel till följande kod
+
+```TSX
+import { Field, Form, Formik } from 'formik';
+
+import { Button } from '@material-ui/core';
+import React from 'react';
+import { TextField } from 'formik-material-ui';
+
+function Login() {
+  return (
+    <Formik
+      initialValues={{
+        email: '',
+        password: '',
+      }}
+      onSubmit={(values, { setSubmitting }) => {
+        console.log(values.email, values.password);
+        setSubmitting(false);
+      }}
+    >
+      {({ isSubmitting }): JSX.Element => (
+        <Form>
+          <Field component={TextField} disabled={isSubmitting} label="Email" name="email" type="email" />
+          <Field component={TextField} disabled={isSubmitting} label="Lösenord" name="password" type="password" />
+          <Button disabled={isSubmitting} type="submit">
+            Logga in
+          </Button>
+        </Form>
+      )}
+    </Formik>
+  );
+}
+```
