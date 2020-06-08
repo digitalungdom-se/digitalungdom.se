@@ -59,7 +59,7 @@ export function VerifyEmailLink({ data, error, loading }: VerifyEmailLinkProps):
         {Boolean(data) && (
           <Alert severity="success">
             <AlertTitle>Success</AlertTitle>
-            You have successfully verified your email.
+            You have successfully verified your email. You have automatically been logged in.
           </Alert>
         )}
       </Paper>
