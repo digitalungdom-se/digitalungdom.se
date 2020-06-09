@@ -1,6 +1,6 @@
 import ProfileHeaderButton from './ProfileHeaderButton';
 import React from 'react';
-import { StoryMetadata } from './StoryMetadata';
+import StoryMetadata from './StoryMetadata';
 import { action } from '@storybook/addon-actions';
 
 const story: StoryMetadata = {
