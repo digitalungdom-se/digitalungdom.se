@@ -1,6 +1,6 @@
-import React, { ReactChildren } from 'react';
 import SettingsList, { SettingsTabs } from './SettingsList';
 
+import React from 'react';
 import { Route } from 'react-router-dom';
 import StoryMetadata from 'components/StoryMetadata';
 import StoryRouter from 'storybook-react-router';
