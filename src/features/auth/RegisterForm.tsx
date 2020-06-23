@@ -122,7 +122,9 @@ export default function RegisterForm({ redirect = (s: AuthViews) => {}, ...props
             .catch((err) => {
               setSubmitting(false);
               if (!err.status) {
-                enqueueSnackbar('Network error!', { variant: 'error' });
+                enqueueSnackbar('Network error!', {
+                  variant: 'error',
+                });
               }
             });
         }}
