@@ -15,7 +15,12 @@ const App: React.FC = () => {
       <ThemeLayer>
         <BrowserRouter>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <SnackbarProvider>
+            <SnackbarProvider
+              anchorOrigin={{
+                horizontal: 'center',
+                vertical: 'bottom',
+              }}
+            >
               <div className="App" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
                 <Header />
                 <div style={{ flex: 1 }}>
