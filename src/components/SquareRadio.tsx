@@ -8,6 +8,17 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    '@keyframes borderGoesWhite': {
+      '0%': {
+        borderColor: 'white',
+      },
+      '80%': {
+        borderColor: 'white',
+      },
+      '100%': {
+        borderColor: theme.palette.action.active,
+      },
+    },
     checked: {},
     color: ({ color }: StyledRadioProps) => ({
       background: color[400],
@@ -15,8 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
     icon: {
       '&$checked $layer': {
+        animation: `$borderGoesWhite ${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeOut}`,
+        borderColor: theme.palette.action.active,
         transform: 'scale(1)',
-        transition: theme.transitions.create('transform', {
+        transition: theme.transitions.create(['transform', 'borderColor'], {
           duration: theme.transitions.duration.shortest,
           easing: theme.transitions.easing.easeOut,
         }),
@@ -28,16 +41,18 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '1em',
     },
     layer: {
-      border: '2px solid white',
-      height: '1em',
-      left: 0,
+      border: '3px solid',
+      borderColor: 'white',
+      height: 'calc(1em + 6px)',
+      left: -3,
       position: 'absolute',
+      top: -3,
       transform: 'scale(0)',
-      transition: theme.transitions.create('transform', {
+      transition: theme.transitions.create(['transform', 'borderColor'], {
         duration: theme.transitions.duration.shortest,
         easing: theme.transitions.easing.easeIn,
       }),
-      width: '1em',
+      width: 'calc(1em + 6px)',
     },
     root: ({ color }: StyledRadioProps) => ({
       '&:hover': {
