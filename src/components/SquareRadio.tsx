@@ -16,7 +16,8 @@ const useStyles = makeStyles((theme: Theme) =>
         borderColor: 'white',
       },
       '100%': {
-        borderColor: theme.palette.action.active,
+        // UNCOMMENT WHEN DISABLING SHADOW:
+        // borderColor: theme.palette.action.active,
       },
     },
     checked: {},
@@ -27,7 +28,10 @@ const useStyles = makeStyles((theme: Theme) =>
     icon: {
       '&$checked $layer': {
         animation: `$borderGoesWhite ${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeOut}`,
-        borderColor: theme.palette.action.active,
+        // DO COMMENT WHEN DISABLING SHADOW:
+        boxShadow: theme.shadows[1],
+        // UNCOMMENT WHEN DISABLING SHADOW:
+        // borderColor: theme.palette.action.active,
         transform: 'scale(1)',
         transition: theme.transitions.create(['transform', 'borderColor'], {
           duration: theme.transitions.duration.shortest,
