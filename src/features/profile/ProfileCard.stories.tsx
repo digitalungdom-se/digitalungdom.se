@@ -1,10 +1,10 @@
-import Profile, { ProfileState } from './index';
+import { ProfileCard, ProfileState } from './ProfileCard';
 
 import React from 'react';
 import StoryMetadata from 'components/StoryMetadata';
 
 const story: StoryMetadata = {
-  component: Profile,
+  component: ProfileCard,
   decorators: [
     (storyFn): JSX.Element => (
       <div
@@ -18,13 +18,13 @@ const story: StoryMetadata = {
       </div>
     ),
   ],
-  title: 'Profile',
+  title: 'ProfileCard',
 };
 
 export default story;
 
 export const Basic = (): React.ReactElement => (
-  <Profile
+  <ProfileCard
     bio={'Studerar datateknik på KTH.\n20 år gammal.\nOrdförande för Digital Ungdom.'}
     firstName="Douglas"
     joinDate={new Date()}
@@ -45,7 +45,7 @@ export const EditableProfile = (): React.ReactElement => {
   const { bio, link, status } = state;
 
   return (
-    <Profile
+    <ProfileCard
       bio={bio}
       firstName="Douglas"
       isOwner

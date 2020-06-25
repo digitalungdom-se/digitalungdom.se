@@ -1,5 +1,6 @@
 import { Route, Switch, useHistory } from 'react-router-dom';
 
+import ProfilePage from 'features/profile';
 import React from 'react';
 
 const Login = React.lazy(() => import('features/auth/Login'));
@@ -18,6 +19,9 @@ function Router(): React.ReactElement {
         </Route>
         <Route path="/bli-medlem">
           <Register onSuccess={(): void => history.push('/')} />
+        </Route>
+        <Route path="/@:username">
+          <ProfilePage />
         </Route>
         <Route path="/verify/:token">
           <VerifyEmailLink />

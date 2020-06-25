@@ -1,127 +1,33 @@
-import * as Yup from 'yup';
+import { ProfileCard } from './ProfileCard';
+import React from 'react';
+import useAxios from 'axios-hooks';
+import { useParams } from 'react-router-dom';
 
-import { Button, CardContent, Link, Typography } from '@material-ui/core';
-import { Form, Formik, FormikHelpers } from 'formik';
-import ProfileContent, { ProfileContentProps } from './ProfileContent';
-import React, { useState } from 'react';
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
-
-import Avatar from '@material-ui/core/Avatar';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import EditableProfileContent from './EditableProfileContent';
-import { Link as RouterLink } from 'react-router-dom';
-
-interface StyleProps {
-  backgroundColor: string;
-}
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    avatar: {
-      height: theme.spacing(8),
-      marginTop: theme.spacing(-4),
-      width: theme.spacing(8),
+function ProfilePage(): React.ReactElement {
+  const { username } = useParams();
+  const [{ data, loading, error }] = useAxios({
+    params: {
+      dateAfter: '0',
+      dateBefore: 'ffffffff',
+      sort: 'NEW',
+      username,
     },
-    content: {
-      minWidth: theme.spacing(34),
-      padding: theme.spacing(0, 2, 6, 2),
-    },
-    header: (props: StyleProps) => ({
-      backgroundColor: props.backgroundColor,
-      height: theme.spacing(8),
-    }),
-    root: {
-      minWidth: theme.spacing(30),
-    },
-  }),
-);
+    url: '/api/agora/get/user',
+  });
 
-export interface ProfileState {
-  bio: string | undefined;
-  link: string | undefined;
-  status: string | undefined;
-}
+  if (loading) return <div />;
+  if (error) return <div />;
 
-export const ProfileValidationSchema = Yup.object({
-  bio: Yup.string(),
-  link: Yup.string().url(),
-  status: Yup.string(),
-});
-
-interface ProfileProps extends ProfileContentProps {
-  firstName: string;
-  isOwner?: boolean;
-  joinDate: Date;
-  lastName: string;
-  onSubmit?: (values: ProfileState, formikHelpers: FormikHelpers<ProfileState>) => void | Promise<any>;
-  username: string;
-}
-
-function Profile({
-  bio,
-  firstName,
-  isOwner,
-  joinDate,
-  lastName,
-  link,
-  onSubmit = console.log,
-  status,
-  username,
-}: ProfileProps): React.ReactElement {
-  const [editing, setEditing] = useState<boolean>(false);
-  const classes = useStyles({ backgroundColor: '#1e6ee8' });
+  const name = data.user.details.name.split(' ');
 
   return (
-    <Card className={classes.root}>
-      <CardHeader className={classes.header} />
-      <CardContent className={classes.content}>
-        <Avatar className={classes.avatar} />
-        <Typography component="h2" variant="h6">
-          {firstName + ' ' + lastName}
-        </Typography>
-        <Link component={RouterLink} to={`/@${username}`} variant="subtitle1">{`@${username}`}</Link>
-        {!editing && <ProfileContent bio={bio} joinDate={joinDate} link={link} status={status} />}
-        <Formik
-          initialValues={{
-            bio,
-            link,
-            status,
-          }}
-          onSubmit={(values, { setSubmitting, ...args }): void => {
-            onSubmit(values, {
-              setSubmitting: (bool: boolean) => {
-                setSubmitting(bool);
-                setEditing(bool);
-              },
-              ...args,
-            });
-          }}
-          validationSchema={ProfileValidationSchema}
-        >
-          {({ isSubmitting, submitForm }): React.ReactElement => (
-            <Form>
-              {editing && <EditableProfileContent bio={bio} link={link} status={status} />}
-              {isOwner && (
-                <Button
-                  disabled={isSubmitting}
-                  disableElevation
-                  fullWidth
-                  onClick={(): void => {
-                    if (editing === false) setEditing(true);
-                    else submitForm();
-                  }}
-                  variant="contained"
-                >
-                  {editing ? 'Save information' : 'Edit information'}
-                </Button>
-              )}
-            </Form>
-          )}
-        </Formik>
-      </CardContent>
-    </Card>
+    <ProfileCard
+      firstName={name[0]}
+      joinDate={new Date(parseInt(data.user._id.substring(0, 8), 16) * 1000)}
+      lastName={name.slice(1, name.length).join(' ')}
+      username={data.user.details.username}
+    />
   );
 }
 
-export default Profile;
+export default ProfilePage;
