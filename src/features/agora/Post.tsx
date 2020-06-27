@@ -1,38 +1,49 @@
+import { CardActionArea, CardContent } from '@material-ui/core';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardHeader from '@material-ui/core/CardHeader';
 import CommentIcon from '@material-ui/icons/Comment';
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import Link from '@material-ui/core/Link';
+import Moment from 'react-moment';
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
 import ReportIcon from '@material-ui/icons/Report';
+import { Link as RouterLink } from 'react-router-dom';
 import ShareIcon from '@material-ui/icons/Share';
 import { StarButton } from 'components/StarButton';
 import Typography from '@material-ui/core/Typography';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     action: {
-      '& + &': {
-        marginLeft: theme.spacing(1),
-      },
-      '& .MuiSvgIcon-root': {
-        marginRight: theme.spacing(0.5),
+      '& .MuiSvgIcon-root + span': {
+        marginLeft: theme.spacing(0.5),
       },
       '&:hover, &:focus': {
         color: theme.palette.text.primary,
       },
       color: theme.palette.text.secondary,
-      padding: 0,
     },
     actions: {
-      marginTop: theme.spacing(1),
+      paddingTop: 0,
     },
     avatar: {
-      // height: theme.spacing(4),
       margin: theme.spacing(0, 1),
-      // width: theme.spacing(4),
+    },
+    content: {},
+    contentWithLink: {
+      marginLeft: theme.spacing(7),
+      paddingTop: 0,
+    },
+    header: {
+      paddingBottom: 0,
     },
     root: {
       padding: theme.spacing(2),
@@ -56,9 +67,10 @@ export interface PostProps {
   time: Date;
   username: string;
   title: string;
+  type?: 'text' | 'link';
 }
 
-function Post({ body, commentAmmount = 0, starAmmount = 0, title }: PostProps): React.ReactElement {
+function Post({ body, commentAmmount = 0, starAmmount = 0, title, type = 'text' }: PostProps): React.ReactElement {
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
@@ -78,7 +90,13 @@ function Post({ body, commentAmmount = 0, starAmmount = 0, title }: PostProps): 
               <Typography component="h2" variant="h6">
                 {title}
               </Typography>
-              <Typography>{body}</Typography>
+              {type === 'text' ? (
+                <Typography>{body}</Typography>
+              ) : (
+                <Link component={RouterLink} to={body}>
+                  {body}
+                </Link>
+              )}
             </Grid>
             <Grid className={classes.actions} item>
               <StarButton
@@ -89,11 +107,11 @@ function Post({ body, commentAmmount = 0, starAmmount = 0, title }: PostProps): 
                 }}
                 fontSize="small"
               >
-                {starAmmount}
+                <span>{starAmmount}</span>
               </StarButton>
               <Button className={classes.action}>
                 <CommentIcon fontSize="small" />
-                {commentAmmount}
+                <span>{commentAmmount}</span>
               </Button>
               <Button className={classes.action} size="small">
                 <ShareIcon />
@@ -106,6 +124,77 @@ function Post({ body, commentAmmount = 0, starAmmount = 0, title }: PostProps): 
         </Grid>
       </Grid>
     </Paper>
+  );
+}
+
+export function CardPost({
+  body,
+  commentAmmount = 0,
+  name,
+  starAmmount = 0,
+  time,
+  title,
+  type = 'text',
+  username,
+}: PostProps): React.ReactElement {
+  const classes = useStyles();
+  return (
+    <Card>
+      <CardHeader
+        avatar={<Avatar />}
+        className={classes.header}
+        subheader={
+          <Typography component="h2" variant="h6">
+            {title}
+          </Typography>
+        }
+        title={
+          <Grid container direction="row" justify="space-between">
+            <Grid>
+              <Link component={RouterLink} to={`/@${username}`}>
+                {name}
+              </Link>
+            </Grid>
+            <Grid>
+              <Moment fromNow>{time}</Moment>
+            </Grid>
+          </Grid>
+        }
+      />
+      <CardContent className={clsx(classes.content, { [classes.contentWithLink]: type === 'link' })}>
+        <Typography variant="body1">
+          {type === 'link' ? (
+            <Link component={RouterLink} to={body}>
+              {body}
+            </Link>
+          ) : (
+            body
+          )}
+        </Typography>
+      </CardContent>
+      <CardActions className={classes.actions}>
+        <StarButton
+          className={classes.action}
+          confettiConfig={{
+            elementCount: 15,
+            startVelocity: 20,
+          }}
+          fontSize="default"
+        >
+          <span>{starAmmount}</span>
+        </StarButton>
+        <Button className={classes.action}>
+          <CommentIcon />
+          <span>{commentAmmount}</span>
+        </Button>
+        <IconButton className={classes.action}>
+          <ShareIcon />
+        </IconButton>
+        <IconButton className={classes.action}>
+          <ReportIcon />
+        </IconButton>
+      </CardActions>
+    </Card>
   );
 }
 
