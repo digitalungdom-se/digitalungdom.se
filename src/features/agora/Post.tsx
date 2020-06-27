@@ -81,7 +81,14 @@ function Post({ body, commentAmmount = 0, starAmmount = 0, title }: PostProps): 
               <Typography>{body}</Typography>
             </Grid>
             <Grid className={classes.actions} item>
-              <StarButton className={classes.action} fontSize="small">
+              <StarButton
+                className={classes.action}
+                confettiConfig={{
+                  elementCount: 15,
+                  startVelocity: 20,
+                }}
+                fontSize="small"
+              >
                 {starAmmount}
               </StarButton>
               <Button className={classes.action}>
