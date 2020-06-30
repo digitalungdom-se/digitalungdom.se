@@ -1,8 +1,8 @@
 import Radio, { RadioProps } from '@material-ui/core/Radio';
+import React, { useEffect, useRef } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import { Color } from '@material-ui/core';
-import React from 'react';
 import clsx from 'clsx';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     checked: {},
-    color: ({ color }: StyledRadioProps) => ({
+    color: ({ color }: SquareRadioProps) => ({
       background: color[400],
       color: `${color[400]} !important`,
     }),
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
       }),
       width: 'calc(1em + 6px)',
     },
-    root: ({ color }: StyledRadioProps) => ({
+    root: ({ color }: SquareRadioProps) => ({
       '&:hover': {
         backgroundColor: fade(color[400], theme.palette.action.hoverOpacity),
       },
@@ -68,14 +68,30 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface StyledRadioProps extends Omit<RadioProps, 'color'> {
+export interface SquareRadioProps extends Omit<RadioProps, 'color'> {
   color: Color;
+  isFocused?: boolean;
 }
 
-export default function StyledRadio({ color, ...props }: StyledRadioProps): React.ReactElement {
+export default function SquareRadio({ color, isFocused = false, ...props }: SquareRadioProps): React.ReactElement {
+  /**
+   * Source for programmatically setting focus and ripple
+   * https://github.com/mui-org/material-ui/issues/13761
+   */
+  const inputRef = useRef(null);
+  const actionRef = useRef(null);
+
+  useEffect(() => {
+    if (isFocused) {
+      inputRef.current.focus();
+      actionRef.current.focusVisible();
+    }
+  }, [isFocused]);
+
   const classes = useStyles({ color });
   return (
     <Radio
+      action={actionRef}
       checkedIcon={
         <div className={clsx(classes.icon, classes.color, { [classes.checked]: props.checked })}>
           <div className={classes.layer} />
@@ -88,6 +104,7 @@ export default function StyledRadio({ color, ...props }: StyledRadioProps): Reac
           <div className={clsx(classes.layer)} />
         </div>
       }
+      inputRef={inputRef}
       {...props}
     />
   );
