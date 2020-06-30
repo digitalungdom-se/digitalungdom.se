@@ -1,5 +1,27 @@
-import * as colors from '@material-ui/core/colors';
+/* eslint-disable sort-keys */
+import {
+  amber,
+  blue,
+  blueGrey,
+  brown,
+  cyan,
+  deepOrange,
+  deepPurple,
+  green,
+  grey,
+  indigo,
+  lightBlue,
+  lightGreen,
+  lime,
+  orange,
+  pink,
+  purple,
+  red,
+  teal,
+  yellow,
+} from '@material-ui/core/colors';
 
+import { Color } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import React from 'react';
@@ -26,41 +48,65 @@ const story: StoryMetadata = {
 
 export default story;
 
-const colorList = [
-  'red',
-  'pink',
-  'purple',
-  'deepPurple',
-  'indigo',
-  'blue',
-  'lightBlue',
-  'cyan',
-  'teal',
-  'green',
-  'lightGreen',
-  'lime',
-  'yellow',
-  'amber',
-  'orange',
-  'deepOrange',
-  // 'brown',
-  // 'grey',
-  // 'blueGrey',
-];
-
-const calcModuloGrid = (index: number, direction: 'up' | 'down', gridLength: number, gridWidth: number): number => {
+function calcModuloGrid(
+  index: number,
+  direction: 'up' | 'down' | 'left' | 'right',
+  gridLength: number,
+  gridWidth: number,
+): number {
   switch (direction) {
     case 'up':
-      return (index - gridWidth) % gridLength;
+      if (index - gridWidth + 1 <= 0) {
+        if (index <= (gridLength - 1) % gridWidth) return gridLength - 1 - ((gridLength - 1) % gridWidth) + index;
+        else return gridLength - 1 - ((gridLength - 1) % gridWidth) - gridWidth + index;
+      } else return index - gridWidth;
     case 'down':
-      return (index + gridWidth) % gridLength;
+      if (index + gridWidth >= gridLength) return index % gridWidth;
+      else return index + gridWidth;
+    case 'left':
+      if (index % gridWidth === 0) {
+        if (index + gridWidth - 1 >= gridLength) return gridLength - (gridWidth - (gridLength % gridWidth));
+        return index + gridWidth - 1;
+      } else return index - 1;
+    case 'right':
+      if (index % gridWidth === gridWidth - 1) return index - gridWidth + 1;
+      else {
+        if (index + 1 >= gridLength) return gridLength - (gridLength % gridWidth);
+        return index + 1;
+      }
+    default:
+      return index;
   }
+}
+
+const colors: Record<string, Color> = {
+  red,
+  pink,
+  purple,
+  deepPurple,
+  indigo,
+  blue,
+  lightBlue,
+  cyan,
+  teal,
+  green,
+  lightGreen,
+  lime,
+  yellow,
+  amber,
+  orange,
+  deepOrange,
+  brown,
+  grey,
+  blueGrey,
 };
+
+const colorList = Object.keys(colors);
 
 export const Basic = (): JSX.Element => {
   const gridWidth = 4;
 
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = React.useState<string>('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setValue((event.target as HTMLInputElement).value);
@@ -76,6 +122,14 @@ export const Basic = (): JSX.Element => {
       case 'ArrowDown':
         event.preventDefault();
         setValue(colorList[calcModuloGrid(index, 'down', colorList.length, gridWidth)]);
+        break;
+      case 'ArrowLeft':
+        event.preventDefault();
+        setValue(colorList[calcModuloGrid(index, 'left', colorList.length, gridWidth)]);
+        break;
+      case 'ArrowRight':
+        event.preventDefault();
+        setValue(colorList[calcModuloGrid(index, 'right', colorList.length, gridWidth)]);
         break;
     }
   };
