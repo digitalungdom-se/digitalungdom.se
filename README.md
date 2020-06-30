@@ -26,6 +26,23 @@ If you find a typo, bug or want to add a feature, create an [issue](https://gith
 
 [VSCodium](https://vscodium.com/) is the recommended integrated development environment, VSCode will work as well. This is due to the fact that several helpful addons that are used in project’s development are only available to VSCodium and VSCode.
 
+#### Recommended extensions for VSCodium
+
+To install these extensions please see [Visual Studio Code's documentation](https://code.visualstudio.com/docs/introvideos/extend). If you prefer not to visit sites with proprietary software, do the following steps:
+
+1. Open the command palette and choose `Extensions: Install extensions`.
+2. Search for your extension.
+3. Click / select it.
+4. Press install.
+
+##### Extensions for linting purposes
+
+- [ESLint](https://open-vsx.org/extension/dbaeumer/vscode-eslint)
+- [Prettier - Code formatter](https://open-vsx.org/extension/esbenp/prettier-vscode)
+- [sort-imports](https://github.com/amatiasq/vsc-sort-imports)
+
+Sidenote: Many required extensions are already built-in in VSCode / VSCodium, such as: [TypeScript Language Basics](https://open-vsx.org/extension/vscode/typescript). The necessity for these extensions are not documented.
+
 ### License 📝
 
 This repository is [GNU AFFERO GENERAL PUBLIC LICENSE](./LICENSE).
