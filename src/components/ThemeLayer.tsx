@@ -36,6 +36,7 @@ const ThemeLayer = ({ children }: { children: React.ReactNode }): JSX.Element =>
           type: prefersDarkMode ? 'dark' : 'light',
           primary: {
             main: prefersDarkMode ? '#ffcd00' : '#1e6ee8',
+            dark: "#05379c"
           },
           secondary: {
             main: prefersDarkMode ? '#1e6ee8' : '#ffcd00',
