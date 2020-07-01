@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { Field, Form, Formik } from 'formik';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 
+import { AuthViews } from './authViewsTypes';
 import Avatar from '@material-ui/core/Avatar';
 import Axios from 'axios';
 import Button from '@material-ui/core/Button';
@@ -17,6 +18,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
 import RegisterGDPRAgreement from './RegisterGDPRAgreement';
+import { RegisterProps } from './Register';
 import { Link as RouterLink } from 'react-router-dom';
 import { TextField } from 'formik-material-ui';
 import Typography from '@material-ui/core/Typography';
@@ -46,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const validationSchema = Yup.object({
-  birthday: Yup.date().required('Required'),
+  birthdate: Yup.date().required('Required'),
   // source for confirmPassword:  https://codesandbox.io/s/l2r832l8x7
   confirmPassword: Yup.string()
     .required('Required')
@@ -100,13 +102,18 @@ const validationSchema = Yup.object({
     ),
 });
 
-interface Props {
-  onSuccess: () => void;
-  isDialog?: boolean;
-  redirect: () => void;
+interface FormValues {
+  birthdate: Date | null;
+  confirmPassword: string;
+  email: string;
+  firstName: string;
+  gender: '' | 'male' | 'female' | 'other' | 'undisclosed';
+  lastName: string;
+  password: string;
+  username: string;
 }
 
-export default function RegisterForm(props: Props): React.ReactElement {
+export default function RegisterForm({ redirect = (s: AuthViews) => {}, ...props }: RegisterProps): React.ReactElement {
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -122,7 +129,7 @@ export default function RegisterForm(props: Props): React.ReactElement {
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Formik
           initialValues={{
-            birthday: null,
+            birthdate: null,
             confirmPassword: '',
             email: '',
             firstName: '',
@@ -131,8 +138,17 @@ export default function RegisterForm(props: Props): React.ReactElement {
             password: '',
             username: '',
           }}
-          onSubmit={(values, { setErrors, setSubmitting }): void => {
-            Axios.post('/api/user/register', values)
+          onSubmit={(values: FormValues, { setErrors, setSubmitting }): void => {
+            let birthdate;
+            if (values.birthdate !== null) {
+              birthdate = values.birthdate.toISOString().substring(0, 10);
+            }
+            Axios.post('/api/user/register', {
+              ...values,
+              birthdate,
+              name: values.firstName + ' ' + values.lastName,
+              gender: ['male', 'female', 'other', 'undisclosed'].indexOf(values.gender),
+            })
               .then((res) => {
                 setSubmitting(false);
                 if (res.data) {
@@ -140,6 +156,7 @@ export default function RegisterForm(props: Props): React.ReactElement {
                 }
               })
               .catch((err) => {
+                setSubmitting(false);
                 if (!err.status) {
                   enqueueSnackbar('Network error!', { variant: 'error' });
                 }
@@ -204,16 +221,16 @@ export default function RegisterForm(props: Props): React.ReactElement {
                     disabled={isSubmitting}
                     format="yyyy-MM-dd"
                     fullWidth
-                    id="birthday"
+                    id="birthdate"
                     inputVariant="outlined"
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
-                    label="Birthday"
-                    onChange={(value): void => setFieldValue('birthday', value)}
+                    label="Birthdate"
+                    onChange={(value): void => setFieldValue('birthdate', value)}
                     placeholder="yyyy-mm-dd"
                     required
-                    value={values.birthday}
+                    value={values.birthdate}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -286,7 +303,7 @@ export default function RegisterForm(props: Props): React.ReactElement {
                     onClick={(e: React.SyntheticEvent): void => {
                       if (props.isDialog) {
                         e.preventDefault();
-                        props.redirect();
+                        redirect('LOGIN');
                       }
                     }}
                     to="logga-in"

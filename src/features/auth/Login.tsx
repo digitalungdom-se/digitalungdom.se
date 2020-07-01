@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 
 import { Field, Form, Formik } from 'formik';
 
+import { AuthViewsProps } from './authViewsTypes';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -51,15 +52,14 @@ interface CodeMap {
 const ERROR_CODES_MAP: CodeMap = {
   INCORRECT_PASSWORD: 'password',
   NO_ACCOUNT: 'username',
+  NOT_VERIFIED: 'username',
 };
 
-interface Props {
-  onSuccess: () => void;
-  isDialog?: boolean;
-  redirect?: () => void;
-}
-
-export default function Login({ onSuccess, isDialog = false, redirect = () => {} }: Props): React.ReactElement {
+export default function Login({
+  onSuccess,
+  isDialog = false,
+  redirect = (): void => {},
+}: AuthViewsProps): React.ReactElement {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -93,6 +93,7 @@ export default function Login({ onSuccess, isDialog = false, redirect = () => {}
                     const errors = err.data.errors;
                     errors.forEach((error: { message: string }) => {
                       setErrors({ [ERROR_CODES_MAP[error.message]]: error.message });
+                      if (error.message === 'NOT_VERIFIED') redirect('VERIFY');
                     });
                   }
                   setSubmitting(false);
@@ -153,7 +154,7 @@ export default function Login({ onSuccess, isDialog = false, redirect = () => {}
                       onClick={(e: React.SyntheticEvent): void => {
                         if (isDialog) {
                           e.preventDefault();
-                          redirect();
+                          redirect('REGISTER');
                         }
                       }}
                       variant="body2"

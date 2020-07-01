@@ -3,33 +3,24 @@ import { Theme, createStyles, makeStyles, withStyles } from '@material-ui/core/s
 
 import { Avatar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Link } from 'react-router-dom';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
+import PersonIcon from '@material-ui/icons/Person';
 import React from 'react';
-import SendIcon from '@material-ui/icons/Send';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    large: {
-      height: theme.spacing(7),
-      width: theme.spacing(7),
-    },
     root: {
-      // borderBottom: (props: { open: boolean }): string => (props.open ? '0' : ''),
       borderBottomLeftRadius: (props: { open: boolean }): string => (props.open ? '0' : ''),
       borderBottomRightRadius: (props: { open: boolean }): string => (props.open ? '0' : ''),
-      //display: 'flex',
-      // '& > *': {
-      //   margin: theme.spacing(1),
-      // },
       transition: '262ms',
       width: theme.spacing(20),
     },
-    small: {
-      fontSize: 'inherit',
+    avatar: {
+      // fontSize: 'inherit',
       height: theme.spacing(3),
       marginRight: theme.spacing(1),
       width: theme.spacing(3),
@@ -73,7 +64,18 @@ const StyledMenu = withStyles(({ spacing, palette }) => ({
   />
 ));
 
-export default function ProfileHeaderButton({ firstName }: { firstName: string }): JSX.Element {
+export interface ProfileHeaderButtonProps {
+  name: string;
+  logout: () => void;
+  username: string;
+}
+
+export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JSX.Element {
+  const { name, logout, username } = props;
+
+  const splittedName = name.split(' ');
+  const firstName = splittedName[0];
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const classes = useStyles({ open: Boolean(anchorEl) });
 
@@ -96,27 +98,36 @@ export default function ProfileHeaderButton({ firstName }: { firstName: string }
         size="large"
         variant="outlined"
       >
-        <Avatar className={classes.small}>B</Avatar>
+        <Avatar className={classes.avatar}>
+          <PersonIcon fontSize="small" />
+        </Avatar>
         {firstName}
       </Button>
       <StyledMenu anchorEl={anchorEl} id="customized-menu" keepMounted onClose={handleClose} open={Boolean(anchorEl)}>
-        <StyledMenuItem>
+        <Link
+          style={{
+            color: 'inherit',
+            textDecoration: 'none',
+          }}
+          to={`/@${username}`}
+        >
+          <StyledMenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <PersonIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="My Profile" />
+          </StyledMenuItem>
+        </Link>
+        <StyledMenuItem
+          onClick={(): void => {
+            logout();
+            handleClose();
+          }}
+        >
           <ListItemIcon>
-            <SendIcon fontSize="small" />
+            <ExitToAppIcon fontSize="small" />
           </ListItemIcon>
-          <ListItemText primary="Sent mail" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemIcon>
-            <DraftsIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemIcon>
-            <InboxIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Inbox" />
+          <ListItemText primary="Log out" />
         </StyledMenuItem>
       </StyledMenu>
     </div>

@@ -4,8 +4,15 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import React from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-const ThemeLayer = ({ children }: { children: React.ReactNode }): JSX.Element => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+interface ThemeLayerProps {
+  children: React.ReactNode;
+  forceDarkMode?: 'light' | 'dark';
+}
+
+const ThemeLayer = ({ children, forceDarkMode }: ThemeLayerProps): JSX.Element => {
+  let prefersDarkMode = forceDarkMode === 'dark';
+  const mediaQuery = useMediaQuery('(prefers-color-scheme: dark)');
+  if (forceDarkMode === undefined) prefersDarkMode = mediaQuery;
 
   const theme = React.useMemo(
     () =>

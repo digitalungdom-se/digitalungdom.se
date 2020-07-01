@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
+import { AuthViews, AuthViewsProps } from './authViewsTypes';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import withWidth, { WithWidthProps, isWidthUp } from '@material-ui/core/withWidth';
 
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
+import React from 'react';
 import RegisterForm from './RegisterForm';
-import VerifyEmailPage from './VerifyEmailPage';
-
-interface Props extends WithWidthProps {
-  onSuccess: () => void;
-  isDialog?: boolean;
-  redirect?: () => void;
-}
 
 const useStyles = makeStyles(({ spacing, breakpoints, palette }) =>
   createStyles({
@@ -25,19 +19,20 @@ const useStyles = makeStyles(({ spacing, breakpoints, palette }) =>
   }),
 );
 
-function Register({ onSuccess, isDialog = false, width = 'xs', redirect = () => {} }: Props): React.ReactElement {
+export interface RegisterProps extends AuthViewsProps, WithWidthProps {}
+
+function Register({
+  isDialog = false,
+  width = 'xs',
+  redirect = (s: AuthViews): void => {},
+}: RegisterProps): React.ReactElement {
   const styles = useStyles();
-  const [showVerifyEmailPage, setVerifyEmailPage] = useState(false);
   const Wrapper = isDialog ? Container : isWidthUp('sm', width) ? Paper : Container;
 
   return (
     <Container component="main" disableGutters maxWidth={isDialog ? 'xs' : 'sm'}>
       <Wrapper className={styles.root}>
-        {showVerifyEmailPage ? (
-          <VerifyEmailPage />
-        ) : (
-          <RegisterForm isDialog={isDialog} onSuccess={(): void => setVerifyEmailPage(true)} redirect={redirect} />
-        )}
+        <RegisterForm isDialog={isDialog} onSuccess={(): void => redirect('VERIFY')} redirect={redirect} />
       </Wrapper>
     </Container>
   );

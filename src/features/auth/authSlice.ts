@@ -26,4 +26,6 @@ export const { authorize, failAuthorize } = auth.actions;
 // in the slice file. For example: `useSelector((state) => state.auth.authenticated)`
 export const selectAuthenticated = (state: RootState): boolean => state.auth.authenticated;
 
+export const selectMyProfile = (state: RootState): any => state.auth.details;
+
 export default auth.reducer;
