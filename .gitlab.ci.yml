@@ -1,14 +1,14 @@
-+image: node:latest
+image: node:latest
 
 cache:
   paths:
     - node_modules/
 
 stages:
-  - build
+  - test
 
-build:
-  stage: build
+test:
+  stage: test
   script:
     - npm install
     - npm run-script test
