@@ -21,4 +21,5 @@ deploy:
     - npm run-script build
     - cd server
     - npm install
+    - npm run-script compile
     - CI=true npm run-script start

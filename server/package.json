@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "compile": "tsc",
     "dev": "tsc --watch && NODE_ENV=development nodemon build/index.js",
-    "start": "tsc & NODE_ENV=production node build/index.js"
+    "start": "NODE_ENV=development node build/index.js"
   },
   "author": "",
   "license": "ISC",
