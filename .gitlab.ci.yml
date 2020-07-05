@@ -1,0 +1,18 @@
+image: node:latest
+
+cache:
+  paths:
+    - node_modules/
+    - server/node_modules/
+
+stages:
+  - build
+
+build:
+  stage: build
+  script:
+    - npm install
+    - npm run-script build
+    - cd server
+    - run-script install
+    - npm run-script start
