@@ -2,6 +2,7 @@ import Post, { CardPost } from './Post';
 
 import { LoremIpsum } from 'lorem-ipsum';
 import React from 'react';
+import StoryMetadata from 'components/StoryMetadata';
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -14,7 +15,7 @@ const lorem = new LoremIpsum({
   },
 });
 
-const story = {
+const story: StoryMetadata = {
   component: Post,
   decorators: [
     (storyFn): JSX.Element => (

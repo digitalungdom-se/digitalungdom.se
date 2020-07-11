@@ -1,7 +1,8 @@
 import Comment from './Comment';
 import React from 'react';
+import StoryMetadata from 'components/StoryMetadata';
 
-const story = {
+const story: StoryMetadata = {
   component: Comment,
   decorators: [
     (storyFn): JSX.Element => (

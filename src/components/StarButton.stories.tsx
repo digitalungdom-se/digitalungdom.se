@@ -1,7 +1,8 @@
 import React from 'react';
 import StarButton from './StarButton';
+import StoryMetadata from './StoryMetadata';
 
-export default {
+const metadata: StoryMetadata = {
   component: StarButton,
   decorators: [
     (storyFn): JSX.Element => (
@@ -19,5 +20,7 @@ export default {
   ],
   title: 'StarButton',
 };
+
+export default metadata;
 
 export const Basic = (): JSX.Element => <StarButton />;
