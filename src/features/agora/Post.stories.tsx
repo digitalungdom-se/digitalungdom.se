@@ -59,7 +59,7 @@ export const LinkPost = (): JSX.Element => {
       name="Douglas Bengtsson"
       time={new Date()}
       title="Hello, world!"
-      type="link"
+      type="LINK"
       username="Nautman"
     />
   );
@@ -73,7 +73,7 @@ export const Card = (): JSX.Element => {
         name="Douglas Bengtsson"
         time={new Date()}
         title="Hello, world!"
-        type="link"
+        type="LINK"
         username={'Nautman'}
       />
     </div>
@@ -95,6 +95,19 @@ export const CardWithText = (): JSX.Element => {
         title="Hello, world!"
         username={'Nautman'}
       />
+    </div>
+  );
+};
+
+export const LoadingCardPost = (): JSX.Element => {
+  return (
+    <div
+      style={{
+        margin: '0 auto',
+        width: 400,
+      }}
+    >
+      <CardPost loading name="" time={new Date()} title="" username="" />
     </div>
   );
 };

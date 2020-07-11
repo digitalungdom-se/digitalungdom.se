@@ -2,6 +2,7 @@ import { Route, Switch, useHistory } from 'react-router-dom';
 
 import React from 'react';
 
+const Agora = React.lazy(() => import('features/agora'));
 const Login = React.lazy(() => import('features/auth/Login'));
 const Register = React.lazy(() => import('features/auth/Register'));
 const Startpage = React.lazy(() => import('pages/Startpage'));
@@ -20,6 +21,9 @@ function Router(): React.ReactElement {
         </Route>
         <Route path="/verify/:token">
           <VerifyEmailLink />
+        </Route>
+        <Route path="/agora/:hypagora?/:sort?/:dateAfter?/:dateBefore?">
+          <Agora />
         </Route>
         <Route exact path="/">
           <Startpage />

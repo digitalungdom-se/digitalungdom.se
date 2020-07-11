@@ -1,10 +1,10 @@
-import { CardActionArea, CardContent } from '@material-ui/core';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
+import { CardContent } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import CommentIcon from '@material-ui/icons/Comment';
 import Grid from '@material-ui/core/Grid';
@@ -16,6 +16,7 @@ import React from 'react';
 import ReportIcon from '@material-ui/icons/Report';
 import { Link as RouterLink } from 'react-router-dom';
 import ShareIcon from '@material-ui/icons/Share';
+import Skeleton from '@material-ui/lab/Skeleton';
 import { StarButton } from 'components/StarButton';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
@@ -59,18 +60,21 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface PostProps {
+  author?: React.ReactNode;
   starAmmount?: number;
+  className?: string;
   commentAmmount?: number;
   children?: React.ReactNode;
-  name: string;
+  name?: string;
   body?: string;
   time: Date;
   username: string;
   title: string;
-  type?: 'text' | 'link';
+  type?: 'TEXT' | 'LINK';
+  loading?: boolean;
 }
 
-function Post({ body, commentAmmount = 0, starAmmount = 0, title, type = 'text' }: PostProps): React.ReactElement {
+function Post({ body = '', commentAmmount = 0, starAmmount = 0, title, type = 'TEXT' }: PostProps): React.ReactElement {
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
@@ -90,7 +94,7 @@ function Post({ body, commentAmmount = 0, starAmmount = 0, title, type = 'text' 
               <Typography component="h2" variant="h6">
                 {title}
               </Typography>
-              {type === 'text' ? (
+              {type === 'TEXT' ? (
                 <Typography>{body}</Typography>
               ) : (
                 <Link component={RouterLink} to={body}>
@@ -128,72 +132,95 @@ function Post({ body, commentAmmount = 0, starAmmount = 0, title, type = 'text' 
 }
 
 export function CardPost({
-  body,
+  author,
+  body = '',
+  className = '',
   commentAmmount = 0,
+  loading = false,
   name,
   starAmmount = 0,
   time,
   title,
-  type = 'text',
+  type = 'TEXT',
   username,
 }: PostProps): React.ReactElement {
   const classes = useStyles();
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader
-        avatar={<Avatar />}
+        avatar={
+          !loading ? (
+            <Avatar />
+          ) : (
+            <Skeleton variant="circle">
+              <Avatar />
+            </Skeleton>
+          )
+        }
         className={classes.header}
         subheader={
-          <Typography component="h2" variant="h6">
-            {title}
-          </Typography>
+          !loading ? (
+            <Typography component="h2" variant="h6">
+              {title}
+            </Typography>
+          ) : (
+            <Skeleton variant="text" />
+          )
         }
         title={
-          <Grid container direction="row" justify="space-between">
-            <Grid>
-              <Link component={RouterLink} to={`/@${username}`}>
-                {name}
-              </Link>
+          !loading ? (
+            <Grid container direction="row" justify="space-between">
+              <Grid>
+                {author ? (
+                  author
+                ) : (
+                  <Link component={RouterLink} to={`/@${username}`}>
+                    {name}
+                  </Link>
+                )}
+              </Grid>
+              <Grid>
+                <Moment fromNow>{time}</Moment>
+              </Grid>
             </Grid>
-            <Grid>
-              <Moment fromNow>{time}</Moment>
-            </Grid>
-          </Grid>
+          ) : (
+            <Skeleton variant="text" />
+          )
         }
       />
-      <CardContent className={clsx(classes.content, { [classes.contentWithLink]: type === 'link' })}>
-        <Typography variant="body1">
-          {type === 'link' ? (
-            <Link component={RouterLink} to={body}>
-              {body}
-            </Link>
-          ) : (
-            body
-          )}
-        </Typography>
+      <CardContent className={clsx(classes.content, { [classes.contentWithLink]: type === 'LINK' })}>
+        {!loading ? (
+          <Typography style={{ wordWrap: 'break-word' }} variant="body1">
+            {type === 'LINK' ? <Link href={body}>{body}</Link> : body}
+          </Typography>
+        ) : (
+          <Skeleton height={60} variant="rect" />
+        )}
       </CardContent>
-      <CardActions className={classes.actions}>
-        <StarButton
-          className={classes.action}
-          confettiConfig={{
-            elementCount: 15,
-            startVelocity: 20,
-          }}
-          fontSize="default"
-        >
-          <span>{starAmmount}</span>
-        </StarButton>
-        <Button className={classes.action}>
-          <CommentIcon />
-          <span>{commentAmmount}</span>
-        </Button>
-        <IconButton className={classes.action}>
-          <ShareIcon />
-        </IconButton>
-        <IconButton className={classes.action}>
-          <ReportIcon />
-        </IconButton>
-      </CardActions>
+      {!loading && (
+        <CardActions className={classes.actions}>
+          <StarButton
+            className={classes.action}
+            confettiConfig={{
+              elementCount: 15,
+              startVelocity: 20,
+            }}
+            fontSize="default"
+          >
+            <span>{starAmmount}</span>
+          </StarButton>
+          <Button className={classes.action}>
+            <CommentIcon />
+            <span>{commentAmmount}</span>
+          </Button>
+          <IconButton className={classes.action}>
+            <ShareIcon />
+          </IconButton>
+          <IconButton className={classes.action}>
+            <ReportIcon />
+          </IconButton>
+        </CardActions>
+      )}
     </Card>
   );
 }
