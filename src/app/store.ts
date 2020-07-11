@@ -7,6 +7,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 const persistConfig = {
   key: 'root',
   storage,
+  whitelist: ['auth'],
 };
 
 const rootReducer = combineReducers({
@@ -16,12 +17,12 @@ const rootReducer = combineReducers({
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  reducer: persistedReducer,
   middleware: getDefaultMiddleware({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
   }),
+  reducer: persistedReducer,
 });
 
 export const persistor = persistStore(store);
