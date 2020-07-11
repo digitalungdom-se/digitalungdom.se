@@ -4,6 +4,7 @@ import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/
 import agora from 'features/agora/agoraSlice';
 import auth from 'features/auth/authSlice';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import users from 'features/users/usersSlice';
 
 const persistConfig = {
   key: 'root',
@@ -14,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   agora,
   auth,
+  users,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

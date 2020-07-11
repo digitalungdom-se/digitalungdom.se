@@ -1,20 +1,22 @@
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
 
 import AgoraFilter from './AgoraFilter';
 import { Agoragram } from './agoraTypes';
 import { CardPost } from './Post';
 import Container from '@material-ui/core/Container';
 import React from 'react';
+import { RootState } from 'app/store';
+import UserLink from 'features/users/UserLink';
 import { getAgoragramsSuccess } from './agoraSlice';
+import { getUsersSuccess } from 'features/users/usersSlice';
+import { mongoIdToDate } from 'utils/mongoid';
+import { selectAgoragramById } from './agoraSlice';
 import useAxios from 'axios-hooks';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    post: {
-      marginTop: theme.spacing(2),
-    },
     root: {
       marginTop: theme.spacing(2),
     },
@@ -27,9 +29,6 @@ export default function Agora(): React.ReactElement {
   const dispatch = useDispatch();
 
   const [{ data, loading }] = useAxios({
-    headers: {
-      'Content-Type': 'application/json',
-    },
     method: 'GET',
     params: {
       dateAfter: dateAfter || '0',
@@ -41,7 +40,8 @@ export default function Agora(): React.ReactElement {
   });
 
   if (data) {
-    dispatch(getAgoragramsSuccess(data));
+    dispatch(getAgoragramsSuccess(data.agoragrams));
+    dispatch(getUsersSuccess(data.users));
   }
 
   return (
@@ -49,33 +49,14 @@ export default function Agora(): React.ReactElement {
       <AgoraFilter hypagora={hypagora} path="/agora" sort={sort} />
       {loading
         ? [0, 0, 0, 0, 0].map((_, index) => (
-            <CardPost
-              className={classes.post}
-              key={'agoragram' + index}
-              loading
-              name=""
-              time={new Date()}
-              title=""
-              username=""
-            />
+            <CardPost key={'agoragram' + index} loading name="" time={new Date()} title="" username="" />
           ))
-        : data?.agoragrams.map(
-            ({ _id, body, type, title, author = 'deleted', stars, commentAmmount }: Agoragram, i: number) => (
-              <CardPost
-                author={author}
-                body={body}
-                className={classes.post}
-                commentAmmount={commentAmmount}
-                key={_id}
-                loading={false}
-                starAmmount={stars}
-                time={new Date()}
-                title={title}
-                type={type}
-                username={'username'}
-              />
-            ),
-          )}
+        : data?.agoragrams.map(({ _id }: Agoragram) => <Post _id={_id} key={_id} />)}
     </Container>
   );
 }
+
+const Post = ({ _id }: { _id: string }): React.ReactElement => {
+  const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
+  return <CardPost {...props} author={<UserLink id={props.author} />} time={mongoIdToDate(props._id)} />;
+};

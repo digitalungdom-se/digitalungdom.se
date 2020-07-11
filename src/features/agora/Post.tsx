@@ -46,8 +46,11 @@ const useStyles = makeStyles((theme: Theme) =>
     header: {
       paddingBottom: 0,
     },
-    root: {
+    paper: {
       padding: theme.spacing(2),
+    },
+    root: {
+      marginTop: theme.spacing(2),
     },
     starButton: {
       fontSize: theme.spacing(4),
@@ -61,23 +64,22 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface PostProps {
   author?: React.ReactNode;
-  starAmmount?: number;
-  className?: string;
+  stars?: number;
   commentAmmount?: number;
   children?: React.ReactNode;
   name?: string;
   body?: string;
   time: Date;
-  username: string;
+  username?: string;
   title: string;
   type?: 'TEXT' | 'LINK';
   loading?: boolean;
 }
 
-function Post({ body = '', commentAmmount = 0, starAmmount = 0, title, type = 'TEXT' }: PostProps): React.ReactElement {
+function Post({ body = '', commentAmmount = 0, stars = 0, title, type = 'TEXT' }: PostProps): React.ReactElement {
   const classes = useStyles();
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.paper}>
       <Grid container>
         <Grid item>
           <Avatar className={classes.avatar} />
@@ -111,7 +113,7 @@ function Post({ body = '', commentAmmount = 0, starAmmount = 0, title, type = 'T
                 }}
                 fontSize="small"
               >
-                <span>{starAmmount}</span>
+                <span>{stars}</span>
               </StarButton>
               <Button className={classes.action}>
                 <CommentIcon fontSize="small" />
@@ -134,11 +136,10 @@ function Post({ body = '', commentAmmount = 0, starAmmount = 0, title, type = 'T
 export function CardPost({
   author,
   body = '',
-  className = '',
   commentAmmount = 0,
   loading = false,
   name,
-  starAmmount = 0,
+  stars = 0,
   time,
   title,
   type = 'TEXT',
@@ -146,7 +147,7 @@ export function CardPost({
 }: PostProps): React.ReactElement {
   const classes = useStyles();
   return (
-    <Card className={className}>
+    <Card className={classes.root}>
       <CardHeader
         avatar={
           !loading ? (
@@ -207,7 +208,7 @@ export function CardPost({
             }}
             fontSize="default"
           >
-            <span>{starAmmount}</span>
+            <span>{stars}</span>
           </StarButton>
           <Button className={classes.action}>
             <CommentIcon />
