@@ -1,6 +1,7 @@
-import { Agoragram } from './agoraTypes';
+import { Agoragram, AsteriResponseWithID } from './agoraTypes';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+
 import { RootState } from 'app/store';
-import { createSlice } from '@reduxjs/toolkit';
 
 interface AgoraState {
   agoragrams: Record<string, Agoragram>;
@@ -15,12 +16,17 @@ export const agora = createSlice({
   name: 'agora',
   reducers: {
     getAgoragramsSuccess(state, action): void {
-      action.payload.forEach((agoragram: Agoragram) => (state.agoragrams[agoragram._id] = agoragram));
+      action.payload.agoragrams.forEach((agoragram: Agoragram) => (state.agoragrams[agoragram._id] = agoragram));
+      action.payload.starredAgoragrams?.forEach((_id: string) => (state.agoragrams[_id].isStarred = true));
+    },
+    starAgoragramSuccess(state, action: PayloadAction<AsteriResponseWithID>): void {
+      state.agoragrams[action.payload.agoragramID].stars += action.payload.action === 'STARRED' ? 1 : -1;
+      state.agoragrams[action.payload.agoragramID].isStarred = action.payload.action === 'STARRED' ? true : false;
     },
   },
 });
 
-export const { getAgoragramsSuccess } = agora.actions;
+export const { getAgoragramsSuccess, starAgoragramSuccess } = agora.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

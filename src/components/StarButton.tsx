@@ -20,14 +20,17 @@ export interface StarButtonProps extends ButtonProps {
    * The fontSize applied to the icon. Defaults to 24px, but can be configure to inherit font size.
    */
   fontSize?: 'inherit' | 'default' | 'small' | 'large';
+  isStarred?: boolean;
+  handleStarring?: () => void;
 }
 
 export default function StarIconButton({
   className,
   confettiConfig,
   fontSize = 'large',
+  isStarred = false,
 }: StarButtonProps): React.ReactElement {
-  const [clicked, setClick] = React.useState<boolean>(false);
+  const [clicked, setClick] = React.useState<boolean>(isStarred);
   const handleClick = (): void => setClick(!clicked);
   const classes = useStyles({ clicked });
   return (
@@ -43,9 +46,14 @@ export function StarButton({
   children,
   confettiConfig,
   fontSize = 'large',
+  isStarred = false,
+  handleStarring = () => {},
 }: StarButtonProps): React.ReactElement {
-  const [clicked, setClick] = React.useState<boolean>(false);
-  const handleClick = (): void => setClick(!clicked);
+  const [clicked, setClick] = React.useState<boolean>(isStarred);
+  const handleClick = (): void => {
+    setClick(!clicked);
+    handleStarring();
+  };
   const classes = useStyles({ clicked });
   return (
     <Button className={className} onClick={handleClick}>

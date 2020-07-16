@@ -74,6 +74,8 @@ export interface PostProps {
   title: string;
   type?: 'TEXT' | 'LINK';
   loading?: boolean;
+  isStarred?: boolean;
+  handleStarring?: () => void;
 }
 
 function Post({ body = '', commentAmmount = 0, stars = 0, title, type = 'TEXT' }: PostProps): React.ReactElement {
@@ -144,6 +146,8 @@ export function CardPost({
   title,
   type = 'TEXT',
   username,
+  isStarred = false,
+  handleStarring = () => {},
 }: PostProps): React.ReactElement {
   const classes = useStyles();
   return (
@@ -207,6 +211,8 @@ export function CardPost({
               startVelocity: 20,
             }}
             fontSize="default"
+            handleStarring={handleStarring}
+            isStarred={isStarred}
           >
             <span>{stars}</span>
           </StarButton>

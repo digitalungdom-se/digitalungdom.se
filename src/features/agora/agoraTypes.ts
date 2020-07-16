@@ -6,4 +6,10 @@ export interface Agoragram {
   author?: string;
   stars: number;
   commentAmmount: number;
+  isStarred?: boolean;
+}
+
+export interface AsteriResponseWithID {
+  action: 'STARRED' | 'UNSTARRED';
+  agoragramID: string;
 }
