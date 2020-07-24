@@ -24,21 +24,21 @@ const story: StoryMetadata = {
 export default story;
 
 export const Basic = (): JSX.Element => {
-  return <Comment name="Douglas Bengtsson" text={'Hej!'} time={new Date()} username="Nautman" />;
+  return <Comment author="Douglas Bengtsson" text={'Hej!'} time={new Date()} />;
 };
 
 export const Folded = (): JSX.Element => {
-  return <Comment folded name="Douglas Bengtsson" text={'Hej!'} time={new Date()} username="Nautman" />;
+  return <Comment author="Douglas Bengtsson" folded text={'Hej!'} time={new Date()} />;
 };
 
 export const CommentTree = (): JSX.Element => {
   return (
     <div style={{ width: 370 }}>
-      <Comment name="Douglas Bengtsson" text="Hej!" time={new Date()} username="Nautman">
-        <Comment name="Simon Sondén" text="Tjena!" time={new Date()} username="Zigolox">
-          <Comment name="Kelvin Szolnoky" text="G'day mate!" time={new Date()} username="kelszo" />
+      <Comment author="Douglas Bengtsson" text="Hej!" time={new Date()}>
+        <Comment author="Simon Sondén" text="Tjena!" time={new Date()}>
+          <Comment author="Kelvin Szolnoky" text="G'day mate!" time={new Date()} />
         </Comment>
-        <Comment name="Charles Maddock" text="Tjenixen!" time={new Date()} username="charles" />
+        <Comment author="Charles Maddock" text="Tjenixen!" time={new Date()} />
       </Comment>
     </div>
   );

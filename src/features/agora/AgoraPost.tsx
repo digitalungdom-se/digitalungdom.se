@@ -1,10 +1,11 @@
+import { Container, Divider } from '@material-ui/core';
 import { selectAgoragramById, starAgoragramSuccess } from './agoraSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Axios from 'axios';
 import { CardPost } from './Post';
-import { Container } from '@material-ui/core';
 import React from 'react';
+import ReduxConnectedComment from './AgoraComment';
 import { RootState } from 'app/store';
 import UserLink from 'features/users/UserLink';
 import { getAgoragramsSuccess } from './agoraSlice';
@@ -27,7 +28,12 @@ export default function AgoraPost() {
     dispatch(getAgoragramsSuccess(data));
     dispatch(getUsersSuccess(data.users));
   }
-  if (loading) return <CardPost key={'agoragram0'} loading name="" time={new Date()} title="" username="" />;
+  if (loading)
+    return (
+      <Container maxWidth="md">
+        <CardPost key={'agoragram0'} loading name="" time={new Date()} title="" username="" />
+      </Container>
+    );
   return (
     <Container maxWidth="md">
       <ReduxConnectedPost _id={data.agoragrams[0]._id} />
@@ -56,6 +62,9 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
       }}
       link={`/agora/${props.hypagora}/${props.shortID}/comments`}
       time={mongoIdToDate(props._id)}
-    />
+    >
+      {props.children &&
+        props.children.map((agoragram) => <ReduxConnectedComment _id={agoragram._id} key={agoragram._id} />)}
+    </CardPost>
   );
 };

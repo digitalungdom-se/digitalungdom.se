@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: 0,
     },
     divider: {
+      background: theme.palette.divider,
       '& hr': {
         height: '100%',
         width: 5,
@@ -79,13 +80,12 @@ const useStyles = makeStyles((theme: Theme) =>
 export interface CommentProps {
   children?: React.ReactNode;
   folded?: boolean;
-  name: string;
+  author: React.ReactNode;
   text: string;
   time: Date;
-  username: string;
 }
 
-function Comment({ children, folded = false, name, text, time, username }: CommentProps): React.ReactElement {
+function Comment({ children, folded = false, author, text, time }: CommentProps): React.ReactElement {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState<boolean>(folded);
 
@@ -118,11 +118,7 @@ function Comment({ children, folded = false, name, text, time, username }: Comme
       <Grid className={clsx(classes.textGrid, { [classes.textGridFolded]: folded })} item>
         <Grid item>
           <ul className={classes.list}>
-            <li>
-              <Link component={RouterLink} to={`/@${username}`}>
-                {name}
-              </Link>
-            </li>
+            <li>{author}</li>
             <li>
               <Moment fromNow>{time}</Moment>
             </li>

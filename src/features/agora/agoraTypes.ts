@@ -9,6 +9,7 @@ export interface Agoragram {
   isStarred?: boolean;
   hypagora: string;
   shortID: string;
+  children: [{ _id: string; stars: number }];
 }
 
 export interface AsteriResponseWithID {
