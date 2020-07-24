@@ -6,6 +6,9 @@ import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import ProfileHeaderButton from 'components/ProfileHeaderButton';
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import UnauthenticatedHeaderButtons from './UnauthenticatedHeaderButtons';
@@ -63,6 +66,9 @@ function Header(): JSX.Element {
         <Typography className={classes.title} component="h1" style={{ fontWeight: 600 }} variant="h6">
           <Link to="/">Digital Ungdom</Link>
         </Typography>
+        <Tabs>
+          <Tab component={RouterLink} label="Agora" to="/agora" />
+        </Tabs>
         {!authenticated ? <UnauthenticatedHeaderButtons /> : <ConnectedProfileHeaderButton />}
       </Toolbar>
     </AppBar>
