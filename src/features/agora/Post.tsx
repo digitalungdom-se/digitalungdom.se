@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export interface PostProps {
   author?: React.ReactNode;
   stars?: number;
-  commentAmmount?: number;
+  commentAmount?: number;
   children?: React.ReactNode;
   name?: string;
   body?: string;
@@ -75,10 +75,18 @@ export interface PostProps {
   type?: 'TEXT' | 'LINK';
   loading?: boolean;
   isStarred?: boolean;
+  link?: string;
   handleStarring?: () => void;
 }
 
-function Post({ body = '', commentAmmount = 0, stars = 0, title, type = 'TEXT' }: PostProps): React.ReactElement {
+function Post({
+  body = '',
+  commentAmount = 0,
+  stars = 0,
+  title,
+  type = 'TEXT',
+  link = '',
+}: PostProps): React.ReactElement {
   const classes = useStyles();
   return (
     <Paper className={classes.paper}>
@@ -95,9 +103,9 @@ function Post({ body = '', commentAmmount = 0, stars = 0, title, type = 'TEXT' }
             justify="space-between"
           >
             <Grid item>
-              <Typography component="h2" variant="h6">
+              <Link component={RouterLink} to={link}>
                 {title}
-              </Typography>
+              </Link>
               {type === 'TEXT' ? (
                 <Typography>{body}</Typography>
               ) : (
@@ -119,7 +127,7 @@ function Post({ body = '', commentAmmount = 0, stars = 0, title, type = 'TEXT' }
               </StarButton>
               <Button className={classes.action}>
                 <CommentIcon fontSize="small" />
-                <span>{commentAmmount}</span>
+                <span>{commentAmount}</span>
               </Button>
               <Button className={classes.action} size="small">
                 <ShareIcon />
@@ -138,7 +146,7 @@ function Post({ body = '', commentAmmount = 0, stars = 0, title, type = 'TEXT' }
 export function CardPost({
   author,
   body = '',
-  commentAmmount = 0,
+  commentAmount = 0,
   loading = false,
   name,
   stars = 0,
@@ -147,6 +155,7 @@ export function CardPost({
   type = 'TEXT',
   username,
   isStarred = false,
+  link = '',
   handleStarring = () => {},
 }: PostProps): React.ReactElement {
   const classes = useStyles();
@@ -165,7 +174,7 @@ export function CardPost({
         className={classes.header}
         subheader={
           !loading ? (
-            <Typography component="h2" variant="h6">
+            <Typography component={RouterLink} to={link} variant="h6">
               {title}
             </Typography>
           ) : (
@@ -218,7 +227,7 @@ export function CardPost({
           </StarButton>
           <Button className={classes.action}>
             <CommentIcon />
-            <span>{commentAmmount}</span>
+            <span>{commentAmount}</span>
           </Button>
           <IconButton className={classes.action}>
             <ShareIcon />

@@ -5,8 +5,10 @@ export interface Agoragram {
   title: string;
   author?: string;
   stars: number;
-  commentAmmount: number;
+  commentAmount: number;
   isStarred?: boolean;
+  hypagora: string;
+  shortID: string;
 }
 
 export interface AsteriResponseWithID {

@@ -3,6 +3,7 @@ import { Route, Switch, useHistory } from 'react-router-dom';
 import React from 'react';
 
 const Agora = React.lazy(() => import('features/agora'));
+const AgoraPost = React.lazy(() => import('features/agora/AgoraPost'));
 const AgoraSubmit = React.lazy(() => import('features/agora/Submit'));
 const Login = React.lazy(() => import('features/auth/Login'));
 const Register = React.lazy(() => import('features/auth/Register'));
@@ -23,11 +24,14 @@ function Router(): React.ReactElement {
         <Route path="/verify/:token">
           <VerifyEmailLink />
         </Route>
-        <Route path="/agora/:hypagora?/submit">
-          <AgoraSubmit />
+        <Route path="/agora/:hypagora/:shortID/comments">
+          <AgoraPost />
         </Route>
         <Route path="/agora/:hypagora?/:sort?/:dateAfter?/:dateBefore?">
           <Agora />
+        </Route>
+        <Route path="/agora/:hypagora?/submit">
+          <AgoraSubmit />
         </Route>
         <Route exact path="/">
           <Startpage />
