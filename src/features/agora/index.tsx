@@ -32,6 +32,7 @@ export default function Agora(): React.ReactElement {
     agoragrams: [],
     hasMore: true,
   });
+  const [loading, setLoading] = useState<boolean>(true);
 
   const dispatch = useDispatch();
   const dispatchData = useCallback(
@@ -42,38 +43,46 @@ export default function Agora(): React.ReactElement {
     [dispatch],
   );
 
-  const fetchData = (): void => {
+  const fetchData = (changeLoading: boolean): void => {
+    if (changeLoading) setLoading(true);
     Axios.get('/api/agora/get/agoragrams', {
       params: {
         dateAfter: dateAfter || '0',
         dateBefore: dateBefore || 'ffffffff',
         hypagora: hypagora === 'general' ? null : hypagora,
         sort: sort ? sort.toUpperCase() : 'NEW',
-        topIndex: data ? data.agoragrams.length : 0,
+        topIndex: changeLoading === false ? data.agoragrams.length : 0,
       },
     }).then((res) => {
       setData({
         ...data,
-        agoragrams: [...data.agoragrams, ...res.data.agoragrams],
+        agoragrams: changeLoading === false ? [...data.agoragrams, ...res.data.agoragrams] : res.data.agoragrams,
         hasMore: Boolean(res.data.agoragrams.length),
       });
       dispatchData(res.data);
+      if (changeLoading) setLoading(false);
     });
   };
+
+  useEffect(() => fetchData(true), [dateAfter, dateBefore, hypagora, sort]);
 
   return (
     <Container className={classes.root} fixed maxWidth="md">
       <AgoraFilter hypagora={hypagora} path="/agora" sort={sort} />
-      <InfiniteScroll
-        hasMore={data.hasMore}
-        loader={<CardPost key={'agoragram6'} loading name="" time={new Date()} title="" username="" />}
-        loadMore={fetchData}
-        pageStart={0}
-      >
-        {data?.agoragrams.map(({ _id }: Agoragram) => (
-          <Post _id={_id} key={_id} />
-        ))}
-      </InfiniteScroll>
+      {loading ? (
+        <CardPost key={'agoragram0'} loading name="" time={new Date()} title="" username="" />
+      ) : (
+        <InfiniteScroll
+          hasMore={data.hasMore}
+          loader={<CardPost key={'agoragram6'} loading name="" time={new Date()} title="" username="" />}
+          loadMore={(): void => fetchData(false)}
+          pageStart={0}
+        >
+          {data?.agoragrams.map(({ _id }: Agoragram) => (
+            <Post _id={_id} key={_id} />
+          ))}
+        </InfiniteScroll>
+      )}
     </Container>
   );
 }
