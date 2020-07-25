@@ -105,7 +105,7 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
         <>
           <AgoraReplyComment replyTo={props._id} />
           {props.children.map((agoragram) => (
-            <ReduxConnectedComment _id={agoragram._id} key={agoragram._id} />
+            <ReduxConnectedComment _id={agoragram._id} key={agoragram._id} level={0} />
           ))}
         </>
       )}

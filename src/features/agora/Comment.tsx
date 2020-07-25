@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { blue, green, orange, purple, red, yellow } from '@material-ui/core/colors';
 
 import AgoraBodyField from './AgoraBodyField';
 import { AgoraBodyFieldProps } from './AgoraBodyField';
@@ -36,13 +37,13 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: 0,
     },
     divider: {
-      background: theme.palette.divider,
+      background: theme.palette.action.hover,
       '& hr': {
         height: '100%',
         width: 5,
       },
       '&:focus': {
-        background: theme.palette.action.focus,
+        background: theme.palette.action.selected,
         transition: theme.transitions.create('background', {
           duration: theme.transitions.duration.shortest,
           easing: theme.transitions.easing.easeInOut,
@@ -56,6 +57,9 @@ const useStyles = makeStyles((theme: Theme) =>
         easing: theme.transitions.easing.easeInOut,
       }),
     },
+    dividerLevel: (level: number) => ({
+      background: [red['A100'], orange['A100'], yellow['A100'], green['A100'], blue['A100'], purple['A100']][level % 6],
+    }),
     list: {
       '& > li': {
         display: 'inline-block',
@@ -85,6 +89,7 @@ export interface CommentProps extends AgoraBodyFieldProps {
   replyField?: (setReplying: (b: boolean) => void) => JSX.Element;
   isAuthor?: boolean;
   handleDelete?: () => any;
+  level?: number;
 }
 
 function Comment({
@@ -97,8 +102,9 @@ function Comment({
   isAuthor,
   handleEdit = () => {},
   handleDelete = () => {},
+  level = 0,
 }: CommentProps): React.ReactElement {
-  const classes = useStyles();
+  const classes = useStyles(level);
   const [expanded, setExpanded] = React.useState<boolean>(folded);
   const [showReplyField, setReplyField] = React.useState<boolean>(false);
 
@@ -124,7 +130,7 @@ function Comment({
               }}
               fontSize="small"
             />
-            <ButtonBase className={classes.divider} onClick={handleExpanded}>
+            <ButtonBase className={clsx(classes.divider, classes.dividerLevel)} onClick={handleExpanded}>
               <Divider flexItem orientation="vertical" />
             </ButtonBase>
           </>

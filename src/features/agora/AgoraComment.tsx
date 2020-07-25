@@ -10,7 +10,7 @@ import UserLink from 'features/users/UserLink';
 import { mongoIdToDate } from 'utils/mongoid';
 import { selectMyProfile } from 'features/auth/authSlice';
 
-export default function ReduxConnectedComment({ _id }: { _id: string }) {
+export default function ReduxConnectedComment({ _id, level }: { _id: string; level: number }) {
   const dispatch = useDispatch();
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
   const myProfile = useSelector(selectMyProfile);
@@ -54,11 +54,12 @@ export default function ReduxConnectedComment({ _id }: { _id: string }) {
         });
       }}
       isAuthor={Boolean(props.author && props.author === myProfile?._id)}
+      level={level}
       replyField={(setReplying: (b: boolean) => void) => <AgoraReplyComment replyTo={_id} setReplying={setReplying} />}
       time={mongoIdToDate(props._id)}
     >
       {props.children.map((agoragram) => (
-        <ReduxConnectedComment _id={agoragram._id} key={agoragram._id} />
+        <ReduxConnectedComment _id={agoragram._id} key={agoragram._id} level={level + 1} />
       ))}
     </Comment>
   );
