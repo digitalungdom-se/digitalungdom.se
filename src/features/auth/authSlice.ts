@@ -1,12 +1,23 @@
 import { RootState } from 'app/store';
 import { createSlice } from '@reduxjs/toolkit';
 
+interface Details {
+  _id: string;
+}
+
+export interface AuthState {
+  details: Details | null;
+  authenticated: boolean;
+}
+
+const initialState: AuthState = {
+  authenticated: false,
+  details: null,
+};
+
 export const auth = createSlice({
+  initialState,
   name: 'auth',
-  initialState: {
-    authenticated: false,
-    details: null,
-  },
   reducers: {
     authorize: (state, action): void => {
       state.authenticated = true;

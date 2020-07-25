@@ -43,7 +43,7 @@ export default function AgoraReplyComment({ replyTo }: { replyTo: string }) {
             newCommentSuccess({
               ...res.data.agoragram,
               ...values,
-              author: myProfile._id,
+              author: myProfile?._id,
               children: [],
               replyTo,
               stars: 0,

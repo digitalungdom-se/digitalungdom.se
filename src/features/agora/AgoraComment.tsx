@@ -53,7 +53,7 @@ export default function ReduxConnectedComment({ _id }: { _id: string }) {
           );
         });
       }}
-      isAuthor={props.author === myProfile._id}
+      isAuthor={Boolean(props.author && props.author === myProfile?._id)}
       replyField={<AgoraReplyComment replyTo={_id} />}
       time={mongoIdToDate(props._id)}
     >
