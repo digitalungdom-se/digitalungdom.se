@@ -1,3 +1,8 @@
+interface AgoragramChild {
+  _id: string;
+  stars: number;
+}
+
 export interface Agoragram {
   _id: string;
   body: string;
@@ -9,7 +14,8 @@ export interface Agoragram {
   isStarred?: boolean;
   hypagora: string;
   shortID: string;
-  children: [{ _id: string; stars: number }];
+  children: AgoragramChild[];
+  replyTo: string;
 }
 
 export interface AsteriResponseWithID {

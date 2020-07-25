@@ -16,7 +16,13 @@ export const agora = createSlice({
   name: 'agora',
   reducers: {
     editAgoragramSuccess(state, action): void {
-      state.agoragrams[action.payload._id] = { ...state.agoragrams[action.payload._id], ...action.payload.edited };
+      const agoragram = state.agoragrams[action.payload._id];
+      state.agoragrams[action.payload._id] = { ...agoragram, ...action.payload.edited };
+      if (agoragram.children.length === 0) {
+        state.agoragrams[agoragram.replyTo].children = state.agoragrams[agoragram.replyTo].children.filter(
+          (child) => child._id !== action.payload._id,
+        );
+      }
     },
     getAgoragramsSuccess(state, action): void {
       action.payload.agoragrams.forEach(
