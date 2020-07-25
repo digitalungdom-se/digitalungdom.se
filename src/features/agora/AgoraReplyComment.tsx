@@ -14,7 +14,7 @@ export default function AgoraReplyComment({ replyTo }: { replyTo: string }) {
   return (
     <Formik
       initialValues={{ body: '' }}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={(values, { setSubmitting, setValues }) => {
         Axios.post('/api/agora/agorize/comment', {
           body: values.body,
           replyTo,
@@ -31,6 +31,9 @@ export default function AgoraReplyComment({ replyTo }: { replyTo: string }) {
               type: 'COMMENT',
             }),
           );
+          setValues({
+            body: '',
+          });
           setSubmitting(false);
         });
       }}

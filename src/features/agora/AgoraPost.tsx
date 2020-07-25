@@ -64,9 +64,14 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
       link={`/agora/${props.hypagora}/${props.shortID}/comments`}
       time={mongoIdToDate(props._id)}
     >
-      <AgoraReplyComment replyTo={props._id} />
-      {props.children &&
-        props.children.map((agoragram) => <ReduxConnectedComment _id={agoragram._id} key={agoragram._id} />)}
+      {props.children && (
+        <>
+          <AgoraReplyComment replyTo={props._id} />
+          {props.children.map((agoragram) => (
+            <ReduxConnectedComment _id={agoragram._id} key={agoragram._id} />
+          ))}
+        </>
+      )}
     </CardPost>
   );
 };
