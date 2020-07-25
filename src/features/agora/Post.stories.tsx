@@ -1,6 +1,6 @@
-import Post, { CardPost } from './Post';
-
+import { BodyEditState } from './AgoraBodyField';
 import { LoremIpsum } from 'lorem-ipsum';
+import Post from './Post';
 import React from 'react';
 import StoryMetadata from 'components/StoryMetadata';
 
@@ -68,7 +68,7 @@ export const LinkPost = (): JSX.Element => {
 export const Card = (): JSX.Element => {
   return (
     <div style={{ width: 400 }}>
-      <CardPost
+      <Post
         body="https://digitalungdom.se"
         name="Douglas Bengtsson"
         time={new Date()}
@@ -88,7 +88,7 @@ export const CardWithText = (): JSX.Element => {
         width: '40%',
       }}
     >
-      <CardPost
+      <Post
         body={lorem.generateSentences(5)}
         name="Douglas Bengtsson"
         time={new Date()}
@@ -99,7 +99,7 @@ export const CardWithText = (): JSX.Element => {
   );
 };
 
-export const LoadingCardPost = (): JSX.Element => {
+export const LoadingPost = (): JSX.Element => {
   return (
     <div
       style={{
@@ -107,7 +107,34 @@ export const LoadingCardPost = (): JSX.Element => {
         width: 400,
       }}
     >
-      <CardPost loading name="" time={new Date()} title="" username="" />
+      <Post loading name="" time={new Date()} title="" username="" />
+    </div>
+  );
+};
+
+export const IsAuthorPost = (): JSX.Element => {
+  const [state, setState] = React.useState<BodyEditState>({ body: "It's a pleasure to meet you." });
+  return (
+    <div
+      style={{
+        margin: '0 auto',
+        width: 400,
+      }}
+    >
+      <Post
+        body={state.body}
+        handleEdit={(values, { setSubmitting }): void => {
+          setTimeout(() => {
+            setSubmitting(false);
+            setState(values);
+          }, 1000);
+        }}
+        isAuthor
+        name="Douglas Bengtsson"
+        time={new Date()}
+        title="Hello, world!"
+        username="Nautman"
+      />
     </div>
   );
 };

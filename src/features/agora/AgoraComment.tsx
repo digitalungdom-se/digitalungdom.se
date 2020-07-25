@@ -1,12 +1,11 @@
-import { selectAgoragramById, starAgoragramSuccess } from './agoraSlice';
-import { useDispatch, useSelector } from 'react-redux';
-
 import AgoraReplyComment from './AgoraReplyComment';
 import Comment from './Comment';
 import React from 'react';
 import { RootState } from 'app/store';
 import UserLink from 'features/users/UserLink';
 import { mongoIdToDate } from 'utils/mongoid';
+import { selectAgoragramById } from './agoraSlice';
+import { useSelector } from 'react-redux';
 
 export default function ReduxConnectedComment({ _id }: { _id: string }) {
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));

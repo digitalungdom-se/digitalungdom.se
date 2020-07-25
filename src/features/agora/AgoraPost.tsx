@@ -1,23 +1,24 @@
+import { editAgoragramSuccess, getAgoragramsSuccess } from './agoraSlice';
 import { selectAgoragramById, starAgoragramSuccess } from './agoraSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AgoraReplyComment from './AgoraReplyComment';
 import Axios from 'axios';
-import { CardPost } from './Post';
 import { Container } from '@material-ui/core';
+import Post from './Post';
 import React from 'react';
 import ReduxConnectedComment from './AgoraComment';
 import { RootState } from 'app/store';
 import UserLink from 'features/users/UserLink';
-import { getAgoragramsSuccess } from './agoraSlice';
 import { getUsersSuccess } from 'features/users/usersSlice';
 import { mongoIdToDate } from 'utils/mongoid';
+import { selectMyProfile } from 'features/auth/authSlice';
 import useAxios from 'axios-hooks';
 import { useParams } from 'react-router-dom';
 
 export default function AgoraPost() {
   const { shortID } = useParams();
-  const [{ loading, data, error }] = useAxios({
+  const [{ loading, data }] = useAxios({
     params: {
       agoragramShortID: shortID,
     },
@@ -32,7 +33,7 @@ export default function AgoraPost() {
   if (loading)
     return (
       <Container maxWidth="md">
-        <CardPost key={'agoragram0'} loading name="" time={new Date()} title="" username="" />
+        <Post key={'agoragram0'} loading name="" time={new Date()} title="" username="" />
       </Container>
     );
   return (
@@ -44,12 +45,27 @@ export default function AgoraPost() {
 
 export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement => {
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
+  const myProfile = useSelector(selectMyProfile);
   const dispatch = useDispatch();
   if (props === undefined) return <></>;
   return (
-    <CardPost
+    <Post
       {...props}
       author={<UserLink id={props.author} />}
+      handleEdit={({ body }, { setSubmitting }) => {
+        Axios.put('/api/agora/meta_agorize', {
+          agoragramID: _id,
+          body,
+        }).then((res) => {
+          setSubmitting(false);
+          dispatch(
+            editAgoragramSuccess({
+              _id,
+              body,
+            }),
+          );
+        });
+      }}
       handleStarring={(): void => {
         Axios.post('/api/agora/asteri', {
           agoragramID: _id,
@@ -61,6 +77,7 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
           }),
         );
       }}
+      isAuthor={props.author === myProfile._id}
       link={`/agora/${props.hypagora}/${props.shortID}/comments`}
       time={mongoIdToDate(props._id)}
     >
@@ -72,6 +89,6 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
           ))}
         </>
       )}
-    </CardPost>
+    </Post>
   );
 };

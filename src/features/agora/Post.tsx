@@ -1,5 +1,8 @@
+import React, { useState } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
+import AgoraBodyField from './AgoraBodyField';
+import { AgoraBodyFieldProps } from './AgoraBodyField';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -7,13 +10,13 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CommentIcon from '@material-ui/icons/Comment';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Divider from '@material-ui/core/Divider';
+import EditIcon from '@material-ui/icons/Edit';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import Moment from 'react-moment';
-import Paper from '@material-ui/core/Paper';
-import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import ReportIcon from '@material-ui/icons/Report';
 import { Link as RouterLink } from 'react-router-dom';
@@ -62,10 +65,15 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '100%',
       paddingLeft: theme.spacing(2),
     },
+    titleElements: {
+      '& > div + div': {
+        marginLeft: theme.spacing(1),
+      },
+    },
   }),
 );
 
-export interface PostProps {
+export interface PostProps extends Omit<AgoraBodyFieldProps, 'body'> {
   author?: React.ReactNode;
   stars?: number;
   commentAmount?: number;
@@ -80,70 +88,7 @@ export interface PostProps {
   isStarred?: boolean;
   link?: string;
   handleStarring?: () => void;
-}
-
-function Post({
-  body = '',
-  commentAmount = 0,
-  stars = 0,
-  title,
-  type = 'TEXT',
-  link = '',
-}: PostProps): React.ReactElement {
-  const classes = useStyles();
-  return (
-    <Paper className={classes.paper}>
-      <Grid container>
-        <Grid item>
-          <Avatar className={classes.avatar} />
-        </Grid>
-        <Grid item>
-          <Grid
-            alignItems="flex-start"
-            className={classes.textGrid}
-            container
-            direction="column"
-            justify="space-between"
-          >
-            <Grid item>
-              <Link component={RouterLink} to={link}>
-                {title}
-              </Link>
-              {type === 'TEXT' ? (
-                <Typography>{body}</Typography>
-              ) : (
-                <Link component={RouterLink} to={body}>
-                  {body}
-                </Link>
-              )}
-            </Grid>
-            <Grid className={classes.actions} item>
-              <StarButton
-                className={classes.action}
-                confettiConfig={{
-                  elementCount: 15,
-                  startVelocity: 20,
-                }}
-                fontSize="small"
-              >
-                <span>{stars}</span>
-              </StarButton>
-              <Button className={classes.action}>
-                <CommentIcon fontSize="small" />
-                <span>{commentAmount}</span>
-              </Button>
-              <Button className={classes.action} size="small">
-                <ShareIcon />
-              </Button>
-              <Button className={classes.action} size="small">
-                <ReportIcon />
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Paper>
-  );
+  isAuthor?: boolean;
 }
 
 const StyledTypography = withStyles({
@@ -154,7 +99,7 @@ const StyledTypography = withStyles({
   },
 })(Typography);
 
-export function CardPost({
+export default function Post({
   author,
   body = '',
   commentAmount = 0,
@@ -168,9 +113,14 @@ export function CardPost({
   isStarred = false,
   link = '',
   children,
+  isAuthor = false,
   handleStarring = () => {},
+  handleEdit = () => {},
 }: PostProps): React.ReactElement {
   const classes = useStyles();
+
+  const [isEditing, setEditing] = useState<boolean>(false);
+
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -186,16 +136,16 @@ export function CardPost({
         className={classes.header}
         subheader={
           !loading ? (
-            <Typography component={RouterLink} style={{ wordWrap: 'break-word' }} to={link} variant="h6">
+            <Link color="textPrimary" component={RouterLink} style={{ wordWrap: 'break-word' }} to={link} variant="h6">
               {title}
-            </Typography>
+            </Link>
           ) : (
             <Skeleton variant="text" />
           )
         }
         title={
           !loading ? (
-            <Grid container direction="row" justify="space-between">
+            <Grid className={classes.titleElements} container direction="row" justify="space-between">
               <Grid>
                 {author ? (
                   author
@@ -225,6 +175,20 @@ export function CardPost({
               <Link href={body} style={{ wordBreak: 'break-all' }}>
                 {body}
               </Link>
+            ) : isEditing ? (
+              <AgoraBodyField
+                body={body}
+                cancelEdit={() => setEditing(false)}
+                handleEdit={(values, { setSubmitting, ...args }) => {
+                  handleEdit(values, {
+                    ...args,
+                    setSubmitting: (bool: boolean) => {
+                      setEditing(bool);
+                      setSubmitting(bool);
+                    },
+                  });
+                }}
+              />
             ) : (
               <ReactMarkdown
                 renderers={{
@@ -262,6 +226,21 @@ export function CardPost({
           <IconButton className={classes.action}>
             <ReportIcon />
           </IconButton>
+          {isAuthor && (
+            <>
+              <IconButton
+                className={classes.action}
+                onClick={() => {
+                  setEditing(!isEditing);
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton className={classes.action}>
+                <DeleteIcon />
+              </IconButton>
+            </>
+          )}
         </CardActions>
       )}
       <Divider />
@@ -269,5 +248,3 @@ export function CardPost({
     </Card>
   );
 }
-
-export default Post;

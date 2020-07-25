@@ -5,10 +5,10 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import AgoraFilter from './AgoraFilter';
 import { Agoragram } from './agoraTypes';
 import Axios from 'axios';
-import { CardPost } from './Post';
 import Container from '@material-ui/core/Container';
 import InfiniteScroll from 'react-infinite-scroller';
 import Paper from '@material-ui/core/Paper';
+import Post from './Post';
 import { ReduxConnectedPost } from './AgoraPost';
 import { Link as RouterLink } from 'react-router-dom';
 import { getAgoragramsSuccess } from './agoraSlice';
@@ -77,11 +77,11 @@ export default function Agora(): React.ReactElement {
       <Box flexGrow={1}>
         <AgoraFilter hypagora={hypagora} path="/agora" sort={sort} />
         {loading ? (
-          <CardPost key={'agoragram0'} loading name="" time={new Date()} title="" username="" />
+          <Post key={'agoragram0'} loading name="" time={new Date()} title="" username="" />
         ) : (
           <InfiniteScroll
             hasMore={data.hasMore}
-            loader={<CardPost key={'agoragram6'} loading name="" time={new Date()} title="" username="" />}
+            loader={<Post key={'agoragram6'} loading name="" time={new Date()} title="" username="" />}
             loadMore={(): void => fetchData(false)}
             pageStart={0}
             threshold={300}
