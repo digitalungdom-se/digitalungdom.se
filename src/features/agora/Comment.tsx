@@ -1,15 +1,18 @@
+import React, { useState } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
+import AgoraBodyField from './AgoraBodyField';
+import { AgoraBodyFieldProps } from './AgoraBodyField';
 import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Collapse from '@material-ui/core/Collapse';
 import Divider from '@material-ui/core/Divider';
+import EditIcon from '@material-ui/icons/Edit';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Moment from 'react-moment';
-import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import ReplyIcon from '@material-ui/icons/Reply';
 import ReportIcon from '@material-ui/icons/Report';
@@ -83,16 +86,24 @@ const StyledTypography = withStyles({
   },
 })(Typography);
 
-export interface CommentProps {
+export interface CommentProps extends AgoraBodyFieldProps {
   children?: React.ReactNode;
   folded?: boolean;
   author: React.ReactNode;
-  text: string;
   time: Date;
   replyField?: React.ReactNode;
+  isAuthor?: boolean;
 }
 
-function Comment({ children, folded = false, author, text, time, replyField }: CommentProps): React.ReactElement {
+function Comment({
+  children,
+  folded = false,
+  author,
+  body,
+  time,
+  replyField,
+  handleEdit = () => {},
+}: CommentProps): React.ReactElement {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState<boolean>(folded);
   const [showReplyField, setReplyField] = React.useState<boolean>(false);
@@ -104,6 +115,8 @@ function Comment({ children, folded = false, author, text, time, replyField }: C
   const handleReplyField = (): void => {
     setReplyField(!showReplyField);
   };
+
+  const [isEditing, setEditing] = useState<boolean>(false);
 
   return (
     <Grid alignItems="stretch" container>
@@ -138,12 +151,28 @@ function Comment({ children, folded = false, author, text, time, replyField }: C
         </Grid>
         <Collapse in={!expanded} timeout="auto" unmountOnExit>
           <Grid>
-            <ReactMarkdown
-              renderers={{
-                paragraph: StyledTypography,
-              }}
-              source={text}
-            />
+            {isEditing ? (
+              <AgoraBodyField
+                body={body}
+                cancelEdit={() => setEditing(false)}
+                handleEdit={(values, { setSubmitting, ...args }) => {
+                  handleEdit(values, {
+                    ...args,
+                    setSubmitting: (bool: boolean) => {
+                      setEditing(bool);
+                      setSubmitting(bool);
+                    },
+                  });
+                }}
+              />
+            ) : (
+              <ReactMarkdown
+                renderers={{
+                  paragraph: StyledTypography,
+                }}
+                source={body}
+              />
+            )}
             <div>
               <Button className={classes.action} onClick={handleReplyField} size="small">
                 <ReplyIcon fontSize="inherit" />
@@ -152,6 +181,10 @@ function Comment({ children, folded = false, author, text, time, replyField }: C
               <Button className={classes.action} size="small">
                 <ReportIcon fontSize="inherit" />
                 Report
+              </Button>
+              <Button className={classes.action} onClick={() => setEditing(true)} size="small">
+                <EditIcon fontSize="inherit" />
+                Edit
               </Button>
             </div>
             {showReplyField && replyField}
