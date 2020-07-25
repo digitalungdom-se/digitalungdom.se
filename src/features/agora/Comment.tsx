@@ -82,7 +82,7 @@ export interface CommentProps extends AgoraBodyFieldProps {
   folded?: boolean;
   author: React.ReactNode;
   time: Date;
-  replyField?: React.ReactNode;
+  replyField?: (setReplying: (b: boolean) => void) => JSX.Element;
   isAuthor?: boolean;
   handleDelete?: () => any;
 }
@@ -184,7 +184,7 @@ function Comment({
                 </>
               )}
             </div>
-            {showReplyField && replyField}
+            {showReplyField && replyField !== undefined && replyField((b: boolean) => setReplyField(b))}
             {children}
           </Grid>
         </Collapse>

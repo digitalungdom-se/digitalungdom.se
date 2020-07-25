@@ -12,7 +12,13 @@ import { TextField } from 'formik-material-ui';
 import { newCommentSuccess } from './agoraSlice';
 import { selectMyProfile } from 'features/auth/authSlice';
 
-export default function AgoraReplyComment({ replyTo }: { replyTo: string }) {
+export default function AgoraReplyComment({
+  replyTo,
+  setReplying = () => {},
+}: {
+  replyTo: string;
+  setReplying?: (b: boolean) => void;
+}) {
   const dispatch = useDispatch();
   const myProfile = useSelector(selectMyProfile);
   if (myProfile === null)
@@ -54,6 +60,7 @@ export default function AgoraReplyComment({ replyTo }: { replyTo: string }) {
             body: '',
           });
           setSubmitting(false);
+          setReplying(false);
         });
       }}
     >

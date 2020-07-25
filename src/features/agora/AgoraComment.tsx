@@ -54,7 +54,7 @@ export default function ReduxConnectedComment({ _id }: { _id: string }) {
         });
       }}
       isAuthor={Boolean(props.author && props.author === myProfile?._id)}
-      replyField={<AgoraReplyComment replyTo={_id} />}
+      replyField={(setReplying: (b: boolean) => void) => <AgoraReplyComment replyTo={_id} setReplying={setReplying} />}
       time={mongoIdToDate(props._id)}
     >
       {props.children.map((agoragram) => (
