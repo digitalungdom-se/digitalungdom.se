@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { editAgoragramSuccess, getAgoragramsSuccess } from './agoraSlice';
 import { selectAgoragramById, starAgoragramSuccess } from './agoraSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +7,6 @@ import AgoraReplyComment from './AgoraReplyComment';
 import Axios from 'axios';
 import { Container } from '@material-ui/core';
 import Post from './Post';
-import React from 'react';
 import ReduxConnectedComment from './AgoraComment';
 import { RootState } from 'app/store';
 import UserLink from 'features/users/UserLink';
@@ -25,11 +25,12 @@ export default function AgoraPost() {
     url: '/api/agora/get/agoragram',
   });
   const dispatch = useDispatch();
-  if (data) {
-    console.log(data);
-    dispatch(getAgoragramsSuccess(data));
-    dispatch(getUsersSuccess(data.users));
-  }
+  useEffect(() => {
+    if (data) {
+      dispatch(getAgoragramsSuccess(data));
+      dispatch(getUsersSuccess(data.users));
+    }
+  }, [data]);
   if (loading)
     return (
       <Container maxWidth="md">

@@ -19,7 +19,10 @@ export const agora = createSlice({
       state.agoragrams[action.payload._id] = { ...state.agoragrams[action.payload._id], ...action.payload.edited };
     },
     getAgoragramsSuccess(state, action): void {
-      action.payload.agoragrams.forEach((agoragram: Agoragram) => (state.agoragrams[agoragram._id] = agoragram));
+      action.payload.agoragrams.forEach(
+        (agoragram: Agoragram) =>
+          (state.agoragrams[agoragram._id] = { ...state.agoragrams[agoragram._id], ...agoragram }),
+      );
       action.payload.starredAgoragrams?.forEach((_id: string) => (state.agoragrams[_id].isStarred = true));
     },
     newCommentSuccess(state, action) {
