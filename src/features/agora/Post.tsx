@@ -14,6 +14,7 @@ import Link from '@material-ui/core/Link';
 import Moment from 'react-moment';
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 import ReportIcon from '@material-ui/icons/Report';
 import { Link as RouterLink } from 'react-router-dom';
 import ShareIcon from '@material-ui/icons/Share';
@@ -21,6 +22,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { StarButton } from 'components/StarButton';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
+import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -144,6 +146,14 @@ function Post({
   );
 }
 
+const StyledTypography = withStyles({
+  root: {
+    fontWeight: 'inherit',
+    whiteSpace: 'pre-wrap',
+    wordWrap: 'break-word',
+  },
+})(Typography);
+
 export function CardPost({
   author,
   body = '',
@@ -204,21 +214,30 @@ export function CardPost({
           )
         }
       />
-      <CardContent className={clsx(classes.content, { [classes.contentWithLink]: type === 'LINK' })}>
-        {!loading ? (
-          type === 'LINK' ? (
-            <Link href={body} style={{ wordBreak: 'break-all' }}>
-              {body}
-            </Link>
+      {Boolean(body || loading) && (
+        <CardContent
+          className={clsx(classes.content, {
+            [classes.contentWithLink]: type === 'LINK',
+          })}
+        >
+          {!loading ? (
+            type === 'LINK' ? (
+              <Link href={body} style={{ wordBreak: 'break-all' }}>
+                {body}
+              </Link>
+            ) : (
+              <ReactMarkdown
+                renderers={{
+                  paragraph: StyledTypography,
+                }}
+                source={body}
+              />
+            )
           ) : (
-            <Typography style={{ wordWrap: 'break-word' }} variant="body1">
-              {body}
-            </Typography>
-          )
-        ) : (
-          <Skeleton height={60} variant="rect" />
-        )}
-      </CardContent>
+            <Skeleton height={60} variant="rect" />
+          )}
+        </CardContent>
+      )}
       {!loading && (
         <CardActions className={classes.actions}>
           <StarButton

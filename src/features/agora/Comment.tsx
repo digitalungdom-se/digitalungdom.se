@@ -11,12 +11,14 @@ import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import Moment from 'react-moment';
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 import ReplyIcon from '@material-ui/icons/Reply';
 import ReportIcon from '@material-ui/icons/Report';
 import { Link as RouterLink } from 'react-router-dom';
 import StarButton from 'components/StarButton';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
+import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,9 +68,6 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: 0,
     },
     root: {},
-    text: {
-      whiteSpace: 'pre-wrap',
-    },
     textGrid: {
       marginTop: theme.spacing(1),
     },
@@ -77,6 +76,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
+
+const StyledTypography = withStyles({
+  root: {
+    fontWeight: 'inherit',
+    whiteSpace: 'pre-wrap',
+    wordWrap: 'break-word',
+  },
+})(Typography);
 
 export interface CommentProps {
   children?: React.ReactNode;
@@ -133,7 +140,12 @@ function Comment({ children, folded = false, author, text, time, replyField }: C
         </Grid>
         <Collapse in={!expanded} timeout="auto" unmountOnExit>
           <Grid>
-            <Typography className={classes.text}>{text}</Typography>
+            <ReactMarkdown
+              renderers={{
+                paragraph: StyledTypography,
+              }}
+              source={text}
+            />
             <div>
               <Button className={classes.action} onClick={handleReplyField} size="small">
                 <ReplyIcon fontSize="inherit" />
