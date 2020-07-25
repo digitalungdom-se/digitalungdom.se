@@ -1,5 +1,6 @@
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
+import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Collapse from '@material-ui/core/Collapse';
@@ -83,14 +84,20 @@ export interface CommentProps {
   author: React.ReactNode;
   text: string;
   time: Date;
+  replyField?: React.ReactNode;
 }
 
-function Comment({ children, folded = false, author, text, time }: CommentProps): React.ReactElement {
+function Comment({ children, folded = false, author, text, time, replyField }: CommentProps): React.ReactElement {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState<boolean>(folded);
+  const [showReplyField, setReplyField] = React.useState<boolean>(false);
 
   const handleExpanded = (): void => {
     setExpanded(!expanded);
+  };
+
+  const handleReplyField = (): void => {
+    setReplyField(!showReplyField);
   };
 
   return (
@@ -115,7 +122,7 @@ function Comment({ children, folded = false, author, text, time }: CommentProps)
           </IconButton>
         )}
       </Grid>
-      <Grid className={clsx(classes.textGrid, { [classes.textGridFolded]: folded })} item>
+      <Box className={clsx(classes.textGrid, { [classes.textGridFolded]: folded })} flexGrow={1}>
         <Grid item>
           <ul className={classes.list}>
             <li>{author}</li>
@@ -128,7 +135,7 @@ function Comment({ children, folded = false, author, text, time }: CommentProps)
           <Grid>
             <Typography className={classes.text}>{text}</Typography>
             <div>
-              <Button className={classes.action} size="small">
+              <Button className={classes.action} onClick={handleReplyField} size="small">
                 <ReplyIcon fontSize="inherit" />
                 Reply
               </Button>
@@ -137,10 +144,11 @@ function Comment({ children, folded = false, author, text, time }: CommentProps)
                 Report
               </Button>
             </div>
+            {showReplyField && replyField}
             {children}
           </Grid>
         </Collapse>
-      </Grid>
+      </Box>
     </Grid>
   );
 }

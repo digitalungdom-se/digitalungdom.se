@@ -1,9 +1,10 @@
-import { Container, Divider } from '@material-ui/core';
 import { selectAgoragramById, starAgoragramSuccess } from './agoraSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
+import AgoraReplyComment from './AgoraReplyComment';
 import Axios from 'axios';
 import { CardPost } from './Post';
+import { Container } from '@material-ui/core';
 import React from 'react';
 import ReduxConnectedComment from './AgoraComment';
 import { RootState } from 'app/store';
@@ -63,6 +64,7 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
       link={`/agora/${props.hypagora}/${props.shortID}/comments`}
       time={mongoIdToDate(props._id)}
     >
+      <AgoraReplyComment replyTo={props._id} />
       {props.children &&
         props.children.map((agoragram) => <ReduxConnectedComment _id={agoragram._id} key={agoragram._id} />)}
     </CardPost>
