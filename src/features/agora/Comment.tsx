@@ -14,13 +14,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Moment from 'react-moment';
-import ReactMarkdown from 'react-markdown';
+import RenderMarkdown from 'components/RenderMarkdown';
 import ReplyIcon from '@material-ui/icons/Reply';
 import ReportIcon from '@material-ui/icons/Report';
 import StarButton from 'components/StarButton';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -79,14 +77,6 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const StyledTypography = withStyles({
-  root: {
-    fontWeight: 'inherit',
-    whiteSpace: 'pre-wrap',
-    wordWrap: 'break-word',
-  },
-})(Typography);
-
 export interface CommentProps extends AgoraBodyFieldProps {
   children?: React.ReactNode;
   folded?: boolean;
@@ -123,8 +113,8 @@ function Comment({
   const [isEditing, setEditing] = useState<boolean>(false);
 
   return (
-    <Grid alignItems="stretch" container>
-      <Grid alignItems="stretch" item>
+    <Box alignItems="stretch" display="flex">
+      <Box alignItems="stretch">
         {expanded === false ? (
           <>
             <StarButton
@@ -143,7 +133,7 @@ function Comment({
             <ExpandMoreIcon fontSize="small" />
           </IconButton>
         )}
-      </Grid>
+      </Box>
       <Box className={clsx(classes.textGrid, { [classes.textGridFolded]: folded })} flexGrow={1}>
         <Grid item>
           <ul className={classes.list}>
@@ -170,12 +160,7 @@ function Comment({
                 }}
               />
             ) : (
-              <ReactMarkdown
-                renderers={{
-                  paragraph: StyledTypography,
-                }}
-                source={body}
-              />
+              <RenderMarkdown source={body} />
             )}
             <div>
               <Button className={classes.action} onClick={handleReplyField} size="small">
@@ -204,7 +189,7 @@ function Comment({
           </Grid>
         </Collapse>
       </Box>
-    </Grid>
+    </Box>
   );
 }
 

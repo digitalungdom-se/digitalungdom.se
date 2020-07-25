@@ -17,15 +17,13 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import Moment from 'react-moment';
-import ReactMarkdown from 'react-markdown';
+import RenderMarkdown from 'components/RenderMarkdown';
 import ReportIcon from '@material-ui/icons/Report';
 import { Link as RouterLink } from 'react-router-dom';
 import ShareIcon from '@material-ui/icons/Share';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { StarButton } from 'components/StarButton';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -91,14 +89,6 @@ export interface PostProps extends Omit<AgoraBodyFieldProps, 'body'> {
   handleDelete?: () => void;
   isAuthor?: boolean;
 }
-
-const StyledTypography = withStyles({
-  root: {
-    fontWeight: 'inherit',
-    whiteSpace: 'pre-wrap',
-    wordWrap: 'break-word',
-  },
-})(Typography);
 
 export default function Post({
   author,
@@ -192,12 +182,7 @@ export default function Post({
                 }}
               />
             ) : (
-              <ReactMarkdown
-                renderers={{
-                  paragraph: StyledTypography,
-                }}
-                source={body}
-              />
+              <RenderMarkdown source={body} />
             )
           ) : (
             <Skeleton height={60} variant="rect" />
