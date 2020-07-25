@@ -7,6 +7,7 @@ import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Collapse from '@material-ui/core/Collapse';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Divider from '@material-ui/core/Divider';
 import EditIcon from '@material-ui/icons/Edit';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -93,6 +94,7 @@ export interface CommentProps extends AgoraBodyFieldProps {
   time: Date;
   replyField?: React.ReactNode;
   isAuthor?: boolean;
+  handleDelete?: () => any;
 }
 
 function Comment({
@@ -102,7 +104,9 @@ function Comment({
   body,
   time,
   replyField,
+  isAuthor,
   handleEdit = () => {},
+  handleDelete = () => {},
 }: CommentProps): React.ReactElement {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState<boolean>(folded);
@@ -182,10 +186,18 @@ function Comment({
                 <ReportIcon fontSize="inherit" />
                 Report
               </Button>
-              <Button className={classes.action} onClick={() => setEditing(true)} size="small">
-                <EditIcon fontSize="inherit" />
-                Edit
-              </Button>
+              {isAuthor && (
+                <>
+                  <Button className={classes.action} onClick={() => setEditing(true)} size="small">
+                    <EditIcon fontSize="inherit" />
+                    Edit
+                  </Button>
+                  <Button className={classes.action} onClick={handleDelete} size="small">
+                    <DeleteIcon fontSize="inherit" />
+                    Delete
+                  </Button>
+                </>
+              )}
             </div>
             {showReplyField && replyField}
             {children}

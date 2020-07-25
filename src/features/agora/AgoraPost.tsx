@@ -36,6 +36,7 @@ export default function AgoraPost() {
         <Post key={'agoragram0'} loading name="" time={new Date()} title="" username="" />
       </Container>
     );
+  if (data.agoragrams.length === 0) return <div>deleted</div>;
   return (
     <Container maxWidth="md">
       <ReduxConnectedPost _id={data.agoragrams[0]._id} />
@@ -52,6 +53,24 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
     <Post
       {...props}
       author={<UserLink id={props.author} />}
+      handleDelete={() => {
+        Axios.delete('/api/agora/anti_agorize', {
+          data: {
+            agoragramID: _id,
+          },
+        }).then((res) => {
+          dispatch(
+            editAgoragramSuccess({
+              _id,
+              edited: {
+                author: null,
+                body: null,
+                deleted: true,
+              },
+            }),
+          );
+        });
+      }}
       handleEdit={({ body }, { setSubmitting }) => {
         Axios.put('/api/agora/meta_agorize', {
           agoragramID: _id,

@@ -16,7 +16,7 @@ export const agora = createSlice({
   name: 'agora',
   reducers: {
     editAgoragramSuccess(state, action): void {
-      state.agoragrams[action.payload._id].body = action.payload.body;
+      state.agoragrams[action.payload._id] = { ...state.agoragrams[action.payload._id], ...action.payload.edited };
     },
     getAgoragramsSuccess(state, action): void {
       action.payload.agoragrams.forEach((agoragram: Agoragram) => (state.agoragrams[agoragram._id] = agoragram));

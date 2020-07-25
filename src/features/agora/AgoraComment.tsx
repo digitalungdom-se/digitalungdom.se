@@ -19,6 +19,24 @@ export default function ReduxConnectedComment({ _id }: { _id: string }) {
     <Comment
       author={<UserLink id={props.author} />}
       body={props.body}
+      handleDelete={() => {
+        Axios.delete('/api/agora/anti_agorize', {
+          data: {
+            agoragramID: _id,
+          },
+        }).then((res) => {
+          dispatch(
+            editAgoragramSuccess({
+              _id,
+              edited: {
+                author: null,
+                body: null,
+                deleted: true,
+              },
+            }),
+          );
+        });
+      }}
       handleEdit={({ body }, { setSubmitting }) => {
         Axios.put('/api/agora/meta_agorize', {
           agoragramID: _id,
@@ -28,7 +46,9 @@ export default function ReduxConnectedComment({ _id }: { _id: string }) {
           dispatch(
             editAgoragramSuccess({
               _id,
-              body,
+              edited: {
+                body,
+              },
             }),
           );
         });

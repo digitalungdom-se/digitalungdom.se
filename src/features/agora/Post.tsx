@@ -88,6 +88,7 @@ export interface PostProps extends Omit<AgoraBodyFieldProps, 'body'> {
   isStarred?: boolean;
   link?: string;
   handleStarring?: () => void;
+  handleDelete?: () => void;
   isAuthor?: boolean;
 }
 
@@ -116,6 +117,7 @@ export default function Post({
   isAuthor = false,
   handleStarring = () => {},
   handleEdit = () => {},
+  handleDelete = () => {},
 }: PostProps): React.ReactElement {
   const classes = useStyles();
 
@@ -236,7 +238,7 @@ export default function Post({
               >
                 <EditIcon />
               </IconButton>
-              <IconButton className={classes.action}>
+              <IconButton className={classes.action} onClick={handleDelete}>
                 <DeleteIcon />
               </IconButton>
             </>
