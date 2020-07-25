@@ -1,3 +1,4 @@
+import { Box, Button, Typography } from '@material-ui/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
@@ -7,7 +8,9 @@ import Axios from 'axios';
 import { CardPost } from './Post';
 import Container from '@material-ui/core/Container';
 import InfiniteScroll from 'react-infinite-scroller';
+import Paper from '@material-ui/core/Paper';
 import { ReduxConnectedPost } from './AgoraPost';
+import { Link as RouterLink } from 'react-router-dom';
 import { getAgoragramsSuccess } from './agoraSlice';
 import { getUsersSuccess } from 'features/users/usersSlice';
 import { useDispatch } from 'react-redux';
@@ -16,7 +19,13 @@ import { useParams } from 'react-router-dom';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      display: 'flex',
       marginTop: theme.spacing(2),
+    },
+    widget: {
+      padding: theme.spacing(2),
+      marginTop: theme.spacing(9),
+      marginLeft: theme.spacing(2),
     },
   }),
 );
@@ -65,21 +74,48 @@ export default function Agora(): React.ReactElement {
 
   return (
     <Container className={classes.root} fixed maxWidth="md">
-      <AgoraFilter hypagora={hypagora} path="/agora" sort={sort} />
-      {loading ? (
-        <CardPost key={'agoragram0'} loading name="" time={new Date()} title="" username="" />
-      ) : (
-        <InfiniteScroll
-          hasMore={data.hasMore}
-          loader={<CardPost key={'agoragram6'} loading name="" time={new Date()} title="" username="" />}
-          loadMore={(): void => fetchData(false)}
-          pageStart={0}
-        >
-          {data?.agoragrams.map(({ _id }: Agoragram) => (
-            <ReduxConnectedPost _id={_id} key={_id} />
-          ))}
-        </InfiniteScroll>
-      )}
+      <Box flexGrow={1}>
+        <AgoraFilter hypagora={hypagora} path="/agora" sort={sort} />
+        {loading ? (
+          <CardPost key={'agoragram0'} loading name="" time={new Date()} title="" username="" />
+        ) : (
+          <InfiniteScroll
+            hasMore={data.hasMore}
+            loader={<CardPost key={'agoragram6'} loading name="" time={new Date()} title="" username="" />}
+            loadMore={(): void => fetchData(false)}
+            pageStart={0}
+            threshold={300}
+          >
+            {data?.agoragrams.map(({ _id }: Agoragram) => (
+              <ReduxConnectedPost _id={_id} key={_id} />
+            ))}
+          </InfiniteScroll>
+        )}
+      </Box>
+      <Box maxWidth={300} minWidth={300} width={300}>
+        <Paper className={classes.widget}>
+          <Typography component="h6" variant="h6">
+            Agora
+          </Typography>
+          <Typography>
+            <b>Agora</b> är Digital Ungdoms egna forum där medlemmar kan göra inlägg.
+          </Typography>
+          <Typography variant="subtitle2">
+            Agora är benämningen av torg i antika grekiska städer. De användes som marknadsplats eller allmän
+            mötesplats.
+          </Typography>
+          <Button
+            color="primary"
+            component={RouterLink}
+            disableElevation
+            fullWidth
+            to={`/agora/submit`}
+            variant="contained"
+          >
+            Publish
+          </Button>
+        </Paper>
+      </Box>
     </Container>
   );
 }

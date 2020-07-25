@@ -176,7 +176,7 @@ export function CardPost({
         className={classes.header}
         subheader={
           !loading ? (
-            <Typography component={RouterLink} to={link} variant="h6">
+            <Typography component={RouterLink} style={{ wordWrap: 'break-word' }} to={link} variant="h6">
               {title}
             </Typography>
           ) : (
@@ -206,9 +206,15 @@ export function CardPost({
       />
       <CardContent className={clsx(classes.content, { [classes.contentWithLink]: type === 'LINK' })}>
         {!loading ? (
-          <Typography style={{ wordWrap: 'break-word' }} variant="body1">
-            {type === 'LINK' ? <Link href={body}>{body}</Link> : body}
-          </Typography>
+          type === 'LINK' ? (
+            <Link href={body} style={{ wordBreak: 'break-all' }}>
+              {body}
+            </Link>
+          ) : (
+            <Typography style={{ wordWrap: 'break-word' }} variant="body1">
+              {body}
+            </Typography>
+          )
         ) : (
           <Skeleton height={60} variant="rect" />
         )}

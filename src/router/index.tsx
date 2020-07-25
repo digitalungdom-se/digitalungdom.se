@@ -27,11 +27,11 @@ function Router(): React.ReactElement {
         <Route path="/agora/:hypagora/:shortID/comments">
           <AgoraPost />
         </Route>
-        <Route path="/agora/:hypagora?/:sort?/:dateAfter?/:dateBefore?">
-          <Agora />
-        </Route>
         <Route path="/agora/:hypagora?/submit">
           <AgoraSubmit />
+        </Route>
+        <Route path="/agora/:hypagora?/:sort?/:dateAfter?/:dateBefore?">
+          <Agora />
         </Route>
         <Route exact path="/">
           <Startpage />
