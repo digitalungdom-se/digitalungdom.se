@@ -80,7 +80,7 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
           dispatch(
             editAgoragramSuccess({
               _id,
-              body,
+              edited: { body },
             }),
           );
         });
