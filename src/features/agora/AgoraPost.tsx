@@ -13,6 +13,7 @@ import UserLink from 'features/users/UserLink';
 import { getUsersSuccess } from 'features/users/usersSlice';
 import { mongoIdToDate } from 'utils/mongoid';
 import { selectMyProfile } from 'features/auth/authSlice';
+import { useAuthDialog } from 'features/auth/AuthDialogProvider';
 import useAxios from 'axios-hooks';
 import { useParams } from 'react-router-dom';
 
@@ -49,6 +50,7 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
   const myProfile = useSelector(selectMyProfile);
   const dispatch = useDispatch();
+  const showAuthDialog = useAuthDialog();
   if (props === undefined) return <></>;
   return (
     <Post
@@ -86,7 +88,11 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
           );
         });
       }}
-      handleStarring={(): void => {
+      handleStarring={(): boolean => {
+        if (myProfile === null) {
+          showAuthDialog(true);
+          return false;
+        }
         Axios.post('/api/agora/asteri', {
           agoragramID: _id,
         });
@@ -96,6 +102,7 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
             agoragramID: _id,
           }),
         );
+        return true;
       }}
       isAuthor={props.author === myProfile?._id}
       link={`/agora/${props.hypagora}/${props.shortID}/comments`}

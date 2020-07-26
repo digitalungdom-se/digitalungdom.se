@@ -85,7 +85,7 @@ export interface PostProps extends Omit<AgoraBodyFieldProps, 'body'> {
   loading?: boolean;
   isStarred?: boolean;
   link?: string;
-  handleStarring?: () => void;
+  handleStarring?: () => boolean;
   handleDelete?: () => void;
   isAuthor?: boolean;
 }
@@ -105,7 +105,7 @@ export default function Post({
   link = '',
   children,
   isAuthor = false,
-  handleStarring = () => {},
+  handleStarring = () => true,
   handleEdit = () => {},
   handleDelete = () => {},
 }: PostProps): React.ReactElement {
