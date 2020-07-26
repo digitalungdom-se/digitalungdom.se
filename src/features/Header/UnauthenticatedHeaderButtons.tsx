@@ -1,11 +1,9 @@
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
-import AuthDialog from 'features/auth/Dialog';
-import { AuthViews } from 'features/auth/authViewsTypes';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import React from 'react';
-import VerifyEmailPage from 'features/auth/VerifyEmailPage';
+import { useAuthDialog } from 'features/auth/AuthDialogProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -15,39 +13,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Login = React.lazy(() => import('features/auth/Login'));
-const Register = React.lazy(() => import('features/auth/Register'));
-
 export default function UnauthenticatedHeaderButtons(): JSX.Element {
   const classes = useStyles();
-  const [authDialogState, setAuthDialogState] = React.useState<AuthViews>(null);
-  const changeDialogState = (state: AuthViews): void => {
-    setAuthDialogState(state);
-  };
-
-  let dialog;
-
-  switch (authDialogState) {
-    case 'LOGIN':
-      dialog = <Login isDialog onSuccess={(): void => setAuthDialogState(null)} redirect={changeDialogState} />;
-      break;
-    case 'REGISTER':
-      dialog = <Register isDialog onSuccess={(): void => setAuthDialogState('VERIFY')} redirect={changeDialogState} />;
-      break;
-    case 'VERIFY':
-      dialog = <VerifyEmailPage />;
-      break;
-    default:
-      break;
-  }
+  const showAuthDialog = useAuthDialog();
 
   return (
     <>
-      <React.Suspense fallback>
-        <AuthDialog onClose={(): void => setAuthDialogState(null)} open={Boolean(authDialogState)}>
-          {dialog}
-        </AuthDialog>
-      </React.Suspense>
       <Button
         className={classes.login}
         component={Link}
@@ -55,7 +26,7 @@ export default function UnauthenticatedHeaderButtons(): JSX.Element {
         onClick={(e: React.MouseEvent<HTMLElement>) => {
           if (e.metaKey === false && e.altKey === false) {
             e.preventDefault();
-            setAuthDialogState('LOGIN');
+            showAuthDialog('LOGIN');
           }
         }}
         to="/logga-in"
@@ -70,7 +41,7 @@ export default function UnauthenticatedHeaderButtons(): JSX.Element {
         onClick={(e: React.MouseEvent<HTMLElement>) => {
           if (e.metaKey === false && e.altKey === false) {
             e.preventDefault();
-            setAuthDialogState('REGISTER');
+            showAuthDialog('REGISTER');
           }
         }}
         to="/bli-medlem"

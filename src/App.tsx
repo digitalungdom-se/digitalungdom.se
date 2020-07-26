@@ -1,3 +1,4 @@
+import AuthDialogProvider from 'features/auth/AuthDialogProvider';
 import AuthenticatedLayer from 'features/auth/AuthenticatedLayer';
 import { BrowserRouter } from 'react-router-dom';
 import Footer from 'features/Footer';
@@ -13,6 +14,7 @@ const App: React.FC = () => {
       <ThemeLayer>
         <BrowserRouter>
           <SnackbarProvider>
+            <AuthDialogProvider />
             <div className="App" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
               <Header />
               <div style={{ flex: 1 }}>

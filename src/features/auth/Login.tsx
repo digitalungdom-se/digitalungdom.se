@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 import { Field, Form, Formik } from 'formik';
 
-import { AuthViewsProps } from './authViewsTypes';
+import AuthPageProps from './authPageProps';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -59,7 +59,7 @@ export default function Login({
   onSuccess,
   isDialog = false,
   redirect = (): void => {},
-}: AuthViewsProps): React.ReactElement {
+}: AuthPageProps): React.ReactElement {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -93,7 +93,7 @@ export default function Login({
                     const errors = err.data.errors;
                     errors.forEach((error: { message: string }) => {
                       setErrors({ [ERROR_CODES_MAP[error.message]]: error.message });
-                      if (error.message === 'NOT_VERIFIED') redirect('VERIFY');
+                      if (error.message === 'NOT_VERIFIED') redirect('VERIFY_EMAIL');
                     });
                   }
                   setSubmitting(false);

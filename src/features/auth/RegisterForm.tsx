@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { Field, Form, Formik } from 'formik';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 
-import { AuthViews } from './authViewsTypes';
+import { AuthPage } from './authSlice';
 import Avatar from '@material-ui/core/Avatar';
 import Axios from 'axios';
 import Button from '@material-ui/core/Button';
@@ -113,7 +113,7 @@ interface FormValues {
   username: string;
 }
 
-export default function RegisterForm({ redirect = (s: AuthViews) => {}, ...props }: RegisterProps): React.ReactElement {
+export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props }: RegisterProps): React.ReactElement {
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();
