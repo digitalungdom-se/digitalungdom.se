@@ -104,7 +104,7 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
         );
         return true;
       }}
-      isAuthor={props.author === myProfile?._id}
+      isAuthor={myProfile && props.author === myProfile?._id}
       link={`/agora/${props.hypagora}/${props.shortID}/comments`}
       time={mongoIdToDate(props._id)}
     >

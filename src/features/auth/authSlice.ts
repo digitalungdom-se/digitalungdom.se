@@ -9,7 +9,7 @@ interface Details {
 export type AuthPage = 'LOGIN' | 'REGISTER' | 'VERIFY_EMAIL';
 
 interface AuthDialogOptions {
-  page: AuthPage;
+  page?: AuthPage;
   open: boolean;
 }
 
@@ -41,7 +41,7 @@ export const auth = createSlice({
       state.details = null;
     },
     displayAuthDialog: (state, action: PayloadAction<AuthDialogOptions>): void => {
-      state.dialog = action.payload;
+      state.dialog = { ...state.dialog, ...action.payload };
     },
   },
 });

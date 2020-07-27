@@ -12,7 +12,7 @@ export function useAuthDialog() {
   const dispatch = useDispatch();
   return (open: boolean | AuthPage, page?: AuthPage) => {
     if (typeof open === 'string') dispatch(displayAuthDialog({ open: true, page: open }));
-    else dispatch(displayAuthDialog({ open, page: 'LOGIN' }));
+    else dispatch(displayAuthDialog({ open }));
   };
 }
 
@@ -22,8 +22,8 @@ export default function AuthDialogProvider(): React.ReactElement {
   return (
     <AuthDialog onClose={() => showAuthDialog(false)} open={dialog.open}>
       <Suspense fallback={'Loading'}>
-        {dialog.page === 'LOGIN' && <Login onSuccess={() => showAuthDialog(false)} />}
-        {dialog.page === 'REGISTER' && <Register onSuccess={() => showAuthDialog('VERIFY_EMAIL')} />}
+        {dialog.page === 'LOGIN' && <Login isDialog onSuccess={() => showAuthDialog(false)} />}
+        {dialog.page === 'REGISTER' && <Register isDialog onSuccess={() => showAuthDialog('VERIFY_EMAIL')} />}
         {dialog.page === 'VERIFY_EMAIL' && <VerifyEmailPage />}
       </Suspense>
     </AuthDialog>
