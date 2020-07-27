@@ -77,11 +77,11 @@ export default function Agora(): React.ReactElement {
       <Box flexGrow={1}>
         <AgoraFilter hypagora={hypagora} path="/agora" sort={sort} />
         {loading ? (
-          <Post key={'agoragram0'} loading name="" time={new Date()} title="" username="" />
+          <Post loading />
         ) : (
           <InfiniteScroll
             hasMore={data.hasMore}
-            loader={<Post key={'agoragram6'} loading name="" time={new Date()} title="" username="" />}
+            loader={<Post key={'agoragram6'} loading time={new Date()} title="" />}
             loadMore={(): void => fetchData(false)}
             pageStart={0}
             threshold={300}

@@ -7,7 +7,6 @@ import Axios from 'axios';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { TextField } from 'formik-material-ui';
 import UnauthenticatedHeaderButtons from 'features/Header/UnauthenticatedHeaderButtons';
 import { newCommentSuccess } from './agoraSlice';

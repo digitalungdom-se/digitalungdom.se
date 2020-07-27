@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import AgoraBodyField from './AgoraBodyField';
-import { AgoraBodyFieldProps } from './AgoraBodyField';
+import { AgoragramComponentProps } from './agoraTypes';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -22,7 +22,7 @@ import ReportIcon from '@material-ui/icons/Report';
 import { Link as RouterLink } from 'react-router-dom';
 import ShareIcon from '@material-ui/icons/Share';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { StarButton } from 'components/StarButton';
+import StarButton from 'components/StarButton';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -71,36 +71,15 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export interface PostProps extends Omit<AgoraBodyFieldProps, 'body'> {
-  author?: React.ReactNode;
-  stars?: number;
-  commentAmount?: number;
-  children?: React.ReactNode;
-  name?: string;
-  body?: string;
-  time: Date;
-  username?: string;
-  title: string;
-  type?: 'TEXT' | 'LINK';
-  loading?: boolean;
-  isStarred?: boolean;
-  link?: string;
-  handleStarring?: () => boolean;
-  handleDelete?: () => void;
-  isAuthor?: boolean;
-}
-
 export default function Post({
   author,
   body = '',
   commentAmount = 0,
   loading = false,
-  name,
   stars = 0,
   time,
   title,
   type = 'TEXT',
-  username,
   isStarred = false,
   link = '',
   children,
@@ -108,7 +87,7 @@ export default function Post({
   handleStarring = () => true,
   handleEdit = () => {},
   handleDelete = () => {},
-}: PostProps): React.ReactElement {
+}: AgoragramComponentProps): React.ReactElement {
   const classes = useStyles();
 
   const [isEditing, setEditing] = useState<boolean>(false);
@@ -138,15 +117,7 @@ export default function Post({
         title={
           !loading ? (
             <Grid className={classes.titleElements} container direction="row" justify="space-between">
-              <Grid>
-                {author ? (
-                  author
-                ) : (
-                  <Link component={RouterLink} to={`/@${username}`}>
-                    {name}
-                  </Link>
-                )}
-              </Grid>
+              <Grid>{author}</Grid>
               <Grid>
                 <Moment fromNow>{time}</Moment>
               </Grid>

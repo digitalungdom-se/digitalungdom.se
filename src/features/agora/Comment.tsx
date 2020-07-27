@@ -3,7 +3,7 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import { blue, green, orange, purple, red, yellow } from '@material-ui/core/colors';
 
 import AgoraBodyField from './AgoraBodyField';
-import { AgoraBodyFieldProps } from './AgoraBodyField';
+import { AgoragramComponentProps } from './agoraTypes';
 import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
@@ -81,13 +81,9 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export interface CommentProps extends AgoraBodyFieldProps {
-  children?: React.ReactNode;
+export interface CommentProps extends Omit<AgoragramComponentProps, 'title' | 'commentAmount' | 'type'> {
   folded?: boolean;
-  author: React.ReactNode;
-  time: Date;
   replyField?: (setReplying: (b: boolean) => void) => JSX.Element;
-  isAuthor?: boolean;
   handleDelete?: () => any;
   level?: number;
 }
@@ -102,7 +98,10 @@ function Comment({
   isAuthor,
   handleEdit = () => {},
   handleDelete = () => {},
+  handleStarring = () => true,
   level = 0,
+  loading,
+  isStarred,
 }: CommentProps): React.ReactElement {
   const classes = useStyles(level);
   const [expanded, setExpanded] = React.useState<boolean>(folded);
@@ -117,6 +116,7 @@ function Comment({
   };
 
   const [isEditing, setEditing] = useState<boolean>(false);
+  if (loading) return <span />;
 
   return (
     <Box alignItems="stretch" display="flex">
@@ -129,6 +129,9 @@ function Comment({
                 startVelocity: 20,
               }}
               fontSize="small"
+              handleStarring={handleStarring}
+              icon
+              isStarred={isStarred}
             />
             <ButtonBase className={clsx(classes.divider, classes.dividerLevel)} onClick={handleExpanded}>
               <Divider flexItem orientation="vertical" />
@@ -151,7 +154,7 @@ function Comment({
         </Grid>
         <Collapse in={!expanded} timeout="auto" unmountOnExit>
           <Grid>
-            {isEditing ? (
+            {isEditing && body !== undefined ? (
               <AgoraBodyField
                 body={body}
                 cancelEdit={() => setEditing(false)}

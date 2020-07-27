@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
 import StarIcon from '@material-ui/icons/Star';
 import SvgIcon from '@material-ui/core/SvgIcon';
+import { boolean } from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -14,6 +15,7 @@ const useStyles = makeStyles({
 });
 
 export interface StarButtonProps extends ButtonProps {
+  icon?: boolean;
   className?: string;
   confettiConfig?: ConfettiConfig;
   /**
@@ -24,29 +26,22 @@ export interface StarButtonProps extends ButtonProps {
   handleStarring?: () => boolean;
 }
 
-export default function StarIconButton({
-  className,
-  confettiConfig,
-  fontSize = 'large',
-  isStarred = false,
-}: StarButtonProps): React.ReactElement {
-  const [clicked, setClick] = React.useState<boolean>(isStarred);
-  const handleClick = (): void => setClick(!clicked);
-  const classes = useStyles({ clicked });
-  return (
-    <IconButton className={className} onClick={handleClick}>
-      <Confetti active={clicked} config={confettiConfig} />
-      <SvgIcon className={classes.star} component={StarIcon} fontSize={fontSize} />
-    </IconButton>
-  );
+interface UsedButtonProps extends Pick<ButtonProps, 'className' | 'onClick' | 'children'> {
+  icon: boolean;
 }
 
-export function StarButton({
+const UsedButton = ({ icon, ...props }: UsedButtonProps) => {
+  if (icon) return <IconButton {...props} />;
+  else return <Button {...props} />;
+};
+
+export default function StarButton({
   className,
   children,
   confettiConfig,
   fontSize = 'large',
   isStarred = false,
+  icon = false,
   handleStarring = () => true,
 }: StarButtonProps): React.ReactElement {
   const [clicked, setClick] = React.useState<boolean>(isStarred);
@@ -56,10 +51,10 @@ export function StarButton({
   };
   const classes = useStyles({ clicked });
   return (
-    <Button className={className} onClick={handleClick}>
+    <UsedButton className={className} icon={icon} onClick={handleClick}>
       <Confetti active={clicked} config={confettiConfig} />
       <SvgIcon className={classes.star} component={StarIcon} fontSize={fontSize} />
       {children}
-    </Button>
+    </UsedButton>
   );
 }

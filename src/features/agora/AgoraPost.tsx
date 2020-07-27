@@ -35,7 +35,7 @@ export default function AgoraPost() {
   if (loading)
     return (
       <Container maxWidth="md">
-        <Post key={'agoragram0'} loading name="" time={new Date()} title="" username="" />
+        <Post loading />
       </Container>
     );
   if (data.agoragrams.length === 0) return <div>deleted</div>;

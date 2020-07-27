@@ -37,45 +37,21 @@ const story: StoryMetadata = {
 export default story;
 
 export const OnlyTitle = (): JSX.Element => {
-  return <Post name="Douglas Bengtsson" time={new Date()} title="Hello, world!" username="Nautman" />;
+  return <Post time={new Date()} title="Hello, world!" />;
 };
 
 export const ShortBody = (): JSX.Element => {
-  return (
-    <Post
-      body="It's a pleasure to meet you."
-      name="Douglas Bengtsson"
-      time={new Date()}
-      title="Hello, world!"
-      username="Nautman"
-    />
-  );
+  return <Post body="It's a pleasure to meet you." time={new Date()} title="Hello, world!" />;
 };
 
 export const LinkPost = (): JSX.Element => {
-  return (
-    <Post
-      body={'https://digitalungdom.se'}
-      name="Douglas Bengtsson"
-      time={new Date()}
-      title="Hello, world!"
-      type="LINK"
-      username="Nautman"
-    />
-  );
+  return <Post body={'https://digitalungdom.se'} time={new Date()} title="Hello, world!" type="LINK" />;
 };
 
 export const Card = (): JSX.Element => {
   return (
     <div style={{ width: 400 }}>
-      <Post
-        body="https://digitalungdom.se"
-        name="Douglas Bengtsson"
-        time={new Date()}
-        title="Hello, world!"
-        type="LINK"
-        username={'Nautman'}
-      />
+      <Post body="https://digitalungdom.se" time={new Date()} title="Hello, world!" type="LINK" />
     </div>
   );
 };
@@ -88,13 +64,7 @@ export const CardWithText = (): JSX.Element => {
         width: '40%',
       }}
     >
-      <Post
-        body={lorem.generateSentences(5)}
-        name="Douglas Bengtsson"
-        time={new Date()}
-        title="Hello, world!"
-        username={'Nautman'}
-      />
+      <Post body={lorem.generateSentences(5)} time={new Date()} title="Hello, world!" />
     </div>
   );
 };
@@ -107,7 +77,7 @@ export const LoadingPost = (): JSX.Element => {
         width: 400,
       }}
     >
-      <Post loading name="" time={new Date()} title="" username="" />
+      <Post loading />
     </div>
   );
 };
@@ -130,10 +100,8 @@ export const IsAuthorPost = (): JSX.Element => {
           }, 1000);
         }}
         isAuthor
-        name="Douglas Bengtsson"
         time={new Date()}
         title="Hello, world!"
-        username="Nautman"
       />
     </div>
   );

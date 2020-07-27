@@ -1,4 +1,4 @@
-import { editAgoragramSuccess, selectAgoragramById } from './agoraSlice';
+import { editAgoragramSuccess, selectAgoragramById, starAgoragramSuccess } from './agoraSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AgoraReplyComment from './AgoraReplyComment';
@@ -9,11 +9,13 @@ import { RootState } from 'app/store';
 import UserLink from 'features/users/UserLink';
 import { mongoIdToDate } from 'utils/mongoid';
 import { selectMyProfile } from 'features/auth/authSlice';
+import { useAuthDialog } from 'features/auth/AuthDialogProvider';
 
 export default function ReduxConnectedComment({ _id, level }: { _id: string; level: number }) {
   const dispatch = useDispatch();
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
   const myProfile = useSelector(selectMyProfile);
+  const showAuthDialog = useAuthDialog();
   if (props === undefined) return null;
   return (
     <Comment
@@ -53,9 +55,27 @@ export default function ReduxConnectedComment({ _id, level }: { _id: string; lev
           );
         });
       }}
+      handleStarring={(): boolean => {
+        if (myProfile === null) {
+          showAuthDialog(true);
+          return false;
+        }
+        Axios.post('/api/agora/asteri', {
+          agoragramID: _id,
+        });
+        dispatch(
+          starAgoragramSuccess({
+            action: props.isStarred === true ? 'UNSTARRED' : 'STARRED',
+            agoragramID: _id,
+          }),
+        );
+        return true;
+      }}
       isAuthor={Boolean(props.author && props.author === myProfile?._id)}
+      isStarred={props.isStarred}
       level={level}
       replyField={(setReplying: (b: boolean) => void) => <AgoraReplyComment replyTo={_id} setReplying={setReplying} />}
+      stars={props.stars}
       time={mongoIdToDate(props._id)}
     >
       {props.children.map((agoragram) => (
