@@ -1,5 +1,6 @@
 import ReactMarkdown, { ReactMarkdownProps } from 'react-markdown';
 
+import Link from '@material-ui/core/Link';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -25,6 +26,7 @@ export default function RenderMarkdown({ renderers, ...props }: ReactMarkdownPro
         ...renderers,
         image: Image,
         paragraph: StyledTypography,
+        link: Link,
       }}
     />
   );
