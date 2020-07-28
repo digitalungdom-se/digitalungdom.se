@@ -1,7 +1,16 @@
-import MenuItem from '@material-ui/core/MenuItem';
+import Button, { ButtonProps } from '@material-ui/core/Button';
+import { LinkProps, Link as RouterLink } from 'react-router-dom';
+import { Theme, withStyles } from '@material-ui/core/styles';
+
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import { useHistory } from 'react-router-dom';
+
+const StyledButton = withStyles((theme: Theme) => ({
+  root: {
+    '& + &': {
+      marginLeft: theme.spacing(1),
+    },
+  },
+}))((props: LinkProps & ButtonProps) => <Button {...props} />);
 
 export interface AgoraFilterProps {
   hypagora?: string | undefined;
@@ -14,19 +23,27 @@ export default function AgoraFilter({
   hypagora = 'general',
   sort = 'new',
 }: AgoraFilterProps): React.ReactElement {
-  /**
-   * TODO: Use <Link> instead of history.push()
-   * Notice that if you use <MenuItem component={Link} value="new" /> you get a TypeScript error
-   * Also notice that if you simply can't wrap MenuItem with a Link and still have it keyboard accessible
-   */
-  const history = useHistory();
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>): void => {
-    history.push(`${path}/${hypagora}/${event.target.value as string}`);
-  };
   return (
-    <TextField id="select" label="Sort" name="sort" onChange={handleChange} select value={sort} variant="outlined">
-      <MenuItem value="new">new</MenuItem>
-      <MenuItem value="top">top</MenuItem>
-    </TextField>
+    <>
+      <StyledButton
+        color={sort === 'new' ? 'primary' : 'default'}
+        component={RouterLink}
+        disableElevation
+        to={`${path}/${hypagora}/new`}
+        variant="contained"
+      >
+        New
+      </StyledButton>
+
+      <StyledButton
+        color={sort === 'top' ? 'primary' : 'default'}
+        component={RouterLink}
+        disableElevation
+        to={`${path}/${hypagora}/top`}
+        variant="contained"
+      >
+        Top
+      </StyledButton>
+    </>
   );
 }
