@@ -18,7 +18,7 @@ export const agora = createSlice({
     editAgoragramSuccess(state, action): void {
       const agoragram = state.agoragrams[action.payload._id];
       state.agoragrams[action.payload._id] = { ...agoragram, ...action.payload.edited };
-      if (agoragram.children.length === 0) {
+      if (agoragram.children?.length === 0) {
         state.agoragrams[agoragram.replyTo].children = state.agoragrams[agoragram.replyTo].children.filter(
           (child) => child._id !== action.payload._id,
         );

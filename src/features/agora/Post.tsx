@@ -135,11 +135,7 @@ export default function Post({
           })}
         >
           {!loading ? (
-            type === 'LINK' ? (
-              <Link href={body} style={{ wordBreak: 'break-all' }}>
-                {body}
-              </Link>
-            ) : isEditing ? (
+            isEditing ? (
               <AgoraBodyField
                 body={body}
                 cancelEdit={() => setEditing(false)}
@@ -153,6 +149,10 @@ export default function Post({
                   });
                 }}
               />
+            ) : type === 'LINK' ? (
+              <Link href={body} style={{ wordBreak: 'break-all' }}>
+                {body}
+              </Link>
             ) : (
               <RenderMarkdown source={body} />
             )
