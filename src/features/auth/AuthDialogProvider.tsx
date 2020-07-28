@@ -22,8 +22,16 @@ export default function AuthDialogProvider(): React.ReactElement {
   return (
     <AuthDialog onClose={() => showAuthDialog(false)} open={dialog.open}>
       <Suspense fallback={'Loading'}>
-        {dialog.page === 'LOGIN' && <Login isDialog onSuccess={() => showAuthDialog(false)} />}
-        {dialog.page === 'REGISTER' && <Register isDialog onSuccess={() => showAuthDialog('VERIFY_EMAIL')} />}
+        {dialog.page === 'LOGIN' && (
+          <Login isDialog onSuccess={() => showAuthDialog(false)} redirect={(page) => showAuthDialog(page)} />
+        )}
+        {dialog.page === 'REGISTER' && (
+          <Register
+            isDialog
+            onSuccess={() => showAuthDialog('VERIFY_EMAIL')}
+            redirect={(page) => showAuthDialog(page)}
+          />
+        )}
         {dialog.page === 'VERIFY_EMAIL' && <VerifyEmailPage />}
       </Suspense>
     </AuthDialog>
