@@ -87,6 +87,7 @@ export default function Post({
   handleStarring = () => true,
   handleEdit = () => {},
   handleDelete = () => {},
+  handleReport = () => {},
 }: AgoragramComponentProps): React.ReactElement {
   const classes = useStyles();
 
@@ -174,14 +175,11 @@ export default function Post({
           >
             <span>{stars}</span>
           </StarButton>
-          <Button className={classes.action}>
+          <Button className={classes.action} component={RouterLink} style={{ wordWrap: 'break-word' }} to={link}>
             <CommentIcon />
             <span>{commentAmount}</span>
           </Button>
-          <IconButton className={classes.action}>
-            <ShareIcon />
-          </IconButton>
-          <IconButton className={classes.action}>
+          <IconButton className={classes.action} onClick={handleReport}>
             <ReportIcon />
           </IconButton>
           {isAuthor && (

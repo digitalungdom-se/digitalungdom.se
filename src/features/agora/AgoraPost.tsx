@@ -16,6 +16,7 @@ import { selectMyProfile } from 'features/auth/authSlice';
 import { useAuthDialog } from 'features/auth/AuthDialogProvider';
 import useAxios from 'axios-hooks';
 import { useParams } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 export default function AgoraPost() {
   const { shortID } = useParams();
@@ -51,6 +52,7 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
   const myProfile = useSelector(selectMyProfile);
   const dispatch = useDispatch();
   const showAuthDialog = useAuthDialog();
+  const { enqueueSnackbar } = useSnackbar();
   if (props === undefined) return <></>;
   return (
     <Post
@@ -88,6 +90,22 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
           );
         });
       }}
+      handleReport={() => {
+        if (myProfile === null) {
+          showAuthDialog(true);
+          return false;
+        }
+        const reason = prompt('Why do you want to report this post?');
+        if (reason) {
+          Axios.post('/api/agora/report', {
+            id: _id,
+            reason,
+            reportType: 'AGORAGRAM',
+          }).then((res) => {
+            enqueueSnackbar('You have successfully reported!', { variant: 'success' });
+          });
+        }
+      }}
       handleStarring={(): boolean => {
         if (myProfile === null) {
           showAuthDialog(true);
@@ -104,7 +122,7 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
         );
         return true;
       }}
-      isAuthor={myProfile && props.author === myProfile?._id}
+      isAuthor={Boolean(props.author && props.author === myProfile?._id)}
       link={`/agora/${props.hypagora}/${props.shortID}/comments`}
       time={mongoIdToDate(props._id)}
     >

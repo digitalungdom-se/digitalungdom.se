@@ -10,12 +10,14 @@ import UserLink from 'features/users/UserLink';
 import { mongoIdToDate } from 'utils/mongoid';
 import { selectMyProfile } from 'features/auth/authSlice';
 import { useAuthDialog } from 'features/auth/AuthDialogProvider';
+import { useSnackbar } from 'notistack';
 
 export default function ReduxConnectedComment({ _id, level }: { _id: string; level: number }) {
   const dispatch = useDispatch();
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
   const myProfile = useSelector(selectMyProfile);
   const showAuthDialog = useAuthDialog();
+  const { enqueueSnackbar } = useSnackbar();
   if (props === undefined) return null;
   return (
     <Comment
@@ -54,6 +56,22 @@ export default function ReduxConnectedComment({ _id, level }: { _id: string; lev
             }),
           );
         });
+      }}
+      handleReport={() => {
+        if (myProfile === null) {
+          showAuthDialog(true);
+          return false;
+        }
+        const reason = prompt('Why do you want to report this comment?');
+        if (reason) {
+          Axios.post('/api/agora/report', {
+            id: _id,
+            reason,
+            reportType: 'AGORAGRAM',
+          }).then((res) => {
+            enqueueSnackbar('You have successfully reported!', { variant: 'success' });
+          });
+        }
       }}
       handleStarring={(): boolean => {
         if (myProfile === null) {

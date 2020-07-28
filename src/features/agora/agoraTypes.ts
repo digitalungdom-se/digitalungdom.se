@@ -31,6 +31,7 @@ interface AgoragramLoadedComponentProps
   link?: string;
   handleStarring?: () => boolean;
   handleDelete?: () => void;
+  handleReport?: () => void;
   isAuthor?: boolean;
 }
 

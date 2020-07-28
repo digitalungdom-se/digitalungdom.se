@@ -5,7 +5,6 @@ import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
 import StarIcon from '@material-ui/icons/Star';
 import SvgIcon from '@material-ui/core/SvgIcon';
-import { boolean } from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({

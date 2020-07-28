@@ -12,7 +12,7 @@ export default function Startpage() {
         Learn React
       </a>
       <div style={{ padding: 100 }}>
-        <StarButton />
+        <StarButton icon />
       </div>
     </div>
   );

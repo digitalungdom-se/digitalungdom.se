@@ -99,6 +99,7 @@ function Comment({
   handleEdit = () => {},
   handleDelete = () => {},
   handleStarring = () => true,
+  handleReport = () => {},
   level = 0,
   loading,
   isStarred,
@@ -176,7 +177,7 @@ function Comment({
                 <ReplyIcon fontSize="inherit" />
                 Reply
               </Button>
-              <Button className={classes.action} size="small">
+              <Button className={classes.action} onClick={handleReport} size="small">
                 <ReportIcon fontSize="inherit" />
                 Report
               </Button>
