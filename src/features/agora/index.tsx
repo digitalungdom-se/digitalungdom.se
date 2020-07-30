@@ -51,7 +51,9 @@ export default function Agora(): React.ReactElement {
     Axios.get('/api/agora/get/agoragrams', {
       params: {
         dateAfter: dateAfter || '0',
-        dateBefore: dateBefore || 'ffffffff',
+        dateBefore: Boolean(sort?.toUpperCase() !== 'TOP' && data.agoragrams.length && changeLoading === false)
+          ? (parseInt(data.agoragrams[data.agoragrams.length - 1]._id.substring(0, 8), 16) - 1).toString(16)
+          : dateBefore || 'ffffffff',
         hypagora: hypagora === 'general' ? null : hypagora,
         sort: sort ? sort.toUpperCase() : 'NEW',
         topIndex: changeLoading === false ? data.agoragrams.length : 0,
