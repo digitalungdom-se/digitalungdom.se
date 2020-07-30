@@ -18,6 +18,8 @@ export interface Agoragram {
   shortID: string;
   children: AgoragramChild[];
   replyTo: string;
+  tags?: string[];
+  modified?: string;
 }
 
 interface AgoragramLoadedComponentProps
@@ -33,7 +35,6 @@ interface AgoragramLoadedComponentProps
   handleDelete?: () => void;
   handleReport?: () => void;
   isAuthor?: boolean;
-  tags?: string[];
 }
 
 interface AgoragramLoadingComponentProps extends Partial<Omit<AgoragramLoadedComponentProps, 'loading'>> {

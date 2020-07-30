@@ -1,4 +1,6 @@
-import { Field, Form, Formik } from 'formik';
+import * as Yup from 'yup';
+
+import { Field, Form, Formik, yupToFormErrors } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Alert from '@material-ui/lab/Alert';
@@ -58,6 +60,9 @@ export default function AgoraReplyComment({
           setReplying(false);
         });
       }}
+      validationSchema={Yup.object({
+        body: Yup.string().required().max(10000),
+      })}
     >
       {({ isSubmitting }) => (
         <Form>

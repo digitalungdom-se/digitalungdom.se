@@ -23,6 +23,7 @@ import ReportIcon from '@material-ui/icons/Report';
 import { Link as RouterLink } from 'react-router-dom';
 import Skeleton from '@material-ui/lab/Skeleton';
 import StarButton from 'components/StarButton';
+import Tooltip from '@material-ui/core/Tooltip';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -99,6 +100,7 @@ export default function Post({
   handleEdit = () => {},
   handleDelete = () => {},
   handleReport = () => {},
+  modified,
   tags = [],
 }: AgoragramComponentProps): React.ReactElement {
   const classes = useStyles();
@@ -120,7 +122,13 @@ export default function Post({
         className={classes.header}
         subheader={
           !loading ? (
-            <Link color="textPrimary" component={RouterLink} style={{ wordWrap: 'break-word' }} to={link} variant="h6">
+            <Link
+              color="textPrimary"
+              component={RouterLink}
+              style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}
+              to={link}
+              variant="h6"
+            >
               {title}
             </Link>
           ) : (
@@ -132,7 +140,10 @@ export default function Post({
             <Grid className={classes.titleElements} container direction="row" justify="space-between">
               <Grid>{author}</Grid>
               <Grid>
-                <Moment fromNow>{time}</Moment>
+                <span title={modified}>
+                  <Moment fromNow>{time}</Moment>
+                  {modified && '*'}
+                </span>
               </Grid>
             </Grid>
           ) : (
