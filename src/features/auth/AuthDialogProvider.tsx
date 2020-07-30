@@ -21,7 +21,7 @@ export default function AuthDialogProvider(): React.ReactElement {
   const showAuthDialog = useAuthDialog();
   const dialog = useSelector(selectAuthDialog);
   return (
-    <AuthDialog onClose={() => showAuthDialog(false)} open={dialog?.open || false}>
+    <AuthDialog onClose={() => showAuthDialog(false)} open={dialog !== undefined && dialog?.open}>
       <Suspense fallback={<Loading />}>
         {dialog.page === 'LOGIN' && (
           <Login isDialog onSuccess={() => showAuthDialog(false)} redirect={(page) => showAuthDialog(page)} />

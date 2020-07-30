@@ -1,16 +1,16 @@
-import { Box, Button, Typography } from '@material-ui/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import AgoraFilter from './AgoraFilter';
 import { Agoragram } from './agoraTypes';
 import Axios from 'axios';
+import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
+import Hidden from '@material-ui/core/Hidden';
 import InfiniteScroll from 'react-infinite-scroller';
-import Paper from '@material-ui/core/Paper';
 import Post from './Post';
+import PublishAgoragramWidget from './PublishAgoragramWidget';
 import { ReduxConnectedPost } from './AgoraPost';
-import { Link as RouterLink } from 'react-router-dom';
 import { getAgoragramsSuccess } from './agoraSlice';
 import { getUsersSuccess } from 'features/users/usersSlice';
 import { useDispatch } from 'react-redux';
@@ -19,12 +19,9 @@ import { useParams } from 'react-router-dom';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
       marginTop: theme.spacing(2),
     },
     widget: {
-      padding: theme.spacing(2),
-      marginTop: theme.spacing(9),
       marginLeft: theme.spacing(2),
     },
   }),
@@ -49,7 +46,7 @@ export default function Agora(): React.ReactElement {
     [dispatch],
   );
 
-  const fetchData = (changeLoading: boolean): void => {
+  const fetchData = (changeLoading = true): void => {
     if (changeLoading) setLoading(true);
     Axios.get('/api/agora/get/agoragrams', {
       params: {
@@ -70,52 +67,38 @@ export default function Agora(): React.ReactElement {
     });
   };
 
-  useEffect(() => fetchData(true), [dateAfter, dateBefore, hypagora, sort]);
+  useEffect(fetchData, [dateAfter, dateBefore, hypagora, sort]);
 
   return (
     <Container className={classes.root} fixed maxWidth="md">
-      <Box flexGrow={1}>
-        <AgoraFilter hypagora={hypagora} path="/agora" sort={sort} />
-        {loading ? (
-          <Post loading />
-        ) : (
-          <InfiniteScroll
-            hasMore={data.hasMore}
-            loader={<Post key={'agoragram6'} loading time={new Date()} title="" />}
-            loadMore={(): void => fetchData(false)}
-            pageStart={0}
-            threshold={300}
-          >
-            {data?.agoragrams.map(({ _id }: Agoragram) => (
-              <ReduxConnectedPost _id={_id} key={_id} />
-            ))}
-          </InfiniteScroll>
-        )}
-      </Box>
-      <Box maxWidth={300} minWidth={300} width={300}>
-        <Paper className={classes.widget}>
-          <Typography component="h6" variant="h6">
-            Agora
-          </Typography>
-          <Typography>
-            <b>Agora</b> är Digital Ungdoms egna forum där medlemmar kan göra inlägg.
-          </Typography>
-          <Typography variant="subtitle2">
-            Agora är benämningen av torg i antika grekiska städer. De användes som marknadsplats eller allmän
-            mötesplats.
-          </Typography>
-          <Button
-            color="primary"
-            component={RouterLink}
-            disableElevation
-            fullWidth
-            to={`/agora/submit`}
-            variant="contained"
-          >
-            Publish
-          </Button>
-        </Paper>
-      </Box>
+      <AgoraFilter hypagora={hypagora} path="/agora" sort={sort} />
+      <div style={{ display: 'flex' }}>
+        <Box flexGrow={1}>
+          <Hidden mdUp>
+            <PublishAgoragramWidget />
+          </Hidden>
+          {loading ? (
+            <Post loading />
+          ) : (
+            <InfiniteScroll
+              hasMore={data.hasMore}
+              loader={<Post key={'agoragram6'} loading time={new Date()} title="" />}
+              loadMore={(): void => fetchData(false)}
+              pageStart={0}
+              threshold={300}
+            >
+              {data?.agoragrams.map(({ _id }: Agoragram) => (
+                <ReduxConnectedPost _id={_id} key={_id} />
+              ))}
+            </InfiniteScroll>
+          )}
+        </Box>
+        <Hidden smDown>
+          <Box className={classes.widget} maxWidth={300} minWidth={300} width={300}>
+            <PublishAgoragramWidget />
+          </Box>
+        </Hidden>
+      </div>
     </Container>
   );
 }

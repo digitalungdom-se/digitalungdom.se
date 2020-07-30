@@ -33,7 +33,7 @@ export default function AgoraPost() {
       dispatch(getAgoragramsSuccess(data));
       dispatch(getUsersSuccess(data.users));
     }
-  }, [data]);
+  }, [data, dispatch]);
   if (loading)
     return (
       <Container maxWidth="md">
