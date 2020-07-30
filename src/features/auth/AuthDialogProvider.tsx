@@ -3,6 +3,7 @@ import React, { Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AuthDialog from 'features/auth/Dialog';
+import Loading from 'components/Loading';
 import VerifyEmailPage from 'features/auth/VerifyEmailPage';
 
 const Login = React.lazy(() => import('features/auth/Login'));
@@ -21,7 +22,7 @@ export default function AuthDialogProvider(): React.ReactElement {
   const dialog = useSelector(selectAuthDialog);
   return (
     <AuthDialog onClose={() => showAuthDialog(false)} open={dialog?.open || false}>
-      <Suspense fallback={'Loading'}>
+      <Suspense fallback={<Loading />}>
         {dialog.page === 'LOGIN' && (
           <Login isDialog onSuccess={() => showAuthDialog(false)} redirect={(page) => showAuthDialog(page)} />
         )}

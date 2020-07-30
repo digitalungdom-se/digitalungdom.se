@@ -10,6 +10,7 @@ const persistConfig = {
   blacklist: ['auth'],
   key: 'root',
   storage,
+  whitelist: [],
 };
 
 const authPersistConfig = {

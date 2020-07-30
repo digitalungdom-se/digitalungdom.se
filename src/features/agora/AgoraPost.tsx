@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AgoraReplyComment from './AgoraReplyComment';
 import Axios from 'axios';
 import { Container } from '@material-ui/core';
+import Loading from 'components/Loading';
 import Post from './Post';
 import ReduxConnectedComment from './AgoraComment';
 import { RootState } from 'app/store';
@@ -42,12 +43,18 @@ export default function AgoraPost() {
   if (data.agoragrams.length === 0) return <div>deleted</div>;
   return (
     <Container maxWidth="md">
-      <ReduxConnectedPost _id={data.agoragrams[0]._id} />
+      <ReduxConnectedPost _id={data.agoragrams[0]._id} displayComments />
     </Container>
   );
 }
 
-export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement => {
+export const ReduxConnectedPost = ({
+  _id,
+  displayComments = false,
+}: {
+  _id: string;
+  displayComments?: boolean;
+}): React.ReactElement => {
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
   const myProfile = useSelector(selectMyProfile);
   const dispatch = useDispatch();
@@ -126,14 +133,17 @@ export const ReduxConnectedPost = ({ _id }: { _id: string }): React.ReactElement
       link={`/agora/${props.hypagora}/${props.shortID}/comments`}
       time={mongoIdToDate(props._id)}
     >
-      {props.children && (
-        <>
-          <AgoraReplyComment replyTo={props._id} />
-          {props.children.map((agoragram) => (
-            <ReduxConnectedComment _id={agoragram._id} key={agoragram._id} level={0} />
-          ))}
-        </>
-      )}
+      {displayComments &&
+        (props.children ? (
+          <>
+            <AgoraReplyComment replyTo={props._id} />
+            {props.children.map((agoragram) => (
+              <ReduxConnectedComment _id={agoragram._id} key={agoragram._id} level={0} />
+            ))}
+          </>
+        ) : (
+          <Loading minHeight={100} />
+        ))}
     </Post>
   );
 };

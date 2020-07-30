@@ -1,5 +1,6 @@
 import { Route, Switch, useHistory } from 'react-router-dom';
 
+import Loading from 'components/Loading';
 import React from 'react';
 
 const Agora = React.lazy(() => import('features/agora'));
@@ -13,7 +14,7 @@ const VerifyEmailLink = React.lazy(() => import('features/auth/VerifyEmailLink')
 function Router(): React.ReactElement {
   const history = useHistory();
   return (
-    <React.Suspense fallback={'Loading...'}>
+    <React.Suspense fallback={<Loading />}>
       <Switch>
         <Route path="/logga-in">
           <Login onSuccess={(): void => history.push('/')} />
