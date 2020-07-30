@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import { Field, Form, Formik, yupToFormErrors } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Alert from '@material-ui/lab/Alert';

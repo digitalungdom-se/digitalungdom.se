@@ -23,7 +23,6 @@ import ReportIcon from '@material-ui/icons/Report';
 import { Link as RouterLink } from 'react-router-dom';
 import Skeleton from '@material-ui/lab/Skeleton';
 import StarButton from 'components/StarButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -178,7 +177,16 @@ export default function Post({
                 {body}
               </Link>
             ) : (
-              <RenderMarkdown source={body} />
+              <div
+                style={{
+                  maxHeight: 400,
+                  overflow: 'scroll',
+                  overflowWrap: 'anywhere',
+                  width: '100%',
+                }}
+              >
+                <RenderMarkdown source={body} />
+              </div>
             )
           ) : (
             <Skeleton height={60} variant="rect" />
