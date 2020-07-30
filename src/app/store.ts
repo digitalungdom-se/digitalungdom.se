@@ -7,14 +7,20 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import users from 'features/users/usersSlice';
 
 const persistConfig = {
+  blacklist: ['auth'],
   key: 'root',
   storage,
-  whitelist: ['auth'],
+};
+
+const authPersistConfig = {
+  blacklist: ['dialog'],
+  key: 'auth',
+  storage: storage,
 };
 
 const rootReducer = combineReducers({
   agora,
-  auth,
+  auth: persistReducer(authPersistConfig, auth),
   users,
 });
 

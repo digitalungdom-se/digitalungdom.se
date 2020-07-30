@@ -20,7 +20,6 @@ import Moment from 'react-moment';
 import RenderMarkdown from 'components/RenderMarkdown';
 import ReportIcon from '@material-ui/icons/Report';
 import { Link as RouterLink } from 'react-router-dom';
-import ShareIcon from '@material-ui/icons/Share';
 import Skeleton from '@material-ui/lab/Skeleton';
 import StarButton from 'components/StarButton';
 import clsx from 'clsx';
