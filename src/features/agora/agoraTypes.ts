@@ -33,6 +33,7 @@ interface AgoragramLoadedComponentProps
   handleDelete?: () => void;
   handleReport?: () => void;
   isAuthor?: boolean;
+  tags?: string[];
 }
 
 interface AgoragramLoadingComponentProps extends Partial<Omit<AgoragramLoadedComponentProps, 'loading'>> {

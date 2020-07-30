@@ -1,5 +1,6 @@
+import Chip, { ChipProps } from '@material-ui/core/Chip';
 import React, { useState } from 'react';
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { Theme, createStyles, makeStyles, withStyles } from '@material-ui/core/styles';
 
 import AgoraBodyField from './AgoraBodyField';
 import { AgoragramComponentProps } from './agoraTypes';
@@ -41,7 +42,9 @@ const useStyles = makeStyles((theme: Theme) =>
     avatar: {
       margin: theme.spacing(0, 1),
     },
-    content: {},
+    content: {
+      paddingBottom: 0,
+    },
     contentWithLink: {
       marginLeft: theme.spacing(7),
       paddingTop: 0,
@@ -70,6 +73,15 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+export const StyledChip = withStyles((theme: Theme) => ({
+  root: {
+    marginTop: theme.spacing(1),
+    '& + &': {
+      marginLeft: theme.spacing(1),
+    },
+  },
+}))((props: ChipProps) => <Chip {...props} />);
+
 export default function Post({
   author,
   body = '',
@@ -87,6 +99,7 @@ export default function Post({
   handleEdit = () => {},
   handleDelete = () => {},
   handleReport = () => {},
+  tags = [],
 }: AgoragramComponentProps): React.ReactElement {
   const classes = useStyles();
 
@@ -129,8 +142,9 @@ export default function Post({
       />
       {Boolean(body || loading) && (
         <CardContent
-          className={clsx(classes.content, {
+          className={clsx({
             [classes.contentWithLink]: type === 'LINK',
+            [classes.content]: Boolean(tags.length),
           })}
         >
           {!loading ? (
@@ -158,6 +172,7 @@ export default function Post({
           ) : (
             <Skeleton height={60} variant="rect" />
           )}
+          {tags && tags.map((tag) => <StyledChip key={tag} label={tag} />)}
         </CardContent>
       )}
       {!loading && (
