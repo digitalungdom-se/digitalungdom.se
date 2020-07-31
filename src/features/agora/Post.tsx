@@ -80,6 +80,9 @@ export const StyledChip = withStyles((theme: Theme) => ({
       marginLeft: theme.spacing(1),
     },
   },
+  label: {
+    maxWidth: theme.typography.fontSize * 24,
+  },
 }))((props: ChipProps) => <Chip {...props} />);
 
 export default function Post({

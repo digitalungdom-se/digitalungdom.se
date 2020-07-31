@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     widget: {
       marginLeft: theme.spacing(2),
+      float: 'left',
     },
   }),
 );
@@ -73,9 +74,11 @@ export default function Agora(): React.ReactElement {
 
   return (
     <Container className={classes.root} fixed maxWidth="md">
-      <AgoraFilter hypagora={hypagora} path="/agora" sort={sort} />
+      <div style={{ padding: '0 2px' }}>
+        <AgoraFilter hypagora={hypagora} path="/agora" sort={sort} />
+      </div>
       <div style={{ display: 'flex' }}>
-        <Box flexGrow={1}>
+        <Box flexGrow={1} style={{ overflow: 'auto', padding: '0 2px 2px 2px' }}>
           <Hidden mdUp>
             <PublishAgoragramWidget />
           </Hidden>
