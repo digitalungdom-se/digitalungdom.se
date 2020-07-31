@@ -87,7 +87,7 @@ export default function Agora(): React.ReactElement {
           ) : (
             <InfiniteScroll
               hasMore={data.hasMore}
-              loader={<Post key={'agoragram6'} loading time={new Date()} title="" />}
+              loader={<Post loading />}
               loadMore={(): void => fetchData(false)}
               pageStart={0}
               threshold={300}
