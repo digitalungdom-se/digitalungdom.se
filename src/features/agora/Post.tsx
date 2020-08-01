@@ -14,6 +14,7 @@ import CommentIcon from '@material-ui/icons/Comment';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Divider from '@material-ui/core/Divider';
 import EditIcon from '@material-ui/icons/Edit';
+import FadeOutText from 'components/FadeOutText';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
@@ -104,6 +105,7 @@ export default function Post({
   handleReport = () => {},
   modified,
   tags = [],
+  longPostIsFadedOut,
 }: AgoragramComponentProps): React.ReactElement {
   const classes = useStyles();
 
@@ -179,17 +181,12 @@ export default function Post({
               <Link href={body} style={{ wordBreak: 'break-all' }}>
                 {body}
               </Link>
-            ) : (
-              <div
-                style={{
-                  maxHeight: 400,
-                  overflow: 'scroll',
-                  overflowWrap: 'anywhere',
-                  width: '100%',
-                }}
-              >
+            ) : longPostIsFadedOut ? (
+              <FadeOutText>
                 <RenderMarkdown source={body} />
-              </div>
+              </FadeOutText>
+            ) : (
+              <RenderMarkdown source={body} />
             )
           ) : (
             <Skeleton height={60} variant="rect" />

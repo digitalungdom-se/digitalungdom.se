@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import AgoraReplyComment from './AgoraReplyComment';
 import Axios from 'axios';
-import { Container } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
 import Loading from 'components/Loading';
 import Post from './Post';
 import ReduxConnectedComment from './AgoraComment';
@@ -48,13 +48,17 @@ export default function AgoraPost() {
   );
 }
 
+interface ReduxConnectedPostProps {
+  _id: string;
+  displayComments?: boolean;
+  longPostIsFadedOut?: boolean;
+}
+
 export const ReduxConnectedPost = ({
   _id,
   displayComments = false,
-}: {
-  _id: string;
-  displayComments?: boolean;
-}): React.ReactElement => {
+  longPostIsFadedOut,
+}: ReduxConnectedPostProps): React.ReactElement => {
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
   const myProfile = useSelector(selectMyProfile);
   const dispatch = useDispatch();
@@ -131,6 +135,7 @@ export const ReduxConnectedPost = ({
       }}
       isAuthor={Boolean(props.author && props.author === myProfile?._id)}
       link={`/agora/${props.hypagora}/${props.shortID}/comments`}
+      longPostIsFadedOut={longPostIsFadedOut}
       time={mongoIdToDate(props._id)}
     >
       {displayComments &&

@@ -4,7 +4,7 @@ import { blue, green, orange, purple, red, yellow } from '@material-ui/core/colo
 
 import AgoraBodyField from './AgoraBodyField';
 import { AgoragramComponentProps } from './agoraTypes';
-import { Box } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Collapse from '@material-ui/core/Collapse';

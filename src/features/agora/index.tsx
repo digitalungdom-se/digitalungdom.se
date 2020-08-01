@@ -93,7 +93,7 @@ export default function Agora(): React.ReactElement {
               threshold={300}
             >
               {data?.agoragrams.map(({ _id }: Agoragram) => (
-                <ReduxConnectedPost _id={_id} key={_id} />
+                <ReduxConnectedPost _id={_id} key={_id} longPostIsFadedOut />
               ))}
             </InfiniteScroll>
           )}
