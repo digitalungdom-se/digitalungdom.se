@@ -92,7 +92,7 @@ export default function Post({
   commentAmount = 0,
   loading = false,
   stars = 0,
-  time,
+  time = new Date(),
   title,
   type = 'TEXT',
   isStarred = false,
@@ -144,10 +144,14 @@ export default function Post({
             <Grid className={classes.titleElements} container direction="row" justify="space-between">
               <Grid>{author}</Grid>
               <Grid>
-                <span title={modified}>
-                  <Moment fromNow>{time}</Moment>
-                  {modified && '*'}
-                </span>
+                <Moment
+                  format={time > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) ? undefined : 'YYYY/MM/DD'}
+                  fromNow
+                  withTitle
+                >
+                  {time}
+                </Moment>
+                <span title={'modified: ' + modified}>{modified && '*'}</span>
               </Grid>
             </Grid>
           ) : (
