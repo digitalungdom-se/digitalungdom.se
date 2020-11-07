@@ -97,7 +97,7 @@ export default function Startpage() {
                     </Link>
                   </Grid>
                   <Grid item xs={4}>
-                    <Link to="/about-us">
+                    <Link to="/about">
                       <Button
                         size="large"
                         style={{
