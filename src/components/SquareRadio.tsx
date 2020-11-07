@@ -2,6 +2,7 @@ import Radio, { RadioProps } from '@material-ui/core/Radio';
 import React, { useEffect, useRef } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
+import { ButtonBaseActions } from '@material-ui/core/ButtonBase';
 import { Color } from '@material-ui/core';
 import clsx from 'clsx';
 import { fade } from '@material-ui/core/styles/colorManipulator';
@@ -78,11 +79,11 @@ export default function SquareRadio({ color, isFocused = false, ...props }: Squa
    * Source for programmatically setting focus and ripple
    * https://github.com/mui-org/material-ui/issues/13761
    */
-  const inputRef = useRef(null);
-  const actionRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const actionRef = useRef<ButtonBaseActions>(null);
 
   useEffect(() => {
-    if (isFocused) {
+    if (isFocused && inputRef.current !== null && actionRef.current !== null) {
       inputRef.current.focus();
       actionRef.current.focusVisible();
     }
