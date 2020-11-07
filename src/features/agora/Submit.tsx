@@ -54,7 +54,10 @@ export default function Submit(): React.ReactElement {
             });
           }}
           validationSchema={Yup.object({
-            body: Yup.string().required(),
+            body: Yup.string().when('type', {
+              is: 'LINK',
+              then: Yup.string().required(),
+            }),
             tags: Yup.array().of(Yup.string().min(3).max(24)).max(5),
             title: Yup.string().min(3).max(100).required(),
             type: Yup.string().required(),
