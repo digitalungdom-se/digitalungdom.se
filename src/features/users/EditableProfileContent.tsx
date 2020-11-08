@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function EditableProfileContent({ bio, link, status }: EditableProfileContentProps): React.ReactElement {
+function EditableProfileContent({ bio, url, status }: EditableProfileContentProps): React.ReactElement {
   const classes = useStyles();
   return (
     <Grid className={classes.grid} spacing={4}>
@@ -37,7 +37,7 @@ function EditableProfileContent({ bio, link, status }: EditableProfileContentPro
         />
       </Grid>
       <Grid className={classes.field} item>
-        <Field className={classes.field} component={TextField} name="link" placeholder="Link" variant="outlined" />
+        <Field className={classes.field} component={TextField} name="url" placeholder="Link" variant="outlined" />
       </Grid>
     </Grid>
   );

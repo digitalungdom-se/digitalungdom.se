@@ -24,9 +24,7 @@ function Router(): React.ReactElement {
         <Route path="/bli-medlem">
           <Register onSuccess={(): void => history.push('/')} />
         </Route>
-        <Route path="/@:username">
-          <UserPage />
-        </Route>
+        <Route path="/@:username" render={({ match }) => <UserPage username={match.params.username} />} />
         <Route path="/verify/:token">
           <VerifyEmailLink />
         </Route>

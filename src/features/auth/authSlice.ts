@@ -55,6 +55,6 @@ export const { authorize, failAuthorize, displayAuthDialog } = auth.actions;
 export const selectAuthenticated = (state: RootState): boolean => state.auth.authenticated;
 export const selectAuthDialog = (state: RootState): AuthDialogOptions => state.auth.dialog;
 
-export const selectMyId = (state: RootState): any => state.auth.details?._id;
+export const selectMyId = (state: RootState): string | undefined => state.auth.details?._id;
 
 export default auth.reducer;

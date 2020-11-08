@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface EditableProfileContentProps {
   bio?: string;
-  link?: string;
+  url?: string;
   status?: string;
 }
 
@@ -39,7 +39,7 @@ export interface ProfileContentProps extends EditableProfileContentProps {
   joinDate: Date;
 }
 
-function ProfileContent({ bio, link, joinDate, status }: ProfileContentProps): React.ReactElement {
+function ProfileContent({ bio, url, joinDate, status }: ProfileContentProps): React.ReactElement {
   const classes = useStyles();
   return (
     <>
@@ -52,15 +52,15 @@ function ProfileContent({ bio, link, joinDate, status }: ProfileContentProps): R
         {bio}
       </Typography>
       <ul className={classes.list}>
-        {link && (
+        {url && (
           <li className={classes.chip}>
             <Chip
-              aria-label="Biography link"
+              aria-label="Biography url"
               avatar={<LinkIcon />}
               clickable
               component={Link}
-              href={link}
-              label={link}
+              href={url}
+              label={url}
               size="small"
             />
           </li>

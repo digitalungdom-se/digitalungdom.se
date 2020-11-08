@@ -39,13 +39,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface ProfileState {
   bio: string | undefined;
-  link: string | undefined;
+  url: string | undefined;
   status: string | undefined;
 }
 
 export const ProfileValidationSchema = Yup.object({
   bio: Yup.string(),
-  link: Yup.string().url(),
+  url: Yup.string().url(),
   status: Yup.string(),
 });
 
@@ -64,7 +64,7 @@ export function ProfileCard({
   isOwner,
   joinDate,
   lastName,
-  link,
+  url,
   onSubmit = console.log,
   status,
   username,
@@ -81,11 +81,11 @@ export function ProfileCard({
           {firstName + ' ' + lastName}
         </Typography>
         <Link component={RouterLink} to={`/@${username}`} variant="subtitle1">{`@${username}`}</Link>
-        {!editing && <ProfileContent bio={bio} joinDate={joinDate} link={link} status={status} />}
+        {!editing && <ProfileContent bio={bio} joinDate={joinDate} status={status} url={url} />}
         <Formik
           initialValues={{
             bio,
-            link,
+            url,
             status,
           }}
           onSubmit={(values, { setSubmitting, ...args }): void => {
@@ -101,7 +101,7 @@ export function ProfileCard({
         >
           {({ isSubmitting, submitForm }): React.ReactElement => (
             <Form>
-              {editing && <EditableProfileContent bio={bio} link={link} status={status} />}
+              {editing && <EditableProfileContent bio={bio} status={status} url={url} />}
               {isOwner && (
                 <Button
                   disabled={isSubmitting}
