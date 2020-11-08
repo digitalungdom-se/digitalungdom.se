@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import PersonIcon from '@material-ui/icons/Person';
 import React from 'react';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,19 +26,16 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(1),
       width: theme.spacing(3),
     },
-  }),
-);
-
-const StyledMenuItem = withStyles((theme) => ({
-  root: {
-    '&:focus': {
-      backgroundColor: theme.palette.action.selected,
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.text.primary,
+    item: {
+      '&:focus': {
+        backgroundColor: theme.palette.action.selected,
+        '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+          color: theme.palette.text.primary,
+        },
       },
     },
-  },
-}))(MenuItem);
+  }),
+);
 
 const StyledMenu = withStyles(({ spacing, palette }) => ({
   paper: {
@@ -104,21 +102,20 @@ export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JS
         {firstName}
       </Button>
       <StyledMenu anchorEl={anchorEl} id="customized-menu" keepMounted onClose={handleClose} open={Boolean(anchorEl)}>
-        <Link
-          style={{
-            color: 'inherit',
-            textDecoration: 'none',
-          }}
-          to={`/@${username}`}
-        >
-          <StyledMenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <PersonIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText primary="My Profile" />
-          </StyledMenuItem>
-        </Link>
-        <StyledMenuItem
+        <MenuItem className={classes.item} component={Link} onClick={handleClose} to={`/@${username}`}>
+          <ListItemIcon>
+            <PersonIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="My Profile" />
+        </MenuItem>
+        <MenuItem className={classes.item} component={Link} onClick={handleClose} to="/settings/account">
+          <ListItemIcon>
+            <SettingsIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Settings" />
+        </MenuItem>
+        <MenuItem
+          className={classes.item}
           onClick={(): void => {
             logout();
             handleClose();
@@ -128,7 +125,7 @@ export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JS
             <ExitToAppIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText primary="Log out" />
-        </StyledMenuItem>
+        </MenuItem>
       </StyledMenu>
     </div>
   );
