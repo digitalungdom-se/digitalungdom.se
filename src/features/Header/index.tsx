@@ -60,7 +60,7 @@ function Header(): JSX.Element {
   return (
     <AppBar className={classes.root} color="inherit" position="sticky">
       <Toolbar>
-        <Typography className={classes.title} component="h1" style={{ fontWeight: 600 }} variant="h6">
+        <Typography className={classes.title} component="h1" style={{ fontWeight: 600, color: "#1e6ee8" }} variant="h6">
           <Link to="/">Digital Ungdom</Link>
         </Typography>
         {!authenticated ? <UnauthenticatedHeaderButtons /> : <ConnectedProfileHeaderButton />}
