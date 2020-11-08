@@ -1,8 +1,8 @@
 import { Route, Switch, useHistory } from 'react-router-dom';
 
 import Loading from 'components/Loading';
-import ProfilePage from 'features/profile';
 import React from 'react';
+import UserPage from 'features/users';
 
 const Agora = React.lazy(() => import('features/agora'));
 const AgoraPost = React.lazy(() => import('features/agora/AgoraPost'));
@@ -25,7 +25,7 @@ function Router(): React.ReactElement {
           <Register onSuccess={(): void => history.push('/')} />
         </Route>
         <Route path="/@:username">
-          <ProfilePage />
+          <UserPage />
         </Route>
         <Route path="/verify/:token">
           <VerifyEmailLink />
@@ -38,6 +38,7 @@ function Router(): React.ReactElement {
         </Route>
         <Route path="/agora/:hypagora?/:sort?/:dateAfter?/:dateBefore?">
           <Agora />
+        </Route>
         <Route path="/settings/:section">
           <Settings />
         </Route>

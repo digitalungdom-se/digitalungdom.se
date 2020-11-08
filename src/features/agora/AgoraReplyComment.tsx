@@ -12,7 +12,7 @@ import React from 'react';
 import { TextField } from 'formik-material-ui';
 import UnauthenticatedHeaderButtons from 'features/Header/UnauthenticatedHeaderButtons';
 import { newCommentSuccess } from './agoraSlice';
-import { selectMyProfile } from 'features/auth/authSlice';
+import { selectMyId } from 'features/auth/authSlice';
 
 export default function AgoraReplyComment({
   replyTo,
@@ -22,8 +22,8 @@ export default function AgoraReplyComment({
   setReplying?: (b: boolean) => void;
 }) {
   const dispatch = useDispatch();
-  const myProfile = useSelector(selectMyProfile);
-  if (myProfile === null)
+  const myId = useSelector(selectMyId);
+  if (myId === null)
     return (
       <Alert severity="info" variant="outlined">
         <AlertTitle>Express yourself!</AlertTitle>
@@ -46,7 +46,7 @@ export default function AgoraReplyComment({
             newCommentSuccess({
               ...res.data.agoragram,
               ...values,
-              author: myProfile?._id,
+              author: myId,
               children: [],
               replyTo,
               stars: 0,

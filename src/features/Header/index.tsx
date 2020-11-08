@@ -1,5 +1,4 @@
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
-import { selectAuthenticated, selectMyProfile } from 'features/auth/authSlice';
 
 import AppBar from '@material-ui/core/AppBar';
 import Axios from 'axios';
@@ -13,6 +12,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import UnauthenticatedHeaderButtons from './UnauthenticatedHeaderButtons';
 import { failAuthorize } from 'features/auth/authSlice';
+import { selectAuthenticated } from 'features/auth/authSlice';
+import { selectMyProfile } from 'features/users/usersSlice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
@@ -50,8 +51,8 @@ const ConnectedProfileHeaderButton = () => {
             dispatch(failAuthorize());
           });
       }}
-      name={myProfile.name}
-      username={myProfile.username}
+      name={myProfile?.details.name || ''}
+      username={myProfile?.details.username || ''}
     />
   );
 };
@@ -63,7 +64,7 @@ function Header(): JSX.Element {
   return (
     <AppBar className={classes.root} color="inherit" position="sticky">
       <Toolbar>
-        <Typography className={classes.title} component="h1" style={{ fontWeight: 600, color: "#1e6ee8" }} variant="h6">
+        <Typography className={classes.title} component="h1" style={{ fontWeight: 600, color: '#1e6ee8' }} variant="h6">
           <Link to="/">Digital Ungdom</Link>
         </Typography>
         <Tabs>

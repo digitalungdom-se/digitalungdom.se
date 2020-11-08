@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import { authorize } from './authSlice';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
+import { setMe } from 'features/users/usersSlice';
 import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -86,6 +87,7 @@ export default function Login({
                   setSubmitting(false);
                   if (res.data.type === 'fail') throw res;
                   dispatch(authorize(res.data));
+                  dispatch(setMe(res.data));
                   onSuccess();
                 })
                 .catch((err) => {

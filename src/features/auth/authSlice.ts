@@ -2,11 +2,12 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from 'app/store';
 
+export type AuthPage = 'LOGIN' | 'REGISTER' | 'VERIFY_EMAIL';
+
 interface Details {
   _id: string;
+  username: string;
 }
-
-export type AuthPage = 'LOGIN' | 'REGISTER' | 'VERIFY_EMAIL';
 
 interface AuthDialogOptions {
   page?: AuthPage;
@@ -38,7 +39,7 @@ export const auth = createSlice({
     },
     failAuthorize: (state): void => {
       state.authenticated = false;
-      state.details = null;
+      // state.details = null;
     },
     displayAuthDialog: (state, action: PayloadAction<AuthDialogOptions>): void => {
       state.dialog = { ...state.dialog, ...action.payload };
@@ -54,6 +55,6 @@ export const { authorize, failAuthorize, displayAuthDialog } = auth.actions;
 export const selectAuthenticated = (state: RootState): boolean => state.auth.authenticated;
 export const selectAuthDialog = (state: RootState): AuthDialogOptions => state.auth.dialog;
 
-export const selectMyProfile = (state: RootState): any => state.auth.details;
+export const selectMyId = (state: RootState): any => state.auth.details?._id;
 
 export default auth.reducer;

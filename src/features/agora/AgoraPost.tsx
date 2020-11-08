@@ -13,7 +13,7 @@ import { RootState } from 'app/store';
 import UserLink from 'features/users/UserLink';
 import { getUsersSuccess } from 'features/users/usersSlice';
 import { mongoIdToDate } from 'utils/mongoid';
-import { selectMyProfile } from 'features/auth/authSlice';
+import { selectMyId } from 'features/auth/authSlice';
 import { useAuthDialog } from 'features/auth/AuthDialogProvider';
 import useAxios from 'axios-hooks';
 import { useParams } from 'react-router-dom';
@@ -60,7 +60,7 @@ export const ReduxConnectedPost = ({
   longPostIsFadedOut,
 }: ReduxConnectedPostProps): React.ReactElement => {
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
-  const myProfile = useSelector(selectMyProfile);
+  const myId = useSelector(selectMyId);
   const dispatch = useDispatch();
   const showAuthDialog = useAuthDialog();
   const { enqueueSnackbar } = useSnackbar();
@@ -102,7 +102,7 @@ export const ReduxConnectedPost = ({
         });
       }}
       handleReport={() => {
-        if (myProfile === null) {
+        if (myId === null) {
           showAuthDialog(true);
           return false;
         }
@@ -118,7 +118,7 @@ export const ReduxConnectedPost = ({
         }
       }}
       handleStarring={(): boolean => {
-        if (myProfile === null) {
+        if (myId === null) {
           showAuthDialog(true);
           return false;
         }
@@ -133,7 +133,7 @@ export const ReduxConnectedPost = ({
         );
         return true;
       }}
-      isAuthor={Boolean(props.author && props.author === myProfile?._id)}
+      isAuthor={Boolean(props.author && props.author === myId)}
       link={`/agora/${props.hypagora}/${props.shortID}/comments`}
       longPostIsFadedOut={longPostIsFadedOut}
       time={mongoIdToDate(props._id)}

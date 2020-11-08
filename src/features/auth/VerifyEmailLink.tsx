@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import { authorize } from './authSlice';
 import { makeStyles } from '@material-ui/core/styles';
+import { setMe } from 'features/users/usersSlice';
 import useAxios from 'axios-hooks';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -82,6 +83,7 @@ export default function (): React.ReactElement {
 
   if (Boolean(data)) {
     dispatch(authorize(data));
+    dispatch(setMe(data));
   }
 
   return <VerifyEmailLink data={data} error={error} loading={loading} />;

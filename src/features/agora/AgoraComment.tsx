@@ -8,14 +8,14 @@ import React from 'react';
 import { RootState } from 'app/store';
 import UserLink from 'features/users/UserLink';
 import { mongoIdToDate } from 'utils/mongoid';
-import { selectMyProfile } from 'features/auth/authSlice';
+import { selectMyId } from 'features/auth/authSlice';
 import { useAuthDialog } from 'features/auth/AuthDialogProvider';
 import { useSnackbar } from 'notistack';
 
 export default function ReduxConnectedComment({ _id, level }: { _id: string; level: number }) {
   const dispatch = useDispatch();
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
-  const myProfile = useSelector(selectMyProfile);
+  const myId = useSelector(selectMyId);
   const showAuthDialog = useAuthDialog();
   const { enqueueSnackbar } = useSnackbar();
   if (props === undefined) return null;
@@ -58,7 +58,7 @@ export default function ReduxConnectedComment({ _id, level }: { _id: string; lev
         });
       }}
       handleReport={() => {
-        if (myProfile === null) {
+        if (myId === null) {
           showAuthDialog(true);
           return false;
         }
@@ -74,7 +74,7 @@ export default function ReduxConnectedComment({ _id, level }: { _id: string; lev
         }
       }}
       handleStarring={(): boolean => {
-        if (myProfile === null) {
+        if (myId === null) {
           showAuthDialog(true);
           return false;
         }
@@ -89,7 +89,7 @@ export default function ReduxConnectedComment({ _id, level }: { _id: string; lev
         );
         return true;
       }}
-      isAuthor={Boolean(props.author && props.author === myProfile?._id)}
+      isAuthor={Boolean(props.author && props.author === myId)}
       isStarred={props.isStarred}
       level={level}
       replyField={(setReplying: (b: boolean) => void) => <AgoraReplyComment replyTo={_id} setReplying={setReplying} />}
