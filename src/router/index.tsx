@@ -1,8 +1,12 @@
 import { Route, Switch, useHistory } from 'react-router-dom';
 
-import ProfilePage from 'features/profile';
+import Loading from 'components/Loading';
 import React from 'react';
+import UserPage from 'features/users';
 
+const Agora = React.lazy(() => import('features/agora'));
+const AgoraPost = React.lazy(() => import('features/agora/AgoraPost'));
+const AgoraSubmit = React.lazy(() => import('features/agora/Submit'));
 const About = React.lazy(() => import('pages/About'));
 const Login = React.lazy(() => import('features/auth/Login'));
 const Register = React.lazy(() => import('features/auth/Register'));
@@ -13,7 +17,7 @@ const Settings = React.lazy(() => import('features/settings'));
 function Router(): React.ReactElement {
   const history = useHistory();
   return (
-    <React.Suspense fallback={'Loading...'}>
+    <React.Suspense fallback={<Loading />}>
       <Switch>
         <Route path="/logga-in">
           <Login onSuccess={(): void => history.push('/')} />
@@ -21,11 +25,18 @@ function Router(): React.ReactElement {
         <Route path="/bli-medlem">
           <Register onSuccess={(): void => history.push('/')} />
         </Route>
-        <Route path="/@:username">
-          <ProfilePage />
-        </Route>
+        <Route path="/@:username" render={({ match }) => <UserPage username={match.params.username} />} />
         <Route path="/verify/:token">
           <VerifyEmailLink />
+        </Route>
+        <Route path="/agora/:hypagora/:shortID/comments">
+          <AgoraPost />
+        </Route>
+        <Route path="/agora/:hypagora?/submit">
+          <AgoraSubmit />
+        </Route>
+        <Route path="/agora/:hypagora?/:sort?/:dateAfter?/:dateBefore?">
+          <Agora />
         </Route>
         <Route path="/about">
           <About />

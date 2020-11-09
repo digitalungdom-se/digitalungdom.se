@@ -29,8 +29,8 @@ export const Basic = (): React.ReactElement => (
     firstName="Douglas"
     joinDate={new Date()}
     lastName="Bengtsson"
-    link="https://digitalungdom.se"
     status="Digital Ungdom!"
+    url="https://digitalungdom.se"
     username="Nautman"
   />
 );
@@ -38,11 +38,11 @@ export const Basic = (): React.ReactElement => (
 export const EditableProfile = (): React.ReactElement => {
   const [state, setState] = React.useState<ProfileState>({
     bio: 'Studerar datateknik på KTH.\n20 år gammal.\nOrdförande för Digital Ungdom.',
-    link: 'https://digitalungdom.se',
+    url: 'https://digitalungdom.se',
     status: 'Digital Ungdom!',
   });
 
-  const { bio, link, status } = state;
+  const { bio, url, status } = state;
 
   return (
     <ProfileCard
@@ -51,7 +51,6 @@ export const EditableProfile = (): React.ReactElement => {
       isOwner
       joinDate={new Date()}
       lastName="Bengtsson"
-      link={link}
       onSubmit={(values, { setSubmitting }): void => {
         setTimeout(() => {
           setSubmitting(false);
@@ -59,6 +58,7 @@ export const EditableProfile = (): React.ReactElement => {
         }, 1000);
       }}
       status={status}
+      url={url}
       username="Nautman"
     />
   );

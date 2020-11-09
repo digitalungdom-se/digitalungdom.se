@@ -1,7 +1,7 @@
 import Menu, { MenuProps } from '@material-ui/core/Menu';
 import { Theme, createStyles, makeStyles, withStyles } from '@material-ui/core/styles';
 
-import { Avatar } from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link } from 'react-router-dom';

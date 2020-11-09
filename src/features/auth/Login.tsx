@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 import { Field, Form, Formik } from 'formik';
 
-import { AuthViewsProps } from './authViewsTypes';
+import AuthPageProps from './authPageProps';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import { authorize } from './authSlice';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
+import { setMe } from 'features/users/usersSlice';
 import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +60,7 @@ export default function Login({
   onSuccess,
   isDialog = false,
   redirect = (): void => {},
-}: AuthViewsProps): React.ReactElement {
+}: AuthPageProps): React.ReactElement {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -86,6 +87,7 @@ export default function Login({
                   setSubmitting(false);
                   if (res.data.type === 'fail') throw res;
                   dispatch(authorize(res.data));
+                  dispatch(setMe(res.data));
                   onSuccess();
                 })
                 .catch((err) => {
@@ -93,7 +95,7 @@ export default function Login({
                     const errors = err.data.errors;
                     errors.forEach((error: { message: string }) => {
                       setErrors({ [ERROR_CODES_MAP[error.message]]: error.message });
-                      if (error.message === 'NOT_VERIFIED') redirect('VERIFY');
+                      if (error.message === 'NOT_VERIFIED') redirect('VERIFY_EMAIL');
                     });
                   }
                   setSubmitting(false);

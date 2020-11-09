@@ -1,3 +1,4 @@
+import AuthDialogProvider from 'features/auth/AuthDialogProvider';
 import AuthenticatedLayer from 'features/auth/AuthenticatedLayer';
 import { BrowserRouter } from 'react-router-dom';
 import DateFnsUtils from '@date-io/date-fns';
@@ -21,6 +22,7 @@ const App: React.FC = () => {
                 vertical: 'bottom',
               }}
             >
+              <AuthDialogProvider />
               <div className="App" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
                 <Header />
                 <div style={{ flex: 1 }}>
