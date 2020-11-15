@@ -46,11 +46,11 @@ export default function Submit(): React.ReactElement {
             type: '',
           }}
           onSubmit={(values, { setSubmitting }) => {
-            Axios.post('/api/agora/agorize/post', {
+            Axios.post('/agoragram', {
               ...values,
               hypagora: 'GENERAL',
             }).then((res) => {
-              push(`/agora/general/${res.data.agoragram.shortID}/comments`);
+              push(`/agora/general/${res.data.shortID}/comments`);
             });
           }}
           validationSchema={Yup.object({

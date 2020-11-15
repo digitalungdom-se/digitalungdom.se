@@ -1,3 +1,5 @@
+import './tokenInterceptor';
+
 import AuthDialogProvider from 'features/auth/AuthDialogProvider';
 import AuthenticatedLayer from 'features/auth/AuthenticatedLayer';
 import { BrowserRouter } from 'react-router-dom';

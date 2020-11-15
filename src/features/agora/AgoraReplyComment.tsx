@@ -12,7 +12,7 @@ import React from 'react';
 import { TextField } from 'formik-material-ui';
 import UnauthenticatedHeaderButtons from 'features/Header/UnauthenticatedHeaderButtons';
 import { newCommentSuccess } from './agoraSlice';
-import { selectMyId } from 'features/auth/authSlice';
+import { selectMyProfile } from 'features/users/usersSlice';
 
 export default function AgoraReplyComment({
   replyTo,
@@ -22,8 +22,8 @@ export default function AgoraReplyComment({
   setReplying?: (b: boolean) => void;
 }) {
   const dispatch = useDispatch();
-  const myId = useSelector(selectMyId);
-  if (myId === null)
+  const myProfile = useSelector(selectMyProfile);
+  if (myProfile === null)
     return (
       <Alert severity="info" variant="outlined">
         <AlertTitle>Express yourself!</AlertTitle>
@@ -37,16 +37,17 @@ export default function AgoraReplyComment({
     <Formik
       initialValues={{ body: '' }}
       onSubmit={(values, { setSubmitting, setValues }) => {
-        Axios.post('/api/agora/agorize/comment', {
+        if (values.body.length < 1) return setSubmitting(false);
+        Axios.post(`/agoragram/${replyTo}/comment`, {
           body: values.body,
           replyTo,
           type: 'COMMENT',
         }).then((res) => {
           dispatch(
             newCommentSuccess({
-              ...res.data.agoragram,
+              ...res.data,
               ...values,
-              author: myId,
+              author: myProfile,
               children: [],
               replyTo,
               stars: 0,
@@ -61,7 +62,7 @@ export default function AgoraReplyComment({
         });
       }}
       validationSchema={Yup.object({
-        body: Yup.string().required().max(10000),
+        body: Yup.string().max(10000),
       })}
     >
       {({ isSubmitting }) => (

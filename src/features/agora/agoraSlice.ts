@@ -21,24 +21,25 @@ export const agora = createSlice({
       // if agoragrams body is not null then it isn't deleted
       if (action.payload.edited.body === null && agoragram.children?.length === 0 && agoragram.replyTo) {
         state.agoragrams[agoragram.replyTo].children = state.agoragrams[agoragram.replyTo].children.filter(
-          (child) => child._id !== action.payload._id,
+          (child) => child.agoragram !== action.payload._id,
         );
       }
     },
     getAgoragramsSuccess(state, action): void {
-      action.payload.agoragrams.forEach(
+      // state.agoragrams[action.payload._id] = action.payload;
+      action.payload.forEach(
         (agoragram: Agoragram) =>
           (state.agoragrams[agoragram._id] = { ...state.agoragrams[agoragram._id], ...agoragram }),
       );
-      action.payload.starredAgoragrams?.forEach((_id: string) => (state.agoragrams[_id].isStarred = true));
+      // action.payload.starredAgoragrams?.forEach((_id: string) => (state.agoragrams[_id].isStarred = true));
     },
     newCommentSuccess(state, action) {
-      state.agoragrams[action.payload.replyTo].children.unshift({ _id: action.payload._id, stars: 0 });
+      state.agoragrams[action.payload.replyTo].children.unshift({ agoragram: action.payload._id, stars: 0 });
       state.agoragrams[action.payload._id] = action.payload;
     },
     starAgoragramSuccess(state, action: PayloadAction<AsteriResponseWithID>): void {
       state.agoragrams[action.payload.agoragramID].stars += action.payload.action === 'STARRED' ? 1 : -1;
-      state.agoragrams[action.payload.agoragramID].isStarred = action.payload.action === 'STARRED' ? true : false;
+      state.agoragrams[action.payload.agoragramID].starred = action.payload.action === 'STARRED' ? true : false;
     },
   },
 });

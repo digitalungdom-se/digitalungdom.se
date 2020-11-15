@@ -1,7 +1,8 @@
 import { AgoraBodyFieldProps } from './AgoraBodyField';
+import { Details } from 'features/users/userTypes';
 
 interface AgoragramChild {
-  _id: string;
+  agoragram: string;
   stars: number;
 }
 
@@ -10,16 +11,21 @@ export interface Agoragram {
   body: string;
   type: 'TEXT' | 'LINK';
   title: string;
-  author?: string;
+  author?: AgoragramAuthor;
   stars: number;
   commentAmount: number;
-  isStarred: boolean;
+  starred: boolean;
   hypagora: string;
   shortID: string;
   children: AgoragramChild[];
   replyTo: string;
   tags?: string[];
   modified?: string;
+}
+
+export interface AgoragramAuthor {
+  _id: string;
+  details: Details;
 }
 
 interface AgoragramLoadedComponentProps

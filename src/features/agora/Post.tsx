@@ -20,7 +20,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import Moment from 'react-moment';
 import RenderMarkdown from 'components/RenderMarkdown';
-import ReportIcon from '@material-ui/icons/Report';
 import { Link as RouterLink } from 'react-router-dom';
 import Skeleton from '@material-ui/lab/Skeleton';
 import StarButton from 'components/StarButton';
@@ -95,7 +94,7 @@ export default function Post({
   time = new Date(),
   title,
   type = 'TEXT',
-  isStarred = false,
+  starred = false,
   link = '',
   children,
   isAuthor = false,
@@ -208,7 +207,7 @@ export default function Post({
             }}
             fontSize="default"
             handleStarring={handleStarring}
-            isStarred={isStarred}
+            isStarred={starred}
           >
             <span>{stars}</span>
           </StarButton>
@@ -216,9 +215,6 @@ export default function Post({
             <CommentIcon />
             <span>{commentAmount}</span>
           </Button>
-          <IconButton className={classes.action} onClick={handleReport}>
-            <ReportIcon />
-          </IconButton>
           {isAuthor && (
             <>
               <IconButton

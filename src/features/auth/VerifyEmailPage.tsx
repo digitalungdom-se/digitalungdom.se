@@ -1,8 +1,15 @@
+import { Field, Formik } from 'formik';
+import { ServerTokenResponse, TokenStorage } from 'tokenInterceptor';
+
+import Axios from 'axios';
+import { Button } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import MailIcon from '@material-ui/icons/Mail';
 import React from 'react';
+import { TranslatedTextField as TextField } from 'components/TranslatedTextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -20,8 +27,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function VerifyEmailPage() {
+interface VerifyEmailPageProps {
+  email?: string;
+  onSuccess?: Function;
+}
+
+interface VerifyEmailPageParams {
+  emailInBase64: string;
+}
+
+export default function VerifyEmailPage({
+  email,
+  onSuccess = (): void => {},
+}: VerifyEmailPageProps): React.ReactElement {
   const classes = useStyles();
+  const { emailInBase64 } = useParams<VerifyEmailPageParams>();
   return (
     <Container component="main" disableGutters maxWidth="xs">
       <div className={classes.paper}>
@@ -29,7 +49,44 @@ export default function VerifyEmailPage() {
           Verify e-mail
         </Typography>
         <MailIcon fontSize="large" />
-        <Typography>Please verify your e-mail to complete signup.</Typography>
+        {email || atob(emailInBase64)}
+        <Formik
+          initialValues={{ loginCode: '' }}
+          onSubmit={(values) => {
+            console.log(email, emailInBase64, values.loginCode);
+            Axios.post<ServerTokenResponse>(
+              '/user/oauth/token',
+              {
+                grant_type: 'client_credentials',
+              },
+              {
+                headers: { authorization: `Email ${btoa((email || atob(emailInBase64)) + ':' + values.loginCode)}` },
+              },
+            ).then((res) => {
+              TokenStorage.storeTokens(res.data);
+              onSuccess();
+            });
+          }}
+        >
+          {({ values, isSubmitting, submitForm }) => (
+            <>
+              <Field
+                component={TextField}
+                fullWidth
+                id="loginCode"
+                label="code"
+                margin="normal"
+                multiline
+                name="loginCode"
+                required
+                variant="outlined"
+              />
+              <Button disabled={isSubmitting} onClick={submitForm} type="submit" variant="contained">
+                Submit
+              </Button>
+            </>
+          )}
+        </Formik>
       </div>
     </Container>
   );

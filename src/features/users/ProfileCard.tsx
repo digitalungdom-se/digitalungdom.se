@@ -1,16 +1,19 @@
 import * as Yup from 'yup';
 
-import { Button, CardContent, Link, Typography } from '@material-ui/core';
 import { Form, Formik, FormikHelpers } from 'formik';
 import ProfileContent, { ProfileContentProps } from './ProfileContent';
 import React, { useState } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import EditableProfileContent from './EditableProfileContent';
+import Link from '@material-ui/core/Link';
 import { Link as RouterLink } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
 
 interface StyleProps {
   backgroundColor: string;

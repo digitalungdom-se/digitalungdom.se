@@ -2,7 +2,7 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import { EditableProfileContentProps } from './ProfileContent';
 import { Field } from 'formik';
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import { TextField } from 'formik-material-ui';
 

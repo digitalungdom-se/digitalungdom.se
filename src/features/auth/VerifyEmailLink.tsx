@@ -1,3 +1,5 @@
+import { ServerTokenResponse, TokenStorage } from 'tokenInterceptor';
+
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import Avatar from '@material-ui/core/Avatar';
@@ -7,11 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import { authorize } from './authSlice';
 import { makeStyles } from '@material-ui/core/styles';
-import { setMe } from 'features/users/usersSlice';
 import useAxios from 'axios-hooks';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -68,22 +67,23 @@ export function VerifyEmailLink({ data, error, loading }: VerifyEmailLinkProps):
   );
 }
 
+interface VerifyEmailLinkParams {
+  token?: string;
+}
+
 export default function (): React.ReactElement {
-  const { token } = useParams();
+  const { token } = useParams<VerifyEmailLinkParams>();
 
-  const [{ data, loading, error }] = useAxios({
+  const [{ data, loading, error }] = useAxios<ServerTokenResponse>({
     data: {
-      token,
+      grant_type: 'client_credentials',
     },
+    headers: { authorization: `Email ${token}` },
     method: 'POST',
-    url: '/api/user/verify',
+    url: '/user/oauth/token',
   });
-
-  const dispatch = useDispatch();
-
-  if (Boolean(data)) {
-    dispatch(authorize(data));
-    dispatch(setMe(data));
+  if (data) {
+    TokenStorage.storeTokens(data);
   }
 
   return <VerifyEmailLink data={data} error={error} loading={loading} />;

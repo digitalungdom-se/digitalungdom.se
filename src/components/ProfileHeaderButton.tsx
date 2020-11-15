@@ -63,16 +63,16 @@ const StyledMenu = withStyles(({ spacing, palette }) => ({
 ));
 
 export interface ProfileHeaderButtonProps {
-  name: string;
+  firstName: string;
   logout: () => void;
   username: string;
 }
 
 export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JSX.Element {
-  const { name, logout, username } = props;
+  const { firstName, logout, username } = props;
 
-  const splittedName = name.split(' ');
-  const firstName = splittedName[0];
+  // const splittedName = name.split(' ');
+  // const firstName = splittedName[0];
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const classes = useStyles({ open: Boolean(anchorEl) });

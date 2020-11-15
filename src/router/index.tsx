@@ -3,6 +3,7 @@ import { Route, Switch, useHistory } from 'react-router-dom';
 import Loading from 'components/Loading';
 import React from 'react';
 import UserPage from 'features/users';
+import VerifyEmailPage from 'features/auth/VerifyEmailPage';
 
 const Agora = React.lazy(() => import('features/agora'));
 const AgoraPost = React.lazy(() => import('features/agora/AgoraPost'));
@@ -11,7 +12,7 @@ const About = React.lazy(() => import('pages/About'));
 const Login = React.lazy(() => import('features/auth/Login'));
 const Register = React.lazy(() => import('features/auth/Register'));
 const Startpage = React.lazy(() => import('pages/Startpage'));
-const VerifyEmailLink = React.lazy(() => import('features/auth/VerifyEmailLink'));
+// const VerifyEmailLink = React.lazy(() => import('features/auth/VerifyEmailLink'));
 const Settings = React.lazy(() => import('features/settings'));
 
 function Router(): React.ReactElement {
@@ -20,15 +21,18 @@ function Router(): React.ReactElement {
     <React.Suspense fallback={<Loading />}>
       <Switch>
         <Route path="/logga-in">
-          <Login onSuccess={(): void => history.push('/')} />
+          <Login onSuccess={(email): void => history.push('/verify/' + btoa(email))} />
+        </Route>
+        <Route path="/verify/:emailInBase64">
+          <VerifyEmailPage onSuccess={(): void => history.push('/')} />
         </Route>
         <Route path="/bli-medlem">
-          <Register onSuccess={(): void => history.push('/')} />
+          <Register onSuccess={(email): void => history.push('/verify/' + btoa(email))} />
         </Route>
         <Route path="/@:username" render={({ match }) => <UserPage username={match.params.username} />} />
-        <Route path="/verify/:token">
+        {/* <Route path="/login/:token">
           <VerifyEmailLink />
-        </Route>
+        </Route> */}
         <Route path="/agora/:hypagora/:shortID/comments">
           <AgoraPost />
         </Route>

@@ -1,14 +1,13 @@
 import { ConnectedProps, connect } from 'react-redux';
 
+import { AgoraInfiniteScroll } from 'features/agora';
 import { Agoragram } from 'features/agora/agoraTypes';
 import Axios from 'axios';
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import { ProfileCard } from './ProfileCard';
 import React from 'react';
-import { ReduxConnectedPost } from 'features/agora/AgoraPost';
 import { RootState } from 'app/store';
 import { User } from './userTypes';
-import { getAgoragramsSuccess } from 'features/agora/agoraSlice';
 import { getUsersSuccess } from './usersSlice';
 import { selectMyId } from 'features/auth/authSlice';
 
@@ -19,11 +18,7 @@ interface ProfilePageState {
   agoragrams: Agoragram[];
 }
 
-interface ServerResponse {
-  user: User;
-  users: User[];
-  agoragrams: Agoragram[];
-}
+type ServerResponse = User;
 
 const mapState = (state: RootState) => ({
   myId: selectMyId(state),
@@ -31,7 +26,6 @@ const mapState = (state: RootState) => ({
 
 const mapDispatch = {
   getUsersSuccess,
-  getAgoragramsSuccess,
 };
 
 const connector = connect(mapState, mapDispatch);
@@ -55,7 +49,7 @@ class ProfilePage extends React.Component<ProfilePageProps, ProfilePageState> {
 
   componentDidMount() {
     this.setState({ loading: true });
-    Axios.get<ServerResponse>('/api/agora/get/user', {
+    Axios.get<ServerResponse>('/user', {
       params: {
         dateAfter: '0',
         dateBefore: 'ffffffff',
@@ -64,28 +58,26 @@ class ProfilePage extends React.Component<ProfilePageProps, ProfilePageState> {
       },
     })
       .then((res) => {
-        this.props.getUsersSuccess(res.data.users);
-        this.props.getAgoragramsSuccess(res.data);
+        this.props.getUsersSuccess([res.data]);
         this.setState({
-          agoragrams: res.data.agoragrams,
-          user: res.data.user,
+          user: res.data,
         });
       })
       .catch((err) => this.setState({ error: true }));
   }
 
   render() {
-    const { user, agoragrams } = this.state;
+    const { user } = this.state;
     if (user == null) return <div>Loading</div>;
     return (
       <Grid container justify="center">
         <Grid item md={3} sm={8} xs={12}>
           <ProfileCard
-            bio={user.profile.bio}
-            firstName={user.details.name.split(' ')[0]}
+            // bio={user.profile.bio}
+            firstName={user.details.firstName}
             isOwner={this.props.myId === user._id}
             joinDate={new Date(parseInt(user._id.substring(0, 8), 16) * 1000)}
-            lastName={user.details.name.split(' ')[1]}
+            lastName={user.details.lastName}
             onSubmit={(values, { setSubmitting }): void => {
               const array: Array<[string, Record<string, unknown>]> = [];
               for (const [key, value] of Object.entries(values)) {
@@ -106,15 +98,13 @@ class ProfilePage extends React.Component<ProfilePageProps, ProfilePageState> {
                 });
               });
             }}
-            status={user.profile.status}
-            url={user.profile.url}
+            // status={user.profile.status}
+            // url={user.profile.url}
             username={user.details.username}
           />
         </Grid>
         <Grid item md={6}>
-          {agoragrams.map(({ _id }: Agoragram) => (
-            <ReduxConnectedPost _id={_id} key={_id} longPostIsFadedOut />
-          ))}
+          <AgoraInfiniteScroll authorID={user._id} />
         </Grid>
       </Grid>
     );

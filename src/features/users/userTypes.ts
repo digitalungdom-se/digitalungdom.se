@@ -5,8 +5,15 @@ export interface User {
 }
 
 export interface Details {
-  name: string;
+  firstName: string;
+  lastName: string;
   username: string;
+  birthdate: Date;
+  email: {
+    raw: string;
+    normalised: string;
+  };
+  gender: 'MALE' | 'FEMALE' | 'OTHER' | 'UNDISCLOSED';
 }
 
 export interface Profile {
