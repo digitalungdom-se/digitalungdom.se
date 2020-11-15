@@ -1,7 +1,9 @@
 export interface User {
   _id: string;
   details: Details;
-  profile: Profile;
+  agora: {
+    profile: Profile;
+  };
 }
 
 export interface Details {

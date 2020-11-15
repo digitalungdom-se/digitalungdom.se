@@ -1,4 +1,5 @@
 import { ConnectedProps, connect } from 'react-redux';
+import { getUsersSuccess, selectMyProfile } from './usersSlice';
 
 import { AgoraInfiniteScroll } from 'features/agora';
 import { Agoragram } from 'features/agora/agoraTypes';
@@ -8,8 +9,6 @@ import { ProfileCard } from './ProfileCard';
 import React from 'react';
 import { RootState } from 'app/store';
 import { User } from './userTypes';
-import { getUsersSuccess } from './usersSlice';
-import { selectMyId } from 'features/auth/authSlice';
 
 interface ProfilePageState {
   loading: boolean;
@@ -21,7 +20,7 @@ interface ProfilePageState {
 type ServerResponse = User;
 
 const mapState = (state: RootState) => ({
-  myId: selectMyId(state),
+  myProfile: selectMyProfile(state),
 });
 
 const mapDispatch = {
@@ -73,37 +72,41 @@ class ProfilePage extends React.Component<ProfilePageProps, ProfilePageState> {
       <Grid container justify="center">
         <Grid item md={3} sm={8} xs={12}>
           <ProfileCard
-            // bio={user.profile.bio}
+            bio={user.agora.profile?.bio}
             firstName={user.details.firstName}
-            isOwner={this.props.myId === user._id}
+            isOwner={this.props.myProfile?._id === user._id}
             joinDate={new Date(parseInt(user._id.substring(0, 8), 16) * 1000)}
             lastName={user.details.lastName}
             onSubmit={(values, { setSubmitting }): void => {
-              const array: Array<[string, Record<string, unknown>]> = [];
-              for (const [key, value] of Object.entries(values)) {
-                array.push(['profile.' + key, { [key]: value }]);
-              }
-              Axios.put('/api/user/set', {
-                updates: array,
+              // const array: Array<[string, Record<string, unknown>]> = [];
+              // for (const [key, value] of Object.entries(values)) {
+              //   array.push(['profile.' + key, { [key]: value }]);
+              // }
+              Axios.put('/user/@me', {
+                profileBio: values.bio,
+                profileStatus: values.status,
+                profileUrl: values.url,
               }).then((res) => {
                 setSubmitting(false);
                 this.setState({
                   user: {
                     ...user,
-                    profile: {
-                      ...user.profile,
-                      ...values,
+                    agora: {
+                      profile: {
+                        ...user.agora.profile,
+                        ...values,
+                      },
                     },
                   },
                 });
               });
             }}
-            // status={user.profile.status}
-            // url={user.profile.url}
+            status={user.agora.profile?.status}
+            url={user.agora.profile?.url}
             username={user.details.username}
           />
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={6} sm={8} xs={11}>
           <AgoraInfiniteScroll authorID={user._id} />
         </Grid>
       </Grid>

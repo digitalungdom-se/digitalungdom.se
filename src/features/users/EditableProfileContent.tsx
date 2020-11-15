@@ -24,12 +24,14 @@ function EditableProfileContent({ bio, url, status }: EditableProfileContentProp
   return (
     <Grid className={classes.grid} spacing={4}>
       <Grid className={classes.field} item>
-        <Field component={TextField} name="status" placeholder="Status" variant="outlined" />
+        <Field component={TextField} fullWidth label="Status" name="status" placeholder="Status" variant="outlined" />
       </Grid>
       <Grid className={classes.field} item>
         <Field
           className={classes.field}
           component={TextField}
+          fullWidth
+          label="Biography"
           multiline
           name="bio"
           placeholder="Biography"
@@ -37,7 +39,15 @@ function EditableProfileContent({ bio, url, status }: EditableProfileContentProp
         />
       </Grid>
       <Grid className={classes.field} item>
-        <Field className={classes.field} component={TextField} name="url" placeholder="Link" variant="outlined" />
+        <Field
+          className={classes.field}
+          component={TextField}
+          fullWidth
+          label="Link"
+          name="url"
+          placeholder="https://example.com"
+          variant="outlined"
+        />
       </Grid>
     </Grid>
   );
