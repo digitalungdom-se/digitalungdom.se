@@ -1,6 +1,6 @@
 import { Field, Formik } from 'formik';
 
-import { Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import MailIcon from '@material-ui/icons/Mail';
 import React from 'react';
