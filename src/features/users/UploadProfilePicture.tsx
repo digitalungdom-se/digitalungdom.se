@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import ReactCrop from 'react-image-crop';
 
 interface UploadProfilePictureProps {
-  onSubmit: (croppedImageUrl?: string) => Promise<void>;
+  onSubmit: (blob: Blob) => Promise<void>;
 }
 
 interface UploadProfilePictureState {
@@ -63,7 +63,7 @@ export default class UploadProfilePicture extends PureComponent<UploadProfilePic
   };
 
   onCropComplete = (crop: ReactCrop.Crop): void => {
-    this.makeClientCrop(crop);
+    // this.makeClientCrop(crop);
   };
 
   onCropChange = (crop: ReactCrop.Crop): void => {
@@ -72,14 +72,14 @@ export default class UploadProfilePicture extends PureComponent<UploadProfilePic
     this.setState({ crop });
   };
 
-  async makeClientCrop(crop: ReactCrop.Crop) {
-    if (this.imageRef && crop.width && crop.height) {
-      const croppedImageUrl = await this.getCroppedImg(this.imageRef, crop);
-      this.setState({ croppedImageUrl });
-    }
-  }
+  // async makeClientCrop(crop: ReactCrop.Crop) {
+  //   if (this.imageRef && crop.width && crop.height) {
+  //     const croppedImageUrl = await this.getCroppedImg(this.imageRef, crop);
+  //     this.setState({ croppedImageUrl });
+  //   }
+  // }
 
-  getCroppedImg(image: any, crop: ReactCrop.Crop): Promise<string> | undefined {
+  getCroppedImg(image: any, crop: ReactCrop.Crop): Promise<Blob> {
     if (crop.x !== undefined && crop.y !== undefined && crop.width !== undefined && crop.height !== undefined) {
       const canvas = document.createElement('canvas');
       const scaleX = image.naturalWidth / image.width;
@@ -108,16 +108,16 @@ export default class UploadProfilePicture extends PureComponent<UploadProfilePic
             return;
           }
           // blob.name = fileName;
-          window.URL.revokeObjectURL(this.fileUrl);
-          this.fileUrl = window.URL.createObjectURL(blob);
-          resolve(this.fileUrl);
+          // window.URL.revokeObjectURL(this.fileUrl);
+          // this.fileUrl = window.URL.createObjectURL(blob);
+          resolve(blob);
         }, 'image/png');
       });
-    }
+    } else return new Promise((res, err) => err());
   }
 
   render(): React.ReactElement {
-    const { submitting, crop, croppedImageUrl, src } = this.state;
+    const { submitting, crop, src } = this.state;
 
     return (
       <>
@@ -161,9 +161,11 @@ export default class UploadProfilePicture extends PureComponent<UploadProfilePic
               onClick={(): void => {
                 if (this.props.onSubmit) {
                   this.setState({ submitting: true });
-                  this.props.onSubmit(croppedImageUrl).then(() => {
-                    this.setState({ src: '' });
-                    this.setState({ submitting: false });
+                  this.getCroppedImg(this.imageRef, crop).then((blob) => {
+                    this.props.onSubmit(blob).then(() => {
+                      this.setState({ src: '' });
+                      this.setState({ submitting: false });
+                    });
                   });
                 }
               }}

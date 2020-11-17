@@ -42,6 +42,7 @@ interface AgoragramLoadedComponentProps
   handleReport?: () => void;
   isAuthor?: boolean;
   longPostIsFadedOut?: boolean;
+  avatarSrc?: string;
 }
 
 interface AgoragramLoadingComponentProps extends Partial<Omit<AgoragramLoadedComponentProps, 'loading'>> {

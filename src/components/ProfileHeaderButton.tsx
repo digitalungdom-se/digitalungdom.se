@@ -66,10 +66,11 @@ export interface ProfileHeaderButtonProps {
   firstName: string;
   logout: () => void;
   username: string;
+  avatarSrc?: string;
 }
 
 export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JSX.Element {
-  const { firstName, logout, username } = props;
+  const { firstName, logout, username, avatarSrc } = props;
 
   // const splittedName = name.split(' ');
   // const firstName = splittedName[0];
@@ -96,9 +97,7 @@ export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JS
         size="large"
         variant="outlined"
       >
-        <Avatar className={classes.avatar}>
-          <PersonIcon fontSize="small" />
-        </Avatar>
+        <Avatar className={classes.avatar} src={avatarSrc} />
         {firstName}
       </Button>
       <StyledMenu anchorEl={anchorEl} id="customized-menu" keepMounted onClose={handleClose} open={Boolean(anchorEl)}>

@@ -108,7 +108,7 @@ axios.interceptors.request.use((request) => {
       if (request.url === '/user/oauth/token') return resolve(request);
       if (TokenStorage.isUpdatingToken() === false)
         TokenStorage.getNewToken().then(() => {
-          request.headers['Authentication'] = TokenStorage.getAuthenticationBearer();
+          request.headers['Authorization'] = TokenStorage.getAuthenticationBearer();
           return resolve(request);
         });
     }

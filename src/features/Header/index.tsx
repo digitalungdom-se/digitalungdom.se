@@ -52,6 +52,7 @@ const ConnectedProfileHeaderButton = () => {
 
   return (
     <ProfileHeaderButton
+      avatarSrc={`/user/${myProfile?._id}/profile_picture?size=40`}
       firstName={myProfile?.details.firstName || ''}
       logout={() => TokenStorage.clear()}
       username={myProfile?.details.username || ''}
@@ -64,7 +65,7 @@ const links = ['/about', '/agora'];
 function Header(): JSX.Element {
   const classes = useStyles();
   const authenticated = useSelector(selectAuthenticated);
-  const { pathname, ...rest } = useLocation();
+  const { pathname } = useLocation();
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -73,7 +74,6 @@ function Header(): JSX.Element {
   };
 
   const labels = ['About us', 'Agora'];
-  console.log(rest);
 
   return (
     <AppBar className={classes.root} color="inherit" position="sticky">

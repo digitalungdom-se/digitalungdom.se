@@ -67,6 +67,7 @@ export const ReduxConnectedPost = ({
     <Post
       {...props}
       author={<UserLink details={props.author?.details} />}
+      avatarSrc={`/user/${props.author?._id}/profile_picture?size=100`}
       handleDelete={() => {
         Axios.delete(`/agoragram/${_id}`).then((res) => {
           dispatch(

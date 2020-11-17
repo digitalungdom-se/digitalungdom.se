@@ -103,6 +103,7 @@ class ProfilePage extends React.Component<ProfilePageProps, ProfilePageState> {
             }}
             status={user.agora.profile?.status}
             url={user.agora.profile?.url}
+            userID={user._id}
             username={user.details.username}
           />
         </Grid>

@@ -105,6 +105,7 @@ export default function Post({
   modified,
   tags = [],
   longPostIsFadedOut,
+  avatarSrc,
 }: AgoragramComponentProps): React.ReactElement {
   const classes = useStyles();
 
@@ -115,7 +116,7 @@ export default function Post({
       <CardHeader
         avatar={
           !loading ? (
-            <Avatar />
+            <Avatar src={avatarSrc} />
           ) : (
             <Skeleton variant="circle">
               <Avatar />
