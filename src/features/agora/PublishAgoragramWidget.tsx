@@ -18,16 +18,13 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.primary.contrastText,
       fontWeight: theme.typography.fontWeightBold,
     },
-    root: {
-      marginTop: theme.spacing(2),
-    },
   }),
 );
 
 const PublishAgoragramWidget = (): React.ReactElement => {
   const classes = useStyles();
   return (
-    <Card className={classes.root}>
+    <Card>
       <CardHeader
         className={classes.header}
         title={

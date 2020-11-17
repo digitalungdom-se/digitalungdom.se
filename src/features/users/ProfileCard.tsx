@@ -30,16 +30,12 @@ const useStyles = makeStyles((theme: Theme) =>
       width: theme.spacing(8),
     },
     content: {
-      minWidth: theme.spacing(34),
       padding: theme.spacing(0, 2, 6, 2),
     },
     header: (props: StyleProps) => ({
       backgroundColor: props.backgroundColor,
       height: theme.spacing(8),
     }),
-    root: {
-      minWidth: theme.spacing(30),
-    },
     uploadPicture: {
       marginTop: theme.spacing(1),
     },
@@ -85,7 +81,7 @@ export function ProfileCard({
   const theme = useTheme();
 
   return (
-    <Card className={classes.root}>
+    <Card>
       <CardHeader className={classes.header} />
       <CardContent className={classes.content}>
         <ProfileAvatar className={classes.avatar} userID={userID} width={theme.spacing(8)} />

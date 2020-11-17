@@ -17,7 +17,6 @@ import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      marginTop: theme.spacing(2),
       padding: theme.spacing(2),
     },
     button: {

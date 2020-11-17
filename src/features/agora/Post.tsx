@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
     },
     root: {
-      marginTop: theme.spacing(2),
+      '& + &': { marginTop: theme.spacing(2) },
     },
     starButton: {
       fontSize: theme.spacing(4),

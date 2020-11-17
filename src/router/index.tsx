@@ -35,10 +35,14 @@ function Router(): React.ReactElement {
           <VerifyEmailLink />
         </Route> */}
         <Route path="/agora/:hypagora/:shortID/comments">
-          <AgoraPost />
+          <div style={{ marginTop: 24 }}>
+            <AgoraPost />
+          </div>
         </Route>
         <Route path="/agora/:hypagora?/submit">
-          <AgoraSubmit />
+          <div style={{ marginTop: 24 }}>
+            <AgoraSubmit />
+          </div>
         </Route>
         <Route path="/agora/:hypagora?/:sort?/:dateAfter?/:dateBefore?">
           <Agora />

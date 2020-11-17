@@ -69,48 +69,50 @@ class ProfilePage extends React.Component<ProfilePageProps, ProfilePageState> {
     const { user } = this.state;
     if (user == null) return <div>Loading</div>;
     return (
-      <Grid container justify="center">
-        <Grid item md={3} sm={8} xs={12}>
-          <ProfileCard
-            bio={user.agora.profile?.bio}
-            firstName={user.details.firstName}
-            isOwner={this.props.myProfile?._id === user._id}
-            joinDate={new Date(parseInt(user._id.substring(0, 8), 16) * 1000)}
-            lastName={user.details.lastName}
-            onSubmit={(values, { setSubmitting }): void => {
-              // const array: Array<[string, Record<string, unknown>]> = [];
-              // for (const [key, value] of Object.entries(values)) {
-              //   array.push(['profile.' + key, { [key]: value }]);
-              // }
-              Axios.put('/user/@me', {
-                profileBio: values.bio,
-                profileStatus: values.status,
-                profileUrl: values.url,
-              }).then((res) => {
-                setSubmitting(false);
-                this.setState({
-                  user: {
-                    ...user,
-                    agora: {
-                      profile: {
-                        ...user.agora.profile,
-                        ...values,
+      <div style={{ padding: 16, paddingTop: 32 }}>
+        <Grid container justify="center" spacing={4}>
+          <Grid item md={3} sm={8} xs={12}>
+            <ProfileCard
+              bio={user.agora.profile?.bio}
+              firstName={user.details.firstName}
+              isOwner={this.props.myProfile?._id === user._id}
+              joinDate={new Date(parseInt(user._id.substring(0, 8), 16) * 1000)}
+              lastName={user.details.lastName}
+              onSubmit={(values, { setSubmitting }): void => {
+                // const array: Array<[string, Record<string, unknown>]> = [];
+                // for (const [key, value] of Object.entries(values)) {
+                //   array.push(['profile.' + key, { [key]: value }]);
+                // }
+                Axios.put('/user/@me', {
+                  profileBio: values.bio,
+                  profileStatus: values.status,
+                  profileUrl: values.url,
+                }).then((res) => {
+                  setSubmitting(false);
+                  this.setState({
+                    user: {
+                      ...user,
+                      agora: {
+                        profile: {
+                          ...user.agora.profile,
+                          ...values,
+                        },
                       },
                     },
-                  },
+                  });
                 });
-              });
-            }}
-            status={user.agora.profile?.status}
-            url={user.agora.profile?.url}
-            userID={user._id}
-            username={user.details.username}
-          />
+              }}
+              status={user.agora.profile?.status}
+              url={user.agora.profile?.url}
+              userID={user._id}
+              username={user.details.username}
+            />
+          </Grid>
+          <Grid item md={6} sm={8} xs={11}>
+            <AgoraInfiniteScroll authorID={user._id} />
+          </Grid>
         </Grid>
-        <Grid item md={6} sm={8} xs={11}>
-          <AgoraInfiniteScroll authorID={user._id} />
-        </Grid>
-      </Grid>
+      </div>
     );
   }
 }

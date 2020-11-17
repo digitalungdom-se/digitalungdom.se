@@ -17,11 +17,15 @@ import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    margin: {
+      marginTop: theme.spacing(2),
+    },
     root: {
       marginTop: theme.spacing(2),
     },
     widget: {
       marginLeft: theme.spacing(2),
+      marginTop: theme.spacing(2),
       float: 'left',
     },
   }),
@@ -42,7 +46,7 @@ export default function Agora(): React.ReactElement {
         <AgoraFilter hypagora={hypagora} path="/agora" sort={sort} />
       </div>
       <div style={{ display: 'flex' }}>
-        <Box flexGrow={1} style={{ overflow: 'auto', padding: '0 2px 2px 2px' }}>
+        <Box className={classes.margin} flexGrow={1} style={{ overflow: 'auto', padding: '0 2px 2px 2px' }}>
           <Hidden mdUp>
             <PublishAgoragramWidget />
           </Hidden>
