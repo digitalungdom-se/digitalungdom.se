@@ -11,9 +11,11 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import EditableProfileContent from './EditableProfileContent';
+import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
+import UploadProfilePicture from './UploadProfilePicture';
 
 interface StyleProps {
   backgroundColor: string;
@@ -36,6 +38,9 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
     root: {
       minWidth: theme.spacing(30),
+    },
+    uploadPicture: {
+      marginTop: theme.spacing(1),
     },
   }),
 );
@@ -122,6 +127,11 @@ export function ProfileCard({
             </Form>
           )}
         </Formik>
+        {isOwner && (
+          <Grid className={classes.uploadPicture} item>
+            <UploadProfilePicture />
+          </Grid>
+        )}
       </CardContent>
     </Card>
   );

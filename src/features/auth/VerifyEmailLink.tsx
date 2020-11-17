@@ -1,5 +1,3 @@
-import { ServerTokenResponse, TokenStorage } from 'tokenInterceptor';
-
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import Avatar from '@material-ui/core/Avatar';
@@ -10,8 +8,6 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import { makeStyles } from '@material-ui/core/styles';
-import useAxios from 'axios-hooks';
-import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -37,7 +33,7 @@ export interface VerifyEmailLinkProps {
   data?: any;
 }
 
-export function VerifyEmailLink({ data, error, loading }: VerifyEmailLinkProps): React.ReactElement {
+export default function VerifyEmailLink({ data, error, loading }: VerifyEmailLinkProps): React.ReactElement {
   const classes = useStyles();
 
   return (
@@ -69,22 +65,4 @@ export function VerifyEmailLink({ data, error, loading }: VerifyEmailLinkProps):
 
 interface VerifyEmailLinkParams {
   token?: string;
-}
-
-export default function (): React.ReactElement {
-  const { token } = useParams<VerifyEmailLinkParams>();
-
-  const [{ data, loading, error }] = useAxios<ServerTokenResponse>({
-    data: {
-      grant_type: 'client_credentials',
-    },
-    headers: { authorization: `Email ${token}` },
-    method: 'POST',
-    url: '/user/oauth/token',
-  });
-  if (data) {
-    TokenStorage.storeTokens(data);
-  }
-
-  return <VerifyEmailLink data={data} error={error} loading={loading} />;
 }

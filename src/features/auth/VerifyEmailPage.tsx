@@ -1,7 +1,5 @@
 import { Field, Formik } from 'formik';
-import { ServerTokenResponse, TokenStorage } from 'tokenInterceptor';
 
-import Axios from 'axios';
 import { Button } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import MailIcon from '@material-ui/icons/Mail';
@@ -29,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface VerifyEmailPageProps {
   email?: string;
-  onSuccess?: Function;
+  onSubmit: (email: string, loginCode: string) => void;
 }
 
 interface VerifyEmailPageParams {
@@ -38,7 +36,7 @@ interface VerifyEmailPageParams {
 
 export default function VerifyEmailPage({
   email,
-  onSuccess = (): void => {},
+  onSubmit = (): void => {},
 }: VerifyEmailPageProps): React.ReactElement {
   const classes = useStyles();
   const { emailInBase64 } = useParams<VerifyEmailPageParams>();
@@ -53,19 +51,7 @@ export default function VerifyEmailPage({
         <Formik
           initialValues={{ loginCode: '' }}
           onSubmit={(values) => {
-            console.log(email, emailInBase64, values.loginCode);
-            Axios.post<ServerTokenResponse>(
-              '/user/oauth/token',
-              {
-                grant_type: 'client_credentials',
-              },
-              {
-                headers: { authorization: `Email ${btoa((email || atob(emailInBase64)) + ':' + values.loginCode)}` },
-              },
-            ).then((res) => {
-              TokenStorage.storeTokens(res.data);
-              onSuccess();
-            });
+            onSubmit(email || btoa(emailInBase64), values.loginCode);
           }}
         >
           {({ values, isSubmitting, submitForm }) => (

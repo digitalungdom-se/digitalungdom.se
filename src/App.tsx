@@ -1,4 +1,4 @@
-import './tokenInterceptor';
+import 'utils/tokenInterceptor';
 
 import AuthDialogProvider from 'features/auth/AuthDialogProvider';
 import AuthenticatedLayer from 'features/auth/AuthenticatedLayer';

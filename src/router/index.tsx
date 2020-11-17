@@ -4,6 +4,7 @@ import Loading from 'components/Loading';
 import React from 'react';
 import UserPage from 'features/users';
 import VerifyEmailPage from 'features/auth/VerifyEmailPage';
+import { loginWithCode } from 'features/auth/authApi';
 
 const Agora = React.lazy(() => import('features/agora'));
 const AgoraPost = React.lazy(() => import('features/agora/AgoraPost'));
@@ -24,7 +25,7 @@ function Router(): React.ReactElement {
           <Login onSuccess={(email): void => history.push('/verify/' + btoa(email))} />
         </Route>
         <Route path="/verify/:emailInBase64">
-          <VerifyEmailPage onSuccess={(): void => history.push('/')} />
+          <VerifyEmailPage onSubmit={(email, loginCode) => loginWithCode(email, loginCode, () => history.push('/'))} />
         </Route>
         <Route path="/bli-medlem">
           <Register onSuccess={(email): void => history.push('/verify/' + btoa(email))} />
