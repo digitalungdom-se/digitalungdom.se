@@ -37,7 +37,8 @@ export const Basic = (): React.ReactElement => (
 
 export const EditableProfile = (): React.ReactElement => {
   const [state, setState] = React.useState<ProfileState>({
-    bio: 'Studerar datateknik på KTH.\n20 år gammal.\nOrdförande för Digital Ungdom.',
+    bio:
+      'Studerar på Handelshögskolan i Stockholm. Pausat studier i datateknik vid KTH.\n20 år gammal.\nKassör för Digital Ungdom.',
     url: 'https://digitalungdom.se',
     status: 'Digital Ungdom!',
   });

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { ConnectedProps, connect } from 'react-redux';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import AgoraFilter from './AgoraFilter';
@@ -10,67 +10,35 @@ import Hidden from '@material-ui/core/Hidden';
 import InfiniteScroll from 'react-infinite-scroller';
 import Post from './Post';
 import PublishAgoragramWidget from './PublishAgoragramWidget';
+import React from 'react';
 import { ReduxConnectedPost } from './AgoraPost';
 import { getAgoragramsSuccess } from './agoraSlice';
-import { getUsersSuccess } from 'features/users/usersSlice';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    margin: {
+      marginTop: theme.spacing(2),
+    },
     root: {
       marginTop: theme.spacing(2),
     },
     widget: {
       marginLeft: theme.spacing(2),
+      marginTop: theme.spacing(2),
       float: 'left',
     },
   }),
 );
 
+interface AgoraParams {
+  hypagora?: string;
+  sort?: string;
+}
+
 export default function Agora(): React.ReactElement {
   const classes = useStyles();
-  const { hypagora, sort, dateAfter, dateBefore } = useParams();
-
-  const [data, setData] = useState<any>({
-    agoragrams: [],
-    hasMore: true,
-  });
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const dispatch = useDispatch();
-  const dispatchData = useCallback(
-    (data: any) => {
-      dispatch(getAgoragramsSuccess(data));
-      dispatch(getUsersSuccess(data.users));
-    },
-    [dispatch],
-  );
-
-  const fetchData = (changeLoading = true): void => {
-    if (changeLoading) setLoading(true);
-    Axios.get('/api/agora/get/agoragrams', {
-      params: {
-        dateAfter: dateAfter || '0',
-        dateBefore: Boolean(sort?.toUpperCase() !== 'TOP' && data.agoragrams.length && changeLoading === false)
-          ? (parseInt(data.agoragrams[data.agoragrams.length - 1]._id.substring(0, 8), 16) - 1).toString(16)
-          : dateBefore || 'ffffffff',
-        hypagora: hypagora === 'general' ? null : hypagora,
-        sort: sort ? sort.toUpperCase() : 'NEW',
-        topIndex: changeLoading === false ? data.agoragrams.length : 0,
-      },
-    }).then((res) => {
-      setData({
-        ...data,
-        agoragrams: changeLoading === false ? [...data.agoragrams, ...res.data.agoragrams] : res.data.agoragrams,
-        hasMore: Boolean(res.data.agoragrams.length),
-      });
-      dispatchData(res.data);
-      if (changeLoading) setLoading(false);
-    });
-  };
-
-  useEffect(fetchData, [dateAfter, dateBefore, hypagora, sort]);
+  const { hypagora, sort } = useParams<AgoraParams>();
 
   return (
     <Container className={classes.root} fixed maxWidth="md">
@@ -78,25 +46,11 @@ export default function Agora(): React.ReactElement {
         <AgoraFilter hypagora={hypagora} path="/agora" sort={sort} />
       </div>
       <div style={{ display: 'flex' }}>
-        <Box flexGrow={1} style={{ overflow: 'auto', padding: '0 2px 2px 2px' }}>
+        <Box className={classes.margin} flexGrow={1} style={{ overflow: 'auto', padding: '0 2px 2px 2px' }}>
           <Hidden mdUp>
             <PublishAgoragramWidget />
           </Hidden>
-          {loading ? (
-            <Post loading />
-          ) : (
-            <InfiniteScroll
-              hasMore={data.hasMore}
-              loader={<Post loading />}
-              loadMore={(): void => fetchData(false)}
-              pageStart={0}
-              threshold={300}
-            >
-              {data?.agoragrams.map(({ _id }: Agoragram) => (
-                <ReduxConnectedPost _id={_id} key={_id} longPostIsFadedOut />
-              ))}
-            </InfiniteScroll>
-          )}
+          <AgoraInfiniteScroll hypagora={hypagora} sort={sort} />
         </Box>
         <Hidden smDown>
           <Box className={classes.widget} maxWidth={300} minWidth={300} width={300}>
@@ -107,3 +61,91 @@ export default function Agora(): React.ReactElement {
     </Container>
   );
 }
+
+export interface AgoraInfiniteScrollState {
+  agoragrams: Agoragram[];
+  hasMore: boolean;
+  loading: boolean;
+  prevSort?: string;
+}
+
+const mapDispatch = {
+  getAgoragramsSuccess,
+};
+
+const connector = connect(null, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type AgoraInfiniteScrollProps = PropsFromRedux & {
+  sort?: string;
+  skip?: number;
+  limit?: number;
+  fromID?: string;
+  hypagora?: string;
+  authorID?: string;
+};
+
+class AIS extends React.Component<AgoraInfiniteScrollProps, AgoraInfiniteScrollState> {
+  constructor(props: AgoraInfiniteScrollProps) {
+    super(props);
+    this.state = {
+      agoragrams: [],
+      hasMore: true,
+      loading: true,
+      prevSort: props.sort,
+    };
+  }
+
+  getAgoragrams(changeLoading: boolean): void {
+    const { agoragrams, prevSort } = this.state;
+    const { sort, authorID } = this.props;
+    if (changeLoading) this.setState({ ...this.state, loading: true });
+    Axios.get<Agoragram[]>('/agoragram', {
+      params: {
+        authorID,
+        // hypagora: hypagora === undefined ? null : hypagora === 'general' ? 'GENERAL' : hypagora,
+        limit: 100,
+        skip: sort === prevSort ? agoragrams.length : 0,
+        sort: sort ? sort.toUpperCase() : 'NEW',
+      },
+    }).then((res) => {
+      this.setState({
+        agoragrams: changeLoading === false ? [...agoragrams, ...res.data] : res.data,
+        hasMore: res.data.length === 100,
+        loading: false,
+        prevSort: sort,
+      });
+      this.props.getAgoragramsSuccess(res.data);
+    });
+  }
+
+  componentDidMount() {
+    this.getAgoragrams(false);
+  }
+  componentDidUpdate() {
+    if (this.state.prevSort !== this.props.sort && this.state.loading === false) {
+      this.getAgoragrams(true);
+    }
+  }
+
+  render() {
+    const { hasMore, agoragrams, loading } = this.state;
+    if (loading) return <Post loading />;
+    return (
+      <InfiniteScroll
+        hasMore={hasMore}
+        loader={<Post key="loadingpost" loading />}
+        loadMore={(): void => this.getAgoragrams(false)}
+        pageStart={0}
+        threshold={300}
+      >
+        {agoragrams.map(({ _id }: Agoragram) => (
+          <ReduxConnectedPost _id={_id} key={_id} longPostIsFadedOut />
+        ))}
+      </InfiniteScroll>
+    );
+  }
+}
+
+export const AgoraInfiniteScroll = connector(AIS);

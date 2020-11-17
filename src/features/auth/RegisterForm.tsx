@@ -9,7 +9,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Axios from 'axios';
 import BirthdatePicker from './BirthdatePicker';
 import Button from '@material-ui/core/Button';
-import CheckEmailTextField from './CheckEmailTextField';
 import CheckUsernameTextField from './CheckUsernameTextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -24,7 +23,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import { TextField } from 'formik-material-ui';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -49,39 +47,24 @@ const useStyles = makeStyles((theme) => ({
 
 export const RegisterValidationSchema = Yup.object({
   birthdate: Yup.date().required('Required'),
-  /**
-   * New sources for confirmPassword:
-   * https://github.com/jaredpalmer/formik/issues/1401
-   * https://github.com/jquense/yup/issues/97
-   *
-   * Old source: https://codesandbox.io/s/l2r832l8x7
-   */
-  confirmPassword: Yup.string()
-    .required('Required')
-    .oneOf([Yup.ref('password')], "Passwords don't match"),
   email: Yup.string().email('Invalid email address').required('Required'),
   firstName: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
   gender: Yup.string().required('Required'),
   lastName: Yup.string().max(20, 'Must be 20 characters or less').required('Required'),
-  password: Yup.string().required('Required'),
   username: Yup.string().required('Required').min(3),
 });
 
 interface FormValues {
   birthdate: Date | null;
-  confirmPassword: string;
   email: string;
   firstName: string;
   gender: '' | 'male' | 'female' | 'other' | 'undisclosed';
   lastName: string;
-  password: string;
   username: string;
 }
 
 export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props }: RegisterProps): React.ReactElement {
   const classes = useStyles();
-
-  const { enqueueSnackbar } = useSnackbar();
 
   return (
     <div className={classes.paper}>
@@ -94,12 +77,10 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
       <Formik
         initialValues={{
           birthdate: null,
-          confirmPassword: '',
           email: '',
           firstName: '',
           gender: '',
           lastName: '',
-          password: '',
           username: '',
         }}
         onSubmit={(values: FormValues, { setErrors, setSubmitting }): void => {
@@ -107,25 +88,24 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
           if (values.birthdate !== null) {
             birthdate = values.birthdate.toISOString().substring(0, 10);
           }
-          Axios.post('/api/user/register', {
+          Axios.post('/user/register', {
             ...values,
             birthdate,
-            name: values.firstName + ' ' + values.lastName,
-            gender: ['male', 'female', 'other', 'undisclosed'].indexOf(values.gender),
           })
             .then((res) => {
               setSubmitting(false);
-              if (res.data) {
-                props.onSuccess();
-              }
+              Axios.post('/user/auth/email/send_code', { email: values.email })
+                .then(() => {
+                  setSubmitting(false);
+                  props.onSuccess(values.email);
+                })
+                .catch(() => {
+                  setSubmitting(false);
+                });
             })
             .catch((err) => {
+              setErrors({ email: 'EMAIL_TAKEN' });
               setSubmitting(false);
-              if (!err.status) {
-                enqueueSnackbar('Network error!', {
-                  variant: 'error',
-                });
-              }
             });
         }}
         validationSchema={RegisterValidationSchema}
@@ -173,7 +153,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
               <Grid item xs={12}>
                 <Field
                   autoComplete="email"
-                  component={CheckEmailTextField}
+                  component={TextField}
                   fullWidth
                   id="email"
                   label="Email Address"
@@ -184,13 +164,13 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
               </Grid>
               <Grid item xs={12}>
                 <BirthdatePicker
-                  KeyboardButtonProps={{
-                    'aria-label': 'change birthdate',
-                  }}
                   disabled={isSubmitting}
                   fullWidth
                   id="birthdate"
                   inputVariant="outlined"
+                  KeyboardButtonProps={{
+                    'aria-label': 'change birthdate',
+                  }}
                   label="Birthdate"
                   onChange={(value): void => setFieldValue('birthdate', value)}
                   required
@@ -207,37 +187,11 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
                   select // make this field into a select
                   variant="outlined"
                 >
-                  <MenuItem value="male">Male</MenuItem>
-                  <MenuItem value="female">Female</MenuItem>
-                  <MenuItem value="other">Other</MenuItem>
-                  <MenuItem value="undisclosed">Undisclosed</MenuItem>
+                  <MenuItem value="MALE">Male</MenuItem>
+                  <MenuItem value="FEMALE">Female</MenuItem>
+                  <MenuItem value="OTHER">Other</MenuItem>
+                  <MenuItem value="UNDISCLOSED">Undisclosed</MenuItem>
                 </Field>
-              </Grid>
-              <Grid item xs={12}>
-                <Field
-                  autoComplete="current-password"
-                  component={TextField}
-                  fullWidth
-                  id="password"
-                  label="Password"
-                  name="password"
-                  required
-                  type="password"
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Field
-                  autoComplete="confirmPassword"
-                  component={TextField}
-                  fullWidth
-                  id="confirmPassword"
-                  label="Confirm password"
-                  name="confirmPassword"
-                  required
-                  type="password"
-                  variant="outlined"
-                />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel

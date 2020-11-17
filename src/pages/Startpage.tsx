@@ -1,11 +1,13 @@
-import { Button, Grid, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
 
 const CenterWrapper: React.FC = ({ children }) => (
   <Grid container justify="center">
-    <Grid item justify="center" xs={10}>
+    <Grid container item justify="center" xs={10}>
       {children}
     </Grid>
   </Grid>
@@ -29,7 +31,7 @@ export default function Startpage() {
   // const buttonSize = windowWidth > 400 ? 16 : 10;
 
   return (
-    <Grid item justify="space-between">
+    <Grid container item justify="space-between">
       <Grid container style={{ background: '#05379c', paddingTop: 60, paddingBottom: 50, width: '100%' }}>
         <CenterWrapper>
           <Grid alignItems="center" container justify="space-between">
@@ -132,7 +134,7 @@ export default function Startpage() {
 
       <Grid container justify="center" style={{ flex: 1 }}>
         <Grid container justify="center" style={{ paddingTop: 140, paddingBottom: 80 }}>
-          <Grid item justify="center" md={3} xs={7}>
+          <Grid container item justify="center" md={3} xs={7}>
             <div>
               <img
                 alt="underConstruction"
@@ -142,7 +144,7 @@ export default function Startpage() {
             </div>
           </Grid>
 
-          <Grid item justify="center" lg={4} md={4} sm={8} xs={9}>
+          <Grid container item justify="center" lg={4} md={4} sm={8} xs={9}>
             <Typography
               gutterBottom
               variant="h4"

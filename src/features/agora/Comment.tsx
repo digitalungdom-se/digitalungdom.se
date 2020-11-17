@@ -17,7 +17,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Moment from 'react-moment';
 import RenderMarkdown from 'components/RenderMarkdown';
 import ReplyIcon from '@material-ui/icons/Reply';
-import ReportIcon from '@material-ui/icons/Report';
 import StarButton from 'components/StarButton';
 import clsx from 'clsx';
 
@@ -102,7 +101,7 @@ function Comment({
   handleReport = () => {},
   level = 0,
   loading,
-  isStarred,
+  starred,
 }: CommentProps): React.ReactElement {
   const classes = useStyles(level);
   const [expanded, setExpanded] = React.useState<boolean>(folded);
@@ -132,7 +131,7 @@ function Comment({
               fontSize="small"
               handleStarring={handleStarring}
               icon
-              isStarred={isStarred}
+              isStarred={starred}
             />
             <ButtonBase className={clsx(classes.divider, classes.dividerLevel)} onClick={handleExpanded}>
               <Divider flexItem orientation="vertical" />
@@ -176,10 +175,6 @@ function Comment({
               <Button className={classes.action} onClick={handleReplyField} size="small">
                 <ReplyIcon fontSize="inherit" />
                 Reply
-              </Button>
-              <Button className={classes.action} onClick={handleReport} size="small">
-                <ReportIcon fontSize="inherit" />
-                Report
               </Button>
               {isAuthor && (
                 <>

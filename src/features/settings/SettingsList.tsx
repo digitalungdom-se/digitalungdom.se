@@ -5,7 +5,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import { Paper } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
 import PersonIcon from '@material-ui/icons/Person';
 import React from 'react';
 import SecurityIcon from '@material-ui/icons/Security';

@@ -21,14 +21,19 @@ const useStyles = makeStyles(({ spacing, breakpoints, palette }) =>
 
 export interface RegisterProps extends AuthPageProps, WithWidthProps {}
 
-function Register({ isDialog = false, width = 'xs', redirect = (): void => {} }: RegisterProps): React.ReactElement {
+function Register({
+  isDialog = false,
+  width = 'xs',
+  redirect = (): void => {},
+  onSuccess,
+}: RegisterProps): React.ReactElement {
   const styles = useStyles();
   const Wrapper = isDialog ? Container : isWidthUp('sm', width) ? Paper : Container;
 
   return (
     <Container component="main" disableGutters maxWidth={isDialog ? 'xs' : 'sm'}>
       <Wrapper className={styles.root}>
-        <RegisterForm isDialog={isDialog} onSuccess={(): void => redirect('VERIFY_EMAIL')} redirect={redirect} />
+        <RegisterForm isDialog={isDialog} onSuccess={onSuccess} redirect={redirect} />
       </Wrapper>
     </Container>
   );

@@ -1,12 +1,21 @@
 export interface User {
   _id: string;
   details: Details;
-  profile: Profile;
+  agora: {
+    profile: Profile;
+  };
 }
 
 export interface Details {
-  name: string;
+  firstName: string;
+  lastName: string;
   username: string;
+  birthdate: Date;
+  email: {
+    raw: string;
+    normalised: string;
+  };
+  gender: 'MALE' | 'FEMALE' | 'OTHER' | 'UNDISCLOSED';
 }
 
 export interface Profile {

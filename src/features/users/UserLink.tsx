@@ -1,19 +1,19 @@
+import { Details } from './userTypes';
 import Link from '@material-ui/core/Link';
 import React from 'react';
-import { RootState } from 'app/store';
 import { Link as RouterLink } from 'react-router-dom';
-import { selectUserById } from './usersSlice';
-import { useSelector } from 'react-redux';
 
-function UserLink({ id = 'deleted' }: { id?: string }): React.ReactElement {
-  const user = useSelector((state: RootState) => selectUserById(state, id));
-  if (user === undefined) return <span>deleted</span>;
-  else
-    return (
-      <Link component={RouterLink} to={`/@${user.details.username}`}>
-        {user.details.name}
-      </Link>
-    );
+interface UserLinkProps {
+  details?: Details;
+}
+
+function UserLink(props: UserLinkProps): React.ReactElement {
+  if (props === null) return <span>deleted</span>;
+  return (
+    <Link component={RouterLink} to={`/@${props.details?.username}`}>
+      {props.details?.firstName + ' ' + props.details?.lastName}
+    </Link>
+  );
 }
 
 export default UserLink;

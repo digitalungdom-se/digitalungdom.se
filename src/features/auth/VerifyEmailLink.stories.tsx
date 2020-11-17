@@ -1,6 +1,6 @@
 import React from 'react';
 import StoryMetadata from 'components/StoryMetadata';
-import { VerifyEmailLink } from './VerifyEmailLink';
+import VerifyEmailLink from './VerifyEmailLink';
 
 const story: StoryMetadata = {
   component: VerifyEmailLink,

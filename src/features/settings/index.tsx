@@ -1,13 +1,15 @@
-import { Divider, Grid, Typography } from '@material-ui/core';
 import { Route, Switch } from 'react-router-dom';
 import SettingsList, { SettingsTabs } from './SettingsList';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import AccountSettings from './AccountSettings';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
 import SecuritySettings from './SecuritySettings';
+import Typography from '@material-ui/core/Typography';
 import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>

@@ -11,27 +11,26 @@ import Post from './Post';
 import ReduxConnectedComment from './AgoraComment';
 import { RootState } from 'app/store';
 import UserLink from 'features/users/UserLink';
-import { getUsersSuccess } from 'features/users/usersSlice';
 import { mongoIdToDate } from 'utils/mongoid';
-import { selectMyId } from 'features/auth/authSlice';
+import { selectMyProfile } from 'features/users/usersSlice';
 import { useAuthDialog } from 'features/auth/AuthDialogProvider';
 import useAxios from 'axios-hooks';
 import { useParams } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
+
+interface AgoraPostParams {
+  shortID?: string;
+}
 
 export default function AgoraPost() {
-  const { shortID } = useParams();
+  const { shortID } = useParams<AgoraPostParams>();
   const [{ loading, data }] = useAxios({
-    params: {
-      agoragramShortID: shortID,
-    },
-    url: '/api/agora/get/agoragram',
+    url: `/agoragram/${shortID}`,
   });
   const dispatch = useDispatch();
   useEffect(() => {
     if (data) {
       dispatch(getAgoragramsSuccess(data));
-      dispatch(getUsersSuccess(data.users));
+      // dispatch(getUsersSuccess(data.users));
     }
   }, [data, dispatch]);
   if (loading)
@@ -40,10 +39,10 @@ export default function AgoraPost() {
         <Post loading />
       </Container>
     );
-  if (data.agoragrams.length === 0) return <div>deleted</div>;
+  if (data.length === 0) return <div>deleted</div>;
   return (
     <Container maxWidth="md">
-      <ReduxConnectedPost _id={data.agoragrams[0]._id} displayComments />
+      <ReduxConnectedPost _id={data[0]._id} displayComments />
     </Container>
   );
 }
@@ -60,21 +59,17 @@ export const ReduxConnectedPost = ({
   longPostIsFadedOut,
 }: ReduxConnectedPostProps): React.ReactElement => {
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
-  const myId = useSelector(selectMyId);
+  const myProfile = useSelector(selectMyProfile);
   const dispatch = useDispatch();
   const showAuthDialog = useAuthDialog();
-  const { enqueueSnackbar } = useSnackbar();
   if (props === undefined) return <></>;
   return (
     <Post
       {...props}
-      author={<UserLink id={props.author} />}
+      author={<UserLink details={props.author?.details} />}
+      avatarSrc={`/user/${props.author?._id}/profile_picture?size=100`}
       handleDelete={() => {
-        Axios.delete('/api/agora/anti_agorize', {
-          data: {
-            agoragramID: _id,
-          },
-        }).then((res) => {
+        Axios.delete(`/agoragram/${_id}`).then((res) => {
           dispatch(
             editAgoragramSuccess({
               _id,
@@ -88,8 +83,7 @@ export const ReduxConnectedPost = ({
         });
       }}
       handleEdit={({ body }, { setSubmitting }) => {
-        Axios.put('/api/agora/meta_agorize', {
-          agoragramID: _id,
+        Axios.put(`/agoragram/${_id}`, {
           body,
         }).then((res) => {
           setSubmitting(false);
@@ -101,39 +95,21 @@ export const ReduxConnectedPost = ({
           );
         });
       }}
-      handleReport={() => {
-        if (myId === null) {
-          showAuthDialog(true);
-          return false;
-        }
-        const reason = prompt('Why do you want to report this post?');
-        if (reason) {
-          Axios.post('/api/agora/report', {
-            id: _id,
-            reason,
-            reportType: 'AGORAGRAM',
-          }).then((res) => {
-            enqueueSnackbar('You have successfully reported!', { variant: 'success' });
-          });
-        }
-      }}
       handleStarring={(): boolean => {
-        if (myId === null) {
+        if (myProfile === null) {
           showAuthDialog(true);
           return false;
         }
-        Axios.post('/api/agora/asteri', {
-          agoragramID: _id,
-        });
+        Axios.post(`/agoragram/${_id}/star`);
         dispatch(
           starAgoragramSuccess({
-            action: props.isStarred === true ? 'UNSTARRED' : 'STARRED',
+            action: props.starred === true ? 'UNSTARRED' : 'STARRED',
             agoragramID: _id,
           }),
         );
         return true;
       }}
-      isAuthor={Boolean(props.author && props.author === myId)}
+      isAuthor={Boolean(props.author && props.author._id === myProfile?._id)}
       link={`/agora/${props.hypagora}/${props.shortID}/comments`}
       longPostIsFadedOut={longPostIsFadedOut}
       time={mongoIdToDate(props._id)}
@@ -142,8 +118,8 @@ export const ReduxConnectedPost = ({
         (props.children ? (
           <>
             <AgoraReplyComment replyTo={props._id} />
-            {props.children.map((agoragram) => (
-              <ReduxConnectedComment _id={agoragram._id} key={agoragram._id} level={0} />
+            {props.children.map((comment) => (
+              <ReduxConnectedComment _id={comment.agoragram} key={comment.agoragram} level={0} />
             ))}
           </>
         ) : (

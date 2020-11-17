@@ -16,14 +16,9 @@ function CheckUsernameTextField({ initialUsername, ...props }: CheckUsernameText
     // if it is the initial username given in the form, set it as available
     if (username === initialUsername) return setAPIError(null);
     else {
-      Axios.get('/api/user/validate/username', { params: { username } })
-        .then((res) => {
-          if (res.data.username === false) setAPIError('USERNAME_TAKEN');
-          else setAPIError(null);
-        })
-        .catch(() => {
-          // TODO: Implement catch case?
-        });
+      Axios.get('/user', { params: { username } })
+        .then(() => setAPIError('USERNAME_TAKEN'))
+        .catch(() => setAPIError(null));
     }
   };
   return (

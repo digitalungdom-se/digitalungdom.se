@@ -11,6 +11,8 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
 import { TextField } from 'formik-material-ui';
+import { selectMyProfile } from 'features/users/usersSlice';
+import { useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 
 export const DetailsValidationSchema = Yup.object({
@@ -37,33 +39,25 @@ type FieldsName = 'firstName' | 'lastName' | 'username' | 'birthdate' | 'gender'
 
 function AccountSettings(): React.ReactElement {
   const classes = useStyles();
+  const myProfile = useSelector(selectMyProfile);
   const { enqueueSnackbar } = useSnackbar();
+  if (myProfile === null) return <div>Loading</div>;
   const initialValues = {
-    firstName: 'John',
-    lastName: 'Smith',
-    username: 'johnsmith',
-    birthdate: new Date(0),
-    gender: 'male',
+    birthdate: myProfile.details.birthdate,
+    firstName: myProfile.details.firstName,
+    gender: myProfile.details.gender,
+    lastName: myProfile.details.lastName,
+    username: myProfile.details.username,
   };
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values, { setSubmitting }): void => {
-        const apiValues = {
-          name: values.firstName + ' ' + values.lastName,
-          username: values.username,
-          birthdate: values.birthdate,
-          gender: values.gender,
-        };
-        const array: Array<[string, Record<string, unknown>]> = [];
-        for (const [key, value] of Object.entries(apiValues)) {
-          array.push(['details.' + key, { [key]: value }]);
-        }
-        Axios.put('/api/user/set', {
-          updates: array,
+        Axios.put('/user/@me', {
+          ...values,
+          username: values.username !== myProfile.details.username ? values.username : null,
         })
           .then((res) => {
-            console.log(res);
             setSubmitting(false);
             enqueueSnackbar('Changes saved!', { variant: 'success' });
           })
@@ -112,13 +106,13 @@ function AccountSettings(): React.ReactElement {
             </Grid>
             <Grid item xs={12}>
               <BirthdatePicker
-                KeyboardButtonProps={{
-                  'aria-label': 'change birthdate',
-                }}
                 disabled={isSubmitting}
                 fullWidth
                 id="birthdate"
                 inputVariant="outlined"
+                KeyboardButtonProps={{
+                  'aria-label': 'change birthdate',
+                }}
                 label="Birthdate"
                 onChange={(value): void => setFieldValue('birthdate', value)}
                 required
@@ -135,10 +129,10 @@ function AccountSettings(): React.ReactElement {
                 select // make this field into a select
                 variant="outlined"
               >
-                <MenuItem value="male">Male</MenuItem>
-                <MenuItem value="female">Female</MenuItem>
-                <MenuItem value="other">Other</MenuItem>
-                <MenuItem value="undisclosed">Undisclosed</MenuItem>
+                <MenuItem value="MALE">Male</MenuItem>
+                <MenuItem value="FEMALE">Female</MenuItem>
+                <MenuItem value="OTHER">Other</MenuItem>
+                <MenuItem value="UNDISCLOSED">Undisclosed</MenuItem>
               </Field>
             </Grid>
           </Grid>

@@ -13,11 +13,8 @@ import React from 'react';
 import { TranslatedTextField as TextField } from 'components/TranslatedTextField';
 // import { TextField } from 'formik-material-ui';
 import Typography from '@material-ui/core/Typography';
-import { authorize } from './authSlice';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { setMe } from 'features/users/usersSlice';
-import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -46,23 +43,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface CodeMap {
-  [index: string]: string;
-}
-
-const ERROR_CODES_MAP: CodeMap = {
-  INCORRECT_PASSWORD: 'password',
-  NO_ACCOUNT: 'username',
-  NOT_VERIFIED: 'username',
-};
-
 export default function Login({
   onSuccess,
   isDialog = false,
   redirect = (): void => {},
 }: AuthPageProps): React.ReactElement {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   return (
     <Grid component="main" container>
@@ -77,33 +63,23 @@ export default function Login({
           </Typography>
           <Formik
             initialValues={{
-              password: '',
-              username: '',
+              // password: '',
+              email: '',
             }}
             onSubmit={(values, { setSubmitting, setErrors }): void => {
               axios
-                .post('/api/user/login', values)
+                .post('/user/auth/email/send_code', values)
                 .then((res) => {
                   setSubmitting(false);
-                  if (res.data.type === 'fail') throw res;
-                  dispatch(authorize(res.data));
-                  dispatch(setMe(res.data));
-                  onSuccess();
+                  onSuccess(values.email);
                 })
                 .catch((err) => {
-                  if (err.data) {
-                    const errors = err.data.errors;
-                    errors.forEach((error: { message: string }) => {
-                      setErrors({ [ERROR_CODES_MAP[error.message]]: error.message });
-                      if (error.message === 'NOT_VERIFIED') redirect('VERIFY_EMAIL');
-                    });
-                  }
+                  setErrors({ email: 'NO_USER' });
                   setSubmitting(false);
                 });
             }}
             validationSchema={Yup.object({
-              password: Yup.string().required('Required'),
-              username: Yup.string().required('Required'),
+              email: Yup.string().email().required('Required'),
             })}
           >
             {({ isSubmitting, errors }): React.ReactElement => (
@@ -114,23 +90,11 @@ export default function Login({
                   autoComplete="email"
                   component={TextField}
                   fullWidth
-                  id="username"
-                  label="Email address or username"
+                  id="email"
+                  label="Email"
                   margin="normal"
-                  name="username"
+                  name="email"
                   required
-                  variant="outlined"
-                />
-                <Field
-                  autoComplete="current-password"
-                  component={TextField}
-                  fullWidth
-                  id="password"
-                  label="Password"
-                  margin="normal"
-                  name="password"
-                  required
-                  type="password"
                   variant="outlined"
                 />
                 <Button

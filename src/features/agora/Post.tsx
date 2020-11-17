@@ -20,7 +20,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import Moment from 'react-moment';
 import RenderMarkdown from 'components/RenderMarkdown';
-import ReportIcon from '@material-ui/icons/Report';
 import { Link as RouterLink } from 'react-router-dom';
 import Skeleton from '@material-ui/lab/Skeleton';
 import StarButton from 'components/StarButton';
@@ -57,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
     },
     root: {
-      marginTop: theme.spacing(2),
+      '& + &': { marginTop: theme.spacing(2) },
     },
     starButton: {
       fontSize: theme.spacing(4),
@@ -95,7 +94,7 @@ export default function Post({
   time = new Date(),
   title,
   type = 'TEXT',
-  isStarred = false,
+  starred = false,
   link = '',
   children,
   isAuthor = false,
@@ -106,6 +105,7 @@ export default function Post({
   modified,
   tags = [],
   longPostIsFadedOut,
+  avatarSrc,
 }: AgoragramComponentProps): React.ReactElement {
   const classes = useStyles();
 
@@ -116,7 +116,7 @@ export default function Post({
       <CardHeader
         avatar={
           !loading ? (
-            <Avatar />
+            <Avatar src={avatarSrc} />
           ) : (
             <Skeleton variant="circle">
               <Avatar />
@@ -208,7 +208,7 @@ export default function Post({
             }}
             fontSize="default"
             handleStarring={handleStarring}
-            isStarred={isStarred}
+            isStarred={starred}
           >
             <span>{stars}</span>
           </StarButton>
@@ -216,9 +216,6 @@ export default function Post({
             <CommentIcon />
             <span>{commentAmount}</span>
           </Button>
-          <IconButton className={classes.action} onClick={handleReport}>
-            <ReportIcon />
-          </IconButton>
           {isAuthor && (
             <>
               <IconButton

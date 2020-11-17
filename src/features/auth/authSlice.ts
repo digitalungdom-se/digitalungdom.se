@@ -12,6 +12,7 @@ interface Details {
 interface AuthDialogOptions {
   page?: AuthPage;
   open: boolean;
+  email?: string;
 }
 
 export interface AuthState {
@@ -24,6 +25,7 @@ const initialState: AuthState = {
   authenticated: false,
   details: null,
   dialog: {
+    email: '',
     open: false,
     page: 'LOGIN',
   },
@@ -33,13 +35,11 @@ export const auth = createSlice({
   initialState,
   name: 'auth',
   reducers: {
-    authorize: (state, action): void => {
+    authorize: (state): void => {
       state.authenticated = true;
-      state.details = action.payload.details;
     },
     failAuthorize: (state): void => {
       state.authenticated = false;
-      // state.details = null;
     },
     displayAuthDialog: (state, action: PayloadAction<AuthDialogOptions>): void => {
       state.dialog = { ...state.dialog, ...action.payload };

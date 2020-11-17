@@ -17,7 +17,6 @@ import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      marginTop: theme.spacing(2),
       padding: theme.spacing(2),
     },
     button: {
@@ -46,11 +45,11 @@ export default function Submit(): React.ReactElement {
             type: '',
           }}
           onSubmit={(values, { setSubmitting }) => {
-            Axios.post('/api/agora/agorize/post', {
+            Axios.post('/agoragram', {
               ...values,
               hypagora: 'GENERAL',
             }).then((res) => {
-              push(`/agora/general/${res.data.agoragram.shortID}/comments`);
+              push(`/agora/general/${res.data.shortID}/comments`);
             });
           }}
           validationSchema={Yup.object({

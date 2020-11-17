@@ -1,8 +1,13 @@
+import { Field, Formik } from 'formik';
+
+import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import MailIcon from '@material-ui/icons/Mail';
 import React from 'react';
+import { TranslatedTextField as TextField } from 'components/TranslatedTextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -20,8 +25,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function VerifyEmailPage() {
+interface VerifyEmailPageProps {
+  email?: string;
+  onSubmit: (email: string, loginCode: string) => void;
+}
+
+interface VerifyEmailPageParams {
+  emailInBase64: string;
+}
+
+export default function VerifyEmailPage({
+  email,
+  onSubmit = (): void => {},
+}: VerifyEmailPageProps): React.ReactElement {
   const classes = useStyles();
+  const { emailInBase64 } = useParams<VerifyEmailPageParams>();
   return (
     <Container component="main" disableGutters maxWidth="xs">
       <div className={classes.paper}>
@@ -29,7 +47,32 @@ export default function VerifyEmailPage() {
           Verify e-mail
         </Typography>
         <MailIcon fontSize="large" />
-        <Typography>Please verify your e-mail to complete signup.</Typography>
+        {email || atob(emailInBase64)}
+        <Formik
+          initialValues={{ loginCode: '' }}
+          onSubmit={(values) => {
+            onSubmit(email || btoa(emailInBase64), values.loginCode);
+          }}
+        >
+          {({ values, isSubmitting, submitForm }) => (
+            <>
+              <Field
+                component={TextField}
+                fullWidth
+                id="loginCode"
+                label="code"
+                margin="normal"
+                multiline
+                name="loginCode"
+                required
+                variant="outlined"
+              />
+              <Button disabled={isSubmitting} onClick={submitForm} type="submit" variant="contained">
+                Submit
+              </Button>
+            </>
+          )}
+        </Formik>
       </div>
     </Container>
   );
