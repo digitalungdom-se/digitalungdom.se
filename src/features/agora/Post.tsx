@@ -144,14 +144,15 @@ export default function Post({
             <Grid className={classes.titleElements} container direction="row" justify="space-between">
               <Grid>{author}</Grid>
               <Grid>
-                <Moment
-                  format={time > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) ? undefined : 'YYYY/MM/DD'}
-                  fromNow
-                  withTitle
-                >
-                  {time}
-                </Moment>
-                <span title={'modified: ' + modified}>{modified && '*'}</span>
+                <span title={`Posted: ${time}. ${modified ? 'Modified: ' + modified : ''}`}>
+                  <Moment
+                    format={time > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) ? undefined : 'YYYY/MM/DD'}
+                    fromNow
+                  >
+                    {time}
+                  </Moment>
+                  {modified && '*'}
+                </span>
               </Grid>
             </Grid>
           ) : (

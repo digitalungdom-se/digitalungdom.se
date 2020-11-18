@@ -45,6 +45,7 @@ export default function ReduxConnectedComment({ _id, level }: { _id: string; lev
               _id,
               edited: {
                 body,
+                modified: new Date().toISOString(),
               },
             }),
           );
@@ -67,6 +68,7 @@ export default function ReduxConnectedComment({ _id, level }: { _id: string; lev
       isAuthor={Boolean(props.author && props.author._id === myProfile?._id)}
       isNew={props.isNew}
       level={level}
+      modified={props.modified}
       replyField={(setReplying: (b: boolean) => void) => <AgoraReplyComment replyTo={_id} setReplying={setReplying} />}
       starred={props.starred}
       stars={props.stars}

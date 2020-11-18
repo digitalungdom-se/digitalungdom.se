@@ -90,7 +90,7 @@ export const ReduxConnectedPost = ({
           dispatch(
             editAgoragramSuccess({
               _id,
-              edited: { body },
+              edited: { body, modified: new Date().toISOString() },
             }),
           );
         });

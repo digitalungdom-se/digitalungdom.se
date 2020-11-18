@@ -107,6 +107,8 @@ function Comment({
   loading,
   starred,
   isNew = false,
+  stars,
+  modified,
 }: CommentProps): React.ReactElement {
   const classes = useStyles({
     isNew,
@@ -155,8 +157,12 @@ function Comment({
         <Grid item>
           <ul className={classes.list}>
             <li>{author}</li>
+            <li>{`${stars} stars`}</li>
             <li>
-              <Moment fromNow>{time}</Moment>
+              <span title={`Posted: ${time}. ${modified ? 'Modified: ' + modified : ''}`}>
+                <Moment fromNow>{time}</Moment>
+                {modified && '*'}
+              </span>
             </li>
           </ul>
         </Grid>
