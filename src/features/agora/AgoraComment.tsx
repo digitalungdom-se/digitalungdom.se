@@ -65,6 +65,7 @@ export default function ReduxConnectedComment({ _id, level }: { _id: string; lev
         return true;
       }}
       isAuthor={Boolean(props.author && props.author._id === myProfile?._id)}
+      isNew={props.isNew}
       level={level}
       replyField={(setReplying: (b: boolean) => void) => <AgoraReplyComment replyTo={_id} setReplying={setReplying} />}
       starred={props.starred}

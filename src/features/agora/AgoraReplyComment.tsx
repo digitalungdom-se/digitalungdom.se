@@ -52,6 +52,7 @@ export default function AgoraReplyComment({
               replyTo,
               stars: 0,
               type: 'COMMENT',
+              isNew: true,
             }),
           );
           setValues({

@@ -21,6 +21,7 @@ export interface Agoragram {
   replyTo: string;
   tags?: string[];
   modified?: string;
+  isNew?: boolean;
 }
 
 export interface AgoragramAuthor {

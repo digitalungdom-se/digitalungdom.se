@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { Theme, createStyles, lighten, makeStyles } from '@material-ui/core/styles';
 import { blue, green, orange, purple, red, yellow } from '@material-ui/core/colors';
 
 import AgoraBodyField from './AgoraBodyField';
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
         easing: theme.transitions.easing.easeInOut,
       }),
     },
-    dividerLevel: (level: number) => ({
+    dividerLevel: ({ level }: { level: number; isNew: boolean }) => ({
       background: [red['A100'], orange['A100'], yellow['A100'], green['A100'], blue['A100'], purple['A100']][level % 6],
     }),
     list: {
@@ -70,7 +70,9 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: 0,
       padding: 0,
     },
-    root: {},
+    root: ({ isNew }: { level: number; isNew: boolean }) => ({
+      backgroundColor: isNew ? lighten(theme.palette.info.main, 0.9) : 'none',
+    }),
     textGrid: {
       marginTop: theme.spacing(1),
     },
@@ -85,6 +87,7 @@ export interface CommentProps extends Omit<AgoragramComponentProps, 'title' | 'c
   replyField?: (setReplying: (b: boolean) => void) => JSX.Element;
   handleDelete?: () => any;
   level?: number;
+  isNew?: boolean;
 }
 
 function Comment({
@@ -102,8 +105,12 @@ function Comment({
   level = 0,
   loading,
   starred,
+  isNew = false,
 }: CommentProps): React.ReactElement {
-  const classes = useStyles(level);
+  const classes = useStyles({
+    isNew,
+    level,
+  });
   const [expanded, setExpanded] = React.useState<boolean>(folded);
   const [showReplyField, setReplyField] = React.useState<boolean>(false);
 
@@ -119,7 +126,7 @@ function Comment({
   if (loading) return <span />;
 
   return (
-    <Box alignItems="stretch" display="flex">
+    <Box alignItems="stretch" className={classes.root} display="flex">
       <Box alignItems="stretch">
         {expanded === false ? (
           <>
