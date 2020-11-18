@@ -72,9 +72,6 @@ export interface ProfileHeaderButtonProps {
 export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JSX.Element {
   const { firstName, logout, username, avatarSrc } = props;
 
-  // const splittedName = name.split(' ');
-  // const firstName = splittedName[0];
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const classes = useStyles({ open: Boolean(anchorEl) });
 
@@ -85,6 +82,35 @@ export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JS
   const handleClose = (): void => {
     setAnchorEl(null);
   };
+
+  const menu = (
+    <>
+      <MenuItem className={classes.item} component={Link} onClick={handleClose} to={`/@${username}`}>
+        <ListItemIcon>
+          <PersonIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="My Profile" />
+      </MenuItem>
+      <MenuItem className={classes.item} component={Link} onClick={handleClose} to="/settings/account">
+        <ListItemIcon>
+          <SettingsIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="Settings" />
+      </MenuItem>
+      <MenuItem
+        className={classes.item}
+        onClick={(): void => {
+          logout();
+          handleClose();
+        }}
+      >
+        <ListItemIcon>
+          <ExitToAppIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="Log out" />
+      </MenuItem>
+    </>
+  );
 
   return (
     <div>
@@ -101,30 +127,7 @@ export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JS
         {firstName}
       </Button>
       <StyledMenu anchorEl={anchorEl} id="customized-menu" keepMounted onClose={handleClose} open={Boolean(anchorEl)}>
-        <MenuItem className={classes.item} component={Link} onClick={handleClose} to={`/@${username}`}>
-          <ListItemIcon>
-            <PersonIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="My Profile" />
-        </MenuItem>
-        <MenuItem className={classes.item} component={Link} onClick={handleClose} to="/settings/account">
-          <ListItemIcon>
-            <SettingsIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Settings" />
-        </MenuItem>
-        <MenuItem
-          className={classes.item}
-          onClick={(): void => {
-            logout();
-            handleClose();
-          }}
-        >
-          <ListItemIcon>
-            <ExitToAppIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Log out" />
-        </MenuItem>
+        {menu}
       </StyledMenu>
     </div>
   );

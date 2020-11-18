@@ -3,6 +3,7 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
 import Axios from 'axios';
+import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
@@ -31,6 +32,16 @@ const useStyles = makeStyles((theme: Theme) =>
       boxShadow: 'none',
       borderBottom: '1px solid',
       borderBottomColor: theme.palette.divider,
+      zIndex: theme.zIndex.drawer + 1,
+    },
+    drawerList: {
+      paddingTop: 56,
+      [`${theme.breakpoints.up('xs')} and (orientation: landscape)`]: {
+        paddingTop: 48,
+      },
+      [theme.breakpoints.up('sm')]: {
+        paddingTop: 64,
+      },
     },
     title: {
       flexGrow: 1,
@@ -41,6 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     tabs: theme.mixins.toolbar,
     menuButton: {
+      marginLeft: theme.spacing(2),
       [theme.breakpoints.up('md')]: {
         display: 'none',
       },
@@ -77,52 +89,58 @@ function Header(): JSX.Element {
   const labels = ['About us', 'Agora'];
 
   return (
-    <AppBar className={classes.root} color="inherit" position="sticky">
-      <Toolbar>
-        <Typography className={classes.title} component="h1" style={{ fontWeight: 600, color: '#1e6ee8' }} variant="h6">
-          <Link to="/">Digital Ungdom</Link>
-        </Typography>
-        <IconButton
-          aria-label="open drawer"
-          className={classes.menuButton}
-          color="inherit"
-          edge="start"
-          onClick={handleDrawerToggle}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Hidden implementation="css" smUp>
-          <Drawer
-            anchor="top"
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-            onClose={handleDrawerToggle}
-            open={mobileOpen}
+    <>
+      <Drawer
+        anchor="top"
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile.
+        }}
+        onClose={handleDrawerToggle}
+        open={mobileOpen}
+        style={{ zIndex: 1200 }}
+      >
+        {
+          <List className={classes.drawerList}>
+            {!authenticated && <UnauthenticatedHeaderButtons listItems />}
+            <Divider />
+            {labels.map((text, index) => (
+              <ListItem button component={RouterLink} key={text} onClick={handleDrawerToggle} to={links[index]}>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          </List>
+        }
+      </Drawer>
+      <AppBar className={classes.root} color="inherit" position="sticky">
+        <Toolbar>
+          <Typography
+            className={classes.title}
+            component="h1"
+            style={{ fontWeight: 600, color: '#1e6ee8' }}
+            variant="h6"
           >
-            {
-              <List>
-                <ListItem>
-                  {!authenticated ? <UnauthenticatedHeaderButtons /> : <ConnectedProfileHeaderButton />}
-                </ListItem>
-                {labels.map((text, index) => (
-                  <ListItem button component={RouterLink} key={text} onClick={handleDrawerToggle} to={links[index]}>
-                    <ListItemText primary={text} />
-                  </ListItem>
-                ))}
-              </List>
-            }
-          </Drawer>
-        </Hidden>
-        <Hidden smDown>
-          <Tabs value={links.indexOf(pathname) !== -1 ? links.indexOf(pathname) : false}>
-            <Tab className={classes.tabs} component={RouterLink} label="About us" to="/about" />
-            <Tab className={classes.tabs} component={RouterLink} label="Agora" to="/agora" />
-          </Tabs>
-          {!authenticated ? <UnauthenticatedHeaderButtons /> : <ConnectedProfileHeaderButton />}
-        </Hidden>
-      </Toolbar>
-    </AppBar>
+            <Link to="/">Digital Ungdom</Link>
+          </Typography>
+          <Hidden smDown>
+            <Tabs value={links.indexOf(pathname) !== -1 ? links.indexOf(pathname) : false}>
+              <Tab className={classes.tabs} component={RouterLink} label="About us" to="/about" />
+              <Tab className={classes.tabs} component={RouterLink} label="Agora" to="/agora" />
+            </Tabs>
+            {!authenticated && <UnauthenticatedHeaderButtons />}
+          </Hidden>
+          {authenticated && <ConnectedProfileHeaderButton />}
+          <IconButton
+            aria-label="open drawer"
+            className={classes.menuButton}
+            color="inherit"
+            edge="start"
+            onClick={handleDrawerToggle}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+    </>
   );
 }
 
