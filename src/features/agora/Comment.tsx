@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Theme, createStyles, lighten, makeStyles } from '@material-ui/core/styles';
+import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import { blue, green, orange, purple, red, yellow } from '@material-ui/core/colors';
 
 import AgoraBodyField from './AgoraBodyField';
@@ -19,6 +19,7 @@ import RenderMarkdown from 'components/RenderMarkdown';
 import ReplyIcon from '@material-ui/icons/Reply';
 import StarButton from 'components/StarButton';
 import clsx from 'clsx';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -71,7 +72,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: 0,
     },
     root: ({ isNew }: { level: number; isNew: boolean }) => ({
-      backgroundColor: isNew ? lighten(theme.palette.info.main, 0.9) : 'none',
+      backgroundColor: isNew ? fade(theme.palette.info.main, 0.07) : 'none',
     }),
     textGrid: {
       marginTop: theme.spacing(1),
