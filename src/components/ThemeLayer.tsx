@@ -38,14 +38,19 @@ const ThemeLayer = ({ children, forceDarkMode }: ThemeLayerProps): JSX.Element =
               fontWeight: 'bold',
             },
           },
+          MuiLink: {
+            root: {
+              [prefersDarkMode ? 'color' : '']: '#fff',
+            },
+          },
         },
         palette: {
           type: prefersDarkMode ? 'dark' : 'light',
           primary: {
-            main: prefersDarkMode ? '#ffcd00' : '#1e6ee8',
+            main: '#1e6ee8',
           },
           secondary: {
-            main: prefersDarkMode ? '#1e6ee8' : '#ffcd00',
+            main: '#ffcd00',
           },
         },
       }),
