@@ -73,6 +73,7 @@ class ProfilePage extends React.Component<ProfilePageProps, ProfilePageState> {
         <Grid container justify="center" spacing={4}>
           <Grid item md={3} sm={8} xs={12}>
             <ProfileCard
+              avatarSrc={`${Axios.defaults.baseURL}/user/${user._id}/profile_picture`}
               bio={user.agora.profile?.bio}
               firstName={user.details.firstName}
               isOwner={this.props.myProfile?._id === user._id}

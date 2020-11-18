@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import AuthDialog from 'features/auth/Dialog';
 import Loading from 'components/Loading';
-import VerifyEmailPage from 'features/auth/VerifyEmailPage';
 import { loginWithCode } from './authApi';
 
 const Login = React.lazy(() => import('features/auth/Login'));
 const Register = React.lazy(() => import('features/auth/Register'));
+const VerifyEmailPage = React.lazy(() => import('features/auth/VerifyEmailPage'));
 
 export function useAuthDialog() {
   const dispatch = useDispatch();

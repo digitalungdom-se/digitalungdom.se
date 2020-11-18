@@ -2,8 +2,6 @@ import { Route, Switch, useHistory } from 'react-router-dom';
 
 import Loading from 'components/Loading';
 import React from 'react';
-import UserPage from 'features/users';
-import VerifyEmailPage from 'features/auth/VerifyEmailPage';
 import { loginWithCode } from 'features/auth/authApi';
 
 const Agora = React.lazy(() => import('features/agora'));
@@ -13,8 +11,9 @@ const About = React.lazy(() => import('pages/About'));
 const Login = React.lazy(() => import('features/auth/Login'));
 const Register = React.lazy(() => import('features/auth/Register'));
 const Startpage = React.lazy(() => import('pages/Startpage'));
-// const VerifyEmailLink = React.lazy(() => import('features/auth/VerifyEmailLink'));
 const Settings = React.lazy(() => import('features/settings'));
+const UserPage = React.lazy(() => import('features/users'));
+const VerifyEmailPage = React.lazy(() => import('features/auth/VerifyEmailPage'));
 
 function Router(): React.ReactElement {
   const history = useHistory();
@@ -31,9 +30,6 @@ function Router(): React.ReactElement {
           <Register onSuccess={(email): void => history.push('/verify/' + btoa(email))} />
         </Route>
         <Route path="/@:username" render={({ match }) => <UserPage username={match.params.username} />} />
-        {/* <Route path="/login/:token">
-          <VerifyEmailLink />
-        </Route> */}
         <Route path="/agora/:hypagora/:shortID/comments">
           <div style={{ marginTop: 24 }}>
             <AgoraPost />

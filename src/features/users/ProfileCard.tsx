@@ -3,8 +3,9 @@ import * as Yup from 'yup';
 import { Form, Formik, FormikHelpers } from 'formik';
 import ProfileContent, { ProfileContentProps } from './ProfileContent';
 import React, { useState } from 'react';
-import { Theme, createStyles, makeStyles, useTheme } from '@material-ui/core/styles';
+import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
+import Avatar from '@material-ui/core/Avatar';
 import Axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -13,7 +14,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import EditableProfileContent from './EditableProfileContent';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
-import ProfileAvatar from './ProfileAvatar';
 import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import UploadProfilePicture from './UploadProfilePicture';
@@ -62,6 +62,7 @@ interface ProfileProps extends ProfileContentProps {
   onSubmit?: (values: ProfileState, formikHelpers: FormikHelpers<ProfileState>) => void | Promise<any>;
   username: string;
   userID?: string;
+  avatarSrc?: string;
 }
 
 export function ProfileCard({
@@ -75,16 +76,18 @@ export function ProfileCard({
   status,
   username,
   userID,
+  avatarSrc,
 }: ProfileProps): React.ReactElement {
   const [editing, setEditing] = useState<boolean>(false);
+  const [profilePictureVersion, setProfilePictureVersion] = useState<number>(0);
   const classes = useStyles({ backgroundColor: '#1e6ee8' });
-  const theme = useTheme();
 
   return (
     <Card>
       <CardHeader className={classes.header} />
       <CardContent className={classes.content}>
-        <ProfileAvatar className={classes.avatar} userID={userID} width={theme.spacing(8)} />
+        {}
+        <Avatar className={classes.avatar} src={`${avatarSrc}?size=100&version=${profilePictureVersion}`} />
         <Typography component="h2" variant="h6">
           {firstName + ' ' + lastName}
         </Typography>
@@ -139,7 +142,7 @@ export function ProfileCard({
                     'Content-Type': 'multipart/form-data',
                   },
                 })
-                  .then((res) => console.log(res))
+                  .then(() => setProfilePictureVersion(profilePictureVersion + 1))
                   .catch((err) => console.error(err));
               }}
             />

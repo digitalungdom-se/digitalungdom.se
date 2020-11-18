@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
+import Axios from 'axios';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
@@ -52,7 +53,7 @@ const ConnectedProfileHeaderButton = () => {
 
   return (
     <ProfileHeaderButton
-      avatarSrc={`/user/${myProfile?._id}/profile_picture?size=40`}
+      avatarSrc={`${Axios.defaults.baseURL}/user/${myProfile?._id}/profile_picture?size=24`}
       firstName={myProfile?.details.firstName || ''}
       logout={() => TokenStorage.clear()}
       username={myProfile?.details.username || ''}

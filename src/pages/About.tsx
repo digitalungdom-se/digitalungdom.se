@@ -21,7 +21,7 @@ interface ProfileProps {
 }
 
 const Profile = ({ name, surname, bio, role, color }: ProfileProps) => (
-  <Grid item md={3} xs={12}>
+  <Grid item md={4} sm={6} xs={12}>
     <div style={{ margin: 'auto', textAlign: 'center', width: '100%', maxWidth: 400, padding: '0 24px' }}>
       <div style={{ margin: '0 auto', borderRadius: 10, backgroundColor: color }}>
         <img
@@ -92,7 +92,7 @@ const About = () => (
           </span>
         </h3>
       </Grid>
-      <Grid container>
+      <Grid container justify="center">
         <Profile
           bio="Hej! Jag heter Simon Sondén och jobbar bland annat med arkitekturen och algoritmerna bakom våra projekt. För övrigt älskar jag att bygga robotar."
           color="#bf3728"
