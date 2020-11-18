@@ -22,6 +22,7 @@ import { RegisterProps } from './Register';
 import { Link as RouterLink } from 'react-router-dom';
 import { TextField } from 'formik-material-ui';
 import Typography from '@material-ui/core/Typography';
+import differenceInYears from 'date-fns/differenceInYears';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +47,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const RegisterValidationSchema = Yup.object({
-  birthdate: Yup.date().required('Required'),
+  birthdate: Yup.date()
+    .typeError('Invalid date')
+    .test('birthdate', 'You need to be at least 13. Send an e-mail to styrelse@digitalungdom.se', function (value) {
+      return differenceInYears(new Date(), new Date(value)) >= 13;
+    })
+    .required('Required'),
   email: Yup.string().email('Invalid email address').required('Required'),
   firstName: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
   gender: Yup.string().required('Required'),
@@ -110,7 +116,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
         }}
         validationSchema={RegisterValidationSchema}
       >
-        {({ values, setFieldValue, isSubmitting }) => (
+        {({ values, setFieldValue, isSubmitting, errors, setFieldTouched }) => (
           <Form className={classes.form}>
             <Grid container spacing={2}>
               <Grid item sm={6} xs={12}>
@@ -165,14 +171,19 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
               <Grid item xs={12}>
                 <BirthdatePicker
                   disabled={isSubmitting}
+                  error={Boolean(errors.birthdate)}
                   fullWidth
+                  helperText={errors.birthdate}
                   id="birthdate"
                   inputVariant="outlined"
                   KeyboardButtonProps={{
                     'aria-label': 'change birthdate',
                   }}
                   label="Birthdate"
-                  onChange={(value): void => setFieldValue('birthdate', value)}
+                  onBlur={() => setFieldTouched('birthdate', true, true)}
+                  onChange={(value): void => {
+                    setFieldValue('birthdate', value, false);
+                  }}
                   required
                   value={values.birthdate}
                 />
