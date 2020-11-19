@@ -20,7 +20,7 @@ import { TokenStorage } from 'utils/tokenInterceptor';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import UnauthenticatedHeaderButtons from './UnauthenticatedHeaderButtons';
-import logo from 'resources/logo.svg';
+import head from 'resources/head.svg';
 import { selectAuthenticated } from 'features/auth/authSlice';
 import { selectMyProfile } from 'features/users/usersSlice';
 import { useSelector } from 'react-redux';
@@ -47,6 +47,8 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
       color: theme.palette.type === 'dark' ? 'white' : theme.palette.primary.main,
+      alignItems: 'center',
+      display: 'flex',
     },
     login: {
       marginRight: theme.spacing(2),
@@ -114,8 +116,10 @@ function Header(): JSX.Element {
       </Drawer>
       <AppBar className={classes.root} color="inherit" position="sticky">
         <Toolbar>
-          <img alt="logo" className="App-logo" src={logo} width={64} />
           <Typography className={classes.title} component="h1" style={{ fontWeight: 600 }} variant="h6">
+            <Link to="/">
+              <img alt="Logo depicting Boten Anna" src={head} style={{ verticalAlign: 'middle' }} width={50} />
+            </Link>
             <Link to="/">Digital Ungdom</Link>
           </Typography>
           <Hidden smDown>
