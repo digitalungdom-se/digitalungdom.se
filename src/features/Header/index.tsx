@@ -11,6 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
+import NotificationBell from 'features/notifications/NotificationBell';
 import ProfileHeaderButton from 'components/ProfileHeaderButton';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -20,6 +21,7 @@ import { TokenStorage } from 'utils/tokenInterceptor';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import UnauthenticatedHeaderButtons from './UnauthenticatedHeaderButtons';
+import { UserNotification } from 'types/notifications';
 import head from 'resources/head.svg';
 import { selectAuthenticated } from 'features/auth/authSlice';
 import { selectMyProfile } from 'features/users/usersSlice';
@@ -70,6 +72,7 @@ const ConnectedProfileHeaderButton = () => {
     <ProfileHeaderButton
       avatarSrc={`${Axios.defaults.baseURL}/user/${myProfile?._id}/profile_picture?size=24`}
       firstName={myProfile?.details.firstName || ''}
+      loading={myProfile === null}
       logout={() => TokenStorage.clear()}
       username={myProfile?.details.username || ''}
     />
@@ -131,6 +134,19 @@ function Header(): JSX.Element {
             </Tabs>
             {!authenticated && <UnauthenticatedHeaderButtons />}
           </Hidden>
+          {authenticated && (
+            <NotificationBell
+              getNotifications={(params): Promise<UserNotification[]> =>
+                new Promise((resolve, reject) =>
+                  Axios.get('/notification', { params })
+                    .then((res) => resolve(res.data))
+                    .catch((err) => reject(err)),
+                )
+              }
+              limit={10}
+              readNotifications={(notifications) => Axios.put('/notification', { body: notifications })}
+            />
+          )}
           {authenticated && <ConnectedProfileHeaderButton />}
           <IconButton
             aria-label="open drawer"
