@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import PersonIcon from '@material-ui/icons/Person';
 import React from 'react';
 import SettingsIcon from '@material-ui/icons/Settings';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -67,6 +68,7 @@ export interface ProfileHeaderButtonProps {
   logout: () => void;
   username: string;
   avatarSrc?: string;
+  loading?: boolean;
 }
 
 export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JSX.Element {
@@ -83,35 +85,6 @@ export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JS
     setAnchorEl(null);
   };
 
-  const menu = (
-    <>
-      <MenuItem className={classes.item} component={Link} onClick={handleClose} to={`/@${username}`}>
-        <ListItemIcon>
-          <PersonIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="My Profile" />
-      </MenuItem>
-      <MenuItem className={classes.item} component={Link} onClick={handleClose} to="/settings/account">
-        <ListItemIcon>
-          <SettingsIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="Settings" />
-      </MenuItem>
-      <MenuItem
-        className={classes.item}
-        onClick={(): void => {
-          logout();
-          handleClose();
-        }}
-      >
-        <ListItemIcon>
-          <ExitToAppIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="Log out" />
-      </MenuItem>
-    </>
-  );
-
   return (
     <div>
       <Button
@@ -119,15 +92,50 @@ export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JS
         aria-haspopup="true"
         className={classes.root}
         disableElevation
+        fullWidth
         onClick={handleClick}
         size="large"
         variant="outlined"
       >
-        <Avatar className={classes.avatar} src={avatarSrc} />
-        {firstName}
+        {props.loading ? (
+          <>
+            <Skeleton className={classes.avatar} variant="circle" />
+            <div style={{ flexGrow: 1 }}>
+              <Skeleton variant="text" />
+            </div>
+          </>
+        ) : (
+          <>
+            <Avatar className={classes.avatar} src={avatarSrc} />
+            {firstName}
+          </>
+        )}
       </Button>
       <StyledMenu anchorEl={anchorEl} id="customized-menu" keepMounted onClose={handleClose} open={Boolean(anchorEl)}>
-        {menu}
+        <MenuItem className={classes.item} component={Link} onClick={handleClose} to={`/@${username}`}>
+          <ListItemIcon>
+            <PersonIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="My Profile" />
+        </MenuItem>
+        <MenuItem className={classes.item} component={Link} onClick={handleClose} to="/settings/account">
+          <ListItemIcon>
+            <SettingsIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Settings" />
+        </MenuItem>
+        <MenuItem
+          className={classes.item}
+          onClick={(): void => {
+            logout();
+            handleClose();
+          }}
+        >
+          <ListItemIcon>
+            <ExitToAppIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Log out" />
+        </MenuItem>
       </StyledMenu>
     </div>
   );
