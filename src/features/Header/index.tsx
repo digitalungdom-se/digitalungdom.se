@@ -104,13 +104,15 @@ function Header(): JSX.Element {
       >
         {
           <List className={classes.drawerList}>
-            {!authenticated && <UnauthenticatedHeaderButtons listItems />}
-            <Divider />
             {labels.map((text, index) => (
               <ListItem button component={RouterLink} key={text} onClick={handleDrawerToggle} to={links[index]}>
                 <ListItemText primary={text} />
               </ListItem>
             ))}
+            <Divider />
+            <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+              {!authenticated && <UnauthenticatedHeaderButtons />}
+            </ListItem>
           </List>
         }
       </Drawer>
