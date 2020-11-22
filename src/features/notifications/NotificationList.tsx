@@ -5,28 +5,37 @@ import React from 'react';
 import { UserNotification } from 'types/notifications';
 
 interface NotificationListProps {
-  getNotifications: () => void;
+  getNotifications: () => Promise<void>;
   notifications: UserNotification[];
   hasMore: boolean;
+  className?: string;
+  scrollParentRef: React.RefObject<HTMLElement>;
 }
 
-class NotificationList extends React.Component<NotificationListProps> {
-  render(): React.ReactElement {
-    const { notifications, hasMore } = this.props;
-    return (
+const NotificationList = ({
+  notifications,
+  hasMore,
+  getNotifications,
+  scrollParentRef,
+  ...props
+}: NotificationListProps): React.ReactElement => {
+  return (
+    <List>
       <InfiniteScroll
+        className={props.className}
+        getScrollParent={() => scrollParentRef.current}
         hasMore={hasMore}
         loader={<NotificationListItem loading />}
-        loadMore={this.props.getNotifications}
+        loadMore={getNotifications}
+        pageStart={0}
+        useWindow={false}
       >
-        <List>
-          {notifications.map((notification, index) => (
-            <NotificationListItem key={index} {...notification} />
-          ))}
-        </List>
+        {notifications.map((notification, index) => (
+          <NotificationListItem key={index} {...notification} />
+        ))}
       </InfiniteScroll>
-    );
-  }
-}
+    </List>
+  );
+};
 
 export default NotificationList;

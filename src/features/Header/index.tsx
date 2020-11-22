@@ -72,6 +72,7 @@ const ConnectedProfileHeaderButton = () => {
     <ProfileHeaderButton
       avatarSrc={`${Axios.defaults.baseURL}/user/${myProfile?._id}/profile_picture?size=24`}
       firstName={myProfile?.details.firstName || ''}
+      lastName={myProfile?.details.lastName || ''}
       loading={myProfile === null}
       logout={() => TokenStorage.clear()}
       username={myProfile?.details.username || ''}

@@ -1,9 +1,12 @@
-export interface UserNotification {
-  _id: string;
+export interface MinimumNotificationProps {
   at: Date;
-  data?: CommentNotificationData | any;
-  read: boolean;
   type: UserNotificationTypes;
+  read?: boolean;
+}
+
+export interface UserNotification extends MinimumNotificationProps {
+  data: CommentNotificationData | any;
+  _id: string;
 }
 
 export interface CommentNotificationData {

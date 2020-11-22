@@ -1,11 +1,37 @@
+import React, { useEffect, useRef } from 'react';
+import { Theme, makeStyles } from '@material-ui/core/styles';
+
 import Badge from '@material-ui/core/Badge';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
 import NotificationList from './NotificationList';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
-import React from 'react';
 import { UserNotification } from 'types/notifications';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  paper: {
+    transformOrigin: 'top right',
+    maxHeight: theme.spacing(40),
+    overflow: 'auto',
+    width: theme.spacing(40),
+  },
+  list: {},
+  listItem: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  loading: {
+    display: 'flex',
+    justifyContent: 'center',
+    margin: theme.spacing(1, 0),
+  },
+  divider: {
+    margin: theme.spacing(1, 0),
+  },
+}));
 
 interface NotificationBellProps {
   getNotifications: (body: { skip: number; limit: number }) => Promise<UserNotification[]>;
@@ -16,76 +42,93 @@ interface NotificationBellProps {
 interface NotificationBellState {
   hasMore: boolean;
   notifications: UserNotification[];
-  anchorEl: null | HTMLElement;
+  open: boolean;
   unreadNotifications: string[];
 }
 
-class NotificationBell extends React.Component<NotificationBellProps, NotificationBellState> {
-  constructor(props: NotificationBellProps) {
-    super(props);
-    this.state = {
-      anchorEl: null,
-      hasMore: true,
-      notifications: [],
-      unreadNotifications: [],
-    };
-    this.handleClick = this.handleClick.bind(this);
-    this.getNotifications = this.getNotifications.bind(this);
-  }
+function NotificationBell(props: NotificationBellProps) {
+  const classes = useStyles();
+  const anchorRef = useRef<HTMLButtonElement>(null);
+  const [state, setState] = React.useState<NotificationBellState>({
+    open: false,
+    hasMore: true,
+    notifications: [],
+    unreadNotifications: [],
+  });
 
-  getNotifications(): void {
-    this.props
+  function getNotifications() {
+    return props
       .getNotifications({
-        limit: this.props.limit,
-        skip: this.state.notifications.length,
+        limit: props.limit,
+        skip: state.notifications.length,
       })
-      .then((notifications) => {
-        this.setState({
-          hasMore: notifications.length === this.props.limit,
-          notifications: notifications.length ? [...this.state.notifications, ...notifications] : notifications,
+      .then((notifications) =>
+        setState({
+          ...state,
+          hasMore: notifications.length === props.limit,
+          notifications: notifications.length ? [...state.notifications, ...notifications] : notifications,
           unreadNotifications: [
-            ...this.state.unreadNotifications,
-            ...notifications.filter((notification) => !notification.read).map((notification) => notification._id),
+            ...state.unreadNotifications,
+            ...(state.open
+              ? []
+              : notifications.filter((notification) => !notification.read).map((notification) => notification._id)),
           ],
-        });
-      });
+        }),
+      );
   }
 
-  componentDidMount(): void {
-    this.getNotifications();
+  function openNotifications() {
+    if (state.open === false && state.unreadNotifications.length)
+      props.readNotifications(state.unreadNotifications).then(() => setState({ ...state, unreadNotifications: [] }));
+    setState({ ...state, open: !state.open });
   }
 
-  handleClick(event: React.MouseEvent<HTMLElement>): void {
-    this.setState({ anchorEl: this.state.anchorEl ? null : event.currentTarget });
-    if (this.state.unreadNotifications.length)
-      this.props
-        .readNotifications(this.state.unreadNotifications)
-        .then(() => this.setState({ unreadNotifications: [] }));
-  }
+  useEffect(() => {
+    getNotifications();
+  }, []);
 
-  render(): React.ReactElement {
-    const { anchorEl, notifications, unreadNotifications, hasMore } = this.state;
-    const open = Boolean(anchorEl);
-    const id = open ? 'notifications-popper' : undefined;
-    return (
-      <>
-        <IconButton onClick={this.handleClick}>
-          <Badge badgeContent={unreadNotifications.length} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <Popper anchorEl={anchorEl} id={id} open={open} style={{ zIndex: 1300 }} transition>
-          <Paper>
-            <NotificationList
-              getNotifications={this.getNotifications}
-              hasMore={hasMore}
-              notifications={notifications}
-            />
-          </Paper>
-        </Popper>
-      </>
-    );
-  }
+  const { open, notifications, unreadNotifications, hasMore } = state;
+  const id = open ? 'notifications-popper' : undefined;
+  const scrollRef = useRef(null);
+
+  return (
+    <>
+      <IconButton onClick={openNotifications} ref={anchorRef}>
+        <Badge badgeContent={unreadNotifications.length > 9 ? '9+' : unreadNotifications.length} color="secondary">
+          <NotificationsIcon />
+        </Badge>
+      </IconButton>
+      <Popper
+        anchorEl={anchorRef.current}
+        id={id}
+        open={open}
+        placement="bottom-end"
+        style={{ zIndex: 1300 }}
+        transition
+      >
+        {({ TransitionProps }) => (
+          <ClickAwayListener
+            onClickAway={() => {
+              setState({ ...state, open: false });
+            }}
+          >
+            <Grow in={open} {...TransitionProps}>
+              <Paper className={classes.paper} ref={scrollRef}>
+                {notifications.length === 0 && <div>No notifications</div>}
+                <NotificationList
+                  className={classes.list}
+                  getNotifications={getNotifications}
+                  hasMore={hasMore}
+                  notifications={notifications}
+                  scrollParentRef={scrollRef}
+                />
+              </Paper>
+            </Grow>
+          </ClickAwayListener>
+        )}
+      </Popper>
+    </>
+  );
 }
 
 export default NotificationBell;
