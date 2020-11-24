@@ -1,4 +1,3 @@
-import { WithStyles, createStyles } from '@material-ui/styles';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
 import Badge from '@material-ui/core/Badge';

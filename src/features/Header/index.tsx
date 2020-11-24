@@ -137,15 +137,22 @@ function Header(): JSX.Element {
           </Hidden>
           {authenticated && (
             <NotificationBell
-              getNotifications={(params): Promise<UserNotification[]> =>
+              getNotifications={(params: { skip: number; limit: number }): Promise<UserNotification[]> =>
                 new Promise((resolve, reject) =>
-                  Axios.get('/notification', { params })
-                    .then((res) => resolve(res.data))
+                  Axios.get<UserNotification[]>('/notification', { params })
+                    .then((res) =>
+                      resolve(
+                        res.data.map((notification) => ({
+                          ...notification,
+                          link: '/agora/general/' + notification.data.post + '/comments',
+                        })),
+                      ),
+                    )
                     .catch((err) => reject(err)),
                 )
               }
               limit={10}
-              readNotifications={(notifications) => Axios.put('/notification', { body: notifications })}
+              readNotifications={(notifications: string[]) => Axios.put('/notification', { body: notifications })}
             />
           )}
           {authenticated && <ConnectedProfileHeaderButton />}

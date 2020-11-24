@@ -22,9 +22,9 @@ const useStyles = makeStyles((theme: Theme) =>
       transition: '262ms',
     },
     root: {
-      maxWidth: theme.spacing(20),
+      minWidth: theme.spacing(20),
       [theme.breakpoints.down('sm')]: {
-        width: theme.spacing(12),
+        minWidth: theme.spacing(12),
       },
     },
     avatar: {
