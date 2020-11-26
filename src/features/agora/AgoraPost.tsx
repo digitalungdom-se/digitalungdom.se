@@ -60,7 +60,7 @@ class AgoraPost extends React.Component<AgoraPostProps, AgoraPostState> {
         while (tree[root].replyTo !== agoragrams[0]._id) {
           root = tree[root].replyTo;
         }
-        agoragrams[0].children.filter((child) => child.agoragram !== root);
+        agoragrams[0].children = agoragrams[0].children.filter((child) => child.agoragram !== root);
         agoragrams[0].children.unshift({ agoragram: root, stars: tree[root].stars });
       }
       if (res.data.length === 0) return this.setState({ root: 'deleted' });
