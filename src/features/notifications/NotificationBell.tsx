@@ -14,8 +14,7 @@ import { UserNotification } from 'types/notifications';
 const styles = (theme: Theme) => ({
   paper: {
     transformOrigin: 'top right',
-    maxHeight: theme.spacing(40),
-    overflow: 'auto',
+    height: theme.spacing(40),
     width: theme.spacing(40),
   },
 });
@@ -23,6 +22,7 @@ const styles = (theme: Theme) => ({
 interface NotificationBellProps extends WithStyles<typeof styles> {
   getNotifications: (body: { skip: number; limit: number }) => Promise<UserNotification[]>;
   readNotifications: (notifications: string[]) => Promise<void>;
+  deleteNotifications: (notifications: string[]) => Promise<void>;
   limit: number;
 }
 
@@ -35,7 +35,6 @@ interface NotificationBellState {
 
 class NotificationBell extends React.Component<NotificationBellProps, NotificationBellState> {
   private anchorRef = React.createRef<HTMLButtonElement>();
-  private scrollParentRef = React.createRef<HTMLElement>();
   constructor(props: NotificationBellProps) {
     super(props);
     this.state = {
@@ -45,6 +44,7 @@ class NotificationBell extends React.Component<NotificationBellProps, Notificati
       unreadNotifications: [],
     };
     this.openNotifications = this.openNotifications.bind(this);
+    this.deleteNotifications = this.deleteNotifications.bind(this);
     this.getNotifications = this.getNotifications.bind(this);
   }
 
@@ -81,6 +81,15 @@ class NotificationBell extends React.Component<NotificationBellProps, Notificati
         .then(() => this.setState({ ...this.state, unreadNotifications: [] }));
   }
 
+  deleteNotifications(selected: string[]) {
+    return this.props.deleteNotifications(selected).then(() =>
+      this.setState({
+        ...this.state,
+        notifications: this.state.notifications.filter((notification) => selected.indexOf(notification._id) === -1),
+      }),
+    );
+  }
+
   openNotifications() {
     if (!this.state.open) this.readNotifications();
     this.setState({ ...this.state, open: !this.state.open });
@@ -111,13 +120,12 @@ class NotificationBell extends React.Component<NotificationBellProps, Notificati
               }}
             >
               <Grow in={open} {...TransitionProps}>
-                <Paper className={this.props.classes.paper} ref={this.scrollParentRef}>
-                  {notifications.length === 0 && <div>No notifications</div>}
+                <Paper className={this.props.classes.paper}>
                   <NotificationList
+                    deleteNotifications={this.deleteNotifications}
                     getNotifications={this.getNotifications}
                     hasMore={hasMore}
                     notifications={notifications}
-                    scrollParentRef={this.scrollParentRef}
                   />
                 </Paper>
               </Grow>

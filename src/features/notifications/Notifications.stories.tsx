@@ -7,6 +7,7 @@ import NotificationList from './NotificationList';
 // import { Route } from 'react-router-dom';
 // import StoryMetadata from 'components/StoryMetadata';
 import { UserNotification } from 'types/notifications';
+import { action } from '@storybook/addon-actions';
 
 const story: Meta = {
   component: NotificationBell,
@@ -29,9 +30,12 @@ const story: Meta = {
 
 export default story;
 
+let notificationID = 0;
+
 function generateNotifications(n: number): UserNotification[] {
   const notifications: UserNotification[] = [];
   for (let i = 0; i < n; i++) {
+    notificationID++;
     notifications.push({
       at: new Date(),
       type: 'COMMENT_ON_COMMENT',
@@ -39,7 +43,7 @@ function generateNotifications(n: number): UserNotification[] {
         post: '',
         comment: '',
       },
-      _id: '',
+      _id: notificationID.toString(),
     });
   }
   return notifications;
@@ -50,6 +54,11 @@ const notifications: UserNotification[] = generateNotifications(10);
 export const Basic = (): JSX.Element => {
   return (
     <NotificationBell
+      deleteNotifications={(): Promise<void> =>
+        new Promise((resolve) => {
+          setTimeout(() => resolve(), 1000);
+        })
+      }
       getNotifications={(): Promise<UserNotification[]> =>
         new Promise((resolve) => {
           setTimeout(() => resolve(notifications), 1000);
@@ -78,33 +87,44 @@ export const CommentNotification = () => (
 );
 
 export const TranslatedCommentNotification = () => (
-  <div style={{ width: 220 }}>
+  <div style={{ width: 400 }}>
     <TranslatedNotificationListItem at={new Date()} type="COMMENT_ON_COMMENT" />
   </div>
 );
 
 export const List = () => {
   const [notifications, setNotifications] = useState<UserNotification[]>(generateNotifications(10));
-  const scrollParentRef = useRef<HTMLElement>(null);
+  const [hasMore, setHasMore] = useState<boolean>(false);
   return (
-    <div
-      ref={scrollParentRef as React.RefObject<HTMLDivElement>}
-      style={{ width: 400, maxHeight: 400, overflow: 'auto' }}
-    >
+    <div style={{ width: 400, height: 400, overflow: 'auto' }}>
       <NotificationList
+        deleteNotifications={(deletedNotifications) =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              action('delete')(deletedNotifications);
+              setNotifications(
+                notifications.filter((notification) => deletedNotifications.indexOf(notification._id) === -1),
+              );
+              setHasMore(false);
+              resolve();
+            }, 1000);
+          })
+        }
         getNotifications={() =>
           new Promise((resolve) => {
             if (notifications.length < 100) {
-              setTimeout(() => {
-                setNotifications([...notifications, ...generateNotifications(10)]);
-                resolve();
-              }, 1000);
+              if (hasMore)
+                setTimeout(() => {
+                  setNotifications([...notifications, ...generateNotifications(10)]);
+                  setHasMore(notifications.length < 100);
+                  resolve();
+                }, 1000);
+              resolve();
             }
           })
         }
-        hasMore={notifications.length < 100}
+        hasMore={hasMore}
         notifications={notifications}
-        scrollParentRef={scrollParentRef}
       />
     </div>
   );

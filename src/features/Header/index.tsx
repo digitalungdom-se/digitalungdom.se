@@ -137,6 +137,7 @@ function Header(): JSX.Element {
           </Hidden>
           {authenticated && (
             <NotificationBell
+              deleteNotifications={(notifications: string[]) => Axios.delete('/notification', { data: notifications })}
               getNotifications={(params: { skip: number; limit: number }): Promise<UserNotification[]> =>
                 new Promise((resolve, reject) =>
                   Axios.get<UserNotification[]>('/notification', { params })
@@ -144,7 +145,9 @@ function Header(): JSX.Element {
                       resolve(
                         res.data.map((notification) => ({
                           ...notification,
-                          link: '/agora/general/' + notification.data.post + '/comments',
+                          link: `/agora/general/${notification.data.post}${
+                            notification.data.comment ? '/' + notification.data.comment : ''
+                          }`,
                         })),
                       ),
                     )

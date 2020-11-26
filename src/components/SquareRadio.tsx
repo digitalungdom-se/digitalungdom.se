@@ -3,9 +3,13 @@ import React, { useEffect, useRef } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import { ButtonBaseActions } from '@material-ui/core/ButtonBase';
-import { Color } from '@material-ui/core';
 import clsx from 'clsx';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+
+interface Color {
+  600: string;
+  400: string;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

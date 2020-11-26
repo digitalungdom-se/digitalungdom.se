@@ -4,7 +4,7 @@ import { Theme, createStyles, makeStyles, withStyles } from '@material-ui/core/s
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Hidden } from '@material-ui/core';
+import Hidden from '@material-ui/core/Hidden';
 import { Link } from 'react-router-dom';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
