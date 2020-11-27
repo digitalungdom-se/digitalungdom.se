@@ -11,7 +11,13 @@ import { mongoIdToDate } from 'utils/mongoid';
 import { selectMyProfile } from 'features/users/usersSlice';
 import { useAuthDialog } from 'features/auth/AuthDialogProvider';
 
-export default function ReduxConnectedComment({ _id, level }: { _id: string; level: number }) {
+interface ReduxConnectedCommentProps {
+  _id: string;
+  level: number;
+  highlightCommentID?: string;
+}
+
+export default function ReduxConnectedComment({ _id, level, highlightCommentID }: ReduxConnectedCommentProps) {
   const dispatch = useDispatch();
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
   const myProfile = useSelector(selectMyProfile);
@@ -66,7 +72,7 @@ export default function ReduxConnectedComment({ _id, level }: { _id: string; lev
         return true;
       }}
       isAuthor={Boolean(props.author && props.author._id === myProfile?._id)}
-      isNew={props.isNew}
+      isNew={props.isNew || highlightCommentID === props._id}
       level={level}
       modified={props.modified}
       replyField={(setReplying: (b: boolean) => void) => <AgoraReplyComment replyTo={_id} setReplying={setReplying} />}
@@ -75,7 +81,12 @@ export default function ReduxConnectedComment({ _id, level }: { _id: string; lev
       time={mongoIdToDate(props._id)}
     >
       {props.children.map((comment) => (
-        <ReduxConnectedComment _id={comment.agoragram} key={comment.agoragram} level={level + 1} />
+        <ReduxConnectedComment
+          _id={comment.agoragram}
+          highlightCommentID={highlightCommentID}
+          key={comment.agoragram}
+          level={level + 1}
+        />
       ))}
     </Comment>
   );

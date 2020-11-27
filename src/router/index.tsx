@@ -30,11 +30,7 @@ function Router(): React.ReactElement {
           <Register onSuccess={(email): void => history.push('/verify/' + btoa(email))} />
         </Route>
         <Route path="/@:username" render={({ match }) => <UserPage username={match.params.username} />} />
-        <Route path="/agora/:hypagora/:shortID/comments">
-          <div style={{ marginTop: 24 }}>
-            <AgoraPost />
-          </div>
-        </Route>
+        <Route component={AgoraPost} path="/agora/:hypagora/:shortID/:commentID?" />
         <Route path="/agora/:hypagora?/submit">
           <div style={{ marginTop: 24 }}>
             <AgoraSubmit />

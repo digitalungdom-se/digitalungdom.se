@@ -6,4 +6,5 @@ module.exports = {
     config.resolve.plugins.push(new TsconfigPathsPlugin({}));
     return config;
   },
+  typescript: { reactDocgen: 'react-docgen' },
 };

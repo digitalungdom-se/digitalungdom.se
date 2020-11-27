@@ -21,7 +21,6 @@ import {
   yellow,
 } from '@material-ui/core/colors';
 
-import { Color } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import React from 'react';
@@ -77,6 +76,11 @@ function calcModuloGrid(
     default:
       return index;
   }
+}
+
+interface Color {
+  400: string;
+  600: string;
 }
 
 const colors: Record<string, Color> = {
