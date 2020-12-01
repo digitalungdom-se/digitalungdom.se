@@ -1,21 +1,23 @@
 import React, { useEffect } from 'react';
-import { authorize, failAuthorize } from './authSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { selectAuthenticated } from './authSlice';
+import { setMe } from 'features/users/usersSlice';
 
-export default function AuthenticatedLayer(props: { children: React.ReactElement }): React.ReactElement {
+interface AuthenticatedLayerProps {
+  children: React.ReactElement;
+}
+
+export default function AuthenticatedLayer(props: AuthenticatedLayerProps): React.ReactElement {
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(selectAuthenticated);
   useEffect(() => {
-    axios
-      .get('/api/user/auth')
-      .then((res) => {
+    if (isAuthenticated)
+      axios.get('/user/@me').then((res) => {
         if (res.data.type === 'fail') throw res;
-        dispatch(authorize(res.data));
-      })
-      .catch((err) => {
-        dispatch(failAuthorize());
+        dispatch(setMe(res.data));
       });
-  }, [dispatch]);
+  }, [dispatch, isAuthenticated]);
   return props.children;
 }

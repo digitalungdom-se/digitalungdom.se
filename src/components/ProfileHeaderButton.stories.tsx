@@ -12,5 +12,5 @@ const story: StoryMetadata = {
 export default story;
 
 export const Basic = (): JSX.Element => {
-  return <ProfileHeaderButton logout={action('logout')} name="Douglas Bengtsson" username="Nautman" />;
+  return <ProfileHeaderButton firstName="Douglas" lastName="Bengtsson" logout={action('logout')} username="Nautman" />;
 };

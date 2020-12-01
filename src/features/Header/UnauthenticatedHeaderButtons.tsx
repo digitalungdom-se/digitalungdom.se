@@ -1,53 +1,70 @@
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
-import AuthDialog from 'features/auth/Dialog';
-import { AuthViews } from 'features/auth/authViewsTypes';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import React from 'react';
-import VerifyEmailPage from 'features/auth/VerifyEmailPage';
+import { useAuthDialog } from 'features/auth/AuthDialogProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     login: {
       marginRight: theme.spacing(2),
     },
+    background: {
+      background: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
+      '&:hover': {
+        background: theme.palette.primary.dark,
+      },
+    },
   }),
 );
 
-const Login = React.lazy(() => import('features/auth/Login'));
-const Register = React.lazy(() => import('features/auth/Register'));
+interface UnauthenticatedHeaderButtonsProps {
+  listItems?: boolean;
+}
 
-export default function UnauthenticatedHeaderButtons(): JSX.Element {
+export default function UnauthenticatedHeaderButtons({ listItems }: UnauthenticatedHeaderButtonsProps): JSX.Element {
   const classes = useStyles();
-  const [authDialogState, setAuthDialogState] = React.useState<AuthViews>(null);
-  const changeDialogState = (state: AuthViews): void => {
-    setAuthDialogState(state);
-  };
+  const showAuthDialog = useAuthDialog();
 
-  let dialog;
-
-  switch (authDialogState) {
-    case 'LOGIN':
-      dialog = <Login isDialog onSuccess={(): void => setAuthDialogState(null)} redirect={changeDialogState} />;
-      break;
-    case 'REGISTER':
-      dialog = <Register isDialog onSuccess={(): void => setAuthDialogState('VERIFY')} redirect={changeDialogState} />;
-      break;
-    case 'VERIFY':
-      dialog = <VerifyEmailPage />;
-      break;
-    default:
-      break;
-  }
+  if (listItems)
+    return (
+      <>
+        <ListItem
+          button
+          className={classes.background}
+          component={Link}
+          onClick={(e: React.MouseEvent<HTMLElement>) => {
+            if (e.metaKey === false && e.altKey === false) {
+              e.preventDefault();
+              showAuthDialog('REGISTER');
+            }
+          }}
+          to="/bli-medlem"
+        >
+          <ListItemText primary="Bli medlem" />
+        </ListItem>
+        <ListItem
+          button
+          component={Link}
+          onClick={(e: React.MouseEvent<HTMLElement>) => {
+            if (e.metaKey === false && e.altKey === false) {
+              e.preventDefault();
+              showAuthDialog('LOGIN');
+            }
+          }}
+          to="/logga-in"
+        >
+          <ListItemText primary="Logga in" />
+        </ListItem>
+      </>
+    );
 
   return (
     <>
-      <React.Suspense fallback>
-        <AuthDialog onClose={(): void => setAuthDialogState(null)} open={Boolean(authDialogState)}>
-          {dialog}
-        </AuthDialog>
-      </React.Suspense>
       <Button
         className={classes.login}
         component={Link}
@@ -55,7 +72,7 @@ export default function UnauthenticatedHeaderButtons(): JSX.Element {
         onClick={(e: React.MouseEvent<HTMLElement>) => {
           if (e.metaKey === false && e.altKey === false) {
             e.preventDefault();
-            setAuthDialogState('LOGIN');
+            showAuthDialog('LOGIN');
           }
         }}
         to="/logga-in"
@@ -70,7 +87,7 @@ export default function UnauthenticatedHeaderButtons(): JSX.Element {
         onClick={(e: React.MouseEvent<HTMLElement>) => {
           if (e.metaKey === false && e.altKey === false) {
             e.preventDefault();
-            setAuthDialogState('REGISTER');
+            showAuthDialog('REGISTER');
           }
         }}
         to="/bli-medlem"
