@@ -1,25 +1,15 @@
+import Button, { ButtonProps } from '@material-ui/core/Button';
 import { Theme, WithStyles, createStyles, withStyles } from '@material-ui/core/styles';
 
+import FacebookIcon from '@material-ui/icons/Facebook';
+import ForumIcon from '@material-ui/icons/Forum';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import Grid from '@material-ui/core/Grid';
+import InstagramIcon from '@material-ui/icons/Instagram';
 import MailIcon from '@material-ui/icons/Mail';
 import React from 'react';
 import { StyleRules } from '@material-ui/styles/withStyles';
-
-const Copyright = (): React.ReactElement => {
-  return (
-    <p
-      style={{
-        color: 'white',
-        fontSize: 12,
-        opacity: 0.5,
-      }}
-    >
-      {'Copyright © '}
-      Digital Ungdom 2018-{new Date().getFullYear()}
-      {'.'}
-    </p>
-  );
-};
+import Typography from '@material-ui/core/Typography';
 
 interface LinkProps {
   href: string;
@@ -27,43 +17,88 @@ interface LinkProps {
   linkName: string;
 }
 
-const Link = ({ href, icon, linkName }: LinkProps): React.ReactElement => (
-  <p style={{ marginBottom: 6 }}>
-    <a className="topFooterLink" href={href} rel="noopener noreferrer" target="_blank">
-      {icon}
-      {linkName}
-    </a>
-  </p>
-);
-
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
       backgroundColor: theme.palette.primary.dark,
-      borderTop: 'solid 1px',
       borderTopColor: theme.palette.divider,
-      color: 'white',
-      padding: theme.spacing(4, 2),
+      color: theme.palette.primary.contrastText,
+      padding: theme.spacing(3, 2),
     },
   });
 
-const Footer = ({ classes }: WithStyles<typeof styles>): React.ReactElement => (
-  <div className={classes.root}>
-    <Grid container spacing={4}>
-      <Grid item xs={4}>
-        <h3 style={{ marginBottom: 18 }}>Om oss</h3>
+type FooterProps = WithStyles<typeof styles>;
+
+const LinkWithIcon = (props: ButtonProps) => (
+  <Typography style={{ textAlign: 'justify' }}>
+    <Button
+      component="a"
+      href={props.href}
+      rel="noopener noreferrer"
+      startIcon={props.startIcon}
+      style={{ color: 'inherit' }}
+      target="_blank"
+    >
+      {props.children}
+    </Button>
+  </Typography>
+);
+
+const Footer = ({ classes }: FooterProps): React.ReactElement => (
+  <Grid className={classes.root} container justify="center">
+    <Grid container md={9} sm={12} spacing={4} xs={12}>
+      <Grid item sm={4} xs={12}>
+        <h3>Om oss</h3>
         <p style={{ marginBottom: 6 }}>
           Digital Ungdom är ett ideellt ungdomsförbund med syfte att i Sverige utveckla och underhålla ungdomars
           intresse för och kunskaper om digital teknik och datavetenskap samt hur detta kan användas.
         </p>
       </Grid>
-      <Grid item xs={4}>
-        <h3 style={{ marginBottom: 18 }}>Kontakt</h3>
-        <Link href="" icon={<MailIcon />} linkName="styrelse@digitalungdom.se" />
+      <Grid item xs={6}>
+        <h3>Kontakt</h3>
+        <Grid container>
+          <Grid item sm={6} xs={12}>
+            <LinkWithIcon href="https://discord.gg/J4JhCWH" startIcon={<ForumIcon style={{ marginRight: 8 }} />}>
+              Discord
+            </LinkWithIcon>
+            <LinkWithIcon
+              href="https://github.com/digitalungdom-se"
+              startIcon={<GitHubIcon style={{ marginRight: 8 }} />}
+            >
+              GitHub
+            </LinkWithIcon>
+            <LinkWithIcon href="mailto:styrelse@digitalungdom.se" startIcon={<MailIcon style={{ marginRight: 8 }} />}>
+              styrelse@digitalungdom.se
+            </LinkWithIcon>
+          </Grid>
+          <Grid item xs={6}>
+            <LinkWithIcon
+              href="https://instagram.com/digital_ungdom"
+              startIcon={<InstagramIcon style={{ marginRight: 8 }} />}
+            >
+              Instagram
+            </LinkWithIcon>
+            <LinkWithIcon
+              href="https://facebook.com/DigitalUngdomSE"
+              startIcon={<FacebookIcon style={{ marginRight: 8 }} />}
+            >
+              Facebook
+            </LinkWithIcon>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        <span>
+          {'Copyright © '}
+          Digital Ungdom 2018-{new Date().getFullYear()}
+          {'.'}
+        </span>
+        <a href="/static/stadgar.pdf" style={{ marginLeft: 8 }}>
+          Stadgar
+        </a>
       </Grid>
     </Grid>
-    <Copyright />
-  </div>
+  </Grid>
 );
 
 export default withStyles(styles)(Footer);
