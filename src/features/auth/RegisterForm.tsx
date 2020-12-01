@@ -116,7 +116,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
         }}
         validationSchema={RegisterValidationSchema}
       >
-        {({ values, setFieldValue, isSubmitting, errors, setFieldTouched }) => (
+        {({ touched, values, setFieldValue, isSubmitting, errors, setFieldTouched }) => (
           <Form className={classes.form}>
             <Grid container spacing={2}>
               <Grid item sm={6} xs={12}>
@@ -171,9 +171,9 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
               <Grid item xs={12}>
                 <BirthdatePicker
                   disabled={isSubmitting}
-                  error={Boolean(errors.birthdate)}
+                  error={Boolean(errors.birthdate && touched.birthdate)}
                   fullWidth
-                  helperText={errors.birthdate}
+                  helperText={touched.birthdate && errors.birthdate}
                   id="birthdate"
                   inputVariant="outlined"
                   KeyboardButtonProps={{

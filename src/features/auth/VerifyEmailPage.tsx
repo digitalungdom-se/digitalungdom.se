@@ -51,7 +51,7 @@ export default function VerifyEmailPage({
         <Formik
           initialValues={{ loginCode: '' }}
           onSubmit={(values) => {
-            onSubmit(email || btoa(emailInBase64), values.loginCode);
+            onSubmit(email || atob(emailInBase64), values.loginCode);
           }}
         >
           {({ values, isSubmitting, submitForm }) => (

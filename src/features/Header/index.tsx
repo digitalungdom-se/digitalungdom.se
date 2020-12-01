@@ -11,6 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
+import NotificationBell from 'features/notifications/NotificationBell';
 import ProfileHeaderButton from 'components/ProfileHeaderButton';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -20,6 +21,8 @@ import { TokenStorage } from 'utils/tokenInterceptor';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import UnauthenticatedHeaderButtons from './UnauthenticatedHeaderButtons';
+import { UserNotification } from 'types/notifications';
+import head from 'resources/head.svg';
 import { selectAuthenticated } from 'features/auth/authSlice';
 import { selectMyProfile } from 'features/users/usersSlice';
 import { useSelector } from 'react-redux';
@@ -45,7 +48,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       flexGrow: 1,
-      color: theme.palette.primary.main,
+      color: theme.palette.type === 'dark' ? 'white' : theme.palette.primary.main,
+      alignItems: 'center',
+      display: 'flex',
     },
     login: {
       marginRight: theme.spacing(2),
@@ -67,6 +72,8 @@ const ConnectedProfileHeaderButton = () => {
     <ProfileHeaderButton
       avatarSrc={`${Axios.defaults.baseURL}/user/${myProfile?._id}/profile_picture?size=24`}
       firstName={myProfile?.details.firstName || ''}
+      lastName={myProfile?.details.lastName || ''}
+      loading={myProfile === null}
       logout={() => TokenStorage.clear()}
       username={myProfile?.details.username || ''}
     />
@@ -101,24 +108,24 @@ function Header(): JSX.Element {
       >
         {
           <List className={classes.drawerList}>
-            {!authenticated && <UnauthenticatedHeaderButtons listItems />}
-            <Divider />
             {labels.map((text, index) => (
               <ListItem button component={RouterLink} key={text} onClick={handleDrawerToggle} to={links[index]}>
                 <ListItemText primary={text} />
               </ListItem>
             ))}
+            <Divider />
+            <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+              {!authenticated && <UnauthenticatedHeaderButtons />}
+            </ListItem>
           </List>
         }
       </Drawer>
       <AppBar className={classes.root} color="inherit" position="sticky">
         <Toolbar>
-          <Typography
-            className={classes.title}
-            component="h1"
-            style={{ fontWeight: 600, color: '#1e6ee8' }}
-            variant="h6"
-          >
+          <Typography className={classes.title} component="h1" style={{ fontWeight: 600 }} variant="h6">
+            <Link to="/">
+              <img alt="Logo depicting Boten Anna" src={head} style={{ verticalAlign: 'middle' }} width={50} />
+            </Link>
             <Link to="/">Digital Ungdom</Link>
           </Typography>
           <Hidden smDown>
@@ -128,6 +135,29 @@ function Header(): JSX.Element {
             </Tabs>
             {!authenticated && <UnauthenticatedHeaderButtons />}
           </Hidden>
+          {authenticated && (
+            <NotificationBell
+              deleteNotifications={(notifications: string[]) => Axios.delete('/notification', { data: notifications })}
+              getNotifications={(params: { skip: number; limit: number }): Promise<UserNotification[]> =>
+                new Promise((resolve, reject) =>
+                  Axios.get<UserNotification[]>('/notification', { params })
+                    .then((res) =>
+                      resolve(
+                        res.data.map((notification) => ({
+                          ...notification,
+                          link: `/agora/general/${notification.data.post}${
+                            notification.data.comment ? '/' + notification.data.comment : ''
+                          }`,
+                        })),
+                      ),
+                    )
+                    .catch((err) => reject(err)),
+                )
+              }
+              limit={10}
+              readNotifications={(notifications: string[]) => Axios.put('/notification', { body: notifications })}
+            />
+          )}
           {authenticated && <ConnectedProfileHeaderButton />}
           <IconButton
             aria-label="open drawer"
