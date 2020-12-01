@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(2),
       float: 'left',
     },
+    widgetBlock: {
+      marginBottom: theme.spacing(2),
+    },
   }),
 );
 
@@ -38,7 +41,8 @@ interface AgoraParams {
 
 export default function Agora(): React.ReactElement {
   const classes = useStyles();
-  const { hypagora, sort } = useParams<AgoraParams>();
+  const { sort } = useParams<AgoraParams>();
+  const hypagora = 'general';
 
   return (
     <Container className={classes.root} fixed maxWidth="md">
@@ -48,7 +52,7 @@ export default function Agora(): React.ReactElement {
       <div style={{ display: 'flex' }}>
         <Box className={classes.margin} flexGrow={1} style={{ overflow: 'auto', padding: '0 2px 2px 2px' }}>
           <Hidden mdUp>
-            <PublishAgoragramWidget />
+            <PublishAgoragramWidget className={classes.widgetBlock} />
           </Hidden>
           <AgoraInfiniteScroll hypagora={hypagora} sort={sort} />
         </Box>

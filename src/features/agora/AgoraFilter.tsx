@@ -18,18 +18,14 @@ export interface AgoraFilterProps {
   path?: string | undefined;
 }
 
-export default function AgoraFilter({
-  path = '/',
-  hypagora = 'general',
-  sort = 'new',
-}: AgoraFilterProps): React.ReactElement {
+export default function AgoraFilter({ path = '/', sort = 'new' }: AgoraFilterProps): React.ReactElement {
   return (
     <>
       <StyledButton
         color={sort === 'new' ? 'primary' : 'default'}
         component={RouterLink}
         disableElevation
-        to={`${path}/${hypagora}/new`}
+        to={`${path}/new`}
         variant="contained"
       >
         New
@@ -39,7 +35,7 @@ export default function AgoraFilter({
         color={sort === 'top' ? 'primary' : 'default'}
         component={RouterLink}
         disableElevation
-        to={`${path}/${hypagora}/top`}
+        to={`${path}/top`}
         variant="contained"
       >
         Top

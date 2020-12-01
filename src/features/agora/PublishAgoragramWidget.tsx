@@ -21,10 +21,14 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const PublishAgoragramWidget = (): React.ReactElement => {
+interface PublishAgoragramWidgetProps {
+  className?: string;
+}
+
+const PublishAgoragramWidget = ({ className }: PublishAgoragramWidgetProps): React.ReactElement => {
   const classes = useStyles();
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader
         className={classes.header}
         title={

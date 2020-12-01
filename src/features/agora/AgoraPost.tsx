@@ -1,4 +1,5 @@
 import { ConnectedProps, connect } from 'react-redux';
+import { Theme, withStyles } from '@material-ui/core/styles';
 import { editAgoragramSuccess, getAgoragramsSuccess } from './agoraSlice';
 import { selectAgoragramById, starAgoragramSuccess } from './agoraSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,6 +42,12 @@ const connector = connect(null, mapDispatch);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
+const StyledContainer = withStyles((theme: Theme) => ({
+  root: {
+    paddingTop: theme.spacing(2),
+  },
+}))(Container);
+
 class AgoraPost extends React.Component<AgoraPostProps, AgoraPostState> {
   constructor(props: AgoraPostProps) {
     super(props);
@@ -75,20 +82,20 @@ class AgoraPost extends React.Component<AgoraPostProps, AgoraPostState> {
   render() {
     if (this.state.root === null) {
       return (
-        <Container maxWidth="md">
+        <StyledContainer maxWidth="md">
           <Post loading />
-        </Container>
+        </StyledContainer>
       );
     }
     if (this.state.root === 'deleted') return <div>deleted</div>;
     return (
-      <Container maxWidth="md">
+      <StyledContainer maxWidth="md">
         <ReduxConnectedPost
           _id={this.state.root}
           displayComments
           highlightCommentID={this.props.match.params.commentID}
         />
-      </Container>
+      </StyledContainer>
     );
   }
 }
@@ -160,7 +167,7 @@ export const ReduxConnectedPost = ({
         return true;
       }}
       isAuthor={Boolean(props.author && props.author._id === myProfile?._id)}
-      link={`/agora/${props.hypagora}/${props.shortID}`}
+      link={`/agora/p/${props.shortID}`}
       longPostIsFadedOut={longPostIsFadedOut}
       time={mongoIdToDate(props._id)}
     >

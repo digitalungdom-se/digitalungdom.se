@@ -28,9 +28,9 @@ const App: React.FC = () => {
               }}
             >
               <AuthDialogProvider />
-              <div className="App" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <Header />
-                <div style={{ flex: 1 }}>
+                <div style={{ flex: 1, marginTop: -65, minHeight: '100vh', paddingTop: 65 }}>
                   <Router />
                 </div>
                 <Footer />
