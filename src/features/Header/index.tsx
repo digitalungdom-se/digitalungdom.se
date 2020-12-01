@@ -23,11 +23,10 @@ import Typography from '@material-ui/core/Typography';
 import UnauthenticatedHeaderButtons from './UnauthenticatedHeaderButtons';
 import { UserNotification } from 'types/notifications';
 import head from 'resources/head.svg';
+import { mongoIdToDate } from 'utils/mongoid';
 import { selectAuthenticated } from 'features/auth/authSlice';
 import { selectMyProfile } from 'features/users/usersSlice';
 import { useSelector } from 'react-redux';
-
-// import List from '@material-ui/core/List'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -145,6 +144,7 @@ function Header(): JSX.Element {
                       resolve(
                         res.data.map((notification) => ({
                           ...notification,
+                          at: mongoIdToDate(notification._id),
                           link: `/agora/general/${notification.data.post}${
                             notification.data.comment ? '/' + notification.data.comment : ''
                           }`,
