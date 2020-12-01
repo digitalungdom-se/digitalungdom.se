@@ -6,9 +6,11 @@ import ForumIcon from '@material-ui/icons/Forum';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Grid from '@material-ui/core/Grid';
 import InstagramIcon from '@material-ui/icons/Instagram';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailIcon from '@material-ui/icons/Mail';
 import React from 'react';
 import { StyleRules } from '@material-ui/styles/withStyles';
+import TwitterIcon from '@material-ui/icons/Twitter';
 import Typography from '@material-ui/core/Typography';
 
 interface LinkProps {
@@ -67,6 +69,12 @@ const Footer = ({ classes }: FooterProps): React.ReactElement => (
             >
               GitHub
             </LinkWithIcon>
+            <LinkWithIcon
+              href="https://twitter.com/digital_ungdom"
+              startIcon={<TwitterIcon style={{ marginRight: 8 }} />}
+            >
+              Twitter
+            </LinkWithIcon>
             <LinkWithIcon href="mailto:styrelse@digitalungdom.se" startIcon={<MailIcon style={{ marginRight: 8 }} />}>
               styrelse@digitalungdom.se
             </LinkWithIcon>
@@ -83,6 +91,12 @@ const Footer = ({ classes }: FooterProps): React.ReactElement => (
               startIcon={<FacebookIcon style={{ marginRight: 8 }} />}
             >
               Facebook
+            </LinkWithIcon>
+            <LinkWithIcon
+              href="https://www.linkedin.com/company/digitalungdom/"
+              startIcon={<LinkedInIcon style={{ marginRight: 8 }} />}
+            >
+              LinkedIn
             </LinkWithIcon>
           </Grid>
         </Grid>
