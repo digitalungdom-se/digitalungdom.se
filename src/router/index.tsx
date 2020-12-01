@@ -9,6 +9,7 @@ const AgoraPost = React.lazy(() => import('features/agora/AgoraPost'));
 const AgoraSubmit = React.lazy(() => import('features/agora/Submit'));
 const About = React.lazy(() => import('pages/About'));
 const Login = React.lazy(() => import('features/auth/Login'));
+const NotFound = React.lazy(() => import('pages/NotFound'));
 const Register = React.lazy(() => import('features/auth/Register'));
 const Startpage = React.lazy(() => import('pages/Startpage'));
 const Settings = React.lazy(() => import('features/settings'));
@@ -49,6 +50,9 @@ function Router(): React.ReactElement {
         </Route>
         <Route exact path="/">
           <Startpage />
+        </Route>
+        <Route>
+          <NotFound />
         </Route>
       </Switch>
     </React.Suspense>
