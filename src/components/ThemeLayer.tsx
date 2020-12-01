@@ -48,6 +48,7 @@ const ThemeLayer = ({ children, forceDarkMode }: ThemeLayerProps): JSX.Element =
           type: prefersDarkMode ? 'dark' : 'light',
           primary: {
             main: '#1e6ee8',
+            dark: "#05379c"
           },
           secondary: {
             main: '#ffcd00',
