@@ -80,10 +80,6 @@ class ProfilePage extends React.Component<ProfilePageProps, ProfilePageState> {
               joinDate={new Date(parseInt(user._id.substring(0, 8), 16) * 1000)}
               lastName={user.details.lastName}
               onSubmit={(values, { setSubmitting }): void => {
-                // const array: Array<[string, Record<string, unknown>]> = [];
-                // for (const [key, value] of Object.entries(values)) {
-                //   array.push(['profile.' + key, { [key]: value }]);
-                // }
                 Axios.put('/user/@me', {
                   profileBio: values.bio,
                   profileStatus: values.status,
