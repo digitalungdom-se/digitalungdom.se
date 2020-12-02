@@ -93,7 +93,7 @@ const Footer = ({ classes }: FooterProps): React.ReactElement => (
           Digital Ungdom 2018-{new Date().getFullYear()}
           {'.'}
         </span>
-        <a href="/static/stadgar.pdf" style={{ marginLeft: 8 }}>
+        <a href="https://digitalungdom.se/stadgar.pdf" style={{ marginLeft: 8 }}>
           Stadgar
         </a>
       </Grid>
