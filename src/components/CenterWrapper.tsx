@@ -3,7 +3,7 @@ import React from 'react';
 
 const CenterWrapper: React.FC = ({ children }) => (
   <Grid container justify="center">
-    <Grid justify="center" xs={10}>
+    <Grid justify="center" md={10} xs={12}>
       {children}
     </Grid>
   </Grid>
