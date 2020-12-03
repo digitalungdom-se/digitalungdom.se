@@ -25,6 +25,7 @@ const styles = (theme: Theme): StyleRules =>
       backgroundColor: theme.palette.primary.dark,
       borderTopColor: theme.palette.divider,
       color: theme.palette.primary.contrastText,
+      marginTop: theme.spacing(2),
       padding: theme.spacing(3, 2),
     },
   });
@@ -102,14 +103,14 @@ const Footer = ({ classes }: FooterProps): React.ReactElement => (
         </Grid>
       </Grid>
       <Grid item xs={12}>
+        <a href="/stadgar.pdf" style={{ marginRight: '1rem' }}>
+          Stadgar
+        </a>
         <span>
           {'Copyright © '}
           Digital Ungdom 2018-{new Date().getFullYear()}
           {'.'}
         </span>
-        <a href="/static/stadgar.pdf" style={{ marginLeft: 8 }}>
-          Stadgar
-        </a>
       </Grid>
     </Grid>
   </Grid>
