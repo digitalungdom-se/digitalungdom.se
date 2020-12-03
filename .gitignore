@@ -27,3 +27,6 @@ yarn-error.log*
 
 # dontpush folder
 dontpush
+
+# caches
+.cache

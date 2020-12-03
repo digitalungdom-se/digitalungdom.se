@@ -3,7 +3,7 @@ import { Theme, createStyles, makeStyles, withStyles } from '@material-ui/core/s
 
 import AppBar from '@material-ui/core/AppBar';
 import Axios from 'axios';
-import CenterWrapper from '../../components/CenterWrapper';
+import CenterWrapper from 'components/CenterWrapper';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';

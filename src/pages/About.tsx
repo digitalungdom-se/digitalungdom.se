@@ -18,18 +18,20 @@ const About = () => (
 
           <Grid item md={5} sm={6} xs={10}>
             <div>
-              <h3 style={{ fontSize: 24, fontWeight: 'bold' }}>Vad är Digital Ungdom?</h3>
-              <p style={{ fontSize: 15, textAlign: 'justify' }}>
-                <Emoji emoji="💙" /> Digital Ungdom är ett nationellt allmännyttigt ideellt förbund i Sverige.
-              </p>
-              <p style={{ fontSize: 15, textAlign: 'justify' }}>
-                <Emoji emoji="👩‍💻" /> Vårt syfte är att i Sverige utveckla och underhålla ungdomars intresse för och
+              <Typography style={{ fontWeight: 'bold' }} variant="h5">
+                Vad är Digital Ungdom?
+              </Typography>
+              <Typography style={{ margin: '12px 0' }} variant="body2">
+                <Emoji emoji="💙 " /> Digital Ungdom är ett nationellt allmännyttigt ideellt förbund i Sverige.
+              </Typography>
+              <Typography style={{ margin: '12px 0' }} variant="body2">
+                <Emoji emoji="👩‍💻 " /> Vårt syfte är att i Sverige utveckla och underhålla ungdomars intresse för och
                 kunskaper om digital teknik och datavetenskap.
-              </p>
-              <p style={{ fontSize: 15, textAlign: 'justify' }}>
-                <Emoji emoji="🏁" /> Vår vision är att skapa ett brett kontaktnät av ungdomar och därigenom aktivt bidra
-                till att Sverige blir världsledande inom digital teknik och datavetenskap.
-              </p>
+              </Typography>
+              <Typography style={{ margin: '12px 0' }} variant="body2">
+                <Emoji emoji="🏁 " /> Vår vision är att skapa ett brett kontaktnät av ungdomar och därigenom aktivt
+                bidra till att Sverige blir världsledande inom digital teknik och datavetenskap.
+              </Typography>
             </div>
           </Grid>
         </Grid>
@@ -38,9 +40,9 @@ const About = () => (
 
     <CenterWrapper>
       <Grid container justify="center" style={{ paddingTop: 20, width: '100%' }}>
-        <h3 style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 30 }}>
+        <Typography style={{ fontWeight: 'bold', marginBottom: 20 }} variant="h5">
           Förbundsstyrelsen <Emoji emoji="😍" />
-        </h3>
+        </Typography>
       </Grid>
       <Grid container justify="space-around">
         <Profile
@@ -114,13 +116,17 @@ const Profile = ({ name, surname, bio, role, color }: ProfileProps) => (
       >
         <img alt={name} src={require('resources/images/portraits/' + name.toLowerCase() + '.png')} />
       </div>
-      <Typography style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 2, marginTop: 10 }}>
+      <Typography style={{ fontWeight: 'bold', marginBottom: 2, marginTop: 10 }} variant="subtitle1">
         {name + ' ' + surname}
       </Typography>
-      <Typography style={{ fontSize: 16, fontStyle: 'italic', marginBottom: 16 }}>{role}</Typography>
-      <Typography style={{ fontSize: 14, marginBottom: 6, textAlign: 'left' }}>{bio}</Typography>
+      <Typography style={{ fontStyle: 'italic', marginBottom: 16 }} variant="subtitle1">
+        {role}
+      </Typography>
+      <Typography style={{ marginBottom: 6, textAlign: 'left' }} variant="body2">
+        {bio}
+      </Typography>
 
-      <Typography style={{ fontSize: 12, textAlign: 'justify', marginBottom: 24 }}>
+      <Typography style={{ textAlign: 'justify', marginBottom: 24 }} variant="body2">
         <Button
           href={'mailto:' + name.toLowerCase() + '@digitalungdom.se'}
           startIcon={<MailIcon style={{ marginRight: 8 }} />}
