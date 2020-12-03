@@ -4,6 +4,8 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
+import Hidden from '@material-ui/core/Hidden';
+import DynamicTitle from 'components/DynamicTitle';
 
 const CenterWrapper: React.FC = ({ children }) => (
   <Grid container justify="center">
@@ -35,21 +37,17 @@ export default function Startpage() {
       <Grid container style={{ background: '#05379c', paddingTop: 60, paddingBottom: 50, width: '100%' }}>
         <CenterWrapper>
           <Grid alignItems="center" container justify="space-between">
-            <Grid item lg={6} md={11} sm={11}>
-              <div>
-                <img alt="frontPage" src={require('resources/images/FrontPage.png')} style={{ width: '100%' }} />
-              </div>
-            </Grid>
+            <Hidden smDown>
+              <Grid item lg={6} md={5}>
+                <div>
+                  <img alt="frontPage" src={require('resources/images/FrontPage.png')} style={{ width: '100%' }} />
+                </div>
+              </Grid>
+            </Hidden>
 
-            <Grid item lg={5} xs={12}>
+            <Grid item lg={5} md={7} xs={12}>
               <div>
-                <Typography
-                  style={{ fontSize: titleSize, marginBottom: 10, color: 'white', fontWeight: 'bold' }}
-                  variant="h2"
-                >
-                  {' '}
-                  Programmering är roligt!{' '}
-                </Typography>
+                <DynamicTitle titleSize={titleSize} />
 
                 <Typography
                   gutterBottom

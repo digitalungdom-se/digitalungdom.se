@@ -1,8 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { Theme, createStyles, makeStyles, withStyles } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
 import Axios from 'axios';
+import CenterWrapper from 'components/CenterWrapper';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
     login: {
       marginRight: theme.spacing(2),
     },
-    tabs: theme.mixins.toolbar,
+    tab: theme.mixins.toolbar,
     menuButton: {
       marginLeft: theme.spacing(2),
       [theme.breakpoints.up('md')]: {
@@ -64,6 +65,20 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
+
+const StyledTab = withStyles({
+  root: {
+    minWidth: 80,
+    textTransform: 'none',
+  },
+  selected: {},
+})((props: any) => <Tab disableRipple {...props} />);
+
+const StyledTabs = withStyles((theme: Theme) => ({
+  indicator: {
+    backgroundColor: theme.palette.type === 'dark' ? 'white' : theme.palette.primary.main,
+  },
+}))(Tabs);
 
 const ConnectedProfileHeaderButton = () => {
   const myProfile = useSelector(selectMyProfile);
@@ -93,7 +108,7 @@ function Header(): JSX.Element {
     setMobileOpen(!mobileOpen);
   };
 
-  const labels = ['About us', 'Agora'];
+  const labels = ['Om oss', 'Agora'];
 
   return (
     <>
@@ -121,54 +136,66 @@ function Header(): JSX.Element {
         }
       </Drawer>
       <AppBar className={classes.root} color="inherit" position="sticky">
-        <Toolbar>
-          <Typography className={classes.title} component="h1" style={{ fontWeight: 600 }} variant="h6">
-            <Link to="/">
-              <img alt="Logo depicting Boten Anna" src={head} style={{ verticalAlign: 'middle' }} width={50} />
-            </Link>
-            <Link to="/">Digital Ungdom</Link>
-          </Typography>
-          <Hidden smDown>
-            <Tabs value={links.indexOf(pathname) !== -1 ? links.indexOf(pathname) : false}>
-              <Tab className={classes.tabs} component={RouterLink} label="About us" to="/about" />
-              <Tab className={classes.tabs} component={RouterLink} label="Agora" to="/agora" />
-            </Tabs>
-            {!authenticated && <UnauthenticatedHeaderButtons />}
-          </Hidden>
-          {authenticated && (
-            <NotificationBell
-              deleteNotifications={(notifications: string[]) => Axios.delete('/notification', { data: notifications })}
-              getNotifications={(params: { skip: number; limit: number }): Promise<UserNotification[]> =>
-                new Promise((resolve, reject) =>
-                  Axios.get<UserNotification[]>('/notification', { params })
-                    .then((res) =>
-                      resolve(
-                        res.data.map((notification) => ({
-                          ...notification,
-                          link: `/agora/general/${notification.data.post}${
-                            notification.data.comment ? '/' + notification.data.comment : ''
-                          }`,
-                        })),
-                      ),
-                    )
-                    .catch((err) => reject(err)),
-                )
-              }
-              limit={10}
-              readNotifications={(notifications: string[]) => Axios.put('/notification', { body: notifications })}
-            />
-          )}
-          {authenticated && <ConnectedProfileHeaderButton />}
-          <IconButton
-            aria-label="open drawer"
-            className={classes.menuButton}
-            color="inherit"
-            edge="start"
-            onClick={handleDrawerToggle}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
+        <CenterWrapper>
+          <Toolbar>
+            <Typography className={classes.title} component="h1" style={{ fontWeight: 600 }} variant="h6">
+              <Link to="/">
+                <img
+                  alt="Logo depicting Boten Anna"
+                  src={head}
+                  style={{ verticalAlign: 'middle', marginRight: 4 }}
+                  width={50}
+                />
+              </Link>
+              <Link to="/">Digital Ungdom</Link>
+            </Typography>
+            <Hidden smDown>
+              <StyledTabs
+                style={{ marginRight: 12 }}
+                value={links.indexOf(pathname) !== -1 ? links.indexOf(pathname) : false}
+              >
+                <StyledTab className={classes.tab} component={RouterLink} label="Om oss" to="/about" />
+                <StyledTab className={classes.tab} component={RouterLink} label="Agora" to="/agora" />
+              </StyledTabs>
+              {!authenticated && <UnauthenticatedHeaderButtons />}
+            </Hidden>
+            {authenticated && (
+              <NotificationBell
+                deleteNotifications={(notifications: string[]) =>
+                  Axios.delete('/notification', { data: notifications })
+                }
+                getNotifications={(params: { skip: number; limit: number }): Promise<UserNotification[]> =>
+                  new Promise((resolve, reject) =>
+                    Axios.get<UserNotification[]>('/notification', { params })
+                      .then((res) =>
+                        resolve(
+                          res.data.map((notification) => ({
+                            ...notification,
+                            link: `/agora/general/${notification.data.post}${
+                              notification.data.comment ? '/' + notification.data.comment : ''
+                            }`,
+                          })),
+                        ),
+                      )
+                      .catch((err) => reject(err)),
+                  )
+                }
+                limit={10}
+                readNotifications={(notifications: string[]) => Axios.put('/notification', { body: notifications })}
+              />
+            )}
+            {authenticated && <ConnectedProfileHeaderButton />}
+            <IconButton
+              aria-label="open drawer"
+              className={classes.menuButton}
+              color="inherit"
+              edge="start"
+              onClick={handleDrawerToggle}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Toolbar>
+        </CenterWrapper>
       </AppBar>
     </>
   );
