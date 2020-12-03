@@ -1,8 +1,14 @@
-import Grid from '@material-ui/core/Grid';
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
-const CenterWrapper: React.FC = ({ children }) => (
-  <Grid container justify="center">
+import Grid from '@material-ui/core/Grid';
+
+export interface CenterWrapperProps {
+  children?: React.ReactNode;
+  className?: string;
+}
+
+const CenterWrapper: FunctionComponent<CenterWrapperProps> = ({ children, className }: CenterWrapperProps) => (
+  <Grid className={className} container justify="center">
     <Grid justify="center" md={10} xs={12}>
       {children}
     </Grid>

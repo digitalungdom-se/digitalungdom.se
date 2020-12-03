@@ -1,3 +1,5 @@
+import { Theme, WithStyles, createStyles, withStyles } from '@material-ui/core/styles';
+
 import Button from '@material-ui/core/Button';
 import CenterWrapper from 'components/CenterWrapper';
 import Grid from '@material-ui/core/Grid';
@@ -5,46 +7,61 @@ import MailIcon from '@material-ui/icons/Mail';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
-const About = () => (
+const styles = ({ spacing }: Theme) =>
+  createStyles({
+    aboutOrganisation: {
+      '& p': {
+        margin: spacing(2, 0),
+      },
+      padding: spacing(6) / 2,
+      paddingBottom: spacing(4),
+      paddingTop: spacing(6),
+    },
+    profiles: {
+      '& h5': {
+        fontWeight: 'bold',
+        marginBottom: spacing(3),
+        textAlign: 'center',
+      },
+      marginTop: spacing(3),
+      padding: spacing(2) / 2,
+    },
+  });
+
+export type AboutProps = WithStyles<typeof styles>;
+
+const About = withStyles(styles)(({ classes }: AboutProps) => (
   <div>
     <Grid container>
-      <CenterWrapper>
-        <Grid alignItems="center" container justify="center" spacing={6} style={{ paddingBottom: 20, paddingTop: 50 }}>
+      <CenterWrapper className={classes.aboutOrganisation}>
+        <Grid alignItems="center" container justify="center" spacing={6}>
           <Grid item md={5} sm={6} xs={12}>
-            <div>
-              <img alt="" src={require('resources/images/about1.png')} style={{ width: '100%' }} />
-            </div>
+            <img alt="" src={require('resources/images/about1.png')} style={{ width: '100%' }} />
           </Grid>
-
           <Grid item md={5} sm={6} xs={10}>
-            <div>
-              <Typography style={{ fontWeight: 'bold' }} variant="h5">
-                Vad är Digital Ungdom?
-              </Typography>
-              <Typography style={{ margin: '12px 0' }} variant="body2">
-                <Emoji emoji="💙 " /> Digital Ungdom är ett nationellt allmännyttigt ideellt förbund i Sverige.
-              </Typography>
-              <Typography style={{ margin: '12px 0' }} variant="body2">
-                <Emoji emoji="👩‍💻 " /> Vårt syfte är att i Sverige utveckla och underhålla ungdomars intresse för och
-                kunskaper om digital teknik och datavetenskap.
-              </Typography>
-              <Typography style={{ margin: '12px 0' }} variant="body2">
-                <Emoji emoji="🏁 " /> Vår vision är att skapa ett brett kontaktnät av ungdomar och därigenom aktivt
-                bidra till att Sverige blir världsledande inom digital teknik och datavetenskap.
-              </Typography>
-            </div>
+            <Typography style={{ fontWeight: 'bold' }} variant="h5">
+              Vad är Digital Ungdom?
+            </Typography>
+            <Typography paragraph>
+              <Emoji emoji="💙" /> Digital Ungdom är ett nationellt allmännyttigt ideellt förbund i Sverige.
+            </Typography>
+            <Typography paragraph>
+              <Emoji emoji="👩‍💻" /> Vårt syfte är att i Sverige utveckla och underhålla ungdomars intresse för och
+              kunskaper om digital teknik och datavetenskap.
+            </Typography>
+            <Typography paragraph>
+              <Emoji emoji="🏁" /> Vår vision är att skapa ett brett kontaktnät av ungdomar och därigenom aktivt bidra
+              till att Sverige blir världsledande inom digital teknik och datavetenskap.
+            </Typography>
           </Grid>
         </Grid>
       </CenterWrapper>
     </Grid>
-
-    <CenterWrapper>
-      <Grid container justify="center" style={{ paddingTop: 20, width: '100%' }}>
-        <Typography style={{ fontWeight: 'bold', marginBottom: 20 }} variant="h5">
-          Förbundsstyrelsen <Emoji emoji="😍" />
-        </Typography>
-      </Grid>
-      <Grid container justify="space-around">
+    <CenterWrapper className={classes.profiles}>
+      <Typography variant="h5">
+        Förbundsstyrelsen <Emoji emoji="😍" />
+      </Typography>
+      <Grid container justify="space-around" spacing={2}>
         <Profile
           bio="Hej! Jag heter Simon Sondén och jobbar bland annat med arkitekturen och algoritmerna bakom våra projekt. För övrigt älskar jag att bygga robotar."
           color="#bacf9b"
@@ -83,12 +100,12 @@ const About = () => (
       </Grid>
     </CenterWrapper>
   </div>
-);
+));
 
-const Emoji = (props: any) => {
+const Emoji = ({ emoji }: { emoji: string }) => {
   return (
     <span aria-label="emoji" role="img">
-      {props.emoji}
+      {emoji}
     </span>
   );
 };
@@ -102,19 +119,19 @@ interface ProfileProps {
 }
 
 const Profile = ({ name, surname, bio, role, color }: ProfileProps) => (
-  <Grid item lg={2} md={3} sm={4} style={{ margin: '0 8px' }} xs={12}>
+  <Grid item lg={2} md={4} sm={5} xs={8}>
     <div
       style={{
-        width: '100%',
-        borderRadius: 10,
         backgroundColor: color,
+        borderRadius: 10,
         overflow: 'hidden',
+        width: '100%',
       }}
     >
       <img
         alt={name}
         src={require('resources/images/portraits/' + name.toLowerCase() + '.png')}
-        style={{ width: '100%', marginBottom: -8 }}
+        style={{ marginBottom: -8, width: '100%' }}
       />
     </div>
     <Typography style={{ fontWeight: 'bold', marginBottom: 2, marginTop: 10 }} variant="subtitle1">
@@ -126,12 +143,8 @@ const Profile = ({ name, surname, bio, role, color }: ProfileProps) => (
     <Typography style={{ marginBottom: 6, textAlign: 'left' }} variant="body2">
       {bio}
     </Typography>
-
-    <Typography style={{ textAlign: 'justify', marginBottom: 24 }} variant="body2">
-      <Button
-        href={'mailto:' + name.toLowerCase() + '@digitalungdom.se'}
-        startIcon={<MailIcon style={{ marginRight: 8 }} />}
-      >
+    <Typography style={{ marginBottom: 24, textAlign: 'justify' }} variant="body2">
+      <Button href={'mailto:' + name.toLowerCase() + '@digitalungdom.se'} startIcon={<MailIcon />}>
         {name.toLowerCase()}@digitalungdom.se
       </Button>
     </Typography>
