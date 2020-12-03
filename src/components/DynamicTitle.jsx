@@ -16,6 +16,8 @@ class DynamicTitle extends React.Component {
   constructor(props) {
     super(props);
     const firstIndex = Math.floor(Math.random() * programmingIs.length);
+
+    this.interval = null;
     this.state = {
       titleWordIndex: Math.floor(firstIndex),
       titleWord: programmingIs[firstIndex],
@@ -26,7 +28,7 @@ class DynamicTitle extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(() => {
+    this.interval = setInterval(() => {
       // If we are erasing and have zero letters, choose a new word.
       if (this.state.letterIndex <= 0 && this.state.erasing === true) {
         let newWordIndex = this.state.titleWordIndex + 1;
@@ -53,6 +55,10 @@ class DynamicTitle extends React.Component {
         this.setState({ erasing: false });
       }
     }, 100);
+  }
+
+  componentWillUnmount() {
+    if (this.interval) clearInterval(this.interval);
   }
 
   render() {

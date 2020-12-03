@@ -102,39 +102,39 @@ interface ProfileProps {
 }
 
 const Profile = ({ name, surname, bio, role, color }: ProfileProps) => (
-  <Grid item style={{ width: 260, margin: '0 8px' }}>
-    <div style={{ textAlign: 'center', width: '100%' }}>
-      <div
-        style={{
-          width: 260,
-          height: 260,
-          margin: '0 auto',
-          borderRadius: 10,
-          backgroundColor: color,
-          overflow: 'hidden',
-        }}
-      >
-        <img alt={name} src={require('resources/images/portraits/' + name.toLowerCase() + '.png')} />
-      </div>
-      <Typography style={{ fontWeight: 'bold', marginBottom: 2, marginTop: 10 }} variant="subtitle1">
-        {name + ' ' + surname}
-      </Typography>
-      <Typography style={{ fontStyle: 'italic', marginBottom: 16 }} variant="subtitle1">
-        {role}
-      </Typography>
-      <Typography style={{ marginBottom: 6, textAlign: 'left' }} variant="body2">
-        {bio}
-      </Typography>
-
-      <Typography style={{ textAlign: 'justify', marginBottom: 24 }} variant="body2">
-        <Button
-          href={'mailto:' + name.toLowerCase() + '@digitalungdom.se'}
-          startIcon={<MailIcon style={{ marginRight: 8 }} />}
-        >
-          {name.toLowerCase()}@digitalungdom.se
-        </Button>
-      </Typography>
+  <Grid item lg={2} md={3} sm={4} style={{ margin: '0 8px' }} xs={12}>
+    <div
+      style={{
+        width: '100%',
+        borderRadius: 10,
+        backgroundColor: color,
+        overflow: 'hidden',
+      }}
+    >
+      <img
+        alt={name}
+        src={require('resources/images/portraits/' + name.toLowerCase() + '.png')}
+        style={{ width: '100%', marginBottom: -8 }}
+      />
     </div>
+    <Typography style={{ fontWeight: 'bold', marginBottom: 2, marginTop: 10 }} variant="subtitle1">
+      {name + ' ' + surname}
+    </Typography>
+    <Typography style={{ fontStyle: 'italic', marginBottom: 16 }} variant="subtitle1">
+      {role}
+    </Typography>
+    <Typography style={{ marginBottom: 6, textAlign: 'left' }} variant="body2">
+      {bio}
+    </Typography>
+
+    <Typography style={{ textAlign: 'justify', marginBottom: 24 }} variant="body2">
+      <Button
+        href={'mailto:' + name.toLowerCase() + '@digitalungdom.se'}
+        startIcon={<MailIcon style={{ marginRight: 8 }} />}
+      >
+        {name.toLowerCase()}@digitalungdom.se
+      </Button>
+    </Typography>
   </Grid>
 );
 
