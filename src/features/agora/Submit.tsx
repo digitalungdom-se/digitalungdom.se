@@ -49,7 +49,7 @@ export default function Submit(): React.ReactElement {
               ...values,
               hypagora: 'GENERAL',
             }).then((res) => {
-              push(`/agora/general/${res.data.shortID}`);
+              push(`/agora/${res.data.shortID}`);
             });
           }}
           validationSchema={Yup.object({

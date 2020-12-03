@@ -6,9 +6,11 @@ import ForumIcon from '@material-ui/icons/Forum';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Grid from '@material-ui/core/Grid';
 import InstagramIcon from '@material-ui/icons/Instagram';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailIcon from '@material-ui/icons/Mail';
 import React from 'react';
 import { StyleRules } from '@material-ui/styles/withStyles';
+import TwitterIcon from '@material-ui/icons/Twitter';
 import Typography from '@material-ui/core/Typography';
 
 interface LinkProps {
@@ -23,6 +25,7 @@ const styles = (theme: Theme): StyleRules =>
       backgroundColor: theme.palette.primary.dark,
       borderTopColor: theme.palette.divider,
       color: theme.palette.primary.contrastText,
+      marginTop: theme.spacing(2),
       padding: theme.spacing(3, 2),
     },
   });
@@ -67,6 +70,12 @@ const Footer = ({ classes }: FooterProps): React.ReactElement => (
             >
               GitHub
             </LinkWithIcon>
+            <LinkWithIcon
+              href="https://twitter.com/digital_ungdom"
+              startIcon={<TwitterIcon style={{ marginRight: 8 }} />}
+            >
+              Twitter
+            </LinkWithIcon>
             <LinkWithIcon href="mailto:styrelse@digitalungdom.se" startIcon={<MailIcon style={{ marginRight: 8 }} />}>
               styrelse@digitalungdom.se
             </LinkWithIcon>
@@ -84,18 +93,24 @@ const Footer = ({ classes }: FooterProps): React.ReactElement => (
             >
               Facebook
             </LinkWithIcon>
+            <LinkWithIcon
+              href="https://www.linkedin.com/company/digitalungdom/"
+              startIcon={<LinkedInIcon style={{ marginRight: 8 }} />}
+            >
+              LinkedIn
+            </LinkWithIcon>
           </Grid>
         </Grid>
       </Grid>
       <Grid item xs={12}>
+        <a href="/stadgar.pdf" style={{ marginRight: '1rem' }}>
+          Stadgar
+        </a>
         <span>
           {'Copyright © '}
           Digital Ungdom 2018-{new Date().getFullYear()}
           {'.'}
         </span>
-        <a href="https://digitalungdom.se/stadgar.pdf" style={{ marginLeft: 8 }}>
-          Stadgar
-        </a>
       </Grid>
     </Grid>
   </Grid>

@@ -160,7 +160,7 @@ export default function Post({
           )
         }
       />
-      {Boolean(body || loading) && (
+      {Boolean(body || loading || isEditing) && (
         <CardContent
           className={clsx({
             [classes.contentWithLink]: type === 'LINK',

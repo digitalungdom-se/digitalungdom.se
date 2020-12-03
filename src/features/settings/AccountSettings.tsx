@@ -52,11 +52,16 @@ function AccountSettings(): React.ReactElement {
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values, { setSubmitting }): void => {
-        Axios.put('/user/@me', {
-          ...values,
-          username: values.username !== myProfile.details.username ? values.username : null,
-        })
+      onSubmit={({ username, ...values }, { setSubmitting }): void => {
+        Axios.put(
+          '/user/@me',
+          username !== myProfile.details.username
+            ? {
+                ...values,
+                username,
+              }
+            : values,
+        )
           .then((res) => {
             setSubmitting(false);
             enqueueSnackbar('Changes saved!', { variant: 'success' });
