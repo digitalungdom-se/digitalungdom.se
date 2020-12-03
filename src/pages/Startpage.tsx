@@ -4,8 +4,8 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-import { Hidden } from '@material-ui/core';
-import DynamicTitle from '../components/DynamicTitle';
+import Hidden from '@material-ui/core/Hidden';
+import DynamicTitle from 'components/DynamicTitle';
 
 const CenterWrapper: React.FC = ({ children }) => (
   <Grid container justify="center">
