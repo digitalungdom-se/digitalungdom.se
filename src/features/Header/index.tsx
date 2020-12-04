@@ -153,7 +153,7 @@ function Header(): JSX.Element {
                 style={{ marginRight: 12 }}
                 value={links.indexOf(pathname) !== -1 ? links.indexOf(pathname) : false}
               >
-                <StyledTab className={classes.tab} component={RouterLink} label="Om oss" to="/about" />
+                <StyledTab className={classes.tab} component={RouterLink} label="Om oss" to="/om-oss" />
                 <StyledTab className={classes.tab} component={RouterLink} label="Agora" to="/agora" />
               </StyledTabs>
               {!authenticated && <UnauthenticatedHeaderButtons />}

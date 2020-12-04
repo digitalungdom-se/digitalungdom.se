@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import Button from '@material-ui/core/Button';
+import DynamicTitle from 'components/DynamicTitle';
 import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-import Hidden from '@material-ui/core/Hidden';
-import DynamicTitle from 'components/DynamicTitle';
 
 const CenterWrapper: React.FC = ({ children }) => (
   <Grid container justify="center">
@@ -97,7 +97,7 @@ export default function Startpage() {
                     </Link>
                   </Grid>
                   <Grid item xs={4}>
-                    <Link to="/about">
+                    <Link to="/om-oss">
                       <Button
                         size="large"
                         style={{

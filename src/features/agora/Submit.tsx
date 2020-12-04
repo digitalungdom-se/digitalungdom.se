@@ -32,7 +32,7 @@ export default function Submit(): React.ReactElement {
   const classes = useStyles();
   const { push } = useHistory();
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="sm">
       <Card className={classes.root}>
         <Typography component="h2" variant="h6">
           {'Gör ett inlägg på Agora' /* Translation needed */}
@@ -49,17 +49,22 @@ export default function Submit(): React.ReactElement {
               ...values,
               hypagora: 'GENERAL',
             }).then((res) => {
-              push(`/agora/${res.data.shortID}`);
+              push(`/agora/p/${res.data.shortID}`);
             });
           }}
           validationSchema={Yup.object({
             body: Yup.string().when('type', {
               is: 'LINK',
-              then: Yup.string().required(),
+              then: Yup.string().required('Obligatoriskt') /* Translation needed */,
             }),
-            tags: Yup.array().of(Yup.string().min(3).max(24)).max(5),
-            title: Yup.string().min(3).max(100).required(),
-            type: Yup.string().required(),
+            tags: Yup.array()
+              .of(Yup.string().min(3, 'Tag måste vara minst 3 karaktärer.').max(24, 'Tag får max vara 24 karaktärer.'))
+              .max(5, 'Max 5 taggar') /* Translation needed */,
+            title: Yup.string()
+              .min(3, 'Minst 3 karaktärer')
+              .max(100, 'Max 100 karaktärer')
+              .required('Obligatoriskt') /* Translation needed */,
+            type: Yup.string().required('Obligatoriskt') /* Translation needed */,
           })}
         >
           {({ values, setFieldValue, isSubmitting, errors }): React.ReactNode => (
@@ -87,9 +92,9 @@ export default function Submit(): React.ReactElement {
               <Field
                 component={TextField}
                 fullWidth
-                label={values.type === 'text' ? 'Text' : 'Länk'} /* Translation needed */
+                label={values.type === 'TEXT' ? 'Text' : 'Länk'} /* Translation needed */
                 margin="normal"
-                multiline={values.type === 'text'}
+                multiline={values.type === 'TEXT'}
                 name="body"
                 rows={4}
                 variant="outlined"
