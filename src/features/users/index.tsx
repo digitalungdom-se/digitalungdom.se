@@ -11,7 +11,7 @@ import { RootState } from 'app/store';
 import { User } from './userTypes';
 
 interface ProfilePageState {
-  loading: boolean;
+  loading: boolean | null;
   error: boolean;
   user: User | null;
   agoragrams: Agoragram[];
@@ -41,12 +41,16 @@ class ProfilePage extends React.Component<ProfilePageProps, ProfilePageState> {
     this.state = {
       agoragrams: [],
       error: false,
-      loading: false,
+      loading: true,
       user: null,
     };
   }
 
   componentDidMount() {
+    this.getUser();
+  }
+
+  getUser() {
     this.setState({ loading: true });
     Axios.get<ServerResponse>('/user', {
       params: {
@@ -60,14 +64,22 @@ class ProfilePage extends React.Component<ProfilePageProps, ProfilePageState> {
         this.props.getUsersSuccess([res.data]);
         this.setState({
           user: res.data,
+          loading: false,
         });
       })
-      .catch((err) => this.setState({ error: true }));
+      .catch((err) => this.setState({ error: true, loading: false }));
+  }
+
+  componentDidUpdate() {
+    if (this.state.user !== null && this.props.username !== this.state.user?.details.username) {
+      this.getUser();
+    }
   }
 
   render() {
-    const { user } = this.state;
-    if (user == null) return <div>Loading</div>;
+    const { user, loading } = this.state;
+    if (loading === true || loading === null) return <div>{'Laddar' /* Translation required */}</div>;
+    if (user === null) return <div>{'Ingen användare' /* Translation required */}</div>;
     return (
       <div style={{ padding: 16, paddingTop: 32 }}>
         <Grid container justify="center" spacing={4}>
