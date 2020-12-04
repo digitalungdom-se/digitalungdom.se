@@ -6,8 +6,10 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import Axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
 import React from 'react';
 import { TextField } from 'formik-material-ui';
+import Typography from '@material-ui/core/Typography';
 import { selectMyProfile } from 'features/users/usersSlice';
 import { useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
@@ -39,7 +41,7 @@ interface ShowState {
   confirmPassword: boolean;
 }
 
-function SecuritySettings(): React.ReactElement {
+export function SecuritySettingsEmail(): React.ReactElement {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const myProfile = useSelector(selectMyProfile);
@@ -110,5 +112,14 @@ function SecuritySettings(): React.ReactElement {
     </Formik>
   );
 }
+
+const SecuritySettings = () => (
+  <div>
+    <Typography>
+      I nuläget finns det inget sätt att ändra e-mailadress. Om du vill ändra den så får du mer än gärna kontakta{' '}
+      <Link href="mailto:styrelse@digitalungdom.se">styrelse@digitalungdom.se</Link>
+    </Typography>
+  </div>
+);
 
 export default SecuritySettings;
