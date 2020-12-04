@@ -18,11 +18,13 @@ i18n
         sv: {
           translation: {
             COMMENT_ON_COMMENT: 'Någon svarade på din kommentar!',
+            COMMENT_ON_POST: 'Någon svarade på ditt inlägg!',
           },
         },
         en: {
           translation: {
             COMMENT_ON_COMMENT: 'Someone replied to your comment!',
+            COMMENT_ON_POST: 'Someone replied to your post!',
           },
         },
       },

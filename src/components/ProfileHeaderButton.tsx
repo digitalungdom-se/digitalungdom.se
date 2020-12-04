@@ -22,9 +22,9 @@ const useStyles = makeStyles((theme: Theme) =>
       transition: '262ms',
     },
     root: {
-      minWidth: theme.spacing(20),
+      minWidth: theme.spacing(22),
       [theme.breakpoints.down('sm')]: {
-        minWidth: theme.spacing(12),
+        minWidth: theme.spacing(13) /* TODO: Sometimes the window is too small for settings text to fit*/,
       },
     },
     avatar: {
@@ -139,15 +139,20 @@ export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JS
               <PersonIcon fontSize="small" />
             </ListItemIcon>
           </Hidden>
-          <ListItemText primary="My Profile" />
+          <ListItemText primary="Min profil" /* Translation needed */ />
         </MenuItem>
-        <MenuItem className={classes.item} component={Link} onClick={handleClose} to="/settings/account">
+        <MenuItem
+          className={classes.item}
+          component={Link}
+          onClick={handleClose}
+          to="/inställningar/konto" /* Translation needed */
+        >
           <Hidden smDown>
             <ListItemIcon>
               <SettingsIcon fontSize="small" />
             </ListItemIcon>
           </Hidden>
-          <ListItemText primary="Settings" />
+          <ListItemText primary="Inställningar" /* Translation needed */ />
         </MenuItem>
         <MenuItem
           className={classes.item}
@@ -161,7 +166,7 @@ export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JS
               <ExitToAppIcon fontSize="small" />
             </ListItemIcon>
           </Hidden>
-          <ListItemText primary="Log out" />
+          <ListItemText primary="Logga ut" /* Translation needed */ />
         </MenuItem>
       </StyledMenu>
     </div>

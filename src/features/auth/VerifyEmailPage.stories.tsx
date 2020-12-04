@@ -10,4 +10,4 @@ const story: StoryMetadata = {
 
 export default story;
 
-export const Basic = (): JSX.Element => <VerifyEmailPage onSubmit={() => {}} />;
+export const Basic = (): JSX.Element => <VerifyEmailPage onSubmit={() => new Promise((res) => res())} />;

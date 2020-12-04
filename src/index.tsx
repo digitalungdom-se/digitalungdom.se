@@ -11,7 +11,7 @@ import store from 'app/store';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Suspense fallback="Loading...">
+      <Suspense fallback="Laddar..." /* Translation needed */>
         <App />
       </Suspense>
     </Provider>

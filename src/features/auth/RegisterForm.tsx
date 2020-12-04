@@ -48,16 +48,20 @@ const useStyles = makeStyles((theme) => ({
 
 export const RegisterValidationSchema = Yup.object({
   birthdate: Yup.date()
-    .typeError('Invalid date')
-    .test('birthdate', 'You need to be at least 13. Send an e-mail to styrelse@digitalungdom.se', function (value) {
-      return differenceInYears(new Date(), new Date(value)) >= 13;
-    })
-    .required('Required'),
-  email: Yup.string().email('Invalid email address').required('Required'),
-  firstName: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
-  gender: Yup.string().required('Required'),
-  lastName: Yup.string().max(20, 'Must be 20 characters or less').required('Required'),
-  username: Yup.string().required('Required').min(3),
+    .typeError('Ogiltigt datum') /* Translation needed */
+    .test(
+      'birthdate',
+      'Du måste vara minst 13 år. Skicka ett e-mail till styrelse@digitalungdom.se för info' /* Translation needed */,
+      function (value) {
+        return differenceInYears(new Date(), new Date(value)) >= 13;
+      },
+    )
+    .required('Obligatoriskt') /* Translation needed */,
+  email: Yup.string().email('Ogiltig e-mailaddress').required('Obligatoriskt') /* Translation needed */,
+  firstName: Yup.string().max(15, 'Får max vara 15 karaktärer').required('Obligatoriskt') /* Translation needed */,
+  gender: Yup.string().required('Obligatoriskt') /* Translation needed */,
+  lastName: Yup.string().max(20, 'Får max vara 20 karaktärer').required('Obligatoriskt') /* Translation needed */,
+  username: Yup.string().required('Obligatoriskt').min(3, 'Måste minst vara 3 karaktärer') /* Translation needed */,
 });
 
 interface FormValues {
@@ -78,7 +82,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
         <LockOutlinedIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-        Sign up
+        {'Bli medlem' /* Translation needed */}
       </Typography>
       <Formik
         initialValues={{
@@ -110,7 +114,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
                 });
             })
             .catch((err) => {
-              setErrors({ email: 'EMAIL_TAKEN' });
+              setErrors({ email: 'E-mailadressen är redan registrerad' }) /* Translation needed */;
               setSubmitting(false);
             });
         }}
@@ -126,7 +130,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
                   component={TextField}
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label="Förnamn" /* Translation needed */
                   name="firstName"
                   required
                   variant="outlined"
@@ -138,7 +142,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
                   component={TextField}
                   fullWidth
                   id="lastName"
-                  label="Last Name"
+                  label="Efternamn" /* Translation needed */
                   name="lastName"
                   required
                   variant="outlined"
@@ -150,7 +154,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
                   component={CheckUsernameTextField}
                   fullWidth
                   id="username"
-                  label="Username"
+                  label="Användarnamn" /* Translation needed */
                   name="username"
                   required
                   variant="outlined"
@@ -162,7 +166,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
                   component={TextField}
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label="E-mailadress" /* Translation needed */
                   name="email"
                   required
                   variant="outlined"
@@ -179,7 +183,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
                   KeyboardButtonProps={{
                     'aria-label': 'change birthdate',
                   }}
-                  label="Birthdate"
+                  label="Födelsedatum" /* Translation needed */
                   onBlur={() => setFieldTouched('birthdate', true, true)}
                   onChange={(value): void => {
                     setFieldValue('birthdate', value, false);
@@ -193,15 +197,15 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
                   component={TextField} // imported from formik-material-ui
                   fullWidth
                   id="gender"
-                  label="Gender"
+                  label="Könsidentitet" /* Translation needed */
                   name="gender"
                   select // make this field into a select
                   variant="outlined"
                 >
-                  <MenuItem value="MALE">Male</MenuItem>
-                  <MenuItem value="FEMALE">Female</MenuItem>
-                  <MenuItem value="OTHER">Other</MenuItem>
-                  <MenuItem value="UNDISCLOSED">Undisclosed</MenuItem>
+                  <MenuItem value="MALE">{'Man' /* Translation needed */}</MenuItem>
+                  <MenuItem value="FEMALE">{'Kvinna' /* Translation needed */}</MenuItem>
+                  <MenuItem value="OTHER">{'Annat' /* Translation needed */}</MenuItem>
+                  <MenuItem value="UNDISCLOSED">{'Vill ej uppge' /* Translation needed */}</MenuItem>
                 </Field>
               </Grid>
               <Grid item xs={12}>
@@ -209,7 +213,8 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
                   control={<Checkbox color="primary" required value="allowExtraEmails" />}
                   label={
                     <span>
-                      I agree to Digital Ungdom&apos;s terms of service. <RegisterGDPRAgreement />
+                      {'Jag godkänner Digital Ungdom&apos;s användarvillkor.' /* Translation needed */}{' '}
+                      <RegisterGDPRAgreement />
                     </span>
                   }
                 />
@@ -223,7 +228,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
               type="submit"
               variant="contained"
             >
-              Sign Up
+              {'Bli medlem' /* Translation needed */}
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
@@ -238,7 +243,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
                   to="logga-in"
                   variant="body2"
                 >
-                  Already have an account? Sign in
+                  {'Har du redan ett konto? Logga in!' /* Translation needed */}
                 </Link>
               </Grid>
             </Grid>

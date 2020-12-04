@@ -8,7 +8,7 @@ export interface CheckEmailTextFieldProps extends TextFieldProps {
 }
 
 function CheckEmailTextField(props: CheckEmailTextFieldProps): React.ReactElement {
-  const [APIError, setAPIError] = React.useState<null | 'EMAIL_TAKEN'>(null);
+  const [APIError, setAPIError] = React.useState<null | string>(null);
 
   const checkEmailAvailability = (email: string) => {
     // if email is falsy, don't check
@@ -18,7 +18,7 @@ function CheckEmailTextField(props: CheckEmailTextFieldProps): React.ReactElemen
     else {
       Axios.get('/api/user/validate/email', { params: { email } })
         .then((res) => {
-          if (res.data.email === false) setAPIError('EMAIL_TAKEN');
+          if (res.data.email === false) setAPIError('E-mailadress är redan registrerad') /* Translation needed */;
           else setAPIError(null);
         })
         .catch(() => {

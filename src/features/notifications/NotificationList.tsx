@@ -86,11 +86,11 @@ const NotificationList = ({
       >
         {selected.length > 0 ? (
           <Typography className={classes.title} color="inherit" component="div" variant="subtitle1">
-            {selected.length} selected
+            {selected.length} {'valda' /* Translation needed */}
           </Typography>
         ) : (
           <Typography className={classes.title} component="div" id="tableTitle" variant="h6">
-            Notifications
+            {'Notifikationer' /* Translation needed */}
           </Typography>
         )}
         {selected.length > 0 && (
@@ -111,7 +111,9 @@ const NotificationList = ({
         )}
       </Toolbar>
       <List className={classes.list}>
-        {notifications.length === 0 && hasMore === false && <span>No more notifications.</span>}
+        {notifications.length === 0 && hasMore === false && (
+          <span>{'Inga fler notifikationer.' /* Translation needed */}</span>
+        )}
         <InfiniteScroll
           className={props.className}
           hasMore={hasMore}

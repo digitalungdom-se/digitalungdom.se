@@ -26,21 +26,31 @@ function SettingsList({ selected, elevation = 1 }: SettingsListProps): React.Rea
         component="nav"
         subheader={
           <ListSubheader component="div" id="settings-list-subheader">
-            Settings
+            {'Inställningar' /* Translation needed */}
           </ListSubheader>
         }
       >
-        <ListItem button component={Link} selected={selected === 'account'} to="/settings/account">
+        <ListItem
+          button
+          component={Link}
+          selected={selected === 'konto'}
+          to="/inställningar/konto" /* Translation needed */
+        >
           <ListItemIcon>
             <PersonIcon />
           </ListItemIcon>
-          <ListItemText primary="Account" />
+          <ListItemText primary="Konto" /* Translation needed */ />
         </ListItem>
-        <ListItem button component={Link} selected={selected === 'security'} to="/settings/security">
+        <ListItem
+          button
+          component={Link}
+          selected={selected === 'säkerhet'}
+          to="/inställningar/säkerhet" /* Translation needed */
+        >
           <ListItemIcon>
             <SecurityIcon />
           </ListItemIcon>
-          <ListItemText primary="Security" />
+          <ListItemText primary="Säkerhet" /* Translation needed */ />
         </ListItem>
       </List>
     </Paper>
@@ -48,13 +58,23 @@ function SettingsList({ selected, elevation = 1 }: SettingsListProps): React.Rea
 }
 
 export function SettingsTabs({ selected = '', elevation = 1 }: SettingsListProps): React.ReactElement {
-  const tabs = ['account', 'security'];
+  const tabs = ['konto', 'säkerhet']; /* Translation needed */
 
   return (
     <AppBar color="inherit" elevation={elevation} position="static">
       <Tabs aria-label="settings list" indicatorColor="primary" textColor="primary" value={tabs.indexOf(selected)}>
-        <Tab component={Link} icon={<PersonIcon />} label={tabs[0]} to={'/settings/' + tabs[0]} />
-        <Tab component={Link} icon={<SecurityIcon />} label={tabs[1]} to={'/settings/' + tabs[1]} />
+        <Tab
+          component={Link}
+          icon={<PersonIcon />}
+          label={tabs[0]}
+          to={'/inställningar/' + tabs[0]} /* Translation needed */
+        />
+        <Tab
+          component={Link}
+          icon={<SecurityIcon />}
+          label={tabs[1]}
+          to={'/inställningar/' + tabs[1]} /* Translation needed */
+        />
       </Tabs>
     </AppBar>
   );

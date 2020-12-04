@@ -31,10 +31,10 @@ function EditableProfileContent({ bio, url, status }: EditableProfileContentProp
           className={classes.field}
           component={TextField}
           fullWidth
-          label="Biography"
+          label="Biografi" /* Translation needed */
           multiline
           name="bio"
-          placeholder="Biography"
+          placeholder="Biografi" /* Translation needed */
           variant="outlined"
         />
       </Grid>
@@ -43,7 +43,7 @@ function EditableProfileContent({ bio, url, status }: EditableProfileContentProp
           className={classes.field}
           component={TextField}
           fullWidth
-          label="Link"
+          label="Länk" /* Translation needed */
           name="url"
           placeholder="https://example.com"
           variant="outlined"

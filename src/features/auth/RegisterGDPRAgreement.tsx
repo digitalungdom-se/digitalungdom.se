@@ -27,7 +27,7 @@ function RegisterGDPRAgreement(): JSX.Element {
           handleClickOpen();
         }}
       >
-        Read more.
+        {'Läs mer.' /* Translation needed */}
       </Link>
       <Dialog
         aria-describedby="alert-dialog-description"
@@ -38,13 +38,19 @@ function RegisterGDPRAgreement(): JSX.Element {
         <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous location data to Google, even when no
-            apps are running.
+            <p>
+              Genom att godkänna Digital Ungdoms användarvillkor accepterar du att Digital Ungdom lagrar den information
+              du anger på hemsidan. {/* Translation needed */}
+            </p>
+            <p>
+              Du godkänner även att du kommer att följa förenings stadgar, som du kan{' ' /* Translation needed */}
+              <Link href="/stadgar.pdf">läsa här.</Link>
+            </p>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={handleClose}>
-            Close
+            {'Stäng' /* Translation needed */}
           </Button>
         </DialogActions>
       </Dialog>

@@ -14,9 +14,9 @@ import { useSnackbar } from 'notistack';
 
 export const SecurityValidationSchema = Yup.object({
   confirmEmail: Yup.string()
-    .required('Required')
-    .oneOf([Yup.ref('email')], "Email addresses don't match"),
-  email: Yup.string().required('Required'),
+    .required('Obligatoriskt') /* Translation needed */
+    .oneOf([Yup.ref('email')], 'E-mailadresserna stämmer inte överrens') /* Translation needed */,
+  email: Yup.string().required('Obligatoriskt') /* Translation needed */,
 });
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -60,7 +60,7 @@ function SecuritySettings(): React.ReactElement {
         })
           .then((res) => {
             setSubmitting(false);
-            enqueueSnackbar('Changes saved!', { variant: 'success' });
+            enqueueSnackbar('Sparade ändringar!', { variant: 'success' }); /* Translation needed */
           })
           .catch(console.log);
       }}
@@ -75,7 +75,7 @@ function SecuritySettings(): React.ReactElement {
                 component={TextField}
                 fullWidth
                 id="email"
-                label="New Email Address"
+                label="Ny e-mailadress" /* Translation needed */
                 name="email"
                 required
                 variant="outlined"
@@ -87,7 +87,7 @@ function SecuritySettings(): React.ReactElement {
                 component={TextField}
                 fullWidth
                 id="confirmEmail"
-                label="Confirm New Email Address"
+                label="Bekräfta ny e-mailadress" /* Translation needed */
                 name="confirmEmail"
                 required
                 variant="outlined"
@@ -103,7 +103,7 @@ function SecuritySettings(): React.ReactElement {
             type="submit"
             variant="contained"
           >
-            Save information
+            {'Spara information' /* Translation needed */}
           </Button>
         </Form>
       )}

@@ -28,7 +28,7 @@ export default function AgoraFilter({ path = '/', sort = 'new' }: AgoraFilterPro
         to={`${path}/new`}
         variant="contained"
       >
-        New
+        {'Nya' /* Translation needed */}
       </StyledButton>
 
       <StyledButton
@@ -38,7 +38,7 @@ export default function AgoraFilter({ path = '/', sort = 'new' }: AgoraFilterPro
         to={`${path}/top`}
         variant="contained"
       >
-        Top
+        {'Topp' /* Translation needed */}
       </StyledButton>
     </>
   );

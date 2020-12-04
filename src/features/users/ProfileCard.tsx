@@ -124,7 +124,7 @@ export function ProfileCard({
                   }}
                   variant="contained"
                 >
-                  {editing ? 'Save information' : 'Edit information'}
+                  {editing ? /* Translation needed */ 'Spara information' : 'Ändra information'}
                 </Button>
               )}
             </Form>

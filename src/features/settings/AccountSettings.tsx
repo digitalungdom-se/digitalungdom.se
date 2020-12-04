@@ -16,11 +16,11 @@ import { useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 
 export const DetailsValidationSchema = Yup.object({
-  birthdate: Yup.date().required('Required'),
-  firstName: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
-  gender: Yup.string().required('Required'),
-  lastName: Yup.string().max(20, 'Must be 20 characters or less').required('Required'),
-  username: Yup.string().required('Required').min(3),
+  birthdate: Yup.date().required('Obligatoriskt') /* Translation needed */,
+  firstName: Yup.string().max(15, 'Får vara max 15 karaktärer').required('Obligatoriskt') /* Translation needed */,
+  gender: Yup.string().required('Obligatoriskt') /* Translation needed */,
+  lastName: Yup.string().max(20, 'Får vara max 20 karaktärer').required('Obligatoriskt') /* Translation needed */,
+  username: Yup.string().required('Obligatoriskt').min(3, 'Måste vara minst 3 karaktärer') /* Translation needed */,
 });
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -64,7 +64,7 @@ function AccountSettings(): React.ReactElement {
         )
           .then((res) => {
             setSubmitting(false);
-            enqueueSnackbar('Changes saved!', { variant: 'success' });
+            enqueueSnackbar('Sparade ändringar!', { variant: 'success' }) /* Translation needed */;
           })
           .catch(console.log);
       }}
@@ -80,7 +80,7 @@ function AccountSettings(): React.ReactElement {
                 component={TextField}
                 fullWidth
                 id="firstName"
-                label="First Name"
+                label="Förnamn" /* Translation needed */
                 name="firstName"
                 variant="outlined"
               />
@@ -91,7 +91,7 @@ function AccountSettings(): React.ReactElement {
                 component={TextField}
                 fullWidth
                 id="lastName"
-                label="Last Name"
+                label="Efternamn" /* Translation needed */
                 name="lastName"
                 required
                 variant="outlined"
@@ -104,7 +104,7 @@ function AccountSettings(): React.ReactElement {
                 fullWidth
                 id="username"
                 initialUsername={initialValues.username}
-                label="Username"
+                label="Användarnamn" /* Translation needed */
                 name="username"
                 variant="outlined"
               />
@@ -118,7 +118,7 @@ function AccountSettings(): React.ReactElement {
                 KeyboardButtonProps={{
                   'aria-label': 'change birthdate',
                 }}
-                label="Birthdate"
+                label="Födelsedatum" /* Translation needed */
                 onChange={(value): void => setFieldValue('birthdate', value)}
                 required
                 value={values.birthdate}
@@ -129,15 +129,15 @@ function AccountSettings(): React.ReactElement {
                 component={TextField} // imported from formik-material-ui
                 fullWidth
                 id="gender"
-                label="Gender"
+                label="Könsidentitet" /* Translation needed */
                 name="gender"
                 select // make this field into a select
                 variant="outlined"
               >
-                <MenuItem value="MALE">Male</MenuItem>
-                <MenuItem value="FEMALE">Female</MenuItem>
-                <MenuItem value="OTHER">Other</MenuItem>
-                <MenuItem value="UNDISCLOSED">Undisclosed</MenuItem>
+                <MenuItem value="MALE">{'Man' /* Translation needed */}</MenuItem>
+                <MenuItem value="FEMALE">{'Kvinna' /* Translation needed */}</MenuItem>
+                <MenuItem value="OTHER">{'Annat' /* Translation needed */}</MenuItem>
+                <MenuItem value="UNDISCLOSED">{'Vill ej uppge' /* Translation needed */}</MenuItem>
               </Field>
             </Grid>
           </Grid>
@@ -149,7 +149,7 @@ function AccountSettings(): React.ReactElement {
             type="submit"
             variant="contained"
           >
-            Save information
+            {'Spara information' /* Translation needed */}
           </Button>
         </Form>
       )}

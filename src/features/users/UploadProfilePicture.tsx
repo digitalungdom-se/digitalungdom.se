@@ -62,22 +62,11 @@ export default class UploadProfilePicture extends PureComponent<UploadProfilePic
     return false;
   };
 
-  onCropComplete = (crop: ReactCrop.Crop): void => {
-    // this.makeClientCrop(crop);
-  };
-
   onCropChange = (crop: ReactCrop.Crop): void => {
     // You could also use percentCrop:
     // this.setState({ crop: percentCrop });
     this.setState({ crop });
   };
-
-  // async makeClientCrop(crop: ReactCrop.Crop) {
-  //   if (this.imageRef && crop.width && crop.height) {
-  //     const croppedImageUrl = await this.getCroppedImg(this.imageRef, crop);
-  //     this.setState({ croppedImageUrl });
-  //   }
-  // }
 
   getCroppedImg(image: any, crop: ReactCrop.Crop): Promise<Blob> {
     if (crop.x !== undefined && crop.y !== undefined && crop.width !== undefined && crop.height !== undefined) {
@@ -107,9 +96,6 @@ export default class UploadProfilePicture extends PureComponent<UploadProfilePic
             console.error('Canvas is empty');
             return;
           }
-          // blob.name = fileName;
-          // window.URL.revokeObjectURL(this.fileUrl);
-          // this.fileUrl = window.URL.createObjectURL(blob);
           resolve(blob);
         }, 'image/png');
       });
@@ -131,7 +117,7 @@ export default class UploadProfilePicture extends PureComponent<UploadProfilePic
         />
         <label htmlFor="contained-button-file">
           <Button color="primary" component="span" disableElevation fullWidth variant="contained">
-            Upload
+            {'Ladda upp profilbild' /* Translation needed */}
           </Button>
         </label>
         <Dialog
@@ -147,7 +133,6 @@ export default class UploadProfilePicture extends PureComponent<UploadProfilePic
               <ReactCrop
                 crop={crop}
                 onChange={this.onCropChange}
-                onComplete={this.onCropComplete}
                 onImageLoaded={this.onImageLoaded}
                 ruleOfThirds
                 src={src}
@@ -171,7 +156,7 @@ export default class UploadProfilePicture extends PureComponent<UploadProfilePic
               }}
               variant="contained"
             >
-              Submit
+              {'Spara profilbild' /* Translation needed */}
             </Button>
           </StyledPaper>
         </Dialog>

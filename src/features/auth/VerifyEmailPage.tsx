@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface VerifyEmailPageProps {
   email?: string;
-  onSubmit: (email: string, loginCode: string) => void;
+  onSubmit: (email: string, loginCode: string) => Promise<void>;
 }
 
 interface VerifyEmailPageParams {
@@ -36,7 +36,7 @@ interface VerifyEmailPageParams {
 
 export default function VerifyEmailPage({
   email,
-  onSubmit = (): void => {},
+  onSubmit = () => new Promise((res) => res()),
 }: VerifyEmailPageProps): React.ReactElement {
   const classes = useStyles();
   const { emailInBase64 } = useParams<VerifyEmailPageParams>();
@@ -44,14 +44,17 @@ export default function VerifyEmailPage({
     <Container component="main" disableGutters maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
-          Verify e-mail
+          {'Logga in med kod från e-mailadress' /* Translation needed */}
         </Typography>
         <MailIcon fontSize="large" />
         {email || atob(emailInBase64)}
         <Formik
           initialValues={{ loginCode: '' }}
-          onSubmit={(values) => {
-            onSubmit(email || atob(emailInBase64), values.loginCode);
+          onSubmit={(values, { setErrors, setSubmitting }) => {
+            onSubmit(email || atob(emailInBase64), values.loginCode).catch(() => {
+              setErrors({ loginCode: 'Felaktig kod' }); /* Translation needed */
+              setSubmitting(false);
+            });
           }}
         >
           {({ values, isSubmitting, submitForm }) => (
@@ -60,15 +63,15 @@ export default function VerifyEmailPage({
                 component={TextField}
                 fullWidth
                 id="loginCode"
-                label="code"
+                label="Kod" /* Translation needed */
                 margin="normal"
-                multiline
+                // multiline
                 name="loginCode"
                 required
                 variant="outlined"
               />
               <Button disabled={isSubmitting} onClick={submitForm} type="submit" variant="contained">
-                Submit
+                {'Logga in' /* Translation needed */}
               </Button>
             </>
           )}

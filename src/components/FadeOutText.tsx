@@ -62,7 +62,7 @@ const CalcHeightComponent = ({ setHeight, children }: CalcHeightComponentProps) 
   return <div ref={ref}>{children}</div>;
 };
 
-const FadeOutText = ({ children, classes, readMoreText = 'Read more' }: FadeOutTextProps) => {
+const FadeOutText = ({ children, classes, readMoreText = 'Visa mer' /* Translation needed */ }: FadeOutTextProps) => {
   const [height, setHeight] = useState<number>(0);
   const [showAll, setShowAll] = useState<boolean>(false);
 

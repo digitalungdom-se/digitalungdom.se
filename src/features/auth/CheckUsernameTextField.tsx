@@ -8,7 +8,7 @@ export interface CheckUsernameTextFieldProps extends TextFieldProps {
 }
 
 function CheckUsernameTextField({ initialUsername, ...props }: CheckUsernameTextFieldProps): React.ReactElement {
-  const [APIError, setAPIError] = React.useState<null | 'USERNAME_TAKEN'>(null);
+  const [APIError, setAPIError] = React.useState<null | string>(null);
 
   const checkUsernameAvailability = (username: string) => {
     // if username is falsy, don't check
@@ -17,7 +17,7 @@ function CheckUsernameTextField({ initialUsername, ...props }: CheckUsernameText
     if (username === initialUsername) return setAPIError(null);
     else {
       Axios.get('/user', { params: { username } })
-        .then(() => setAPIError('USERNAME_TAKEN'))
+        .then(() => setAPIError('Användarnamn taget')) /* Translation needed */
         .catch(() => setAPIError(null));
     }
   };

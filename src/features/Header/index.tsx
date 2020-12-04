@@ -94,7 +94,7 @@ const ConnectedProfileHeaderButton = () => {
   );
 };
 
-const links = ['/about', '/agora'];
+const links = ['/om-oss', '/agora'];
 
 function Header(): JSX.Element {
   const classes = useStyles();

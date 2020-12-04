@@ -55,10 +55,10 @@ export default function Settings(): JSX.Element {
             <Divider className={classes.divider} />
           </Hidden>
           <Switch>
-            <Route path="/settings/account">
+            <Route path="/inställningar/konto" /* Translation needed */>
               <AccountSettings />
             </Route>
-            <Route path="/settings/security">
+            <Route path="/inställningar/säkerhet" /* Translation needed */>
               <SecuritySettings />
             </Route>
           </Switch>

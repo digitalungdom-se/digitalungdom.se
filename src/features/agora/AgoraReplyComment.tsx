@@ -26,8 +26,8 @@ export default function AgoraReplyComment({
   if (myProfile === null)
     return (
       <Alert severity="info" variant="outlined">
-        <AlertTitle>Express yourself!</AlertTitle>
-        <Box flexGrow={1}>You need to be logged in to make a comment.</Box>
+        <AlertTitle>{'Utryck dig själv!' /* Translation needed */}</AlertTitle>
+        <Box flexGrow={1}>{'Du måste vara inloggad för att göra ett inlägg.' /* Translation needed */}</Box>
         <Box>
           <UnauthenticatedHeaderButtons />
         </Box>
@@ -71,7 +71,7 @@ export default function AgoraReplyComment({
           <Field
             component={TextField}
             fullWidth
-            label="Body"
+            label="Text" /* Translation needed */
             margin="normal"
             multiline
             name="body"
@@ -79,7 +79,7 @@ export default function AgoraReplyComment({
             variant="outlined"
           />
           <Button color="primary" disabled={isSubmitting} disableElevation type="submit" variant="contained">
-            Publish
+            {'Publicera' /* Translation needed */}
           </Button>
         </Form>
       )}

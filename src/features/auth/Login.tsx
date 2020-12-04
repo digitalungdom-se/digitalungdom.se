@@ -74,7 +74,7 @@ export default function Login({
                   onSuccess(values.email);
                 })
                 .catch((err) => {
-                  setErrors({ email: 'NO_USER' });
+                  setErrors({ email: 'Ingen användare med den e-mailadressen' }) /* Translation needed */;
                   setSubmitting(false);
                 });
             }}
@@ -91,7 +91,7 @@ export default function Login({
                   component={TextField}
                   fullWidth
                   id="email"
-                  label="Email"
+                  label="E-mailadress" /* Translation needed */
                   margin="normal"
                   name="email"
                   required
@@ -109,11 +109,6 @@ export default function Login({
                   Logga in
                 </Button>
                 <Grid container>
-                  <Grid item xs>
-                    <Link href="#" variant="body2">
-                      Kan du inte logga in?
-                    </Link>
-                  </Grid>
                   <Grid item>
                     <Link
                       href="#"

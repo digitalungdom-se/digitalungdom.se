@@ -21,18 +21,18 @@ function Router(): React.ReactElement {
   return (
     <React.Suspense fallback={<Loading />}>
       <Switch>
-        <Route path="/logga-in">
-          <Login onSuccess={(email): void => history.push('/verify/' + btoa(email))} />
+        <Route path="/logga-in" /* Translation needed */>
+          <Login onSuccess={(email): void => history.push('/verifiera/' + btoa(email))} /* Translation needed */ />
         </Route>
-        <Route path="/verify/:emailInBase64">
+        <Route path="/verifiera/:emailInBase64">
           <VerifyEmailPage onSubmit={(email, loginCode) => loginWithCode(email, loginCode, () => history.push('/'))} />
         </Route>
         <Route path="/bli-medlem">
-          <Register onSuccess={(email): void => history.push('/verify/' + btoa(email))} />
+          <Register onSuccess={(email): void => history.push('/verifiera/' + btoa(email))} /* Translation needed */ />
         </Route>
         <Route path="/@:username" render={({ match }) => <UserPage username={match.params.username} />} />
         <Route component={AgoraPost} path="/agora/p/:shortID/:commentID?" />
-        <Route path="/agora/submit">
+        <Route path="/agora/publicera" /* Translation needed */>
           <div style={{ marginTop: 24 }}>
             <AgoraSubmit />
           </div>
@@ -42,10 +42,10 @@ function Router(): React.ReactElement {
             <Agora />
           </div>
         </Route>
-        <Route path="/about">
+        <Route path="/om-oss" /* Translation needed */>
           <About />
         </Route>
-        <Route path="/settings/:section">
+        <Route path="/inställningar/:section" /* Translation needed */>
           <Settings />
         </Route>
         <Route exact path="/">

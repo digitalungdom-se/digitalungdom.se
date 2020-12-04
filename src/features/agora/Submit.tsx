@@ -35,7 +35,7 @@ export default function Submit(): React.ReactElement {
     <Container maxWidth="md">
       <Card className={classes.root}>
         <Typography component="h2" variant="h6">
-          Submit
+          {'Gör ett inlägg på Agora' /* Translation needed */}
         </Typography>
         <Formik
           initialValues={{
@@ -64,15 +64,30 @@ export default function Submit(): React.ReactElement {
         >
           {({ values, setFieldValue, isSubmitting, errors }): React.ReactNode => (
             <Form>
-              <Field component={TextField} fullWidth label="Type" margin="normal" name="type" select variant="outlined">
-                <MenuItem value="TEXT">Text</MenuItem>
-                <MenuItem value="LINK">Link</MenuItem>
-              </Field>
-              <Field component={TextField} fullWidth label="Title" margin="normal" name="title" variant="outlined" />
               <Field
                 component={TextField}
                 fullWidth
-                label="Body"
+                label="Typ"
+                /* Translation needed */ margin="normal"
+                name="type"
+                select
+                variant="outlined"
+              >
+                <MenuItem value="TEXT">Text</MenuItem>
+                <MenuItem value="LINK">{'Länk' /* Translation needed */}</MenuItem>
+              </Field>
+              <Field
+                component={TextField}
+                fullWidth
+                label="Titel"
+                /* Translation needed */ margin="normal"
+                name="title"
+                variant="outlined"
+              />
+              <Field
+                component={TextField}
+                fullWidth
+                label={values.type === 'text' ? 'Text' : 'Länk'} /* Translation needed */
                 margin="normal"
                 multiline={values.type === 'text'}
                 name="body"
@@ -87,7 +102,7 @@ export default function Submit(): React.ReactElement {
                 }}
                 fullWidth
                 helperText={errors.tags}
-                label="Tags"
+                label="Taggar" /* Translation needed */
                 margin="normal"
                 name="tags"
                 onChange={(values: string[]): void => setFieldValue('tags', values)}
@@ -107,7 +122,7 @@ export default function Submit(): React.ReactElement {
                 type="submit"
                 variant="contained"
               >
-                Submit
+                {'Publicera' /* Translation needed */}
               </Button>
             </Form>
           )}

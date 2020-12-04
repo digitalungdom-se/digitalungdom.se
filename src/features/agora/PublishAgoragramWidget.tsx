@@ -43,16 +43,17 @@ const PublishAgoragramWidget = ({ className }: PublishAgoragramWidgetProps): Rea
         </Typography>
         <Typography className={classes.definition} variant="subtitle2">
           Agora är benämningen av torg i antika grekiska städer. De användes som marknadsplats eller allmän mötesplats.
+          {/* Translation needed */}
         </Typography>
         <Button
           color="primary"
           component={RouterLink}
           disableElevation
           fullWidth
-          to={`/agora/submit`}
+          to="/agora/publicera"
           variant="contained"
         >
-          Publish
+          {'Publicera' /* Translation needed */}
         </Button>
       </CardContent>
     </Card>

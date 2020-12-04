@@ -32,10 +32,10 @@ export default function AgoraBodyField({ body, cancelEdit, handleEdit }: AgoraBo
         <Form>
           <Field component={TextField} fullWidth multiline name="body" rows={5} variant="outlined" />
           <StyledButton color="primary" disableElevation type="submit" variant="contained">
-            Save
+            {'Spara' /* Translation needed */}
           </StyledButton>
           <StyledButton disableElevation onClick={cancelEdit} variant="contained">
-            Cancel
+            {'Avbryt' /* Translation needed */}
           </StyledButton>
         </Form>
       )}

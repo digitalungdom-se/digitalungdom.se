@@ -157,7 +157,7 @@ function Comment({
         <Grid item>
           <ul className={classes.list}>
             <li>{author}</li>
-            <li>{`${stars} stars`}</li>
+            <li>{`${stars} stjärnor` /* Translation needed */}</li>
             <li>
               <span title={`Posted: ${time}. ${modified ? 'Modified: ' + modified : ''}`}>
                 <Moment fromNow>{time}</Moment>
@@ -188,17 +188,17 @@ function Comment({
             <div>
               <Button className={classes.action} onClick={handleReplyField} size="small">
                 <ReplyIcon fontSize="inherit" />
-                Reply
+                {'Svara' /* Translation needed */}
               </Button>
               {isAuthor && (
                 <>
                   <Button className={classes.action} onClick={() => setEditing(true)} size="small">
                     <EditIcon fontSize="inherit" />
-                    Edit
+                    {'Redigera' /* Translation needed */}
                   </Button>
                   <Button className={classes.action} onClick={handleDelete} size="small">
                     <DeleteIcon fontSize="inherit" />
-                    Delete
+                    {'Radera' /* Translation needed */}
                   </Button>
                 </>
               )}
