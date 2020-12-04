@@ -35,7 +35,7 @@ function RegisterGDPRAgreement(): JSX.Element {
         onClose={handleClose}
         open={open}
       >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'GDPR och användarvillkor' /*Translation needed */}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <p>
@@ -43,7 +43,7 @@ function RegisterGDPRAgreement(): JSX.Element {
               du anger på hemsidan. {/* Translation needed */}
             </p>
             <p>
-              Du godkänner även att du kommer att följa förenings stadgar, som du kan{' ' /* Translation needed */}
+              Du godkänner även att du kommer att följa föreningens stadgar, som du kan{' ' /* Translation needed */}
               <Link href="/stadgar.pdf">läsa här.</Link>
             </p>
           </DialogContentText>

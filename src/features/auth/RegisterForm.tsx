@@ -213,7 +213,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
                   control={<Checkbox color="primary" required value="allowExtraEmails" />}
                   label={
                     <span>
-                      {'Jag godkänner Digital Ungdom&apos;s användarvillkor.' /* Translation needed */}{' '}
+                      {"Jag godkänner Digital Ungdom's användarvillkor." /* Translation needed */}{' '}
                       <RegisterGDPRAgreement />
                     </span>
                   }

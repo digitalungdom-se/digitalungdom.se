@@ -10,6 +10,7 @@ function BirthdatePicker(props: KeyboardDatePickerProps): React.ReactElement {
   return (
     <KeyboardDatePicker
       {...props}
+      cancelLabel="Avbryt"
       format="yyyy-MM-dd"
       onChange={props.onChange}
       placeholder="yyyy-mm-dd"
