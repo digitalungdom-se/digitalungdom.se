@@ -5,28 +5,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import AuthDialog from 'features/auth/Dialog';
 import Loading from 'components/Loading';
 import { loginWithCode } from './authApi';
+import { selectAuthenticated } from './authSlice';
 
 const Login = React.lazy(() => import('features/auth/Login'));
 const Register = React.lazy(() => import('features/auth/Register'));
 const VerifyEmailPage = React.lazy(() => import('features/auth/VerifyEmailPage'));
 
-export function useAuthDialog() {
+export function useAuthDialog(): [
+  (open: boolean | AuthPage, page?: AuthPage | string, email?: string) => void,
+  boolean,
+] {
   const dispatch = useDispatch();
-  return (open: boolean | AuthPage, page?: AuthPage | string, email?: string) => {
-    if (typeof open === 'string')
-      dispatch(
-        displayAuthDialog({
-          email: page,
-          open: true,
-          page: open,
-        }),
-      );
-    else dispatch(displayAuthDialog({ open }));
-  };
+  const isAuthenticated = useSelector(selectAuthenticated);
+  return [
+    function (open: boolean | AuthPage, page?: AuthPage | string, email?: string): void {
+      if (typeof open === 'string')
+        dispatch(
+          displayAuthDialog({
+            email: page,
+            open: true,
+            page: open,
+          }),
+        );
+      else dispatch(displayAuthDialog({ open }));
+    },
+    isAuthenticated,
+  ];
 }
 
 export default function AuthDialogProvider(): React.ReactElement {
-  const showAuthDialog = useAuthDialog();
+  const [showAuthDialog] = useAuthDialog();
   const dialog = useSelector(selectAuthDialog);
   return (
     <AuthDialog onClose={() => showAuthDialog(false)} open={dialog !== undefined && dialog?.open}>

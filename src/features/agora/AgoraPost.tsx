@@ -118,7 +118,7 @@ export const ReduxConnectedPost = ({
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
   const myProfile = useSelector(selectMyProfile);
   const dispatch = useDispatch();
-  const showAuthDialog = useAuthDialog();
+  const [showAuthDialog] = useAuthDialog();
   if (props === undefined) return <></>;
   return (
     <Post

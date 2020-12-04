@@ -28,7 +28,7 @@ interface UnauthenticatedHeaderButtonsProps {
 
 export default function UnauthenticatedHeaderButtons({ listItems }: UnauthenticatedHeaderButtonsProps): JSX.Element {
   const classes = useStyles();
-  const showAuthDialog = useAuthDialog();
+  const [showAuthDialog] = useAuthDialog();
 
   if (listItems)
     return (

@@ -7,6 +7,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
+import { useAuthDialog } from 'features/auth/AuthDialogProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,6 +28,7 @@ interface PublishAgoragramWidgetProps {
 
 const PublishAgoragramWidget = ({ className }: PublishAgoragramWidgetProps): React.ReactElement => {
   const classes = useStyles();
+  const [showAuthDialog, isAuthenticated] = useAuthDialog();
   return (
     <Card className={className}>
       <CardHeader
@@ -50,6 +52,12 @@ const PublishAgoragramWidget = ({ className }: PublishAgoragramWidgetProps): Rea
           component={RouterLink}
           disableElevation
           fullWidth
+          onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+            if (isAuthenticated === false) {
+              showAuthDialog(true);
+              return event.preventDefault();
+            }
+          }}
           to="/agora/publicera"
           variant="contained"
         >

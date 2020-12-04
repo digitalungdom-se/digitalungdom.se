@@ -21,7 +21,7 @@ export default function ReduxConnectedComment({ _id, level, highlightCommentID }
   const dispatch = useDispatch();
   const props = useSelector((state: RootState) => selectAgoragramById(state, _id));
   const myProfile = useSelector(selectMyProfile);
-  const showAuthDialog = useAuthDialog();
+  const [showAuthDialog] = useAuthDialog();
   if (props === undefined) return null;
   return (
     <Comment
