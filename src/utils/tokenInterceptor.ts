@@ -15,6 +15,7 @@ export class TokenStorage {
   private static readonly LOCAL_STORAGE_REFRESH_TOKEN = 'refresh_token';
   private static readonly LOCAL_STORAGE_TOKEN_EXPIRY = 'token_expiry';
   private static updatingToken = false;
+  private static updateTokenPromise: Promise<string> | null = null;
 
   public static isAuthenticated(): boolean {
     return this.getToken() !== null;
@@ -25,24 +26,29 @@ export class TokenStorage {
   }
 
   public static getNewToken(): Promise<string> {
-    return new Promise((resolve, reject) => {
+    const getNewTokenPromise: Promise<string> = new Promise((resolve, reject): void => {
       this.updatingToken = true;
       axios
-        .post('/user/oauth/token', { refresh_token: this.getRefreshToken(), grant_type: 'refresh_token' })
+        .post<ServerTokenResponse>('/user/oauth/token', {
+          refresh_token: this.getRefreshToken(),
+          grant_type: 'refresh_token',
+        })
         .then((response) => {
           this.updatingToken = false;
           this.storeTokens(response.data);
-          // this.storeAccessToken(response.data.access_token);
-          // this.storeRefreshToken(response.data.refresh_token);
-          // this.storeAccessTokenExpiry(response.data.expires);
-
-          resolve(response.data.token);
+          resolve(response.data.access_token);
         })
         .catch((error) => {
           this.updatingToken = false;
           reject(error);
         });
     });
+    this.updateTokenPromise = getNewTokenPromise;
+    return getNewTokenPromise;
+  }
+
+  public static onUpdatedToken(): Promise<string> | null {
+    return this.updateTokenPromise;
   }
 
   public static storeAccessToken(token: string): void {
@@ -108,6 +114,11 @@ axios.interceptors.request.use((request) => {
       if (request.url === '/user/oauth/token') return resolve(request);
       if (TokenStorage.isUpdatingToken() === false)
         TokenStorage.getNewToken().then(() => {
+          request.headers['Authorization'] = TokenStorage.getAuthenticationBearer();
+          return resolve(request);
+        });
+      else
+        TokenStorage.onUpdatedToken()?.then(() => {
           request.headers['Authorization'] = TokenStorage.getAuthenticationBearer();
           return resolve(request);
         });
