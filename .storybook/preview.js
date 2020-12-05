@@ -34,3 +34,8 @@ addDecorator(
   }),
 );
 addDecorator((story, context) => <Suspense fallback="Loading...">{story(context)}</Suspense>);
+
+// Source: https://storybook.js.org/docs/react/configure/story-layout
+export const parameters = {
+  layout: 'centered',
+};

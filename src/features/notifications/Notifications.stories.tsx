@@ -1,30 +1,13 @@
 import NotificationListItem, { TranslatedNotificationListItem } from './NotificationListItem';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
-import { Meta } from '@storybook/react/types-6-0';
 import NotificationBell from './NotificationBell';
 import NotificationList from './NotificationList';
-// import { Route } from 'react-router-dom';
-// import StoryMetadata from 'components/StoryMetadata';
 import { UserNotification } from 'types/notifications';
 import { action } from '@storybook/addon-actions';
 
-const story: Meta = {
+const story = {
   component: NotificationBell,
-  decorators: [
-    (storyFn): JSX.Element => (
-      <div
-        style={{
-          alignItems: 'center',
-          display: 'flex',
-          height: '80vh',
-          justifyContent: 'center',
-        }}
-      >
-        <div style={{ display: 'inline-block' }}>{storyFn()}</div>
-      </div>
-    ),
-  ],
   title: 'Notifications',
 };
 
@@ -94,7 +77,7 @@ export const TranslatedCommentNotification = () => (
 
 export const List = () => {
   const [notifications, setNotifications] = useState<UserNotification[]>(generateNotifications(10));
-  const [hasMore, setHasMore] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
   return (
     <div style={{ width: 400, height: 400, overflow: 'auto' }}>
       <NotificationList

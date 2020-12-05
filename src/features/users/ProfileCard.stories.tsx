@@ -1,23 +1,9 @@
 import { ProfileCard, ProfileState } from './ProfileCard';
 
 import React from 'react';
-import StoryMetadata from 'components/StoryMetadata';
 
-const story: StoryMetadata = {
+const story = {
   component: ProfileCard,
-  decorators: [
-    (storyFn): JSX.Element => (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          padding: 100,
-        }}
-      >
-        <div style={{ display: 'inline-block' }}>{storyFn()}</div>
-      </div>
-    ),
-  ],
   title: 'ProfileCard',
 };
 

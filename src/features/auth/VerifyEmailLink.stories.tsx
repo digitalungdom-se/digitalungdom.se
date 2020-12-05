@@ -1,10 +1,8 @@
 import React from 'react';
-import StoryMetadata from 'components/StoryMetadata';
 import VerifyEmailLink from './VerifyEmailLink';
 
-const story: StoryMetadata = {
+const story = {
   component: VerifyEmailLink,
-  decorators: [(storyFn): JSX.Element => <div style={{ padding: 100 }}>{storyFn()}</div>],
   title: 'VerifyEmailLink',
 };
 

@@ -1,24 +1,9 @@
 import FadeOutText from './FadeOutText';
 import { LoremIpsum } from 'lorem-ipsum';
 import React from 'react';
-import StoryMetadata from './StoryMetadata';
 
-const story: StoryMetadata = {
+const story = {
   component: FadeOutText,
-  decorators: [
-    (storyFn): JSX.Element => (
-      <div
-        style={{
-          alignItems: 'center',
-          display: 'flex',
-          height: '100vh',
-          justifyContent: 'center',
-        }}
-      >
-        <div style={{ display: 'inline-block' }}>{storyFn()}</div>
-      </div>
-    ),
-  ],
   title: 'FadeOutText',
 };
 

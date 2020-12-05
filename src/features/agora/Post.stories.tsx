@@ -2,7 +2,6 @@ import { BodyEditState } from './AgoraBodyField';
 import { LoremIpsum } from 'lorem-ipsum';
 import Post from './Post';
 import React from 'react';
-import StoryMetadata from 'components/StoryMetadata';
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -15,22 +14,8 @@ const lorem = new LoremIpsum({
   },
 });
 
-const story: StoryMetadata = {
+const story = {
   component: Post,
-  decorators: [
-    (storyFn): JSX.Element => (
-      <div
-        style={{
-          alignItems: 'center',
-          display: 'flex',
-          height: '100vh',
-          justifyContent: 'center',
-        }}
-      >
-        <div style={{ display: 'inline-block' }}>{storyFn()}</div>
-      </div>
-    ),
-  ],
   title: 'Post',
 };
 

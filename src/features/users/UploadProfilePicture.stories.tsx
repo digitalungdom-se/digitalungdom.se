@@ -1,23 +1,9 @@
 import React from 'react';
-import StoryMetadata from 'components/StoryMetadata';
 import UploadProfilePicture from './UploadProfilePicture';
 import { action } from '@storybook/addon-actions';
 
-const story: StoryMetadata = {
+const story = {
   component: UploadProfilePicture,
-  decorators: [
-    (storyFn): JSX.Element => (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          padding: 100,
-        }}
-      >
-        <div style={{ display: 'inline-block' }}>{storyFn()}</div>
-      </div>
-    ),
-  ],
   title: 'UploadProfilePicture',
 };
 

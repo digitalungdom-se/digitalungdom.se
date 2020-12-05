@@ -1,23 +1,8 @@
 import Comment from './Comment';
 import React from 'react';
-import StoryMetadata from 'components/StoryMetadata';
 
-const story: StoryMetadata = {
+const story = {
   component: Comment,
-  decorators: [
-    (storyFn): JSX.Element => (
-      <div
-        style={{
-          alignItems: 'center',
-          display: 'flex',
-          height: '100vh',
-          justifyContent: 'center',
-        }}
-      >
-        <div style={{ display: 'inline-block' }}>{storyFn()}</div>
-      </div>
-    ),
-  ],
   title: 'Comment',
 };
 

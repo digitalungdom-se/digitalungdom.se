@@ -1,11 +1,9 @@
 import ProfileHeaderButton from './ProfileHeaderButton';
 import React from 'react';
-import StoryMetadata from './StoryMetadata';
 import { action } from '@storybook/addon-actions';
 
-const story: StoryMetadata = {
+const story = {
   component: ProfileHeaderButton,
-  decorators: [(storyFn): JSX.Element => <div style={{ padding: 100, textAlign: 'center' }}>{storyFn()}</div>],
   title: 'ProfileHeaderButton',
 };
 

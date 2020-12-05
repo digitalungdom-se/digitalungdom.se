@@ -1,9 +1,6 @@
-import SettingsList, { SettingsTabs } from './SettingsList';
-
-import React from 'react';
-import { Route } from 'react-router-dom';
-import StoryMetadata from 'components/StoryMetadata';
-import StoryRouter from 'storybook-react-router';
+import SettingsList from './SettingsList';
+// import { Route } from 'react-router-dom';
+// import StoryRouter from 'storybook-react-router';
 
 // const Router = ({ Child }: { Child: React.ComponentType<any> }): React.ReactElement => (
 //   <Route path="/settings/:section">
@@ -11,14 +8,9 @@ import StoryRouter from 'storybook-react-router';
 //   </Route>
 // );
 
-const story: StoryMetadata = {
+const story = {
   component: SettingsList,
   decorators: [
-    (storyFn): JSX.Element => (
-      <div style={{ padding: 100, display: 'flex', justifyContent: 'center' }}>
-        <div style={{ display: 'inline-block' }}>{storyFn()}</div>
-      </div>
-    ),
     // StoryRouter(),
   ],
   title: 'SettingsList',

@@ -2,7 +2,6 @@ import { Field, Formik } from 'formik';
 
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-import MailIcon from '@material-ui/icons/Mail';
 import React from 'react';
 import { TranslatedTextField as TextField } from 'components/TranslatedTextField';
 import Typography from '@material-ui/core/Typography';
@@ -34,27 +33,29 @@ interface VerifyEmailPageParams {
   emailInBase64: string;
 }
 
-export default function VerifyEmailPage({
-  email,
-  onSubmit = () => new Promise((res) => res()),
-}: VerifyEmailPageProps): React.ReactElement {
+export default function VerifyEmailPage({ email, onSubmit }: VerifyEmailPageProps): React.ReactElement {
   const classes = useStyles();
   const { emailInBase64 } = useParams<VerifyEmailPageParams>();
   return (
     <Container component="main" disableGutters maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
-          {'Logga in med kod från e-mailadress' /* Translation needed */}
+          {'Kolla din e-mail' /* Translation needed */}
         </Typography>
-        <MailIcon fontSize="large" />
-        {email || atob(emailInBase64)}
+        <img alt="bot has mail" src={require('resources/images/verify.png')} />
+        <Typography paragraph>
+          Du har fått ett e-mail till <code>{email || atob(emailInBase64)}</code> med en inloggningskod. Skriv in den
+          här och logga in! {/* Translation needed */}
+        </Typography>
         <Formik
           initialValues={{ loginCode: '' }}
           onSubmit={(values, { setErrors, setSubmitting }) => {
-            onSubmit(email || atob(emailInBase64), values.loginCode).catch(() => {
-              setErrors({ loginCode: 'Felaktig kod' }); /* Translation needed */
-              setSubmitting(false);
-            });
+            onSubmit(email || atob(emailInBase64), values.loginCode)
+              .then(() => setSubmitting(false))
+              .catch(() => {
+                setErrors({ loginCode: 'Felaktig kod' }); /* Translation needed */
+                setSubmitting(false);
+              });
           }}
         >
           {({ values, isSubmitting, submitForm }) => (
@@ -70,7 +71,15 @@ export default function VerifyEmailPage({
                 required
                 variant="outlined"
               />
-              <Button disabled={isSubmitting} onClick={submitForm} type="submit" variant="contained">
+              <Button
+                color="primary"
+                disabled={isSubmitting}
+                disableElevation
+                fullWidth
+                onClick={submitForm}
+                type="submit"
+                variant="contained"
+              >
                 {'Logga in' /* Translation needed */}
               </Button>
             </>

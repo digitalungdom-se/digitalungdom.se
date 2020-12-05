@@ -25,23 +25,9 @@ import Paper from '@material-ui/core/Paper';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import React from 'react';
 import SquareRadio from './SquareRadio';
-import StoryMetadata from './StoryMetadata';
 
-const story: StoryMetadata = {
+const story = {
   component: SquareRadio,
-  decorators: [
-    (storyFn): JSX.Element => (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          padding: 100,
-        }}
-      >
-        <div style={{ display: 'inline-block' }}>{storyFn()}</div>
-      </div>
-    ),
-  ],
   title: 'SquareRadio',
 };
 
