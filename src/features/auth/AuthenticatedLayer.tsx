@@ -14,10 +14,13 @@ export default function AuthenticatedLayer(props: AuthenticatedLayerProps): Reac
   const isAuthenticated = useSelector(selectAuthenticated);
   useEffect(() => {
     if (isAuthenticated)
-      axios.get('/user/@me').then((res) => {
-        if (res.data.type === 'fail') throw res;
-        dispatch(setMe(res.data));
-      });
+      axios
+        .get('/user/@me')
+        .then((res) => {
+          if (res.data.type === 'fail') throw res;
+          dispatch(setMe(res.data));
+        })
+        .catch(console.error);
   }, [dispatch, isAuthenticated]);
   return props.children;
 }

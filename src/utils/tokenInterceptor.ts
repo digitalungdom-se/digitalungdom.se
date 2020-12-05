@@ -80,12 +80,15 @@ export class TokenStorage {
   }
 
   public static clear(): void {
-    axios.post('/user/oauth/revoke', { token: this.getRefreshToken() }).then(() => {
-      localStorage.removeItem(TokenStorage.LOCAL_STORAGE_ACCESS_TOKEN);
-      localStorage.removeItem(TokenStorage.LOCAL_STORAGE_REFRESH_TOKEN);
-      localStorage.removeItem(TokenStorage.LOCAL_STORAGE_TOKEN_EXPIRY);
-      store.dispatch(failAuthorize());
-    });
+    axios
+      .post('/user/oauth/revoke', { token: this.getRefreshToken() })
+      .then(() => {
+        localStorage.removeItem(TokenStorage.LOCAL_STORAGE_ACCESS_TOKEN);
+        localStorage.removeItem(TokenStorage.LOCAL_STORAGE_REFRESH_TOKEN);
+        localStorage.removeItem(TokenStorage.LOCAL_STORAGE_TOKEN_EXPIRY);
+        store.dispatch(failAuthorize());
+      })
+      .catch(console.error);
   }
 
   private static getRefreshToken(): string | null {

@@ -96,20 +96,22 @@ class ProfilePage extends React.Component<ProfilePageProps, ProfilePageState> {
                   profileBio: values.bio,
                   profileStatus: values.status,
                   profileUrl: values.url,
-                }).then((res) => {
-                  setSubmitting(false);
-                  this.setState({
-                    user: {
-                      ...user,
-                      agora: {
-                        profile: {
-                          ...user.agora.profile,
-                          ...values,
+                })
+                  .then((res) => {
+                    setSubmitting(false);
+                    this.setState({
+                      user: {
+                        ...user,
+                        agora: {
+                          profile: {
+                            ...user.agora.profile,
+                            ...values,
+                          },
                         },
                       },
-                    },
-                  });
-                });
+                    });
+                  })
+                  .catch(console.error);
               }}
               status={user.agora.profile?.status}
               url={user.agora.profile?.url}

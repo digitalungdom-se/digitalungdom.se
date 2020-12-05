@@ -28,41 +28,45 @@ export default function ReduxConnectedComment({ _id, level, highlightCommentID }
       author={<UserLink details={props.author?.details} />}
       body={props.body}
       handleDelete={() => {
-        Axios.delete(`/agoragram/${_id}`).then((res) => {
-          dispatch(
-            editAgoragramSuccess({
-              _id,
-              edited: {
-                author: null,
-                body: null,
-                deleted: true,
-              },
-            }),
-          );
-        });
+        Axios.delete(`/agoragram/${_id}`)
+          .then((res) => {
+            dispatch(
+              editAgoragramSuccess({
+                _id,
+                edited: {
+                  author: null,
+                  body: null,
+                  deleted: true,
+                },
+              }),
+            );
+          })
+          .catch(console.error);
       }}
       handleEdit={({ body }, { setSubmitting }) => {
         Axios.put(`/agoragram/${_id}`, {
           body,
-        }).then((res) => {
-          setSubmitting(false);
-          dispatch(
-            editAgoragramSuccess({
-              _id,
-              edited: {
-                body,
-                modified: new Date().toISOString(),
-              },
-            }),
-          );
-        });
+        })
+          .then((res) => {
+            setSubmitting(false);
+            dispatch(
+              editAgoragramSuccess({
+                _id,
+                edited: {
+                  body,
+                  modified: new Date().toISOString(),
+                },
+              }),
+            );
+          })
+          .catch(console.error);
       }}
       handleStarring={(): boolean => {
         if (myProfile === null) {
           showAuthDialog(true);
           return false;
         }
-        Axios.post(`/agoragram/${_id}/star`).catch(() => {});
+        Axios.post(`/agoragram/${_id}/star`).catch(console.error);
         dispatch(
           starAgoragramSuccess({
             action: props.starred === true ? 'UNSTARRED' : 'STARRED',

@@ -57,23 +57,25 @@ class AgoraPost extends React.Component<AgoraPostProps, AgoraPostState> {
   }
 
   getAgoragram() {
-    Axios.get<Agoragram[]>(`/agoragram/${this.props.match.params.shortID}`).then((res) => {
-      const commentID = this.props.match.params.commentID;
-      const agoragrams = res.data;
-      if (commentID) {
-        const tree: AgoragramTree = {};
-        agoragrams.forEach((agoragram) => (tree[agoragram._id] = agoragram));
-        let root = commentID;
-        while (tree[root].replyTo !== agoragrams[0]._id) {
-          root = tree[root].replyTo;
+    Axios.get<Agoragram[]>(`/agoragram/${this.props.match.params.shortID}`)
+      .then((res) => {
+        const commentID = this.props.match.params.commentID;
+        const agoragrams = res.data;
+        if (commentID) {
+          const tree: AgoragramTree = {};
+          agoragrams.forEach((agoragram) => (tree[agoragram._id] = agoragram));
+          let root = commentID;
+          while (tree[root].replyTo !== agoragrams[0]._id) {
+            root = tree[root].replyTo;
+          }
+          agoragrams[0].children = agoragrams[0].children.filter((child) => child.agoragram !== root);
+          agoragrams[0].children.unshift({ agoragram: root, stars: tree[root].stars });
         }
-        agoragrams[0].children = agoragrams[0].children.filter((child) => child.agoragram !== root);
-        agoragrams[0].children.unshift({ agoragram: root, stars: tree[root].stars });
-      }
-      if (res.data.length === 0) return this.setState({ root: 'deleted' });
-      this.props.getAgoragramsSuccess(res.data);
-      this.setState({ root: agoragrams[0]._id });
-    });
+        if (res.data.length === 0) return this.setState({ root: 'deleted' });
+        this.props.getAgoragramsSuccess(res.data);
+        this.setState({ root: agoragrams[0]._id });
+      })
+      .catch(console.error);
   }
 
   componentDidMount() {
@@ -126,38 +128,42 @@ export const ReduxConnectedPost = ({
       author={<UserLink details={props.author?.details} />}
       avatarSrc={`${Axios.defaults.baseURL}/user/${props.author?._id}/profile_picture?size=40`}
       handleDelete={() => {
-        Axios.delete(`/agoragram/${_id}`).then((res) => {
-          dispatch(
-            editAgoragramSuccess({
-              _id,
-              edited: {
-                author: null,
-                body: null,
-                deleted: true,
-              },
-            }),
-          );
-        });
+        Axios.delete(`/agoragram/${_id}`)
+          .then((res) => {
+            dispatch(
+              editAgoragramSuccess({
+                _id,
+                edited: {
+                  author: null,
+                  body: null,
+                  deleted: true,
+                },
+              }),
+            );
+          })
+          .catch(console.error);
       }}
       handleEdit={({ body }, { setSubmitting }) => {
         Axios.put(`/agoragram/${_id}`, {
           body,
-        }).then((res) => {
-          setSubmitting(false);
-          dispatch(
-            editAgoragramSuccess({
-              _id,
-              edited: { body, modified: new Date().toISOString() },
-            }),
-          );
-        });
+        })
+          .then((res) => {
+            setSubmitting(false);
+            dispatch(
+              editAgoragramSuccess({
+                _id,
+                edited: { body, modified: new Date().toISOString() },
+              }),
+            );
+          })
+          .catch(console.error);
       }}
       handleStarring={(): boolean => {
         if (myProfile === null) {
           showAuthDialog(true);
           return false;
         }
-        Axios.post(`/agoragram/${_id}/star`);
+        Axios.post(`/agoragram/${_id}/star`).catch(console.error);
         dispatch(
           starAgoragramSuccess({
             action: props.starred === true ? 'UNSTARRED' : 'STARRED',

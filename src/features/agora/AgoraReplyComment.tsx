@@ -42,25 +42,27 @@ export default function AgoraReplyComment({
           body: values.body,
           replyTo,
           type: 'COMMENT',
-        }).then((res) => {
-          dispatch(
-            newCommentSuccess({
-              ...res.data,
-              ...values,
-              author: myProfile,
-              children: [],
-              replyTo,
-              stars: 0,
-              type: 'COMMENT',
-              isNew: true,
-            }),
-          );
-          setValues({
-            body: '',
-          });
-          setSubmitting(false);
-          setReplying(false);
-        });
+        })
+          .then((res) => {
+            dispatch(
+              newCommentSuccess({
+                ...res.data,
+                ...values,
+                author: myProfile,
+                children: [],
+                replyTo,
+                stars: 0,
+                type: 'COMMENT',
+                isNew: true,
+              }),
+            );
+            setValues({
+              body: '',
+            });
+            setSubmitting(false);
+            setReplying(false);
+          })
+          .catch(console.error);
       }}
       validationSchema={Yup.object({
         body: Yup.string().max(10000),

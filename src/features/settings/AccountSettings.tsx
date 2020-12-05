@@ -66,7 +66,7 @@ function AccountSettings(): React.ReactElement {
             setSubmitting(false);
             enqueueSnackbar('Sparade ändringar!', { variant: 'success' }) /* Translation needed */;
           })
-          .catch(console.log);
+          .catch(console.error);
       }}
       validationSchema={DetailsValidationSchema}
     >

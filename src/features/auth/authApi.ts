@@ -11,7 +11,9 @@ export const loginWithCode = (email: string, loginCode: string, onSuccess: Funct
     {
       headers: { Authorization: `Email ${btoa(email + ':' + loginCode)}` },
     },
-  ).then((res) => {
-    TokenStorage.storeTokens(res.data);
-    onSuccess();
-  });
+  )
+    .then((res) => {
+      TokenStorage.storeTokens(res.data);
+      onSuccess();
+    })
+    .catch(console.error);

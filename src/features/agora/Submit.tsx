@@ -48,9 +48,11 @@ export default function Submit(): React.ReactElement {
             Axios.post('/agoragram', {
               ...values,
               hypagora: 'GENERAL',
-            }).then((res) => {
-              push(`/agora/p/${res.data.shortID}`);
-            });
+            })
+              .then((res) => {
+                push(`/agora/p/${res.data.shortID}`);
+              })
+              .catch(console.error);
           }}
           validationSchema={Yup.object({
             body: Yup.string().when('type', {

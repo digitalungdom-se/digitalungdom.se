@@ -113,15 +113,17 @@ class AIS extends React.Component<AgoraInfiniteScrollProps, AgoraInfiniteScrollS
         skip: sort === prevSort ? agoragrams.length : 0,
         sort: sort ? sort.toUpperCase() : 'NEW',
       },
-    }).then((res) => {
-      this.setState({
-        agoragrams: changeLoading === false ? [...agoragrams, ...res.data] : res.data,
-        hasMore: res.data.length === 100,
-        loading: false,
-        prevSort: sort,
-      });
-      this.props.getAgoragramsSuccess(res.data);
-    });
+    })
+      .then((res) => {
+        this.setState({
+          agoragrams: changeLoading === false ? [...agoragrams, ...res.data] : res.data,
+          hasMore: res.data.length === 100,
+          loading: false,
+          prevSort: sort,
+        });
+        this.props.getAgoragramsSuccess(res.data);
+      })
+      .catch(console.error);
   }
 
   componentDidMount() {
