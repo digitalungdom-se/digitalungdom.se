@@ -24,6 +24,9 @@ export const users = createSlice({
     getUsersSuccess(state, action): void {
       action.payload.forEach((user: User) => (state.users[user._id] = { ...state.users[user._id], ...user }));
     },
+    removeMe(state): void {
+      state.me = null;
+    },
     setMe(state, action): void {
       state.me = {
         _id: action.payload._id,
@@ -34,7 +37,7 @@ export const users = createSlice({
   },
 });
 
-export const { getUsersSuccess, setMe } = users.actions;
+export const { getUsersSuccess, removeMe, setMe } = users.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

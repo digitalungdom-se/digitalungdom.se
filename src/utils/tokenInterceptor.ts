@@ -1,6 +1,7 @@
 import { authorize, failAuthorize } from 'features/auth/authSlice';
 
 import axios from 'axios';
+import { removeMe } from 'features/users/usersSlice';
 import store from 'app/store';
 
 export interface ServerTokenResponse {
@@ -87,6 +88,7 @@ export class TokenStorage {
         localStorage.removeItem(TokenStorage.LOCAL_STORAGE_REFRESH_TOKEN);
         localStorage.removeItem(TokenStorage.LOCAL_STORAGE_TOKEN_EXPIRY);
         store.dispatch(failAuthorize());
+        store.dispatch(removeMe());
       })
       .catch(console.error);
   }
