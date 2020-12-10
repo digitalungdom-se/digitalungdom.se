@@ -95,7 +95,7 @@ class ProfilePage extends React.Component<ProfilePageProps, ProfilePageState> {
                 Axios.put('/user/@me', {
                   profileBio: values.bio,
                   profileStatus: values.status,
-                  profileUrl: values.url,
+                  profileURL: values.url,
                 })
                   .then((res) => {
                     setSubmitting(false);
