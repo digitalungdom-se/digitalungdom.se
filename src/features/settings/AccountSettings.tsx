@@ -2,6 +2,8 @@ import * as Yup from 'yup';
 
 import { Field, Form, Formik } from 'formik';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { selectMyProfile, updateMyDetails } from 'features/users/usersSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Axios from 'axios';
 import BirthdatePicker from 'features/auth/BirthdatePicker';
@@ -11,8 +13,6 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
 import { TextField } from 'formik-material-ui';
-import { selectMyProfile } from 'features/users/usersSlice';
-import { useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 
 export const DetailsValidationSchema = Yup.object({
@@ -40,6 +40,7 @@ type FieldsName = 'firstName' | 'lastName' | 'username' | 'birthdate' | 'gender'
 function AccountSettings(): React.ReactElement {
   const classes = useStyles();
   const myProfile = useSelector(selectMyProfile);
+  const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   if (myProfile === null) return <div>Loading</div>;
   const initialValues = {
@@ -65,6 +66,7 @@ function AccountSettings(): React.ReactElement {
           .then((res) => {
             setSubmitting(false);
             enqueueSnackbar('Sparade ändringar!', { variant: 'success' }) /* Translation needed */;
+            dispatch(updateMyDetails({ ...values, username, _id: myProfile._id }));
           })
           .catch(console.error);
       }}
