@@ -5,6 +5,7 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import Axios from 'axios';
 import Button from '@material-ui/core/Button';
+import DeleteAccountDialog from './DeleteAccountDialog';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import React from 'react';
@@ -119,6 +120,7 @@ const SecuritySettings = () => (
       I nuläget finns det inget sätt att ändra e-mailadress. Om du vill ändra den så får du mer än gärna kontakta{' '}
       <Link href="mailto:styrelse@digitalungdom.se">styrelse@digitalungdom.se</Link>
     </Typography>
+    <DeleteAccountDialog />
   </div>
 );
 

@@ -34,10 +34,18 @@ export const users = createSlice({
       };
       state.users[action.payload._id] = { ...state.users[action.payload._id], ...action.payload };
     },
+    updateMyDetails(state, action): void {
+      console.log(action);
+      state.me = {
+        _id: action.payload._id,
+        username: action.payload.username,
+      };
+      state.users[action.payload._id].details = { ...state.users[action.payload._id].details, ...action.payload };
+    },
   },
 });
 
-export const { getUsersSuccess, removeMe, setMe } = users.actions;
+export const { getUsersSuccess, removeMe, setMe, updateMyDetails } = users.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
