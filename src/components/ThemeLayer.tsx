@@ -47,9 +47,9 @@ const ThemeLayer = ({ children, forceDarkMode }: ThemeLayerProps): JSX.Element =
                 fontWeight: 'bold',
               },
             },
-            MuiLink: {
-              root: {
-                color: prefersDarkMode ? '#fff' : 'inherit',
+            MuiTypography: {
+              colorPrimary: {
+                color: prefersDarkMode ? 'rgb(166, 213, 250)' : '#1e6ee8',
               },
             },
           },
