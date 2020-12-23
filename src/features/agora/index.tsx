@@ -109,7 +109,7 @@ class AIS extends React.Component<AgoraInfiniteScrollProps, AgoraInfiniteScrollS
       params: {
         authorID,
         // hypagora: hypagora === undefined ? null : hypagora === 'general' ? 'GENERAL' : hypagora,
-        limit: 100,
+        limit: 10,
         skip: sort === prevSort ? agoragrams.length : 0,
         sort: sort ? sort.toUpperCase() : 'NEW',
       },
@@ -117,7 +117,7 @@ class AIS extends React.Component<AgoraInfiniteScrollProps, AgoraInfiniteScrollS
       .then((res) => {
         this.setState({
           agoragrams: changeLoading === false ? [...agoragrams, ...res.data] : res.data,
-          hasMore: res.data.length === 100,
+          hasMore: res.data.length === 10,
           loading: false,
           prevSort: sort,
         });

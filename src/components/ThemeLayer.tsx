@@ -6,6 +6,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import React from 'react';
 import { sv } from 'date-fns/locale';
 import { svSE } from '@material-ui/core/locale';
+import useDarkMode from 'use-dark-mode';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 interface ThemeLayerProps {
@@ -16,7 +17,10 @@ interface ThemeLayerProps {
 const ThemeLayer = ({ children, forceDarkMode }: ThemeLayerProps): JSX.Element => {
   let prefersDarkMode = forceDarkMode === 'dark';
   const mediaQuery = useMediaQuery('(prefers-color-scheme: dark)');
-  if (forceDarkMode === undefined) prefersDarkMode = mediaQuery;
+  const { value } = useDarkMode(mediaQuery);
+  if (forceDarkMode === undefined) {
+    prefersDarkMode = value;
+  }
 
   const theme = React.useMemo(
     () =>
@@ -43,9 +47,9 @@ const ThemeLayer = ({ children, forceDarkMode }: ThemeLayerProps): JSX.Element =
                 fontWeight: 'bold',
               },
             },
-            MuiLink: {
-              root: {
-                [prefersDarkMode ? 'color' : '']: '#fff',
+            MuiTypography: {
+              colorPrimary: {
+                color: prefersDarkMode ? 'rgb(166, 213, 250)' : '#1e6ee8',
               },
             },
           },

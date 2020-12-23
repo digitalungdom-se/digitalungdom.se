@@ -4,12 +4,15 @@ import { Theme, createStyles, makeStyles, withStyles } from '@material-ui/core/s
 import AppBar from '@material-ui/core/AppBar';
 import Axios from 'axios';
 import CenterWrapper from 'components/CenterWrapper';
+import DarkIcon from '@material-ui/icons/Brightness4';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
+import LightIcon from '@material-ui/icons/Brightness7';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationBell from 'features/notifications/NotificationBell';
@@ -27,6 +30,7 @@ import head from 'resources/head.svg';
 import { mongoIdToDate } from 'utils/mongoid';
 import { selectAuthenticated } from 'features/auth/authSlice';
 import { selectMyProfile } from 'features/users/usersSlice';
+import useDarkMode from 'use-dark-mode';
 import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -108,6 +112,7 @@ function Header(): JSX.Element {
   };
 
   const labels = ['Om oss', 'Agora'];
+  const { toggle, value } = useDarkMode();
 
   return (
     <>
@@ -127,6 +132,10 @@ function Header(): JSX.Element {
                 <ListItemText primary={text} />
               </ListItem>
             ))}
+            <ListItem button onClick={toggle}>
+              <ListItemIcon>{value ? <LightIcon /> : <DarkIcon />}</ListItemIcon>
+              <ListItemText primary={value ? 'Ljust läge' : 'Mörkt läge'} />
+            </ListItem>
             <Divider />
             <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
               {!authenticated && <UnauthenticatedHeaderButtons />}
@@ -157,6 +166,7 @@ function Header(): JSX.Element {
                 <StyledTab className={classes.tab} component={RouterLink} label="Agora" to="/agora" />
               </StyledTabs>
               {!authenticated && <UnauthenticatedHeaderButtons />}
+              {<IconButton onClick={toggle}>{value ? <LightIcon /> : <DarkIcon />}</IconButton>}
             </Hidden>
             {authenticated && (
               <NotificationBell
