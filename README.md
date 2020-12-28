@@ -1,6 +1,5 @@
 # digitalungdom.se
 
-
 Welcome to the repository for the [website](https://digitalungdom.se/) of youth organization Digital Ungdom. The website includes a forum, information about us, and is the central for user registration.
 
 ## Installation 📥
@@ -22,7 +21,6 @@ So you want to contribute? **Good**, the world needs more brave troopers like yo
 ### But how? 🤔
 
 If you find a typo, bug or want to add a feature, create an [issue](https://github.com/digitalungdom-se/digitalungdom.se/issues) or add a [pull request](https://github.com/digitalungdom-se/digitalungdom.se/pulls) with the code you want to add! We will take a look at what you sent in and reward you with gold and glory (or maybe just some stickers) if you help our noble cause.
-
 
 ### Recommended IDE 💾
 
