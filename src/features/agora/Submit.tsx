@@ -98,7 +98,6 @@ export default function Submit(): React.ReactElement {
                 margin="normal"
                 multiline={values.type === 'TEXT'}
                 name="body"
-                rows={4}
                 variant="outlined"
               />
               <Field

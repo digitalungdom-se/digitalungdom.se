@@ -30,7 +30,7 @@ export default function AgoraBodyField({ body, cancelEdit, handleEdit }: AgoraBo
     <Formik initialValues={initialValues} onSubmit={handleEdit || console.log}>
       {() => (
         <Form>
-          <Field component={TextField} fullWidth multiline name="body" rows={5} variant="outlined" />
+          <Field component={TextField} fullWidth multiline name="body" variant="outlined" />
           <StyledButton color="primary" disableElevation type="submit" variant="contained">
             {'Spara' /* Translation needed */}
           </StyledButton>
