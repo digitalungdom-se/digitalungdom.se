@@ -4,7 +4,6 @@ import { Theme, createStyles, makeStyles, withStyles } from '@material-ui/core/s
 
 import AgoraBodyField from './AgoraBodyField';
 import { AgoragramComponentProps } from './agoraTypes';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -19,6 +18,7 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import Moment from 'react-moment';
+import ProfileAvatar from 'components/ProfileAvatar';
 import RenderMarkdown from 'components/RenderMarkdown';
 import { Link as RouterLink } from 'react-router-dom';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -116,10 +116,10 @@ export default function Post({
       <CardHeader
         avatar={
           !loading ? (
-            <Avatar src={avatarSrc} />
+            <ProfileAvatar src={avatarSrc} srcParams={'size=40'} />
           ) : (
             <Skeleton variant="circle">
-              <Avatar />
+              <ProfileAvatar />
             </Skeleton>
           )
         }

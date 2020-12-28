@@ -126,7 +126,7 @@ export const ReduxConnectedPost = ({
     <Post
       {...props}
       author={<UserLink details={props.author?.details} />}
-      avatarSrc={`${Axios.defaults.baseURL}/user/${props.author?._id}/profile_picture?size=40`}
+      avatarSrc={`${Axios.defaults.baseURL}/user/${props.author?._id}/profile_picture`}
       handleDelete={() => {
         Axios.delete(`/agoragram/${_id}`)
           .then((res) => {

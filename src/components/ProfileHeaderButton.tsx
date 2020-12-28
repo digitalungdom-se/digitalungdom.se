@@ -1,7 +1,6 @@
 import Menu, { MenuProps } from '@material-ui/core/Menu';
 import { Theme, createStyles, makeStyles, withStyles } from '@material-ui/core/styles';
 
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Hidden from '@material-ui/core/Hidden';
@@ -10,6 +9,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import PersonIcon from '@material-ui/icons/Person';
+import ProfileAvatar from 'components/ProfileAvatar';
 import React from 'react';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -119,7 +119,7 @@ export default function ProfileHeaderButton(props: ProfileHeaderButtonProps): JS
           </>
         ) : (
           <>
-            <Avatar className={classes.avatar} src={avatarSrc} />
+            <ProfileAvatar className={classes.avatar} src={avatarSrc} srcParams={'size=24'} />
             <Hidden smUp>{firstName[0] + lastName[0]}</Hidden>
             <Hidden smDown>{firstName}</Hidden>
           </>
