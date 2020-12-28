@@ -64,9 +64,9 @@ export default function VerifyEmailPage({ email, onSubmit }: VerifyEmailPageProp
                 component={TextField}
                 fullWidth
                 id="loginCode"
+                InputLabelProps={{ required: false }}
                 label="Kod" /* Translation needed */
                 margin="normal"
-                // multiline
                 name="loginCode"
                 required
                 variant="outlined"

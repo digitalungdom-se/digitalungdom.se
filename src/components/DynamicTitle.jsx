@@ -84,7 +84,7 @@ class DynamicTitle extends React.Component {
             style={{
               width: '150vw',
               fontSize: this.props.titleSize - 5,
-              fontFamily: 'courier',
+              fontFamily: 'monospace',
               color: 'white',
               paddingLeft: 12,
             }}

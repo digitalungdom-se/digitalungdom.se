@@ -50,7 +50,7 @@ export interface ProfileState {
 
 export const ProfileValidationSchema = Yup.object({
   bio: Yup.string(),
-  url: Yup.string().url(),
+  url: Yup.string().url('Ogiltig URL'), // Translation needed
   status: Yup.string(),
 });
 
