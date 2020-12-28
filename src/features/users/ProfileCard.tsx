@@ -5,7 +5,6 @@ import ProfileContent, { ProfileContentProps } from './ProfileContent';
 import React, { useState } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
-import Avatar from '@material-ui/core/Avatar';
 import Axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -14,6 +13,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import EditableProfileContent from './EditableProfileContent';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
+import ProfileAvatar from 'components/ProfileAvatar';
 import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import UploadProfilePicture from './UploadProfilePicture';
@@ -87,7 +87,11 @@ export function ProfileCard({
       <CardHeader className={classes.header} />
       <CardContent className={classes.content}>
         {}
-        <Avatar className={classes.avatar} src={`${avatarSrc}?size=100&version=${profilePictureVersion}`} />
+        <ProfileAvatar
+          className={classes.avatar}
+          src={`${avatarSrc}`}
+          srcParams={`size=100&version=${profilePictureVersion}`}
+        />
         <Typography component="h2" variant="h6">
           {firstName + ' ' + lastName}
         </Typography>
