@@ -1,0 +1,52 @@
+[[redirects]]
+  from = "https://digitalungdom.se/*"
+  to = "https://www.digitalungdom.se/:splat"
+  status = 301
+  force = true
+  
+[[redirects]]
+  from = "https://digitalungdom.com/*"
+  to = "https://www.digitalungdom.se/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.digitalungdom.com/*"
+  to = "https://www.digitalungdom.se/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://digitalungdom.net/*"
+  to = "https://www.digitalungdom.se/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.digitalungdom.net/*"
+  to = "https://www.digitalungdom.se/:splat"
+  status = 301
+  force = true
+ 
+[[redirects]]
+  from = "https://digitalungdom.org/*"
+  to = "https://www.digitalungdom.se/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.digitalungdom.org/*"
+  to = "https://www.digitalungdom.se/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://digitalungdom.netlify.app/*"
+  to = "https://www.digitalungdom.se/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
