@@ -1,3 +1,12 @@
+[context.production.environment]
+  API_URL = "https://api.digitalungdom.se"
+
+[context.deploy-preview.environment]
+  API_URL = "https://devapi.digitalungdom.se"
+
+[context.branch-deploy.environment]
+  API_URL = "https://devapi.digitalungdom.se"
+
 [[redirects]]
   from = "https://digitalungdom.se/*"
   to = "https://www.digitalungdom.se/:splat"
