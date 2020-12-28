@@ -11,7 +11,7 @@ import { SnackbarProvider } from 'notistack';
 import ThemeLayer from 'components/ThemeLayer';
 import axios from 'axios';
 
-axios.defaults.baseURL = process.env.API_URL || 'https://devapi.digitalungdom.se';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'https://devapi.digitalungdom.se';
 
 const App: React.FC = () => {
   return (

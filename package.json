@@ -63,7 +63,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "https://devapi.digitalungdom.se",
   "browserslist": {
     "production": [
       ">0.2%",
