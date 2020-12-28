@@ -2,8 +2,6 @@
 
 # dependencies
 /node_modules
-/dev_node_modules
-/prod_node_modules
 /.pnp
 .pnp.js
 
@@ -29,3 +27,6 @@ yarn-error.log*
 
 # dontpush folder
 dontpush
+
+# caches
+.cache

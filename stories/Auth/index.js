@@ -1,2 +1,0 @@
-import './ResetPassword'
-import './VerifyAccount'

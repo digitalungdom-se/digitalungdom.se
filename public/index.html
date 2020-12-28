@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Hemsidan för Sveriges bästa förbund för teknik- och programmeringsintresserade ungdomar!" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!--
@@ -22,11 +22,49 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Digital Ungdom</title>
+    <style>
+      * {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
+          'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+      }
+      .centered-start {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transform: -webkit-translate(-50%, -50%);
+        transform: -moz-translate(-50%, -50%);
+        transform: -ms-translate(-50%, -50%);
+        margin: 0;
+        text-align: center;
+      }
+      .centered-start h1 {
+        font-weight: 500;
+        color: #1e6ee8;
+      }
+      .centered-start p,
+      .centered-start span {
+        width: 21rem;
+        line-height: 1.4rem;
+        color: rgba(0, 0, 0, 0.54);
+        white-space: nowrap;
+        word-wrap: break-word;
+        white-space: normal;
+        display: block;
+      }
+    </style>
   </head>
 
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <div class="centered-start">
+        <h1>Digital Ungdom</h1>
+        <p>Sveriges bästa förbund för teknik- och programmeringsintresserade ungdomar!</p>
+        <noscript>
+          Du måste aktivera JavaScript för att använda vår hemsida. You need to enable JavaScript to run this app.
+        </noscript>
+      </div>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -38,5 +76,4 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
-
 </html>
