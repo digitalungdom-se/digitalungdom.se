@@ -3,6 +3,7 @@ import { Theme, createStyles, makeStyles, withStyles } from '@material-ui/core/s
 
 import AppBar from '@material-ui/core/AppBar';
 import Axios from 'axios';
+import { BotIdenticon } from '@digitalungdom/bot-identicon';
 import CenterWrapper from 'components/CenterWrapper';
 import DarkIcon from '@material-ui/icons/Brightness4';
 import Divider from '@material-ui/core/Divider';
@@ -26,7 +27,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import UnauthenticatedHeaderButtons from './UnauthenticatedHeaderButtons';
 import { UserNotification } from 'types/notifications';
-import head from 'resources/head.svg';
 import { mongoIdToDate } from 'utils/mongoid';
 import { selectAuthenticated } from 'features/auth/authSlice';
 import { selectMyProfile } from 'features/users/usersSlice';
@@ -145,15 +145,10 @@ function Header(): JSX.Element {
       </Drawer>
       <AppBar className={classes.root} color="inherit" position="sticky">
         <CenterWrapper>
-          <Toolbar>
+          <Toolbar disableGutters>
             <Typography className={classes.title} component="h1" style={{ fontWeight: 600 }} variant="h6">
               <Link to="/">
-                <img
-                  alt="Logo depicting Boten Anna"
-                  src={head}
-                  style={{ verticalAlign: 'middle', marginRight: 4 }}
-                  width={50}
-                />
+                <BotIdenticon face="celebrate" size={50} style={{ verticalAlign: 'middle', marginRight: 4 }} />
               </Link>
               <Link to="/">Digital Ungdom</Link>
             </Typography>
