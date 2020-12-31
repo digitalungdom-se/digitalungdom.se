@@ -70,7 +70,7 @@ function ProfileContent({ bio, url, joinDate, status }: ProfileContentProps): Re
             <Chip
               aria-label="Member join date"
               avatar={<AccessTimeIcon />}
-              label={`Member since ${joinDate.toLocaleDateString()}`}
+              label={`Medlem sedan ${joinDate.toLocaleDateString()}`}
               size="small"
             />
           </li>
