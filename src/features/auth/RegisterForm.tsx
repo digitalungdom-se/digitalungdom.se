@@ -199,6 +199,7 @@ export default function RegisterForm({ redirect = (s: AuthPage) => {}, ...props 
                   id="gender"
                   label="Könsidentitet" /* Translation needed */
                   name="gender"
+                  required
                   select // make this field into a select
                   variant="outlined"
                 >

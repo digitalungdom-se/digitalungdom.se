@@ -13,10 +13,20 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
 import { TextField } from 'formik-material-ui';
+import differenceInYears from 'date-fns/differenceInYears';
 import { useSnackbar } from 'notistack';
 
 export const DetailsValidationSchema = Yup.object({
-  birthdate: Yup.date().required('Obligatoriskt') /* Translation needed */,
+  birthdate: Yup.date()
+    .typeError('Ogiltigt datum') /* Translation needed */
+    .test(
+      'birthdate',
+      'Du måste vara minst 13 år. Skicka ett e-mail till styrelse@digitalungdom.se för info' /* Translation needed */,
+      function (value) {
+        return differenceInYears(new Date(), new Date(value)) >= 13;
+      },
+    )
+    .required('Obligatoriskt') /* Translation needed */,
   firstName: Yup.string().max(15, 'Får vara max 15 karaktärer').required('Obligatoriskt') /* Translation needed */,
   gender: Yup.string().required('Obligatoriskt') /* Translation needed */,
   lastName: Yup.string().max(20, 'Får vara max 20 karaktärer').required('Obligatoriskt') /* Translation needed */,
@@ -84,6 +94,7 @@ function AccountSettings(): React.ReactElement {
                 id="firstName"
                 label="Förnamn" /* Translation needed */
                 name="firstName"
+                required
                 variant="outlined"
               />
             </Grid>
@@ -108,6 +119,7 @@ function AccountSettings(): React.ReactElement {
                 initialUsername={initialValues.username}
                 label="Användarnamn" /* Translation needed */
                 name="username"
+                required
                 variant="outlined"
               />
             </Grid>
@@ -133,6 +145,7 @@ function AccountSettings(): React.ReactElement {
                 id="gender"
                 label="Könsidentitet" /* Translation needed */
                 name="gender"
+                required
                 select // make this field into a select
                 variant="outlined"
               >
