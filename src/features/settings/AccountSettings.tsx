@@ -82,7 +82,7 @@ function AccountSettings(): React.ReactElement {
       }}
       validationSchema={DetailsValidationSchema}
     >
-      {({ values, setFieldValue, isSubmitting }) => (
+      {({ values, setFieldValue, setFieldTouched, isSubmitting, errors, touched }) => (
         <Form className={classes.root}>
           <Grid container spacing={2}>
             <Grid item sm={6} xs={12}>
@@ -126,14 +126,19 @@ function AccountSettings(): React.ReactElement {
             <Grid item xs={12}>
               <BirthdatePicker
                 disabled={isSubmitting}
+                error={Boolean(errors.birthdate && touched.birthdate)}
                 fullWidth
+                helperText={touched.birthdate && errors.birthdate}
                 id="birthdate"
                 inputVariant="outlined"
                 KeyboardButtonProps={{
                   'aria-label': 'change birthdate',
                 }}
                 label="Födelsedatum" /* Translation needed */
-                onChange={(value): void => setFieldValue('birthdate', value)}
+                onBlur={() => setFieldTouched('birthdate', true, true)}
+                onChange={(value): void => {
+                  setFieldValue('birthdate', value, false);
+                }}
                 required
                 value={values.birthdate}
               />
