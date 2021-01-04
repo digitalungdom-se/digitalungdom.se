@@ -1,58 +1,39 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
-const programmingIs = [
-  'roligt!',
-  'krångligt (ibland)',
-  'framtiden',
-  'förvånansvärt enkelt',
-  'välbetalt ;)',
-  'spännande',
-  'en flex att kunna B)',
-  'viktigt',
-];
+const programmingIs = ['123', '223', '323'];
 
 class DynamicTitle extends React.Component {
-  constructor(props) {
-    super(props);
-    const firstIndex = Math.floor(Math.random() * programmingIs.length);
-
-    this.interval = null;
-    this.state = {
-      titleWordIndex: Math.floor(firstIndex),
-      titleWord: programmingIs[firstIndex],
-      letters: '',
-      letterIndex: 0,
-      erasing: false,
-    };
-  }
+  state = {
+    erasing: false,
+    letterIndex: 0,
+    titleWordIndex: Math.floor(Math.floor(Math.random() * programmingIs.length)),
+  };
+  interval = null;
 
   componentDidMount() {
     this.interval = setInterval(() => {
-      // If we are erasing and have zero letters, choose a new word.
-      if (this.state.letterIndex <= 0 && this.state.erasing === true) {
-        let newWordIndex = this.state.titleWordIndex + 1;
-        if (newWordIndex > programmingIs.length - 1) {
-          newWordIndex = 0;
+      // if erasing
+      if (this.state.erasing) {
+        // if at -2 (meaning a little pause after 0)
+        if (this.state.letterIndex === -2) {
+          // choose new word, set erase to false and return
+          this.setState({
+            erasing: false,
+            titleWordIndex: this.state.titleWordIndex + 1 === programmingIs.length ? 0 : this.state.titleWordIndex + 1,
+          });
+          return;
         }
-        this.setState({ titleWord: programmingIs[newWordIndex], titleWordIndex: newWordIndex });
-      }
-
-      const spliceAt = this.state.letterIndex < 0 ? 0 : this.state.letterIndex;
-      const newLetters = this.state.titleWord.slice(0, spliceAt);
-
-      let newIndex = 0;
-      if (this.state.erasing === true) {
-        newIndex = this.state.letterIndex - 1;
+        // else lower
+        else {
+          this.setState({ letterIndex: this.state.letterIndex - 1 });
+        }
       } else {
-        newIndex = this.state.letterIndex + 1;
-      }
-      this.setState({ letters: newLetters, letterIndex: newIndex });
-
-      if (newIndex > this.state.titleWord.length + 5) {
-        this.setState({ erasing: true });
-      } else if (newIndex < -1) {
-        this.setState({ erasing: false });
+        this.setState({
+          // erasing is true if 5 characters longer than word, implying a little pause
+          erasing: this.state.letterIndex === programmingIs[this.state.titleWordIndex].length + 5,
+          letterIndex: this.state.letterIndex + 1,
+        });
       }
     }, 100);
   }
@@ -65,31 +46,36 @@ class DynamicTitle extends React.Component {
     return (
       <>
         <Typography
-          style={{ fontSize: this.props.titleSize, marginBottom: 10, color: 'white', fontWeight: 'bold' }}
-          variant="h2"
+          style={{
+            color: 'white',
+            fontWeight: 'bold',
+            marginBottom: '0.5rem',
+          }}
+          variant="h4"
         >
           Programmering är...
         </Typography>
         <div
           style={{
-            width: '100%',
-            marginBottom: 24,
             background: 'rgba(255,255,255, 0.5)',
-            padding: 3,
-            borderRadius: 6,
+            borderRadius: '0.5rem',
+            marginBottom: 24,
             overflow: 'hidden',
           }}
         >
           <Typography
             style={{
-              width: '150vw',
-              fontSize: this.props.titleSize - 5,
-              fontFamily: 'monospace',
               color: 'white',
+              fontFamily: 'monospace',
+              lineHeight: 'inherit',
+              overflowWrap: 'anywhere',
               paddingLeft: 12,
+              width: '100%',
             }}
+            variant="h4"
           >
-            {'> ' + this.state.letters}
+            {'> ' + programmingIs[this.state.titleWordIndex].substring(0, this.state.letterIndex)}
+            {/* {'> ' + this.state.letters} */}
           </Typography>
         </div>
       </>
