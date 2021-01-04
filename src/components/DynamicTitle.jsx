@@ -1,7 +1,16 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
-const programmingIs = ['123', '223', '323'];
+const programmingIs = [
+  'roligt!',
+  'krångligt (ibland)',
+  'framtiden',
+  'förvånansvärt enkelt',
+  'välbetalt ;)',
+  'spännande',
+  'en flex att kunna B)',
+  'viktigt',
+];
 
 class DynamicTitle extends React.Component {
   state = {
