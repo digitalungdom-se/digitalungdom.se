@@ -22,7 +22,17 @@ export const users = createSlice({
   name: 'users',
   reducers: {
     getUsersSuccess(state, action): void {
-      action.payload.forEach((user: User) => (state.users[user._id] = { ...state.users[user._id], ...user }));
+      action.payload.forEach(
+        ({ details, _id, ...props }: User) =>
+          (state.users[_id] = {
+            ...state.users[_id],
+            ...props,
+            details: {
+              ...state.users[_id].details,
+              ...details,
+            },
+          }),
+      );
     },
     removeMe(state): void {
       state.me = null;
