@@ -183,7 +183,7 @@ export default function Post({
                 }}
               />
             ) : type === 'LINK' ? (
-              <Link href={body} style={{ wordBreak: 'break-all' }}>
+              <Link href={body} style={{ display: 'block', wordBreak: 'break-all' }}>
                 {body}
               </Link>
             ) : longPostIsFadedOut ? (
