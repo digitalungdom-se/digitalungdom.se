@@ -2,7 +2,6 @@ import 'utils/tokenInterceptor';
 
 import AuthDialogProvider from 'features/auth/AuthDialogProvider';
 import AuthenticatedLayer from 'features/auth/AuthenticatedLayer';
-import Banner from 'components/Banner';
 import { BrowserRouter } from 'react-router-dom';
 import Footer from 'features/Footer';
 import Header from 'features/Header';
@@ -28,15 +27,6 @@ const App: React.FC = () => {
             <AuthDialogProvider />
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <Header />
-              <Banner>
-                <span aria-label="celebrate" role="img">
-                  🎉
-                </span>{' '}
-                Digital Ungdom fyller 2 år!{' '}
-                <span aria-label="celebrate" role="img">
-                  🎉
-                </span>
-              </Banner>
               <div style={{ flex: 1, minHeight: '100vh' }}>
                 <Router />
               </div>
