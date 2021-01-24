@@ -71,7 +71,10 @@ class ProfilePage extends React.Component<ProfilePageProps, ProfilePageState> {
   }
 
   componentDidUpdate() {
-    if (this.state.user !== null && this.props.username !== this.state.user?.details.username) {
+    if (
+      this.state.user !== null &&
+      this.props.username.toLowerCase() !== this.state.user?.details.username.toLowerCase()
+    ) {
       this.getUser();
     }
   }
