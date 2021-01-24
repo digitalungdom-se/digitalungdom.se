@@ -28,7 +28,7 @@ export const users = createSlice({
             ...state.users[_id],
             ...props,
             details: {
-              ...state.users[_id].details,
+              ...state.users[_id]?.details,
               ...details,
             },
           }),
