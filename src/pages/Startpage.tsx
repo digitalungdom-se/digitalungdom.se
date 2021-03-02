@@ -50,37 +50,43 @@ const Startpage = () => (
             </Typography>
             <Grid container justify="space-evenly">
               <Grid item xs={4}>
-                <Link to="/bli-medlem">
-                  <Button color="primary" fullWidth size="large" style={{ width: '90%' }} variant="contained">
-                    Bli medlem!
-                  </Button>
-                </Link>
+                <Button
+                  color="primary"
+                  component={Link}
+                  fullWidth
+                  size="large"
+                  style={{ width: '90%' }}
+                  to="/bli-medlem"
+                  variant="contained"
+                >
+                  Bli medlem!
+                </Button>
               </Grid>
               <Grid item xs={4}>
-                <Link to="/logga-in">
-                  <Button
-                    size="large"
-                    style={{
-                      width: '90%',
-                    }}
-                    variant="contained"
-                  >
-                    Logga in
-                  </Button>
-                </Link>
+                <Button
+                  component="a"
+                  href="https://discord.com/invite/J4JhCWH"
+                  size="large"
+                  style={{
+                    width: '90%',
+                  }}
+                  variant="contained"
+                >
+                  Joina Discord!
+                </Button>
               </Grid>
               <Grid item xs={4}>
-                <Link to="/om-oss">
-                  <Button
-                    size="large"
-                    style={{
-                      width: '90%',
-                    }}
-                    variant="contained"
-                  >
-                    Om oss
-                  </Button>
-                </Link>
+                <Button
+                  component={Link}
+                  size="large"
+                  style={{
+                    width: '90%',
+                  }}
+                  to="/om-oss"
+                  variant="contained"
+                >
+                  Om oss
+                </Button>
               </Grid>
             </Grid>
           </div>
