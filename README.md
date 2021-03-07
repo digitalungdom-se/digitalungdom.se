@@ -1,6 +1,23 @@
 # digitalungdom.se
 
-Welcome to the repository for the [website](https://digitalungdom.se/) of youth organization Digital Ungdom. The website includes a forum, information about us, and is the central for user registration.
+Welcome to the repository for the [website](https://digitalungdom.se/) of youth organization Digital Ungdom. The website includes a forum, information about us, and is the central for user registration. The API for this website is found at [digitalungdom-api](https://github.com/digitalungdom-se/digitalungdom-api). A development front-end server is set up at [dev.digitalungdom.se](https://dev.digitalungdom.se) and the development API is found at [devapi.digitalungdom.se](https://devapi.digitalungdom.se).
+
+# Technologies and packages used
+
+Below are listed some technologies and packages that are used in the project. Keep in mind that these are only a couple of the many exciting packages that make this application!
+
+- TypeScript
+- Internationalization (i18next)
+- Redux (@reduxjs/toolkit)
+- Formik
+- Axios (for customizing API url)
+- Storybook
+- ESLint + Prettier
+- react-router-dom
+- Material UI
+- React Markdown
+- notistack
+- Dark mode (through use-dark-mode and Material UI theme)
 
 ## Installation 📥
 
