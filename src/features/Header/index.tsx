@@ -187,7 +187,7 @@ function Header(): JSX.Element {
                           })),
                         ),
                       )
-                      .catch((err) => reject(err)),
+                      .catch(console.error),
                   )
                 }
                 limit={10}

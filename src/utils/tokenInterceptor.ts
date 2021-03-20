@@ -41,7 +41,9 @@ export class TokenStorage {
         })
         .catch((error) => {
           this.updatingToken = false;
-          reject(error);
+          this.removeTokensAndReduxState();
+          console.error(error);
+          resolve();
         });
     });
     this.updateTokenPromise = getNewTokenPromise;
@@ -83,14 +85,17 @@ export class TokenStorage {
   public static clear(): void {
     axios
       .post('/user/oauth/revoke', { token: this.getRefreshToken() })
-      .then(() => {
-        localStorage.removeItem(TokenStorage.LOCAL_STORAGE_ACCESS_TOKEN);
-        localStorage.removeItem(TokenStorage.LOCAL_STORAGE_REFRESH_TOKEN);
-        localStorage.removeItem(TokenStorage.LOCAL_STORAGE_TOKEN_EXPIRY);
-        store.dispatch(failAuthorize());
-        store.dispatch(removeMe());
-      })
+      .then(this.removeTokensAndReduxState)
       .catch(console.error);
+  }
+
+  private static removeTokensAndReduxState(): void {
+    console.log('Removing tokens...');
+    localStorage.removeItem(TokenStorage.LOCAL_STORAGE_ACCESS_TOKEN);
+    localStorage.removeItem(TokenStorage.LOCAL_STORAGE_REFRESH_TOKEN);
+    localStorage.removeItem(TokenStorage.LOCAL_STORAGE_TOKEN_EXPIRY);
+    store.dispatch(failAuthorize());
+    store.dispatch(removeMe());
   }
 
   private static getRefreshToken(): string | null {
@@ -112,8 +117,8 @@ export class TokenStorage {
 axios.interceptors.request.use((request) => {
   return new Promise((resolve) => {
     if (TokenStorage.isAuthenticated() === false) return resolve(request);
-    request.headers['Authorization'] = TokenStorage.getAuthenticationBearer();
     if (TokenStorage.isTokenExpired() === false) {
+      request.headers['Authorization'] = TokenStorage.getAuthenticationBearer();
       return resolve(request);
     } else {
       if (request.url === '/user/oauth/token') return resolve(request);
