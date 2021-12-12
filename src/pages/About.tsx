@@ -84,10 +84,10 @@ const About = withStyles(styles)(({ classes }: AboutProps) => (
           surname="Maddock"
         />
         <Profile
-          bio="Tjena! Jag är 21 år gammal och studerar på Handelshögskolan i Stockholm! Jag har i nuläget pausat mina studier i Datateknik på KTH. Jag jobbar med front-end och är kassör."
+          bio="Tjena! Jag är 21 år gammal och studerar på Handelshögskolan i Stockholm och Datateknik på KTH! Jag jobbar med front-end och."
           color="#e0555c"
           name="Douglas"
-          role="Kassör"
+          role="Styrelseledamot"
           surname="Bengtsson"
         />
         <Profile
@@ -96,6 +96,14 @@ const About = withStyles(styles)(({ classes }: AboutProps) => (
           name="Karl"
           role="Styrelseledamot"
           surname="Sellergren"
+        />
+      </Grid>
+      <Profile
+          bio="Hej! Jag arbetar som systemtekniker i flottan. Mitt digitaltekniska intresse är främst inom operativsystem, nätverksteknik och cybersäkerhet."
+          color="#19297C"
+          name="Justin"
+          role="Styrelseledamot"
+          surname="Gallant"
         />
       </Grid>
     </CenterWrapper>
