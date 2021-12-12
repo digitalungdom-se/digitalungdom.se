@@ -105,7 +105,6 @@ const About = withStyles(styles)(({ classes }: AboutProps) => (
           role="Styrelseledamot"
           surname="Gallant"
         />
-      </Grid>
     </CenterWrapper>
   </div>
 ));
