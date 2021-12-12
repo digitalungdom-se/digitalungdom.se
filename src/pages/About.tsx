@@ -97,14 +97,14 @@ const About = withStyles(styles)(({ classes }: AboutProps) => (
           role="Styrelseledamot"
           surname="Sellergren"
         />
-      </Grid>
-      <Profile
+        <Profile
           bio="Hej! Jag arbetar som systemtekniker i flottan. Mitt digitaltekniska intresse är främst inom cybersäkerhet."
           color="#19297C"
           name="Justin"
           role="Styrelseledamot"
           surname="Gallant"
         />
+      </Grid>
     </CenterWrapper>
   </div>
 ));
