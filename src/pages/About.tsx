@@ -99,7 +99,7 @@ const About = withStyles(styles)(({ classes }: AboutProps) => (
         />
       </Grid>
       <Profile
-          bio="Hej! Jag arbetar som systemtekniker i flottan. Mitt digitaltekniska intresse är främst inom operativsystem, nätverksteknik och cybersäkerhet."
+          bio="Hej! Jag arbetar som systemtekniker i flottan. Mitt digitaltekniska intresse är främst inom cybersäkerhet."
           color="#19297C"
           name="Justin"
           role="Styrelseledamot"
