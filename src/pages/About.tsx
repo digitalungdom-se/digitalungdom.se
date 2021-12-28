@@ -84,7 +84,7 @@ const About = withStyles(styles)(({ classes }: AboutProps) => (
           surname="Maddock"
         />
         <Profile
-          bio="Tjena! Jag är 21 år gammal och studerar på Handelshögskolan i Stockholm och Datateknik på KTH! Jag jobbar med front-end och."
+          bio="Tjena! Jag är 21 år gammal och studerar på Handelshögskolan i Stockholm och Datateknik på KTH! Jag jobbar framförallt med vår front-end i React och TypeScript."
           color="#e0555c"
           name="Douglas"
           role="Styrelseledamot"
