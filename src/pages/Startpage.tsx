@@ -65,7 +65,7 @@ const Startpage = () => (
               <Grid item xs={4}>
                 <Button
                   component="a"
-                  href="https://discord.com/invite/J4JhCWH"
+                  href="https://discord.gg/9bJehW8beu"
                   size="large"
                   style={{
                     width: '90%',
