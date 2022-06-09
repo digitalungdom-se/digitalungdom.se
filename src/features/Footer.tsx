@@ -61,7 +61,7 @@ const Footer = ({ classes }: FooterProps): React.ReactElement => (
         <h3>Kontakt</h3>
         <Grid container>
           <Grid item sm={6} xs={12}>
-            <LinkWithIcon href="https://discord.gg/J4JhCWH" startIcon={<ForumIcon style={{ marginRight: 8 }} />}>
+            <LinkWithIcon href="https://discord.gg/9bJehW8beu" startIcon={<ForumIcon style={{ marginRight: 8 }} />}>
               Discord
             </LinkWithIcon>
             <LinkWithIcon
