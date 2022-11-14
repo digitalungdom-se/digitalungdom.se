@@ -24,6 +24,7 @@ import Tabs from '@material-ui/core/Tabs';
 import { TokenStorage } from 'utils/tokenInterceptor';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 import UnauthenticatedHeaderButtons from './UnauthenticatedHeaderButtons';
 import { UserNotification } from 'types/notifications';
 import head from 'resources/head.svg';
@@ -148,12 +149,14 @@ function Header(): JSX.Element {
           <Toolbar disableGutters>
             <Typography className={classes.title} component="h1" style={{ fontWeight: 600 }} variant="h6">
               <Link to="/">
-                <img
-                  alt="Logo depicting Boten Anna"
-                  src={head}
-                  style={{ marginRight: 4, verticalAlign: 'middle' }}
-                  width={50}
-                />
+                <Tooltip placement="bottom" title="Hem">
+                  <img
+                    alt="Logo depicting Boten Anna"
+                    src={head}
+                    style={{ marginRight: 4, verticalAlign: 'middle' }}
+                    width={50}
+                  />
+                </Tooltip>
               </Link>
               <Link to="/">Digital Ungdom</Link>
             </Typography>
@@ -163,10 +166,16 @@ function Header(): JSX.Element {
                 value={links.indexOf(pathname) !== -1 ? links.indexOf(pathname) : false}
               >
                 <StyledTab className={classes.tab} component={RouterLink} label="Om oss" to="/om-oss" />
-                <StyledTab className={classes.tab} component={RouterLink} label="Agora" to="/agora" />
+                <Tooltip placement="bottom" title="Gå till vårt forum">
+                  <StyledTab className={classes.tab} component={RouterLink} label="Agora" to="/agora" />
+                </Tooltip>
               </StyledTabs>
               {!authenticated && <UnauthenticatedHeaderButtons />}
-              {<IconButton onClick={toggle}>{value ? <LightIcon /> : <DarkIcon />}</IconButton>}
+              {
+                <Tooltip title="Byta tema">
+                  <IconButton onClick={toggle}>{value ? <LightIcon /> : <DarkIcon />}</IconButton>
+                </Tooltip>
+              }
             </Hidden>
             {authenticated && (
               <NotificationBell
