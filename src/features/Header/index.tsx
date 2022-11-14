@@ -172,7 +172,7 @@ function Header(): JSX.Element {
               </StyledTabs>
               {!authenticated && <UnauthenticatedHeaderButtons />}
               {
-                <Tooltip title="Byta tema">
+                <Tooltip title="Ändra tema">
                   <IconButton onClick={toggle}>{value ? <LightIcon /> : <DarkIcon />}</IconButton>
                 </Tooltip>
               }
