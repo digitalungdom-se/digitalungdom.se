@@ -12,6 +12,7 @@ import React from 'react';
 import { StyleRules } from '@material-ui/styles/withStyles';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import Typography from '@material-ui/core/Typography';
+import { Icon } from '@iconify/react';
 
 interface LinkProps {
   href: string;
@@ -61,7 +62,7 @@ const Footer = ({ classes }: FooterProps): React.ReactElement => (
         <h3>Kontakt</h3>
         <Grid container>
           <Grid item sm={6} xs={12}>
-            <LinkWithIcon href="https://discord.gg/9bJehW8beu" startIcon={<ForumIcon style={{ marginRight: 8 }} />}>
+            <LinkWithIcon href="https://discord.gg/9bJehW8beu" startIcon={<Icon icon="simple-icons:discord" />}>
               Discord
             </LinkWithIcon>
             <LinkWithIcon
