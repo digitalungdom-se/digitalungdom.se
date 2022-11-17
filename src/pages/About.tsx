@@ -61,7 +61,7 @@ const About = withStyles(styles)(({ classes }: AboutProps) => (
       <Typography variant="h5">
         Förbundsstyrelsen <Emoji emoji="😍" />
       </Typography>
-      <Grid container justify="space-around" spacing={2}>
+      <Grid container alignItems="stretch" justify="space-around" spacing={2}>
         <Profile
           bio="Hej! Jag heter Simon Sondén och jobbar bland annat med arkitekturen och algoritmerna bakom våra projekt. För övrigt älskar jag att bygga robotar."
           color="#bacf9b"
@@ -126,30 +126,37 @@ interface ProfileProps {
 }
 
 const Profile = ({ name, surname, bio, role, color }: ProfileProps) => (
-  <Grid item lg={2} md={4} sm={5} xs={8}>
-    <div
-      style={{
-        backgroundColor: color,
-        borderRadius: 10,
-        overflow: 'hidden',
-        width: '100%',
-      }}
-    >
-      <img
-        alt={name}
-        src={require('resources/images/portraits/' + name.toLowerCase() + '.png')}
-        style={{ marginBottom: -8, width: '100%' }}
-      />
+  <Grid
+    item container
+    lg={3} md={4} sm={5} xs={8}
+    justify="space-between"
+    direction="column"
+  >
+    <div>
+      <div
+        style={{
+          backgroundColor: color,
+          borderRadius: 10,
+          overflow: 'hidden',
+          width: '100%',
+        }}
+      >
+        <img
+          alt={name}
+          src={require('resources/images/portraits/' + name.toLowerCase() + '.png')}
+          style={{ marginBottom: -8, width: '100%' }}
+        />
+      </div>
+      <Typography style={{ fontWeight: 'bold', marginBottom: 2, marginTop: 10 }} variant="subtitle1">
+        {name + ' ' + surname}
+      </Typography>
+      <Typography style={{ fontStyle: 'italic', marginBottom: 16 }} variant="subtitle1">
+        {role}
+      </Typography>
+      <Typography style={{ marginBottom: 6, textAlign: 'left' }} variant="body2">
+        {bio}
+      </Typography>
     </div>
-    <Typography style={{ fontWeight: 'bold', marginBottom: 2, marginTop: 10 }} variant="subtitle1">
-      {name + ' ' + surname}
-    </Typography>
-    <Typography style={{ fontStyle: 'italic', marginBottom: 16 }} variant="subtitle1">
-      {role}
-    </Typography>
-    <Typography style={{ marginBottom: 6, textAlign: 'left' }} variant="body2">
-      {bio}
-    </Typography>
     <Typography style={{ marginBottom: 24, textAlign: 'justify' }} variant="body2">
       <Button href={'mailto:' + name.toLowerCase() + '@digitalungdom.se'} startIcon={<MailIcon />}>
         {name.toLowerCase()}@digitalungdom.se
