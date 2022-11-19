@@ -1,18 +1,11 @@
 import Button, { ButtonProps } from '@material-ui/core/Button';
 import { Theme, WithStyles, createStyles, withStyles } from '@material-ui/core/styles';
 
-import FacebookIcon from '@material-ui/icons/Facebook';
-import ForumIcon from '@material-ui/icons/Forum';
-import GitHubIcon from '@material-ui/icons/GitHub';
 import Grid from '@material-ui/core/Grid';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import MailIcon from '@material-ui/icons/Mail';
+import { Icon } from '@iconify/react';
 import React from 'react';
 import { StyleRules } from '@material-ui/styles/withStyles';
-import TwitterIcon from '@material-ui/icons/Twitter';
 import Typography from '@material-ui/core/Typography';
-import { Icon } from '@iconify/react';
 
 interface LinkProps {
   href: string;
@@ -62,41 +55,47 @@ const Footer = ({ classes }: FooterProps): React.ReactElement => (
         <h3>Kontakt</h3>
         <Grid container>
           <Grid item sm={6} xs={12}>
-            <LinkWithIcon href="https://discord.gg/9bJehW8beu" startIcon={<Icon icon="simple-icons:discord" />}>
+            <LinkWithIcon
+              href="https://discord.gg/9bJehW8beu"
+              startIcon={<Icon icon="simple-icons:discord" style={{ marginRight: 8 }} />}
+            >
               Discord
             </LinkWithIcon>
             <LinkWithIcon
               href="https://github.com/digitalungdom-se"
-              startIcon={<GitHubIcon style={{ marginRight: 8 }} />}
+              startIcon={<Icon icon="simple-icons:github" style={{ marginRight: 8 }} />}
             >
               GitHub
             </LinkWithIcon>
             <LinkWithIcon
               href="https://twitter.com/digital_ungdom"
-              startIcon={<TwitterIcon style={{ marginRight: 8 }} />}
+              startIcon={<Icon icon="simple-icons:twitter" style={{ marginRight: 8 }} />}
             >
               Twitter
             </LinkWithIcon>
-            <LinkWithIcon href="mailto:styrelse@digitalungdom.se" startIcon={<MailIcon style={{ marginRight: 8 }} />}>
+            <LinkWithIcon
+              href="mailto:styrelse@digitalungdom.se"
+              startIcon={<Icon icon="ic:round-mail-outline" style={{ marginRight: 8 }} />}
+            >
               styrelse@digitalungdom.se
             </LinkWithIcon>
           </Grid>
           <Grid item xs={6}>
             <LinkWithIcon
               href="https://instagram.com/digital_ungdom"
-              startIcon={<InstagramIcon style={{ marginRight: 8 }} />}
+              startIcon={<Icon icon="simple-icons:instagram" style={{ marginRight: 8 }} />}
             >
               Instagram
             </LinkWithIcon>
             <LinkWithIcon
               href="https://facebook.com/DigitalUngdomSE"
-              startIcon={<FacebookIcon style={{ marginRight: 8 }} />}
+              startIcon={<Icon icon="simple-icons:facebook" style={{ marginRight: 8 }} />}
             >
               Facebook
             </LinkWithIcon>
             <LinkWithIcon
               href="https://www.linkedin.com/company/digitalungdom/"
-              startIcon={<LinkedInIcon style={{ marginRight: 8 }} />}
+              startIcon={<Icon icon="simple-icons:linkedin" style={{ marginRight: 8 }} />}
             >
               LinkedIn
             </LinkWithIcon>
