@@ -5,7 +5,10 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Hemsidan för Sveriges bästa förbund för teknik- och programmeringsintresserade ungdomar!" />
+    <meta
+      name="description"
+      content="Hemsidan för Sveriges bästa förbund för teknik- och programmeringsintresserade ungdomar!"
+    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -16,7 +19,6 @@
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
-
       Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
@@ -27,6 +29,7 @@
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
           'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
       }
+
       .centered-start {
         position: fixed;
         top: 50%;
@@ -38,19 +41,63 @@
         margin: 0;
         text-align: center;
       }
+
       .centered-start h1 {
         font-weight: 500;
         color: #1e6ee8;
       }
+
       .centered-start p,
       .centered-start span {
         width: 21rem;
         line-height: 1.4rem;
-        color: rgba(0, 0, 0, 0.54);
+        /* color: rgb(247, 46, 46); */
         white-space: nowrap;
         word-wrap: break-word;
         white-space: normal;
         display: block;
+      }
+
+      body {
+        color: #222;
+        background: #fff;
+        font: 100% system-ui;
+      }
+
+      a {
+        color: #0033cc;
+      }
+
+      /* Sets the theme in case the OS default is dark*/
+      @media (prefers-color-scheme: dark) {
+        body {
+          color: #eee;
+          background: #222;
+        }
+
+        .centered-start span {
+          color: #eee;
+        }
+
+        .centered-start h1 {
+          color: #e19117;
+        }
+      }
+
+      /* Sets the theme to OS, defaulting to light */
+      @media (prefers-color-scheme: light) {
+        body {
+          color: #222;
+          background: #eee;
+        }
+
+        .centered-start span {
+          color: #222;
+        }
+
+        .centered-start h1 {
+          color: #1e6ee8;
+        }
       }
     </style>
   </head>
@@ -68,10 +115,8 @@
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
-
       You can add webfonts, meta tags, or analytics to this file.
       The build step will place the bundled scripts into the <body> tag.
-
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
