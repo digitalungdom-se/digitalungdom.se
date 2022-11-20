@@ -27,7 +27,7 @@ export default function AgoraReplyComment({
     return (
       <Alert severity="info" variant="outlined">
         <AlertTitle>{'Uttryck dig själv!' /* Translation needed */}</AlertTitle>
-        <Box flexGrow={1}>{'Du måste vara inloggad för att göra ett inlägg.' /* Translation needed */}</Box>
+        <Box flexGrow={1}>{'Du måste vara inloggad för att kunna kommentera.' /* Translation needed */}</Box>
         <Box>
           <UnauthenticatedHeaderButtons />
         </Box>
