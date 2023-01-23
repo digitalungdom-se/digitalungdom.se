@@ -75,6 +75,7 @@ export default function UnauthenticatedHeaderButtons({ listItems }: Unauthentica
             showAuthDialog('LOGIN');
           }
         }}
+        style={{ marginLeft: 0, marginRight: 20, marginTop: 10 }}
         to="/logga-in"
         variant="contained"
       >
@@ -90,6 +91,7 @@ export default function UnauthenticatedHeaderButtons({ listItems }: Unauthentica
             showAuthDialog('REGISTER');
           }
         }}
+        style={{ marginLeft: 0, marginRight: 20, marginTop: 10 }}
         to="/bli-medlem"
         variant="contained"
       >

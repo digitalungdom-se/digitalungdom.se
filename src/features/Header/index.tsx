@@ -4,17 +4,15 @@ import { Theme, createStyles, makeStyles, withStyles } from '@material-ui/core/s
 import AppBar from '@material-ui/core/AppBar';
 import Axios from 'axios';
 import CenterWrapper from 'components/CenterWrapper';
-import DarkIcon from '@material-ui/icons/Brightness4';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
+import { Icon } from '@iconify/react';
 import IconButton from '@material-ui/core/IconButton';
-import LightIcon from '@material-ui/icons/Brightness7';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MenuIcon from '@material-ui/icons/Menu';
 import NotificationBell from 'features/notifications/NotificationBell';
 import ProfileHeaderButton from 'components/ProfileHeaderButton';
 import React from 'react';
@@ -23,8 +21,8 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import { TokenStorage } from 'utils/tokenInterceptor';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 import UnauthenticatedHeaderButtons from './UnauthenticatedHeaderButtons';
 import { UserNotification } from 'types/notifications';
 import head from 'resources/head.svg';
@@ -134,7 +132,9 @@ function Header(): JSX.Element {
               </ListItem>
             ))}
             <ListItem button onClick={toggle}>
-              <ListItemIcon>{value ? <LightIcon /> : <DarkIcon />}</ListItemIcon>
+              <ListItemIcon>
+                {value ? <Icon icon="material-symbols:brightness-5" /> : <Icon icon="material-symbols:brightness-4" />}
+              </ListItemIcon>
               <ListItemText primary={value ? 'Ljust läge' : 'Mörkt läge'} />
             </ListItem>
             <Divider />
@@ -166,14 +166,18 @@ function Header(): JSX.Element {
                 value={links.indexOf(pathname) !== -1 ? links.indexOf(pathname) : false}
               >
                 <StyledTab className={classes.tab} component={RouterLink} label="Om oss" to="/om-oss" />
-                <Tooltip placement="bottom" title="Gå till vårt forum">
-                  <StyledTab className={classes.tab} component={RouterLink} label="Agora" to="/agora" />
-                </Tooltip>
+                <StyledTab className={classes.tab} component={RouterLink} label="Agora" to="/agora" />
               </StyledTabs>
               {!authenticated && <UnauthenticatedHeaderButtons />}
               {
                 <Tooltip title="Ändra tema">
-                  <IconButton onClick={toggle}>{value ? <LightIcon /> : <DarkIcon />}</IconButton>
+                  <IconButton onClick={toggle}>
+                    {value ? (
+                      <Icon icon="material-symbols:brightness-5" />
+                    ) : (
+                      <Icon icon="material-symbols:brightness-4" />
+                    )}
+                  </IconButton>
                 </Tooltip>
               }
             </Hidden>
@@ -211,7 +215,7 @@ function Header(): JSX.Element {
               edge="start"
               onClick={handleDrawerToggle}
             >
-              <MenuIcon />
+              <Icon color="white" icon="pajamas:hamburger" />
             </IconButton>
           </Toolbar>
         </CenterWrapper>

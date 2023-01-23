@@ -2,7 +2,7 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 
 import Badge from '@material-ui/core/Badge';
 import Checkbox from '@material-ui/core/Checkbox';
-import CommentIcon from '@material-ui/icons/Comment';
+import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -32,10 +32,10 @@ const NotificationListItem = (props: NotificationListItemProps) => (
       {props.loading ? (
         <Skeleton height={40} variant="circle" width={40} />
       ) : props.read ? (
-        <CommentIcon />
+        <Icon icon="material-symbols:comment-outline-rounded" />
       ) : (
         <Badge badgeContent=" " color="secondary" variant="dot">
-          <CommentIcon />
+          <Icon icon="material-symbols:comment-outline-rounded" />
         </Badge>
       )}
     </ListItemAvatar>

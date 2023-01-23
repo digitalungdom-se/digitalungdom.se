@@ -10,6 +10,7 @@ const programmingIs = [
   'spännande',
   'en flex att kunna B)',
   'viktigt',
+  'enkelt (ibland) ;)',
 ];
 
 class DynamicTitle extends React.Component {

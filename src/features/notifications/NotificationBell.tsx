@@ -3,9 +3,9 @@ import { Theme, WithStyles, withStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
+import { Icon } from '@iconify/react';
 import IconButton from '@material-ui/core/IconButton';
 import NotificationList from './NotificationList';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import React from 'react';
@@ -102,7 +102,7 @@ class NotificationBell extends React.Component<NotificationBellProps, Notificati
       <>
         <IconButton onClick={this.openNotifications} ref={this.anchorRef}>
           <Badge badgeContent={unreadNotifications.length > 9 ? '9+' : unreadNotifications.length} color="secondary">
-            <NotificationsIcon />
+            <Icon icon="material-symbols:notifications-rounded" />
           </Badge>
         </IconButton>
         <Popper
