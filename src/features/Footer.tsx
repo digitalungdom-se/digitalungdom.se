@@ -108,7 +108,7 @@ const Footer = ({ classes }: FooterProps): React.ReactElement => (
         </a>
         <span>
           {'Copyright © '}
-          Digital Ungdom 2018-{new Date().getFullYear()}
+          Digital Ungdom (Org.nr 802521-6220) 2018-{new Date().getFullYear()}
           {'.'}
         </span>
       </Grid>
