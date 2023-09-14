@@ -61,7 +61,7 @@ const About = withStyles(styles)(({ classes }: AboutProps) => (
       <Typography variant="h5">
         Förbundsstyrelsen <Emoji emoji="😍" />
       </Typography>
-      <Grid container justify="space-around" spacing={2}>
+      <Grid container justify="space-around" lg={9} spacing={2} style={{ margin: 'auto' }}>
         <Profile
           bio="Hej! Jag heter Simon Sondén och jobbar bland annat med arkitekturen och algoritmerna bakom våra projekt. För övrigt älskar jag att bygga robotar."
           color="#bacf9b"
@@ -84,25 +84,34 @@ const About = withStyles(styles)(({ classes }: AboutProps) => (
           surname="Maddock"
         />
         <Profile
-          bio="Tjena! Jag är 21 år gammal och studerar på Handelshögskolan i Stockholm och Datateknik på KTH! Jag jobbar framförallt med vår front-end i React och TypeScript."
+          bio="Tjena! Jag studerar på Handelshögskolan i Stockholm och Datateknik på KTH! Jag jobbar framförallt med vår front-end i React och TypeScript."
           color="#e0555c"
           name="Douglas"
           role="Styrelseledamot"
           surname="Bengtsson"
         />
         <Profile
-          bio="Hej! Mitt namn är Karl och jag håller på med både front- och backend i Digital Ungdom. På min fritid gillar jag att segla!"
+          bio="Tja! Karl heter jag, jag är lite mer full-stack och håller också mycket på med UI design och frågor gällande cybersäkerhet. På min fritid gillar jag att segla och spela CTFs!"
           color="#6e73d4"
           name="Karl"
           role="Styrelseledamot"
           surname="Sellergren"
         />
         <Profile
-          bio="Hej! Jag arbetar som systemtekniker i flottan. Mitt digitaltekniska intresse är främst inom cybersäkerhet."
-          color="#19297C"
-          name="Justin"
+          bio="Hej! Jag heter Gustaf och pluggar just nu en civilingenjör i datateknik på KTH! Jag är aktiv i Digital Ungdoms Discord-forum och håller på med både backend och frontend."
+          color="#f6d990"
+          lowOpacity
+          name="Gustaf"
           role="Styrelseledamot"
-          surname="Gallant"
+          surname="Haglund"
+        />
+        <Profile
+          bio="Tjena! Chaspian heter jag och jag håller på med många programmeringsprojekt inom lite allt möjligt. Driver också Makerspace-verksamhet i Landskrona!"
+          color="#ffc5d0"
+          lowOpacity
+          name="Chaspian"
+          role="Styrelseledamot"
+          surname="Stoltz Johannesson"
         />
       </Grid>
     </CenterWrapper>
@@ -123,10 +132,11 @@ interface ProfileProps {
   bio: string;
   role: string;
   color: string;
+  lowOpacity?: boolean;
 }
 
-const Profile = ({ name, surname, bio, role, color }: ProfileProps) => (
-  <Grid item lg={2} md={4} sm={5} xs={8}>
+const Profile = ({ name, surname, bio, role, color, lowOpacity }: ProfileProps) => (
+  <Grid item lg={3} md={4} sm={5} xs={8}>
     <div
       style={{
         backgroundColor: color,
@@ -138,7 +148,7 @@ const Profile = ({ name, surname, bio, role, color }: ProfileProps) => (
       <img
         alt={name}
         src={require('resources/images/portraits/' + name.toLowerCase() + '.png')}
-        style={{ marginBottom: -8, width: '100%' }}
+        style={{ marginBottom: -8, opacity: lowOpacity ? 0.2 : 1, width: '100%' }}
       />
     </div>
     <Typography style={{ fontWeight: 'bold', marginBottom: 2, marginTop: 10 }} variant="subtitle1">
