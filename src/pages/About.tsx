@@ -61,7 +61,7 @@ const About = withStyles(styles)(({ classes }: AboutProps) => (
       <Typography variant="h5">
         Förbundsstyrelsen <Emoji emoji="😍" />
       </Typography>
-      <Grid container justify="space-around" lg={9} spacing={2} style={{ margin: 'auto' }}>
+      <Grid container justify="space-around" spacing={2}>
         <Profile
           bio="Hej! Jag heter Simon Sondén och jobbar bland annat med arkitekturen och algoritmerna bakom våra projekt. För övrigt älskar jag att bygga robotar."
           color="#bacf9b"
