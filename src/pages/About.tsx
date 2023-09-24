@@ -80,7 +80,7 @@ const About = withStyles(styles)(({ classes }: AboutProps) => (
           bio="Yo! Mitt namn är Charles och jag håller huvudsakligen på med front-end och design. På min fritid gillar jag att programmera spel och måla."
           color="lightGreen"
           name="Charles"
-          role="Vice ordförande"
+          role="Kassör"
           surname="Maddock"
         />
         <Profile
